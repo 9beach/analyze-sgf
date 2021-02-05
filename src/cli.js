@@ -36,61 +36,57 @@ Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
 analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>`;
 
-// Parses args.
-try {
-  const pgetopt = require('posix-getopt');
-  const parseBadJSON = require('./bad-json');
-
-  let parser = new pgetopt.BasicParser('k:(katago)g:(sgf)sr:', process.argv);
-  let opt = null;
-  let analyzeTurnsGiven = false;
-
-  while ((opt = parser.getopt()) !== undefined) {
-    switch (opt.option) {
-      case 'k':
-        analysisOpts = parseBadJSON(opt.optarg);
-        if (opt.optarg.search('analyzeTurns') >= 0) {
-          analyzeTurnsGiven = true;
-        }
-        break;
-      case 'g':
-        sgfOpts = parseBadJSON(opt.optarg);
-        break;
-      case 's':
-        saveJSON = true;
-        break;
-      case 'r':
-        responsesPath = opt.optarg;
-        break;
-      default:
-        console.error(HELP);
-        process.exit(1);
-    }
-  }
-
-  sgfOpts.analyzeTurnsGiven = analyzeTurnsGiven;
-
-  if (parser.optind() >= process.argv.length) {
-    console.error(HELP);
-    process.exit(1);
-  }
-
-  sgfPath = process.argv[parser.optind()];
-} catch (error) {
-  console.error(error.message);
-  process.exit(1);
-}
-
 (async () => {
-  // Reads "~/.analyze-sgf.yml".
+  // Creates "~/.analyze-sgf.yml".
   try {
     await fs.access(yamlPath);
   } catch (error) {
     const defaultOptsPath = require.resolve('./analyze-sgf.yml');
     await fs.copyFile(defaultOptsPath, yamlPath);
+    console.error('"' + yamlPath + '" created.');
   }
 
+  // Parses args.
   try {
+    const pgetopt = require('posix-getopt');
+    const parseBadJSON = require('./bad-json');
+
+    let parser = new pgetopt.BasicParser('k:(katago)g:(sgf)sr:', process.argv);
+    let opt = null;
+    let analyzeTurnsGiven = false;
+
+    while ((opt = parser.getopt()) !== undefined) {
+      switch (opt.option) {
+        case 'k':
+          analysisOpts = parseBadJSON(opt.optarg);
+          if (opt.optarg.search('analyzeTurns') >= 0) {
+            analyzeTurnsGiven = true;
+          }
+          break;
+        case 'g':
+          sgfOpts = parseBadJSON(opt.optarg);
+          break;
+        case 's':
+          saveJSON = true;
+          break;
+        case 'r':
+          responsesPath = opt.optarg;
+          break;
+        default:
+          console.error(HELP);
+          process.exit(1);
+      }
+    }
+
+    sgfOpts.analyzeTurnsGiven = analyzeTurnsGiven;
+
+    if (parser.optind() >= process.argv.length) {
+      console.error(HELP);
+      process.exit(1);
+    }
+
+    sgfPath = process.argv[parser.optind()];
+
     // Reads options.
     const yaml = require('js-yaml');
     let defaultOpts = yaml.load(await fs.readFile(yamlPath));
@@ -121,13 +117,7 @@ try {
       console.log(report);
     }
   } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-
-  try {
-  } catch (error) {
-    console.error(error);
+    console.error(error.message);
     process.exit(1);
   }
 })();
