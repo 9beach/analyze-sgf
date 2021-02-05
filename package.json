@@ -1,0 +1,48 @@
+{
+  "name": "@9beach/analyze-sgf",
+  "version": "0.0.1",
+  "description": "Analyze SGF files by KataGo Parallel Analysis Engine to produce Reviewed SGF files",
+  "homepage": "https://github.com/9beach/analyze-sgf",
+  "author": {
+    "name": "9beach",
+    "email": "9beach@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9beach/analyze-sgf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/9beach/analyze-sgf/issues"
+  },
+  "license": "MIT",
+  "main": "src/index.js",
+  "bin": {
+    "analyze-sgf": "src/cli.js"
+  },
+  "scripts": {
+    "test": "mocha && test/cli-test.sh",
+    "lint": "jshint src/**.js test/**.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "preferGlobal": true,
+  "keywords": [
+    "katago",
+    "sgf",
+    "baduk",
+    "weiqi",
+    "go",
+    "sabaki",
+    "rsgf",
+    "cli"
+  ],
+  "dependencies": {
+    "js-yaml": "^3.13.1",
+    "posix-getopt": "^1.2.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.10.3",
+    "mocha": "^6.0.0"
+  }
+}
