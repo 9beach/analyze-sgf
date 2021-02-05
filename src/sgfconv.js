@@ -19,7 +19,8 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const initialPlayer = internal.valueOfProp('PL', reduced);
   if (initialPlayer != '') {
     analysisOpts.initialPlayer = initialPlayer;
-    console.error('"initialPlayer" is set to ' + initialPlayer + ' from SGF.');
+    console.error('"initialPlayer" is set to ' + initialPlayer + 
+      ' from SGF.');
   }
 
   analysisOpts.id = 'q9';
@@ -34,6 +35,24 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   return JSON.stringify(analysisOpts);
 }
 
+// Gets root comment from KataGo reviewed SGF.
+function sgfToKataGoAnalysisReport(sgf) {
+  let index;
+
+  index = sgf.search(/;[BW]\[/);
+  if (index == -1) return '';
+
+  sgf = sgf.substring(0, index);
+  index = sgf.search(/\bC\[/);
+  if (index == -1) return '';
+
+  sgf = sgf.substring(index + 2);
+
+  index = sgf.search(/[^\]]\]/);
+  return sgf.substring(0, index + 1);
+}
+
+// Makes reviewed SGF from KataGo analysis.
 function kataGoAnalysisResponseToSGF(sgf, responses, sgfOpts) {
   // Checks KataGo error response.
   //
@@ -55,12 +74,14 @@ function kataGoAnalysisResponseToSGF(sgf, responses, sgfOpts) {
   );
 
   const reduced = internal.rootAndSequenceFromSGF(sgf);
-  const sgfmoves = internal.sgfmovesFromResponses(reduced, responses, sgfOpts);
+  const sgfmoves = internal.sgfmovesFromResponses(reduced, responses, 
+    sgfOpts);
   const rsgf = internal.sgfmovesToGameTree(reduced.root, sgfmoves, sgfOpts);
 
   return rsgf;
 }
 
 module.exports = { sgfToKataGoAnalysisQuery
+                 , sgfToKataGoAnalysisReport
                  , kataGoAnalysisResponseToSGF
                  };

@@ -38,14 +38,15 @@ describe('rootAndSequenceFromSGF', function () {
 });
 
 describe('valueOfProp', function () {
-  const value= 'XX[11]YY[22]YY[33]';
+  const value= 'XX[11]YY[22]YY[33]AA[ 44 ]';
   it('should be expected values for "' + value + '"', () => {
     assert.equal(internal.valueOfProp('XX', value), '11');
     assert.equal(internal.valueOfProp('YY', value), '22');
     assert.equal(internal.valueOfProp('ZZ', value), '');
+    assert.equal(internal.valueOfProp('AA', value), '44');
   });
   it('should be expected values for test/sabaki-ex-1.sgf', () => {
-    result = fs.readFileSync('test/sabaki-ex-1.sgf');
+    let result = fs.readFileSync('test/sabaki-ex-1.sgf');
     const sequence = internal.reduceTailsOfSGF(result.toString());
     assert.equal(internal.valueOfProp('AP', sequence), 'Sabaki:0.51.1');
     assert.equal(internal.valueOfProp('KM', sequence), '6.5');
@@ -55,7 +56,7 @@ describe('valueOfProp', function () {
 
 describe('rawPropValuesFromSGF', function () {
   it('should be expected values for test/sabaki-ex-1.sgf', () => {
-    result = fs.readFileSync('test/sabaki-ex-1.sgf');
+    let result = fs.readFileSync('test/sabaki-ex-1.sgf');
     const sequence = internal.reduceTailsOfSGF(result.toString());
     assert.equal(internal.rawPropValuesFromSGF('AB', sequence), '[dp][pd]');
     assert.equal(internal.rawPropValuesFromSGF('HA', sequence), '[2]');
@@ -180,7 +181,7 @@ describe('reduceTailsOfSGF', function () {
 
 describe('katagomovesFromSequence/reduceTailsOfSGF', function () {
   it('should be expected values', () => {
-    sgf = fs.readFileSync('test/sabaki-ex-1.sgf');
+    let sgf = fs.readFileSync('test/sabaki-ex-1.sgf');
     assert.equal(3, internal
       .katagomovesFromSequence(internal.reduceTailsOfSGF(sgf.toString()))
       .length
@@ -234,6 +235,7 @@ describe('sgfmovesFromResponses', function () {
     sgfOpts.minWinrateLossForBadMove = 5;
     sgfOpts.minWinrateLossForBadHotSpot = 20;
     sgfOpts.minWinrateLossForVariations = 5;
+    sgfOpts.analyzeTurnsGiven = false;
 
     let reduced, moves, rsgf, ex;
 

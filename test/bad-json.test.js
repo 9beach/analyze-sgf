@@ -1,4 +1,3 @@
-const fs = require('fs').promises;
 const assert = require('assert');
 
 const parseBadJSON = require('../src/bad-json');

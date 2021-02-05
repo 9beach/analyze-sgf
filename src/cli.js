@@ -99,8 +99,13 @@ try {
     sgfOpts = Object.assign({}, defaultOpts.sgf, sgfOpts);
 
     const sgf = (await fs.readFile(sgfPath)).toString();
+    // analysisOpts.analyzeTurns is set below.
+    const query = sgfconv.sgfToKataGoAnalysisQuery(sgf, analysisOpts);
+    // Copys sgfOpts.analyzeTurn.
+    sgfOpts.analyzeTurns = analysisOpts.analyzeTurns;
+
     const responses = (responsesPath == null
-      ? (await kataGoAnalyze(sgf, defaultOpts.katago))
+      ? (await kataGoAnalyze(sgf, query, defaultOpts.katago))
       : (await fs.readFile(responsesPath)).toString());
 
     // Saves responses to SGF.
@@ -110,6 +115,11 @@ try {
 
     await fs.writeFile(rsgfPath, rsgf);
     console.error('"' + rsgfPath + '" created.');
+
+    const report = sgfconv.sgfToKataGoAnalysisReport(rsgf);
+    if (report != '') {
+      console.log(report);
+    }
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -123,7 +133,7 @@ try {
 })();
 
 // Requests analysis to KataGo, and reads responses.
-async function kataGoAnalyze(sgf, katagoOpts) {
+async function kataGoAnalyze(sgf, query, katagoOpts) {
   // Spawns KataGo.
   const {spawn} = require('child_process');
   const katago = spawn(katagoOpts.path + ' ' + 
@@ -137,8 +147,6 @@ async function kataGoAnalyze(sgf, katagoOpts) {
   });
 
   // Sends query to KataGo.
-  const query = sgfconv.sgfToKataGoAnalysisQuery(sgf, analysisOpts);
-
   const sgfName = sgfPath.substring(0, sgfPath.lastIndexOf('.'));
 
   if (saveJSON) {

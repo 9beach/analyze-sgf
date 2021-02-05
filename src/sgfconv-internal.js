@@ -12,9 +12,13 @@ function inBraket(value, index = 0) {
   const start = value.indexOf('[', index);
   const end = value.indexOf(']', start);
 
-  return (start != -1 && end != -1
-    ? value.substring(start + 1, end)
-    : '');
+  if (start == -1 || end == -1) {
+    return '';
+  } else {
+    return value.substring(start + 1, end)
+      .replace(/^ */, '')
+      .replace(/ *$/, '');
+  }
 }
 
 // 'XX', 'XX[11]YY[22]YY[33]' => 11
@@ -300,8 +304,8 @@ function getPLs(root, moves) {
 
   if (moves.length != 0) {
     pls.push(moves[0][0]);
-  } else if (internal.valueOfProp('PL', root) != '') {
-    pls.push(internal.valueOfProp('PL', root));
+  } else if (valueOfProp('PL', root) != '') {
+    pls.push(valueOfProp('PL', root));
   } else {
     pls.push('B');
   }
@@ -384,8 +388,10 @@ function sgfmovesFromResponses(rootAndSequence, responses, sgfOpts) {
     }
 
     // Sets PVs to move of turnNumber.
-    if (sgfOpts.showVariationsAfterLastMove == true
-        || turnNumber != sgfmoves.length) {
+    if ((sgfOpts.showVariationsAfterLastMove == true
+          || turnNumber != sgfmoves.length)
+        && (sgfOpts.analyzeTurnsGiven == false
+          || sgfOpts.analyzeTurns.indexOf(turnNumber) != -1)) {
       let variations = (sgfmoves[turnNumber].variations = []);
 
       for (const moveInfo of currJSON.moveInfos) {
@@ -394,7 +400,6 @@ function sgfmovesFromResponses(rootAndSequence, responses, sgfOpts) {
         setInfoToSGFMove(nextTurn, currJSON.rootInfo, moveInfo, variation);
 
         if (sgfOpts.showBadVariations == true
-            || sgfOpts.analyzeTurnsGiven
             || sgfOpts.maxWinrateLossForGoodMove / 100 > 
             variation.winrateLoss) {
           if (variations.length < sgfOpts.maxVariationsForEachMove) {
@@ -431,8 +436,10 @@ function sgfmovesFromResponses(rootAndSequence, responses, sgfOpts) {
 function sgfmovesToGameTree(root, sgfmoves, sgfOpts) {
   const maxWinrateLossForGoodMove = sgfOpts.maxWinrateLossForGoodMove / 100;
   const minWinrateLossForBadMove = sgfOpts.minWinrateLossForBadMove / 100;
-  const minWinrateLossForBadHotSpot = sgfOpts.minWinrateLossForBadHotSpot / 100;
-  const minWinrateLossForVariations = sgfOpts.minWinrateLossForVariations / 100;
+  const minWinrateLossForBadHotSpot = 
+    sgfOpts.minWinrateLossForBadHotSpot / 100;
+  const minWinrateLossForVariations = 
+    sgfOpts.minWinrateLossForVariations / 100;
 
   // Good, bad, and bad hot spot moves.
   let blackGoodBads = [[],[],[]];
@@ -501,16 +508,21 @@ function sgfmovesToGameTree(root, sgfmoves, sgfOpts) {
 //
 // 커제 (Black):
 // * Good moves (83.44%, 126/151)
-// * Bad moves (6.62%, 10/151): move 43, move 73, move 75, move 77, move 101, move 107, move 127, move 139, move 145, move 147
+// * Bad moves (6.62%, 10/151): move 43, move 73, move 75, move 77, move 101, 
+//   move 107, move 127, move 139, move 145, move 147
 // * Bad hot sopts (0.66%, 1/151): move 77
 //
 // 신민준 (White):
 // * Good moves (88.74%, 134/151)
-// * Bad moves (5.30%, 8/151): move 74, move 76, move 80, move 84, move 126, move 130, move 134, move 146
+// * Bad moves (5.30%, 8/151): move 74, move 76, move 80, move 84, move 126, 
+//   move 130, move 134, move 146
 //
 // Good move: less than 2% win rate loss
 // Bad move: more than 5% win rate loss
 // Bad hot spot: more than 20% win rate loss
+// 
+// Variations added for the moves of less then 3% win rate loss.
+// "baduk-analyzed.sgf" created.
 function getRootComment(root, sgfmoves, blackGoodBads, whiteGoodBads, 
   sgfOpts) {
   if (sgfOpts.analyzeTurnsGiven) {
@@ -542,7 +554,7 @@ function getRootComment(root, sgfmoves, blackGoodBads, whiteGoodBads,
     return moves
       .sort((a, b) => a - b)
       .map(x => 'move ' + (x + 1))
-      .join(', ')
+      .join(', ');
   }
 
   let rootComment = '# KagaGo Report';
@@ -578,11 +590,9 @@ function getRootComment(root, sgfmoves, blackGoodBads, whiteGoodBads,
     '\nBad move: more than ' + sgfOpts.minWinrateLossForBadMove + 
     '% win rate loss' + 
     '\nBad hot spot: more than ' +
-    + sgfOpts.minWinrateLossForBadHotSpot + '% win rate loss\n' +
+    sgfOpts.minWinrateLossForBadHotSpot + '% win rate loss\n' +
     '\nVariations added for the moves of less then ' + 
     sgfOpts.minWinrateLossForVariations + '% win rate loss.';
-
-  console.log(rootComment);
 
   return 'C[' + rootComment + ']';
 }
