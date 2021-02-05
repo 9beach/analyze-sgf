@@ -360,6 +360,7 @@ function sgfmovesFromResponses(rootAndSequence, responses, sgfOpts) {
   //
   // (ex) turnNumber 0 -> turn 'W', nextTurn 'B'
   let prevJSON = null;
+  sgfOpts.maxVisits = 0;
 
   for (const response of responses) {
     const currJSON = JSON.parse(response);
@@ -368,6 +369,8 @@ function sgfmovesFromResponses(rootAndSequence, responses, sgfOpts) {
     const turn = pls[(turnNumber + 1) % 2];
     // Adds variations to next move.
     const nextTurn = pls[turnNumber % 2];
+
+    sgfOpts.maxVisits = Math.max(currJSON.rootInfo.visits, sgfOpts.maxVisits);
 
     // Sets info to move (turnNumber - 1).
     if (turnNumber != 0) {
@@ -522,7 +525,6 @@ function sgfmovesToGameTree(root, sgfmoves, sgfOpts) {
 // Bad hot spot: more than 20% win rate loss
 // 
 // Variations added for the moves of less then 3% win rate loss.
-// "baduk-analyzed.sgf" created.
 function getRootComment(root, sgfmoves, blackGoodBads, whiteGoodBads, 
   sgfOpts) {
   if (sgfOpts.analyzeTurnsGiven) {
@@ -557,7 +559,7 @@ function getRootComment(root, sgfmoves, blackGoodBads, whiteGoodBads,
       .join(', ');
   }
 
-  let rootComment = '# KagaGo Report';
+  let rootComment = '# Analyze-SGF Report';
 
   function stat(comment, total, moves) {
     comment = '\n* Good moves (' + 
@@ -592,7 +594,9 @@ function getRootComment(root, sgfmoves, blackGoodBads, whiteGoodBads,
     '\nBad hot spot: more than ' +
     sgfOpts.minWinrateLossForBadHotSpot + '% win rate loss\n' +
     '\nVariations added for the moves of less then ' + 
-    sgfOpts.minWinrateLossForVariations + '% win rate loss.';
+    sgfOpts.minWinrateLossForVariations + '% win rate loss.' +
+    '\n\nAnalyzed with KataGo Parallel Analysis Engine (' + sgfOpts.maxVisits + 
+    ' max visits).';
 
   return 'C[' + rootComment + ']';
 }

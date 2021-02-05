@@ -101,7 +101,7 @@ try {
     const sgf = (await fs.readFile(sgfPath)).toString();
     // analysisOpts.analyzeTurns is set below.
     const query = sgfconv.sgfToKataGoAnalysisQuery(sgf, analysisOpts);
-    // Copys sgfOpts.analyzeTurn.
+    // Copys some options.
     sgfOpts.analyzeTurns = analysisOpts.analyzeTurns;
 
     const responses = (responsesPath == null
@@ -157,7 +157,7 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
   await katago.stdin.write(query);
   katago.stdin.end();
 
-  // Read analysis from KataGo.
+  // Reads analysis from KataGo.
   let responses = '';
   for await (const data of katago.stdout) {
     responses += data;
