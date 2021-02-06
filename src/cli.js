@@ -6,52 +6,35 @@
 'use strict';
 
 const fs = require('fs').promises;
-const sgfconv = require('./index');
 
-const yamlPath = (process.env.HOME || process.env.USERPROFILE) + 
+const GameTree = require('./gametree');
+
+const help = require('./help'); 
+const config = (process.env.HOME || process.env.USERPROFILE) + 
   '/.analyze-sgf.yml';
-let analysisOpts = {};
-let sgfOpts = {};
-let saveJSON = false;
-let sgfPath = null;
-let responsesPath = null;
-
-const HELP = 
-`Usage: analyze-sgf [-k=json-data] [-g=json-data] [-s] [-r=json-file] sgf-file
-
-Option: 
-  -k, --katago            JSON data for KataGo Parallel Analysis Engine query
-  -g, --sgf               JSON data for making reviewed SGF file
-  -s,                     Save KataGo responses JSON
-  -r,                     Analyze KataGo responses JSON
-
-Examples:
-  analyze-sgf --katago 'rules:"korean",komi:6.5' baduk.sgf
-  analyze-sgf -k 'maxVisits:6400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -g 'maxVisits:600' baduk.sgf    # The bigger, the more accurate.
-  analyze-sgf baduk.sgf
-  analyze-sgf -r baduk-responses.json baduk.sgf
-
-Edit ~/.analyze-sgf.yml for default options
-Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
-analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>`;
 
 (async () => {
-  // Creates "~/.analyze-sgf.yml".
+  // Creates config file.
   try {
-    await fs.access(yamlPath);
+    await fs.access(config);
   } catch (error) {
     const defaultOptsPath = require.resolve('./analyze-sgf.yml');
-    await fs.copyFile(defaultOptsPath, yamlPath);
-    console.error('"' + yamlPath + '" created.');
+    await fs.copyFile(defaultOptsPath, config);
+    console.error('"' + config + '" created.');
   }
+
+  let responsesPath = null;
+  let saveGiven = false;
+  let analysisOpts = {};
+  let sgfOpts = {};
 
   // Parses args.
   try {
     const pgetopt = require('posix-getopt');
     const parseBadJSON = require('./bad-json');
 
-    let parser = new pgetopt.BasicParser('k:(katago)g:(sgf)sr:', process.argv);
+    let parser = new pgetopt.BasicParser('k:(katago)g:(sgf)sr:', 
+      process.argv);
     let opt = null;
     let analyzeTurnsGiven = false;
 
@@ -67,13 +50,13 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>`;
           sgfOpts = parseBadJSON(opt.optarg);
           break;
         case 's':
-          saveJSON = true;
+          saveGiven = true;
           break;
         case 'r':
           responsesPath = opt.optarg;
           break;
         default:
-          console.error(HELP);
+          console.error(help);
           process.exit(1);
       }
     }
@@ -81,22 +64,22 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>`;
     sgfOpts.analyzeTurnsGiven = analyzeTurnsGiven;
 
     if (parser.optind() >= process.argv.length) {
-      console.error(HELP);
+      console.error(help);
       process.exit(1);
     }
 
-    sgfPath = process.argv[parser.optind()];
+    const sgfPath = process.argv[parser.optind()];
 
     // Reads options.
     const yaml = require('js-yaml');
-    let defaultOpts = yaml.load(await fs.readFile(yamlPath));
+    let defaultOpts = yaml.load(await fs.readFile(config));
 
     analysisOpts = Object.assign({}, defaultOpts.analysis, analysisOpts);
     sgfOpts = Object.assign({}, defaultOpts.sgf, sgfOpts);
 
     const sgf = (await fs.readFile(sgfPath)).toString();
     // analysisOpts.analyzeTurns is set below.
-    const query = sgfconv.sgfToKataGoAnalysisQuery(sgf, analysisOpts);
+    const query = sgfToKataGoAnalysisQuery(sgf, analysisOpts);
     // Copys some options.
     sgfOpts.analyzeTurns = analysisOpts.analyzeTurns;
 
@@ -104,15 +87,22 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>`;
       ? (await kataGoAnalyze(sgf, query, defaultOpts.katago))
       : (await fs.readFile(responsesPath)).toString());
 
+    if (saveGiven && !responsesPath) {
+      const sgfName = sgfPath.substring(0, sgfPath.lastIndexOf('.'));
+
+      await fs.writeFile(sgfName + '-responses.json', responses);
+      console.error('"' + sgfName + '-responses.json' + '" created.');
+    }
+
     // Saves responses to SGF.
-    const rsgf = sgfconv.kataGoAnalysisResponseToSGF(sgf, responses, sgfOpts);
     const rsgfPath = sgfPath.substring(0, sgfPath.lastIndexOf('.'))
       + defaultOpts.sgf.fileSuffix + '.sgf';
+    const gametree = new GameTree(sgf, responses, sgfOpts);
 
-    await fs.writeFile(rsgfPath, rsgf);
+    await fs.writeFile(rsgfPath, gametree.sgf());
     console.error('"' + rsgfPath + '" created.');
 
-    const report = sgfconv.rootCommentFromSGF(rsgf);
+    const report = gametree.rootComment();
     if (report != '') {
       console.log(report);
     }
@@ -131,19 +121,12 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
 
   katago.on('exit', (code) => {
     if (code != 0) {
-      console.error('Please fix "path" or "arguments" in ' + yamlPath);
+      console.error('Please fix "path" or "arguments" in ' + config);
       process.exit(1);
     }
   });
 
   // Sends query to KataGo.
-  const sgfName = sgfPath.substring(0, sgfPath.lastIndexOf('.'));
-
-  if (saveJSON) {
-    await fs.writeFile(sgfName + '-query.json', query);
-    console.error('"' + sgfName + '-query.json' + '" created.');
-  }
-
   await katago.stdin.write(query);
   katago.stdin.end();
 
@@ -153,10 +136,37 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     responses += data;
   }
 
-  if (saveJSON) {
-    await fs.writeFile(sgfName + '-responses.json', responses);
-    console.error('"' + sgfName + '-responses.json' + '" created.');
+  return responses;
+}
+
+const sgfconv = require('./sgfconv');
+
+// Gets JSON data to send KataGo Parallel Analysis Engine with pipe.
+function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
+  const sequence = sgfconv.removeTails(sgf);
+  const komi = sgfconv.valueFromSequence('KM', sequence);
+
+  if (komi != '') {
+    analysisOpts.komi = parseFloat(komi);
+    console.error('"komi" is set to ' + analysisOpts.komi + ' from SGF.');
   }
 
-  return responses;
+  const initialPlayer = sgfconv.valueFromSequence('PL', sequence);
+
+  if (initialPlayer != '') {
+    analysisOpts.initialPlayer = initialPlayer;
+    console.error('"initialPlayer" is set to ' + initialPlayer + 
+      ' from SGF.');
+  }
+
+  analysisOpts.id = '9beach';
+  analysisOpts.initialStones = sgfconv.initialstonesFromSequence(sequence);
+  analysisOpts.moves = sgfconv.katagomovesFromSequence(sequence);
+
+  if (!analysisOpts.analyzeTurns) {
+    analysisOpts.analyzeTurns = 
+      [...Array(analysisOpts.moves.length + 1).keys()];
+  }
+
+  return JSON.stringify(analysisOpts);
 }
