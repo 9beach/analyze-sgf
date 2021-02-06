@@ -306,7 +306,7 @@ class GameTree {
       this.#sgfOpts.minWinrateLossForVariations + '% win rate loss.' +
       '\nMaximum variations number for each move is ' + 
       this.#sgfOpts.maxVariationsForEachMove + '.' + 
-      '\n\nAnalyzed with KataGo Parallel Analysis Engine (' + 
+      '\n\nAnalyzed by KataGo Parallel Analysis Engine (' + 
       this.#maxVisits + ' max visits).';
 
     this.#rootComment = rootComment;
