@@ -112,7 +112,7 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>`;
     await fs.writeFile(rsgfPath, rsgf);
     console.error('"' + rsgfPath + '" created.');
 
-    const report = sgfconv.sgfToKataGoAnalysisReport(rsgf);
+    const report = sgfconv.rootCommentFromSGF(rsgf);
     if (report != '') {
       console.log(report);
     }

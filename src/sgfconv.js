@@ -36,7 +36,7 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
 }
 
 // Gets root comment from KataGo reviewed SGF.
-function sgfToKataGoAnalysisReport(sgf) {
+function rootCommentFromSGF(sgf) {
   let index;
 
   index = sgf.search(/;[BW]\[/);
@@ -82,6 +82,6 @@ function kataGoAnalysisResponseToSGF(sgf, responses, sgfOpts) {
 }
 
 module.exports = { sgfToKataGoAnalysisQuery
-                 , sgfToKataGoAnalysisReport
+                 , rootCommentFromSGF
                  , kataGoAnalysisResponseToSGF
                  };

@@ -49,30 +49,30 @@ describe('kataGoAnalysisResponseToSGF', function () {
   });
 });
 
-describe('sgfToKataGoAnalysisReport', function () {
+describe('rootCommentFromSGF', function () {
   it('should be expected values', () => {
     let sgf = 'abcd]C[1234];W[]';
-    let comment = sgfconv.sgfToKataGoAnalysisReport(sgf);
+    let comment = sgfconv.rootCommentFromSGF(sgf);
     assert.equal(comment, '1234');
 
     sgf = 'abcdC[1234];W[]';
-    comment = sgfconv.sgfToKataGoAnalysisReport(sgf);
+    comment = sgfconv.rootCommentFromSGF(sgf);
     assert.equal(comment, '');
 
     sgf = 'abcd;C[1234]';
-    comment = sgfconv.sgfToKataGoAnalysisReport(sgf);
+    comment = sgfconv.rootCommentFromSGF(sgf);
     assert.equal(comment, '');
 
     sgf = 'abcd[1234]';
-    comment = sgfconv.sgfToKataGoAnalysisReport(sgf);
+    comment = sgfconv.rootCommentFromSGF(sgf);
     assert.equal(comment, '');
 
     sgf = 'abcd;C[];W[]';
-    comment = sgfconv.sgfToKataGoAnalysisReport(sgf);
+    comment = sgfconv.rootCommentFromSGF(sgf);
     assert.equal(comment, '');
 
     sgf = 'abcd;C[12\n34];W\[';
-    comment = sgfconv.sgfToKataGoAnalysisReport(sgf);
+    comment = sgfconv.rootCommentFromSGF(sgf);
     assert.equal(comment, '12\n34');
   });
 });
