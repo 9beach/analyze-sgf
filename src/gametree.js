@@ -172,8 +172,7 @@ class GameTree {
           this.#nodes[turnNumber - 1].setWinrate(prevJSON.rootInfo, 
             currJSON.rootInfo)
         } else {
-          this.#nodes[turnNumber - 1].setWinrate(prevJSON.rootInfo, 
-            currJSON.rootInfo)
+          this.#nodes[turnNumber - 1].setWinrate(null, currJSON.rootInfo)
         }
       }
 
@@ -318,10 +317,7 @@ class GameTree {
   #sgf;
   #rootComment;
   #responsesGiven;
-
-  // Key data structure containing Node array.
   #nodes;
-
   #maxVisits;
   #sgfOpts;
 }

@@ -70,7 +70,7 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
 
     const sgfPath = process.argv[parser.optind()];
 
-    // Reads options.
+    // Reads config file.
     const yaml = require('js-yaml');
     let defaultOpts = yaml.load(await fs.readFile(config));
 
@@ -107,7 +107,7 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
       console.log(report);
     }
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
     process.exit(1);
   }
 })();
