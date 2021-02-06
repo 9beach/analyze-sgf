@@ -5,21 +5,18 @@
  */
 'use strict';
 
-const fs = require('fs').promises;
-
-const GameTree = require('./gametree');
-
-const help = require('./help'); 
 const config = (process.env.HOME || process.env.USERPROFILE) + 
   '/.analyze-sgf.yml';
 
 (async () => {
+  const fs = require('fs').promises;
+  const GameTree = require('./gametree');
+
   // Creates config file.
   try {
     await fs.access(config);
   } catch (error) {
-    const defaultOptsPath = require.resolve('./analyze-sgf.yml');
-    await fs.copyFile(defaultOptsPath, config);
+    await fs.copyFile(require.resolve('./analyze-sgf.yml'), config);
     console.error('"' + config + '" created.');
   }
 
@@ -30,11 +27,12 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
 
   // Parses args.
   try {
+    const help = require('./help'); 
     const pgetopt = require('posix-getopt');
     const parseBadJSON = require('./bad-json');
-
-    let parser = new pgetopt.BasicParser('k:(katago)g:(sgf)sr:', 
+    const parser = new pgetopt.BasicParser('k:(katago)g:(sgf)sr:', 
       process.argv);
+
     let opt = null;
     let analyzeTurnsGiven = false;
 
@@ -107,7 +105,7 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
       console.log(report);
     }
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     process.exit(1);
   }
 })();
@@ -119,9 +117,18 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
   const katago = spawn(katagoOpts.path + ' ' + 
     katagoOpts.arguments, [], {shell: true});
 
+  let responses = '';
+  let error = '';
+
   katago.on('exit', (code) => {
     if (code != 0) {
-      console.error('Please fix "path" or "arguments" in ' + config);
+      console.error('Failed to run KataGo from ' + config);
+      const opts = JSON.stringify(katagoOpts, null, 2)
+        .replace(/,\n/, '\n')
+        .replace('  "path": ', '  path: ')
+        .replace('  "arguments": ', '  arguments: ');
+      console.error(opts);
+      process.stderr.write(error);
       process.exit(1);
     }
   });
@@ -131,9 +138,13 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
   katago.stdin.end();
 
   // Reads analysis from KataGo.
-  let responses = '';
   for await (const data of katago.stdout) {
     responses += data;
+  }
+
+  // Reads stderr from KataGo.
+  for await (const data of katago.stderr) {
+    error += data;
   }
 
   return responses;

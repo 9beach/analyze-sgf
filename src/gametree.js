@@ -1,6 +1,6 @@
 /**
  * @fileOverview GameTree data structure. Please see 
- *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>
+ *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 'use strict';
 
