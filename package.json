@@ -1,5 +1,5 @@
 {
-  "name": "@9beach/analyze-sgf",
+  "name": "analyze-sgf",
   "version": "0.0.1",
   "description": "Analyze SGF files by KataGo Parallel Analysis Engine to produce Reviewed SGF files",
   "homepage": "https://github.com/9beach/analyze-sgf",

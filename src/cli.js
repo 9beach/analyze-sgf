@@ -27,9 +27,9 @@ Option:
 
 Examples:
   analyze-sgf --katago 'rules:"korean",komi:6.5' baduk.sgf
-  analyze-sgf -k 'analyzeTurns:[197,198], maxVisits:1600' baduk.sgf
-  analyze-sgf -g 'maxVisits:3200' baduk.sgf    # The bigger, the more accurate.
-  analyze-sgf -s baduk.sgf
+  analyze-sgf -k 'maxVisits:6400,analyzeTurns:[197,198]' baduk.sgf
+  analyze-sgf -g 'maxVisits:600' baduk.sgf    # The bigger, the more accurate.
+  analyze-sgf baduk.sgf
   analyze-sgf -r baduk-responses.json baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
