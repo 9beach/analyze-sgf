@@ -281,7 +281,7 @@ class GameTree {
           movesjoin(moves[1]);
       }
       if (moves[2].length > 0) {
-        comment += '\n* Bad hot sOpts (' + 
+        comment += '\n* Bad hot spots (' + 
           ((moves[2].length / total) * 100).toFixed(2) + '%' + 
           ', ' + moves[2].length + '/' + total + '): ' + 
           movesjoin(moves[2]);
