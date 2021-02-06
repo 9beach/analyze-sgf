@@ -100,7 +100,7 @@ describe('katagomoveinfoToSequence', function () {
   });
 });
 
-describe('toGooNode ...', function () {
+describe('toGoodNode ...', function () {
   const sequence = '(;W[po];B[hm])';
   it('should be expected values', () => {
     assert.equal(sgfconv.toGoodNode(sequence, 0), '(;W[po]TE[1];B[hm])');
