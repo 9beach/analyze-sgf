@@ -4,7 +4,7 @@ const assert = require('assert');
 const sgfconv = require('../src/sgfconv');
 
 describe('rootsequenceFromSGF', function () {
-  it('should be expected values', () => {
+  it('should be expected values.', () => {
     let parsed = sgfconv.rootsequenceFromSGF('(abc;B[aa];B[bb])');
     assert.equal(parsed.root, 'abc');
     assert.equal(parsed.sequence, ';B[aa];B[bb]');
@@ -32,8 +32,8 @@ describe('rootsequenceFromSGF', function () {
 });
 
 describe('valueFromSequence', function () {
-  const value= 'XX[11]YY[22]YY[33]AA[ 44 ]';
-  it('should be expected values for "' + value + '"', () => {
+  it('should be expected values.', () => {
+    const value= 'XX[11]YY[22]YY[33]AA[ 44 ]';
     assert.equal(sgfconv.valueFromSequence('XX', value), '11');
     assert.equal(sgfconv.valueFromSequence('YY', value), '22');
     assert.equal(sgfconv.valueFromSequence('ZZ', value), '');
@@ -49,36 +49,16 @@ describe('valueFromSequence', function () {
 });
 
 describe('valuesFromSequence', function () {
-  const value= '(;GM[1]FF[4]...AB[dp][pd];W...';
-  it('should be expected values for "' + value + '"', () => {
+  it('should be expected values.', () => {
+    const value= '(;GM[1]FF[4]...AB[dp][pd];W...';
     assert.deepEqual(sgfconv.valuesFromSequence('AB', value), ['dp','pd']);
     assert.deepEqual(sgfconv.valuesFromSequence('FF', value), ['4']);
     assert.deepEqual(sgfconv.valuesFromSequence('GM', value), ['1']);
   });
 });
 
-describe('katagomovesFromSequence', function () {
-  it('should be expected values', () => {
-    let sequence = '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[ae]IT[])';
-    assert.deepEqual(sgfconv.katagomovesFromSequence(sequence), 
-      [['W','Q15'],['B','H13'],['W','A5']]);
-
-    sequence = '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[]IT[])';
-    assert.deepEqual(sgfconv.katagomovesFromSequence(sequence), 
-      [['W','Q15'],['B','H13']]);
-  });
-});
-
-describe('initialstonesFromSequence', function () {
-  const sequence = '(...HA[2]AB[aa][bb]AW[ab][cc];W[po];B[hm]TE[1]...)';
-  it('should be expected values for "' + sequence + '"', () => {
-    assert.deepEqual(sgfconv.initialstonesFromSequence(sequence), 
-                     [["B","A1"],["B","B2"],["W","A2"],["W","C3"]]);
-  });
-});
-
 describe('iaToJ1/iaFromJ1', function () {
-  it('should be expected values', () => {
+  it('should be expected values.', () => {
     assert.equal(sgfconv.iaFromJ1('B4'), 'bd');
     assert.equal(sgfconv.iaToJ1('bd'), 'B4');
     assert.equal(sgfconv.iaFromJ1('P15'), 'oo');
@@ -88,21 +68,9 @@ describe('iaToJ1/iaFromJ1', function () {
   });
 });
 
-describe('katagomoveinfoToSequence', function () {
-  it('should be expected values', () => {
-    const moveInfo = {
-      scoreLead: 21.05059,
-      pv: ["A1","B2","C3"]
-    }; 
-
-    assert.equal(sgfconv.katagomoveinfoToSequence('W', moveInfo), 
-      '(;W[aa];B[bb];W[cc])');
-  });
-});
-
-describe('toGoodNode ...', function () {
+describe('toGoodNode/toBadNode/toBadHotSpot', function () {
   const sequence = '(;W[po];B[hm])';
-  it('should be expected values', () => {
+  it('should be expected values.', () => {
     assert.equal(sgfconv.toGoodNode(sequence, 0), '(;W[po]TE[1];B[hm])');
     assert.equal(sgfconv.toGoodNode(sequence, 6), '(;W[po]TE[1];B[hm])');
     assert.equal(sgfconv.toBadNode(sequence, 7), '(;W[po];B[hm]BM[1])');
@@ -113,7 +81,7 @@ describe('toGoodNode ...', function () {
 
 describe('addComment', function () {
   const sequence = '(;W[po];B[hm])';
-  it('should be expected values', () => {
+  it('should be expected values.', () => {
     assert.equal(sgfconv.addComment(sequence, 'comm', 0), 
       '(;W[po]C[comm];B[hm])');
     assert.equal(sgfconv.addComment(sequence, 'test[]', 6), 
@@ -136,7 +104,7 @@ describe('removeTails', function () {
       '(aa[aa)](11)(abc)x)',
       'aa[(aa) ()]((11)(abc)x'
     ];
-  it('should be expected values', () => {
+  it('should be expected values.', () => {
     assert.equal(sgfconv.removeTails(values[0]), '(ABCDEFGH)');
     assert.equal(sgfconv.removeTails(values[1]), '(ABCDEFGH)');
     assert.equal(sgfconv.removeTails(values[2]), '(abc)');
@@ -155,8 +123,40 @@ describe('removeTails', function () {
   });
 });
 
+describe('katagomoveinfoToSequence', function () {
+  it('should be expected values.', () => {
+    const moveInfo = {
+      scoreLead: 21.05059,
+      pv: ["A1","B2","C3"]
+    }; 
+
+    assert.equal(sgfconv.katagomoveinfoToSequence('W', moveInfo), 
+      '(;W[aa];B[bb];W[cc])');
+  });
+});
+
+describe('initialstonesFromSequence', function () {
+  it('should be expected values.', () => {
+    const sequence = '(...HA[2]AB[aa][bb]AW[ab][cc];W[po];B[hm]TE[1]...)';
+    assert.deepEqual(sgfconv.initialstonesFromSequence(sequence), 
+                     [["B","A1"],["B","B2"],["W","A2"],["W","C3"]]);
+  });
+});
+
+describe('katagomovesFromSequence', function () {
+  it('should be expected values.', () => {
+    let sequence = '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[ae]IT[])';
+    assert.deepEqual(sgfconv.katagomovesFromSequence(sequence), 
+      [['W','Q15'],['B','H13'],['W','A5']]);
+
+    sequence = '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[]IT[])';
+    assert.deepEqual(sgfconv.katagomovesFromSequence(sequence), 
+      [['W','Q15'],['B','H13']]);
+  });
+});
+
 describe('katagomovesFromSequence/removeTails', function () {
-  it('should be expected values', () => {
+  it('should be expected values.', () => {
     let sgf = fs.readFileSync('test/ex-sabaki-1.sgf');
     assert.equal(3, sgfconv
       .katagomovesFromSequence(sgfconv.removeTails(sgf.toString()))

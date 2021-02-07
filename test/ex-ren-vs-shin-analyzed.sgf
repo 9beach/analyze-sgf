@@ -1,20 +1,23 @@
-(;TE[제13회 춘란배 4강]RD[2021-01-20 ]PC[온라인]TM[2시간]LT[60]LC[5]KM[7.5]RE[207수 흑불계승]PB[신진서]BR[9단]PW[롄샤오]HD[0]WR[9단]GK[1]TC[]AP[Sabaki:0.51.1]CA[UTF-8]C[# KagaGo Report
+(;TE[제13회 춘란배 4강]C[# Analyze-SGF Report
 
 신진서 (Black):
 * Good moves (75.00%, 78/104)
 * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
-* Bad hot sopts (0.96%, 1/104): move 141
+* Bad hot spots (0.96%, 1/104): move 141
 
 롄샤오 (White):
 * Good moves (74.76%, 77/103)
 * Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* Bad hot sopts (1.94%, 2/103): move 174, move 176
+* Bad hot spots (1.94%, 2/103): move 174, move 176
 
 Good move: less than 2% win rate loss
 Bad move: more than 5% win rate loss
 Bad hot spot: more than 20% win rate loss
 
-Variations added for the moves of less then 5% win rate loss.];B[pd]TE[1]SBKV[39.23]C[As Black:
+Variations added for the moves of more then 5% win rate loss.
+Maximum variations number for each move is 10.
+
+Analyzed by KataGo Parallel Analysis Engine (6415 max visits).]RD[2021-01-20 ]PC[온라인]TM[2시간]LT[60]LC[5]KM[7.5]RE[207수 흑불계승]PB[신진서]BR[9단]PW[롄샤오]HD[0]WR[9단]GK[1]TC[]AP[Sabaki:0.51.1]CA[UTF-8];B[pd]TE[1]SBKV[39.23]C[As Black:
 * Win rate: 39.23%
 * Win rate loss: 0.12%
 * Score lead: -0.91

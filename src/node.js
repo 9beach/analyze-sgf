@@ -69,7 +69,7 @@ class Node {
   // "(;B[po];W[os];...)" => 
   //     "(;B[po]BM[1]HO[1]SBKV[5500.00]C[* Win rate ...];W[os];...)"
   setProperties(sgfOpts) {
-    if (this.#propertiesSet == true) {
+    if (this.#propertiesGot == true) {
       return;
     }
 
@@ -77,7 +77,7 @@ class Node {
 
     if (this.winrate != null) {
       // Comment
-      properties = sgfconv.addComment(properties, this.getStatistics());
+      properties = sgfconv.addComment(properties, this.#statistics());
 
       // RSGF winrate
       properties = sgfconv.addProperty(properties, 'SBKV[' + 
@@ -94,12 +94,12 @@ class Node {
       properties = sgfconv.toBadNode(properties, 0);
     }
 
-    this.#propertiesSet = true;
+    this.#propertiesGot = true;
     this.sequence = properties;
   }
 
   // Returns "As Black:\n* Win rate: 55.00%\n* Win rate ..."
-  getStatistics() {
+  #statistics() {
     const asPL = 'As ' + (this.pl == 'W' ? 'White' : 'Black') + ':\n';
     return (asPL + "* Win rate: " + 
       (parseFloat(this.myWinrate) * 100).toFixed(2) + '%' + 
@@ -115,7 +115,7 @@ class Node {
   }
 
   // Prevents duplicated set.
-  #propertiesSet;
+  #propertiesGot;
 }
 
 module.exports = Node;

@@ -16,8 +16,6 @@ class GameTree {
     this.#nodes = [];
     this.#sgfOpts = sgfOpts;
 
-    const pls = sgfconv.getPLs(rootsequence);
-
     // Fills nodes.
     let left = rootsequence.sequence;
     let start = -1;
@@ -30,14 +28,14 @@ class GameTree {
     }
 
     // Gets info from KataGo responses.
-    this.#fromKataGoResponses(katagoResponses, pls);
+    this.#fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
   }
 
   rootComment() {
     return this.#rootComment;
   }
 
-  // Makes SGF GameTree.
+  // Makes SGF content, and returns it.
   sgf() {
     if (!this.#sgf) {
       this.#sgf = '';
@@ -54,7 +52,7 @@ class GameTree {
     const minWinrateLossForVariations = 
       this.#sgfOpts.minWinrateLossForVariations / 100;
 
-    // Good, bad, and bad hot spot moves.
+    // Good, bad, and bad hot spots.
     let blackGoodBads = [[],[],[]];
     let whiteGoodBads = [[],[],[]];
 
@@ -110,8 +108,8 @@ class GameTree {
     }
 
     if (this.#responsesGiven == true) {
-      this.#setRootComment(blackGoodBads, whiteGoodBads);
-      this.#root = sgfconv.addComment(this.#root, this.rootComment());
+      this.#root = sgfconv.addComment(this.#root, 
+        this.#setRootComment(blackGoodBads, whiteGoodBads));
     }
 
     this.#sgf = '(' + this.#root + this.#sgf + ')';
@@ -228,14 +226,12 @@ class GameTree {
 
   #setRootComment(blackGoodBads, whiteGoodBads) {
     if (this.#rootComment) {
-      return;
+      return this.#rootComment;
     }
     if (this.#sgfOpts.analyzeTurnsGiven) {
       this.#rootComment = '';
-      return;
+      return this.#rootComment;
     }
-
-    let rootComment = '';
 
     const blackTotal = this.#nodes
       .reduce((acc, cur) => acc + (cur.sequence[0] == 'B' ? 1 : 0), 0);
@@ -269,10 +265,10 @@ class GameTree {
         .join(', ');
     }
 
-    rootComment = '# Analyze-SGF Report';
+    let rootComment = '# Analyze-SGF Report';
 
-    function stat(comment, total, moves) {
-      comment = '\n* Good moves (' + 
+    function stat(total, moves) {
+      let comment = '\n* Good moves (' + 
         ((moves[0].length / total) * 100).toFixed(2) + '%' + 
         ', ' + moves[0].length + '/' + total + ')';
       if (moves[1].length > 0) {
@@ -291,10 +287,10 @@ class GameTree {
     }
 
     rootComment += '\n\n' + pb + ':';
-    rootComment += stat(rootComment, blackTotal, blackGoodBads);
+    rootComment += stat(blackTotal, blackGoodBads);
 
     rootComment += '\n\n' + pw + ':';
-    rootComment += stat(rootComment, whiteTotal, whiteGoodBads);
+    rootComment += stat(whiteTotal, whiteGoodBads);
 
     rootComment += 
       '\n\nGood move: less than ' + this.#sgfOpts.maxWinrateLossForGoodMove + 
@@ -311,6 +307,7 @@ class GameTree {
       this.#maxVisits + ' max visits).';
 
     this.#rootComment = rootComment;
+    return this.#rootComment;
   }
 
   #root;
