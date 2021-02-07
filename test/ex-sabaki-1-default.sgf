@@ -1,0 +1,31 @@
+(;GM[1]C[# Analyze-SGF Report
+
+Black:
+* Good moves (100.00%, 1/1)
+
+White:
+* Good moves (100.00%, 2/2)
+
+Good move: less than 2% win rate loss
+Bad move: more than 5% win rate loss
+Bad hot spot: more than 20% win rate loss
+
+Variations added for the moves of more then 5% win rate loss.
+Maximum variations number for each move is 10.
+
+Analyzed by KataGo Parallel Analysis Engine (1615 max visits).]FF[4]CA[UTF-8]AP[Sabaki:0.51.1]KM[6.5]SZ[19]DT[2021-01-25]HA[2]AB[dp][pd];W[po]TE[1]SBKV[99.04]C[As White:
+* Win rate: 0.96%
+* Win rate loss: 0.08%
+* Score lead: -14.46
+* Score loss: 0.55
+* Visits: 1615];B[hm]TE[1]SBKV[98.47]C[As Black:
+* Win rate: 98.47%
+* Win rate loss: 0.57%
+* Score lead: 12.73
+* Score loss: 1.73
+* Visits: 1615];W[ae]TE[1]SBKV[99.54]C[As White:
+* Win rate: 0.46%
+* Win rate loss: 1.06%
+* Score lead: -21.00
+* Score loss: 8.27
+* Visits: 1615])

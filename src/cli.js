@@ -105,7 +105,7 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
       console.log(report);
     }
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
     process.exit(1);
   }
 })();

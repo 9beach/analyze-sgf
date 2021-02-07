@@ -259,7 +259,6 @@ function katagomoveinfoToSequence(player, moveInfo) {
 }
 
 module.exports = {
-  // SGF related functions.
   iaFromJ1,
   iaToJ1,
   valueFromSequence,
@@ -273,7 +272,6 @@ module.exports = {
   removeComment,
   addComment,
   addProperty,
-  // Convers SGF to KataGo JSON.
   initialstonesFromSequence,
   katagomovesFromSequence,
   katagomoveinfoToSequence

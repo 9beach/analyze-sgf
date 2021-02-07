@@ -13,9 +13,10 @@ class GameTree {
     const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
 
     this.#root = rootsequence.root;
-    this.#pls = sgfconv.getPLs(rootsequence);
     this.#nodes = [];
     this.#sgfOpts = sgfOpts;
+
+    const pls = sgfconv.getPLs(rootsequence);
 
     // Fills nodes.
     let left = rootsequence.sequence;
@@ -29,7 +30,7 @@ class GameTree {
     }
 
     // Gets info from KataGo responses.
-    this.#fromKataGoResponses(katagoResponses, sgfOpts);
+    this.#fromKataGoResponses(katagoResponses, pls);
   }
 
   rootComment() {
@@ -120,7 +121,7 @@ class GameTree {
 
   // Fills winrate infos and variations of nodes from KataGo Analysis 
   // responses.
-  #fromKataGoResponses(responses) {
+  #fromKataGoResponses(responses, pls) {
     // Checks KataGo error response.
     //
     // Now responses is of array type.
@@ -159,9 +160,9 @@ class GameTree {
       // turnNumber - 1 is current node.
       const turnNumber = currJSON.turnNumber;
       // Adds infos to current pl.
-      const pl = this.#pls[(turnNumber + 1) % 2];
+      const pl = pls[(turnNumber + 1) % 2];
       // Adds variations to next pl.
-      const nextPL = this.#pls[turnNumber % 2];
+      const nextPL = pls[turnNumber % 2];
 
       this.#maxVisits = Math.max(currJSON.rootInfo.visits, 
         this.#maxVisits);
@@ -179,8 +180,8 @@ class GameTree {
       // To add PVs after last move. We add pass move (B[], or W[]), and 
       // then add PVs.
       if (this.#sgfOpts.showVariationsAfterLastMove == true
-        && nodes.length == turnNumber) {
-        nodes.push(new Node(this.#pls[1] + '[]'));
+        && this.#nodes.length == turnNumber) {
+        this.#nodes.push(new Node(nextPL + '[]'));
       }
 
       // Sets PVs to move of turnNumber.
@@ -313,7 +314,6 @@ class GameTree {
   }
 
   #root;
-  #pls;
   #sgf;
   #rootComment;
   #responsesGiven;
