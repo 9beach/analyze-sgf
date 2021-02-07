@@ -16,7 +16,7 @@ class GameTree {
     this.#nodes = [];
     this.#sgfOpts = sgfOpts;
 
-    // Fills nodes.
+    // First, gets root node and tailless main sequence from sgf.
     let left = rootsequence.sequence;
     let start = -1;
 
@@ -27,7 +27,7 @@ class GameTree {
       left = left.substring(start + 3, left.length);
     }
 
-    // Gets info from KataGo responses.
+    // Second, gets win rate infos and varations from KataGo responses.
     this.#fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
   }
 

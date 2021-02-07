@@ -10,7 +10,8 @@ const sgfconv = require('./sgfconv');
 // and 3) NodeSequence for variations.
 class Node {
   // Node or tailless NodeSequence of SGF.
-  // ';B[dp];W[po];B[hm]', 'B[aa]', 'W[cc]', ...
+  //
+  // (ex) 'B[aa]', 'W[cc]', ';B[dp];W[po];B[hm]', ...
   sequence;
   // 'B' or 'W'
   pl;
@@ -64,11 +65,12 @@ class Node {
     this.visits = currentinfo.visits;
   }
 
-  // Add properties to this.sequence:
+  // Add properties (comment, god move, bad move, ...) to this.sequence.
+  //
+  // The change of this.sequence is like:
   //
   // "B[po]" => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
-  // "(;B[po];W[os];...)" => 
-  //     "(;B[po]BM[1]HO[1]SBKV[5500.00]C[* Win rate ...];W[os];...)"
+  // "(;B[po];W[os];...)" => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
   setProperties(sgfOpts) {
     if (this.#propertiesGot == true) {
       return;
@@ -77,10 +79,10 @@ class Node {
     let properties = this.sequence;
 
     if (this.winrate != null) {
-      // Comment
+      // Comment.
       properties = sgfconv.addComment(properties, this.#statistics());
 
-      // RSGF winrate
+      // RSGF winrate.
       properties = sgfconv.addProperty(properties, 'SBKV[' + 
         (parseFloat(this.winrate) * 100).toFixed(2) + ']', 0);
     }
