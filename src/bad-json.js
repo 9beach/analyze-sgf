@@ -1,9 +1,8 @@
 /**
- * @fileOverview Converts JSON-like string 'a:1,b:"test",...' to JSON
- *               string '{"a":1, "b":"test",...}'.
+ * @fileOverview Converts JSON-like string 'age:1,name:"Kim",...' to JSON
+ *               string '{"age":1,"name":"Kim",...}'.
  */
 'use strict';
-
 
 module.exports = (badJSON) => {
   return JSON.parse('{' + badJSON
