@@ -223,6 +223,7 @@ class GameTree {
     // FIXME: Remove last move if have no variations.
   }
 
+  // Sets players info, total good moves, bad moves, ... in root comment.
   #setRootComment(blackGoodBads, whiteGoodBads) {
     if (this.#rootComment) {
       return this.#rootComment;

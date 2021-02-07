@@ -111,8 +111,8 @@ function rootsequenceFromSGF(sgf) {
   };
 }
 
+// Removes line feeds and comments.
 function removeComment(sgf) {
-  // Removes line feeds and comments.
   sgf = sgf.replace(/\r\n/g, '').replace(/\n/g, '');
   sgf = sgf.replace(/\bC\[[^\]]*\\\]/g, 'C[');
   sgf = sgf.replace(/\bC\[[^\]]*\]/g, '');

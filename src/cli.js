@@ -112,8 +112,8 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
 })();
 
 async function readFileWithChardet(path) {
-	const Iconv = require('iconv').Iconv;
-	const jschardet = require('jschardet');
+  const Iconv = require('iconv').Iconv;
+  const jschardet = require('jschardet');
 
   let content = (await fs.readFile(path));
   let detected = jschardet.detect(content);
