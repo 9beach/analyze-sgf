@@ -93,7 +93,7 @@ class GameTree {
           || this.#sgfOpts.showVariationsOnlyForBadMove == false
           || this.#sgfOpts.analyzeTurnsGiven
           || (i == (this.#nodes.length - 1) 
-          && this.#sgfOpts.showVariationsAfterLastMove)) {
+            && this.#sgfOpts.showVariationsAfterLastMove)) {
           for (const variation of node.variations) {
             tail += variation.sequence;
           }
@@ -148,8 +148,7 @@ class GameTree {
     // - moves, nodes -> moves[0] is the first move.
     // - currJSON.turnNumber -> 0, for the variations for the first move.
     // - currJSON.turnNumber -> 1, for the first move info.
-    //
-    // (ex) turnNumber 0 -> pl 'W', nextPL 'B'
+    // - turnNumber 0 -> pl 'W', nextPL 'B'
     let prevJSON = null;
     this.#maxVisits = 0;
 
