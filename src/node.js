@@ -6,9 +6,10 @@
 
 const sgfconv = require('./sgfconv');
 
-// Contains 1) Node or NodeSequence of SGF, 2) win rate infomations, 
+// Contains 1) Node or tailless NodeSequence of SGF, 2) win rate infomations, 
 // and 3) NodeSequence for variations.
 class Node {
+  // Node or tailless NodeSequence of SGF.
   // ';B[dp];W[po];B[hm]', 'B[aa]', 'W[cc]', ...
   sequence;
   // 'B' or 'W'
@@ -99,6 +100,7 @@ class Node {
   }
 
   // Returns "As Black:\n* Win rate: 55.00%\n* Win rate ..."
+  // Used for comment.
   #statistics() {
     const asPL = 'As ' + (this.pl == 'W' ? 'White' : 'Black') + ':\n';
     return (asPL + "* Win rate: " + 
@@ -114,7 +116,7 @@ class Node {
       "\n* Visits: " + this.visits);
   }
 
-  // Prevents duplicated set.
+  // Prevents duplicated properties add.
   #propertiesGot;
 }
 

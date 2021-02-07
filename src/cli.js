@@ -5,11 +5,12 @@
  */
 'use strict';
 
+const fs = require('fs').promises;
+
 const config = (process.env.HOME || process.env.USERPROFILE) + 
   '/.analyze-sgf.yml';
 
 (async () => {
-  const fs = require('fs').promises;
   const GameTree = require('./gametree');
 
   // Creates config file.
@@ -75,7 +76,7 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
     analysisOpts = Object.assign({}, defaultOpts.analysis, analysisOpts);
     sgfOpts = Object.assign({}, defaultOpts.sgf, sgfOpts);
 
-    const sgf = (await fs.readFile(sgfPath)).toString();
+    const sgf = (await readFileWithChardet(sgfPath));
     // analysisOpts.analyzeTurns is set below.
     const query = sgfToKataGoAnalysisQuery(sgf, analysisOpts);
     // Copys some options.
@@ -109,6 +110,17 @@ const config = (process.env.HOME || process.env.USERPROFILE) +
     process.exit(1);
   }
 })();
+
+async function readFileWithChardet(path) {
+	const Iconv = require('iconv').Iconv;
+	const jschardet = require('jschardet');
+
+  let content = (await fs.readFile(path));
+  let detected = jschardet.detect(content);
+
+  const iconv = new Iconv(detected.encoding, "utf-8");
+  return iconv.convert(content).toString('utf-8');
+}
 
 // Requests analysis to KataGo, and reads responses.
 async function kataGoAnalyze(sgf, query, katagoOpts) {

@@ -19,4 +19,4 @@ cat $sample-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $sample-resul
 diff $sample-expected $sample-result
 
 rm -f $sample-*
-echo Got it.
+echo Success.

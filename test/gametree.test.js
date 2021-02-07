@@ -88,7 +88,7 @@ describe('GameTree', function () {
     sgfOpts.showVariationsAfterLastMove = false;
     sgfOpts.analyzeTurnsGiven = false;
 
-    // Be careful. Easy to fail for comments formats.
+    // Be careful. Easy to fail with the change of comments formats.
     compareWithComments('test/ex-ren-vs-shin.sgf', 
       'test/ex-ren-vs-shin-responses.json', 
       'test/ex-ren-vs-shin-analyzed.sgf');
