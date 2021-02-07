@@ -13,7 +13,7 @@ Option:
   -r,                     Analyze KataGo responses JSON
 
 Examples:
-  analyze-sgf --katago 'rules:"korean",komi:6.5' baduk.sgf
+  analyze-sgf -k 'rules:"korean",komi:6.5' baduk.sgf
   analyze-sgf -k 'maxVisits:6400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -g 'maxVisits:600' baduk.sgf
   analyze-sgf baduk.sgf
