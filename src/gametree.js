@@ -81,8 +81,8 @@ class GameTree {
     this.turnsgiven = sgfOpts.analyzeTurnsGiven;
     this.turns = sgfOpts.analyzeTurns;
     this.maxvariations = sgfOpts.maxVariationsForEachMove;
-    this.lastmovevariation = sgfOpts.showVariationsAfterLastMove;
-    this.badmoveonlyvariation = sgfOpts.showVariationsOnlyForBadMove;
+    this.lastmovevariations = sgfOpts.showVariationsAfterLastMove;
+    this.badmoveonlyvariations = sgfOpts.showVariationsOnlyForBadMove;
 
     // First, gets root node and tailless main sequence from sgf.
     let left = rootsequence.sequence;
@@ -154,9 +154,9 @@ class GameTree {
       if (node.variations) {
         if (
           node.winrateLoss > this.variationwinrate ||
-          this.badmoveonlyvariation === false ||
+          this.badmoveonlyvariations === false ||
           this.turnsgiven ||
-          (i === this.nodes.length - 1 && this.lastmovevariation)
+          (i === this.nodes.length - 1 && this.lastmovevariations)
         ) {
           tail += node.variations.reduce((acc, cur) => acc + cur.sequence, '');
         }
@@ -240,13 +240,13 @@ class GameTree {
 
       // To add PVs after last move. We add pass move (B[], or W[]), and
       // then add PVs.
-      if (this.lastmovevariation && this.nodes.length === turnNumber) {
+      if (this.lastmovevariations && this.nodes.length === turnNumber) {
         this.nodes.push(new Node(`${nextPL}[]`));
       }
 
       // Adds variations to next pl.
       if (
-        (this.lastmovevariation || turnNumber !== this.nodes.length) &&
+        (this.lastmovevariations || turnNumber !== this.nodes.length) &&
         (!this.turnsgiven || this.turns.indexOf(turnNumber) !== -1)
       ) {
         this.nodes[turnNumber].variations = [];
