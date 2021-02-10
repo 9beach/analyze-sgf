@@ -1,8 +1,7 @@
 /**
- * @fileOverview Helper functions for parsing SGF and KataGo analysis JSON 
+ * @fileOverview Helper functions for parsing SGF and KataGo analysis JSON
  *               formats.
  */
-'use strict';
 
 // 'XX[11]YY[22]', 0 => '11'
 // 'XX[11]YY[22]', 2 => '11'
@@ -12,40 +11,41 @@ function inBraket(value, index = 0) {
   const start = value.indexOf('[', index);
   const end = value.indexOf(']', start);
 
-  if (start == -1 || end == -1) {
+  if (start === -1 || end === -1) {
     return '';
-  } else {
-    return value.substring(start + 1, end)
-      .replace(/^ */, '')
-      .replace(/ *$/, '');
   }
+
+  return value
+    .substring(start + 1, end)
+    .replace(/^ */, '')
+    .replace(/ *$/, '');
 }
 
 // 'XX', 'XX[11]YY[22]YY[33]' => 11
 function valueFromSequence(prop, sgf) {
-  const start = sgf.search(new RegExp('\\b' + prop + '\\['));
+  const start = sgf.search(new RegExp(`\\b${prop}\\[`));
 
-  return (-1 == start ? '' : inBraket(sgf, start));
+  return start === -1 ? '' : inBraket(sgf, start);
 }
 
 // 'AB', '(;GM[1]FF[4]...AB[dp][pd];W...' => '[dp][pd]'
 // 'GM', '(;GM[1]FF[4]...AB[dp][pd];W...' => '[1]'
 function rawvaluesFromSequence(prop, sgf) {
-  if (-1 != sgf.indexOf(prop + '[')) {
-    const re = new RegExp('.*\\b' + prop + '((\\[[^\\]]*\\])+).*');
+  if (sgf.indexOf(`${prop}[`) !== -1) {
+    const re = new RegExp(`.*\\b${prop}((\\[[^\\]]*\\])+).*`);
     return sgf.replace(re, '$1');
-  } else {
-    return '';
   }
+
+  return '';
 }
 
 // 'YY', 'XX[11]YY[22][33]' => ['22', '33']
 function valuesFromSequence(prop, sgf) {
-  let values = rawvaluesFromSequence(prop, sgf);
+  const values = rawvaluesFromSequence(prop, sgf);
 
-  return (values.length == 0
+  return values.length === 0
     ? ''
-    : values.substring(1, values.length - 1).split(']['));
+    : values.substring(1, values.length - 1).split('][');
 }
 
 // 'I' => 'J'
@@ -64,25 +64,70 @@ function prevChar(c) {
 // 'bd' => 'B4'
 // 'ia' => 'J1'
 function iaToJ1(value) {
-  value = value.toUpperCase(); 
-  if (value[0] >= "I") {
-    return nextChar(value[0]) + (value.charCodeAt(1) - 64).toString();
-  } else {
-    return value[0] + (value.charCodeAt(1) - 64).toString();
+  let v = value;
+
+  v = v.toUpperCase();
+  if (v[0] >= 'I') {
+    return nextChar(v[0]) + (v.charCodeAt(1) - 64).toString();
   }
+
+  return v[0] + (v.charCodeAt(1) - 64).toString();
 }
 
 // 'A1' => 'aa'
 // 'B4' => 'b4'
 // 'J1' => 'ia'
 function iaFromJ1(value) {
-  if (value[0] >= "J") {
-    return prevChar(value[0].toLowerCase()) + String.fromCharCode(
-      parseInt(value.substring(1, value.length)) + 96);
-  } else {
-    return value[0].toLowerCase() + String.fromCharCode(
-      parseInt(value.substring(1, value.length)) + 96);
+  const v = value;
+
+  if (v[0] >= 'J') {
+    return (
+      prevChar(v[0].toLowerCase()) +
+      String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96)
+    );
   }
+
+  return (
+    v[0].toLowerCase() +
+    String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96)
+  );
+}
+
+// Removes line feeds and comments.
+function removeComment(sgf) {
+  let removed = sgf;
+
+  removed = removed.replace(/\r\n/g, '').replace(/\n/g, '');
+  removed = removed.replace(/\bC\[[^\]]*\\\]/g, 'C[');
+  removed = removed.replace(/\bC\[[^\]]*\]/g, '');
+
+  return removed;
+}
+
+// '(abc(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
+// '(abc\n(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
+function removeTails(sgf) {
+  let moves = removeComment(sgf);
+  let reduced = moves;
+
+  // FIXME: Very poor logic.
+  for (;;) {
+    moves = reduced;
+    // ')  )' => '))'
+    // '(  )' => '))'
+    // '(  (' => '(('
+    reduced = reduced.replace(/([()]) *([()])/g, '$1$2');
+    // ')(dfg)' => ')'
+    reduced = reduced.replace(/\)\([^()]*\)/g, ')');
+    // '((abc))' => '(abc)'
+    // 'x(abc)y' => 'xabcy'
+    // 'x(abc)(' => 'x(abc)('
+    reduced = reduced.replace(/([^)])\(([^()]*)\)([^(])/g, '$1$2$3');
+
+    if (moves === reduced) break;
+  }
+
+  return reduced;
 }
 
 // '(abc;B[aa];B[bb]' => { root: 'abc', sequence: ';B[aa];B[bb]' }
@@ -91,60 +136,26 @@ function iaFromJ1(value) {
 // '(;abc)' => { root: ';abc', sequence: '' }
 // '(abc;)' => { root: 'abc;', sequence: '' }
 function rootsequenceFromSGF(sgf) {
-  sgf = removeTails(sgf);
+  let tailless = sgf;
 
-  sgf = sgf.substring(0, sgf.lastIndexOf(')') + 1);
+  tailless = removeTails(tailless);
+  tailless = tailless.substring(0, tailless.lastIndexOf(')') + 1);
 
-  if (sgf[0] != '(' || sgf[sgf.length - 1] != ')') {
-    throw 'SGF parse error: ' + sgf;
+  if (tailless[0] !== '(' || tailless[tailless.length - 1] !== ')') {
+    throw Error(`SGF parse error: ${tailless}`);
   }
 
   // Root node may have ';', so start from 2.
-  let start = sgf.search(/;[BW]\[/, 2);
+  let start = tailless.search(/;[BW]\[/, 2);
 
-  if (start == -1) {
-    start = sgf.length - 1;
+  if (start === -1) {
+    start = tailless.length - 1;
   }
-  return { 
-    root: sgf.substring(1, start),
-    sequence: sgf.substring(start, sgf.length - 1)
+
+  return {
+    root: tailless.substring(1, start),
+    sequence: tailless.substring(start, tailless.length - 1),
   };
-}
-
-// Removes line feeds and comments.
-function removeComment(sgf) {
-  sgf = sgf.replace(/\r\n/g, '').replace(/\n/g, '');
-  sgf = sgf.replace(/\bC\[[^\]]*\\\]/g, 'C[');
-  sgf = sgf.replace(/\bC\[[^\]]*\]/g, '');
-
-  return sgf;
-}
-
-// '(abc(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
-// '(abc\n(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
-function removeTails(sgf) {
-  sgf = removeComment(sgf);
-
-  let moves = sgf;
-  let reduced = sgf;
-
-  // FIXME: Very poor logic.
-  while (true) {
-    moves = reduced;
-    // ')  )' => '))'
-    // '(  )' => '))'
-    // '(  (' => '(('
-    reduced = reduced.replace(/([()]) *([()])/g, '$1$2'); 
-    // ')(dfg)' => ')'
-    reduced = reduced.replace(/\)\([^()]*\)/g, ')');
-    // '((abc))' => '(abc)'
-    // 'x(abc)y' => 'xabcy'
-    // 'x(abc)(' => 'x(abc)('
-    reduced = reduced.replace(/([^)])\(([^()]*)\)([^(])/g, '$1$2$3'); 
-
-    if (moves === reduced) break;
-  }
-  return reduced;
 }
 
 // ('(;W[aa];B[bb];W[cc])', 'XX', 0) => '(;W[aa]XX;B[bb];W[cc])'
@@ -152,12 +163,13 @@ function removeTails(sgf) {
 function addProperty(sequence, mark, index) {
   const start = sequence.indexOf(']', index);
 
-  if (start != -1) {
-    return sequence.substring(0, start + 1) + mark + 
-      sequence.substring(start + 1);
-  } else {
-    return '';
+  if (start !== -1) {
+    return (
+      sequence.substring(0, start + 1) + mark + sequence.substring(start + 1)
+    );
   }
+
+  return '';
 }
 
 // ('(;W[aa];B[bb];W[cc])', 0) => '(;W[aa]TE[1];B[bb];W[cc])'
@@ -175,30 +187,31 @@ function toBadHotSpot(sequence, index = 0) {
   return addProperty(sequence, 'BM[1]HO[1]', index);
 }
 
-// ('(;W[aa];B[bb];W[cc])', 'test', 0) 
+// ('(;W[aa];B[bb];W[cc])', 'test', 0)
 // => '(;W[aa]C[test]BM[1]HO[1];B[bb];W[cc])'
 function addComment(sequence, comment, index = 0) {
-  comment = comment.replace(/\]/g, '\\]');
-  return addProperty(sequence, 'C[' + comment + ']', index);
+  const replaced = comment.replace(/\]/g, '\\]');
+  return addProperty(sequence, `C[${replaced}]`, index);
 }
 
 // Gets PLs. pls = [ 'B', 'W' ] or [ 'W', 'B' ]
 function getPLs(rootsequence) {
-  const root = rootsequence.root;
-  const sequence = rootsequence.sequence;
-  let pls = [];
+  const { root } = rootsequence;
+  const { sequence } = rootsequence;
+  const pls = [];
 
   const index = sequence.search(/\b[BW]\[/);
-  if (index != -1) {
+  if (index !== -1) {
     pls.push(sequence[index]);
-  } else if (valueFromSequence('PL', root) != '') {
+  } else if (valueFromSequence('PL', root) !== '') {
     pls.push(valueFromSequence('PL', root));
   } else {
     pls.push('B');
   }
+
   if (pls[0] === 'W') {
     pls.push('B');
-  } else { 
+  } else {
     pls.push('W');
   }
 
@@ -208,13 +221,17 @@ function getPLs(rootsequence) {
 // '..AB[dp];W[po];B[hm]TE[1];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
 // '..AB[dp];W[po];B[hm]TE[1];W[]...' => [["W","Q15"],["B","H13"]]
 function katagomovesFromSequence(sequence) {
+  const moves = [];
   let left = sequence;
-  let moves = [];
   let start = -1;
 
-  while (start = left.search(/;[BW]\[[^\]]/), start != -1) {
-    const value = inBraket(left, start + 1);
+  for (;;) {
+    start = left.search(/;[BW]\[[^\]]/);
+    if (start === -1) {
+      break;
+    }
 
+    const value = inBraket(left, start + 1);
     moves.push([left[start + 1], iaToJ1(value)]);
     left = left.substring(start + 3, left.length);
   }
@@ -222,37 +239,38 @@ function katagomovesFromSequence(sequence) {
   return moves;
 }
 
-// '..AB[aa][bb]AW[ab][cc];W[po]...' 
+// '..AB[aa][bb]AW[ab][cc];W[po]...'
 // => [["B","A1"],["B","B2"],["W","A2"],["W","C3"]]
 function initialstonesFromSequence(sequence) {
   const ab = valuesFromSequence('AB', sequence);
   const aw = valuesFromSequence('AW', sequence);
-  let initialStones = [];
+  const initialStones = [];
 
-  for (let i = 0; i < ab.length; ++i) {
-    initialStones.push(['B',iaToJ1(ab[i])]);
+  for (let i = 0; i < ab.length; i += 1) {
+    initialStones.push(['B', iaToJ1(ab[i])]);
   }
-  for (let i = 0; i < aw.length; ++i) {
-    initialStones.push(['W',iaToJ1(aw[i])]);
+  for (let i = 0; i < aw.length; i += 1) {
+    initialStones.push(['W', iaToJ1(aw[i])]);
   }
 
   return initialStones;
 }
 
-// ("W", {scoreLead: 21.05059, pv:["A1","B2","C3"]}) 
+// ("W", {scoreLead: 21.05059, pv:["A1","B2","C3"]})
 // => '(;W[aa];B[bb];W[cc])'
 function katagomoveinfoToSequence(player, moveInfo) {
+  let pl = player;
   let sequence = '(';
 
-  for (const move of moveInfo.pv) {
-    sequence += ';' + player + '[' + iaFromJ1(move) + ']';
+  moveInfo.pv.forEach((move) => {
+    sequence += `;${pl}[${iaFromJ1(move)}]`;
 
-    if (player == 'W') {
-      player = 'B';
+    if (pl === 'W') {
+      pl = 'B';
     } else {
-      player = 'W';
+      pl = 'W';
     }
-  }
+  });
   sequence += ')';
 
   return sequence;
@@ -274,5 +292,5 @@ module.exports = {
   addProperty,
   initialstonesFromSequence,
   katagomovesFromSequence,
-  katagomoveinfoToSequence
+  katagomoveinfoToSequence,
 };

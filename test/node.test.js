@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const Node = require('../src/node');
 
-describe('Node', function () {
+describe('Node', () => {
   it('should be expected values.', () => {
     let node;
 

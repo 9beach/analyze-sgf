@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "mocha && test/cli-test.sh",
-    "lint": "jshint src/**.js test/**.js"
+    "lint": "eslint src/**.js test/**.js"
   },
   "publishConfig": {
     "access": "public"
@@ -44,7 +44,11 @@
     "posix-getopt": "^1.2.0"
   },
   "devDependencies": {
-    "jshint": "^2.10.3",
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
     "mocha": "^6.0.0"
   }
 }

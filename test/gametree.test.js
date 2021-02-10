@@ -1,36 +1,35 @@
 const fs = require('fs');
 const assert = require('assert');
+const yaml = require('js-yaml');
 
 const sgfconv = require('../src/sgfconv');
 const GameTree = require('../src/gametree');
 
-const yaml = require('js-yaml');
 const yamlpath = require.resolve('../src/analyze-sgf.yml');
-const defaultOpts = yaml.load(fs.readFileSync(yamlpath));
 
-describe('GameTree', function () {
+const opts = yaml.load(fs.readFileSync(yamlpath));
+const sgfopts = opts.sgf;
+
+describe('GameTree', () => {
   it('should be expected values.', () => {
-    const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', 
-      defaultOpts.sgf);
-
-    assert.equal(gametree.sgf(), '(PL[];B[aa];W[bb])');
+    const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
+    assert.equal(gametree.getSGF(), '(PL[];B[aa];W[bb])');
   });
-  it('should be expected values for test/ex-ren-vs-shin.*', () => {
-    const sgfOpts = defaultOpts.sgf;
 
-    sgfOpts.maxVariationsForEachMove = 10;
-    sgfOpts.maxWinrateLossForGoodMove = 2;
-    sgfOpts.minWinrateLossForBadMove = 5;
-    sgfOpts.minWinrateLossForBadHotSpot = 20;
-    sgfOpts.minWinrateLossForVariations = 5;
-    sgfOpts.showVariationsAfterLastMove = false;
-    sgfOpts.analyzeTurnsGiven = false;
+  it('should be expected values for test/ex-ren-vs-shin.*', () => {
+    sgfopts.maxVariationsForEachMove = 10;
+    sgfopts.maxWinrateLossForGoodMove = 2;
+    sgfopts.minWinrateLossForBadMove = 5;
+    sgfopts.minWinrateLossForBadHotSpot = 20;
+    sgfopts.minWinrateLossForVariations = 5;
+    sgfopts.showVariationsAfterLastMove = false;
+    sgfopts.analyzeTurnsGiven = false;
 
     function compareWithoutComments(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
       const responses = fs.readFileSync(json).toString();
-      const gametree = new GameTree(sgf, responses, sgfOpts);
-      let rsgf = gametree.sgf();
+      const gametree = new GameTree(sgf, responses, sgfopts);
+      let rsgf = gametree.getSGF();
       rsgf = sgfconv.removeComment(rsgf);
 
       let ex = fs.readFileSync(expected).toString();
@@ -39,58 +38,69 @@ describe('GameTree', function () {
       assert.equal(ex, rsgf);
     }
 
-    compareWithoutComments('test/ex-ren-vs-shin.sgf', 
-      'test/ex-ren-vs-shin-responses.json', 
-      'test/ex-ren-vs-shin-analyzed.sgf');
+    compareWithoutComments(
+      'test/ex-ren-vs-shin.sgf',
+      'test/ex-ren-vs-shin-responses.json',
+      'test/ex-ren-vs-shin-analyzed.sgf',
+    );
 
-    compareWithoutComments('test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json', 
-      'test/ex-sabaki-1-default.sgf');
+    compareWithoutComments(
+      'test/ex-sabaki-1.sgf',
+      'test/ex-sabaki-1-responses.json',
+      'test/ex-sabaki-1-default.sgf',
+    );
 
-    sgfOpts.showVariationsAfterLastMove = true;
-    sgfOpts.analyzeTurnsGiven = false;
+    sgfopts.showVariationsAfterLastMove = true;
+    sgfopts.analyzeTurnsGiven = false;
 
-    compareWithoutComments('test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json', 
-      'test/ex-sabaki-1-lastmove.sgf');
+    compareWithoutComments(
+      'test/ex-sabaki-1.sgf',
+      'test/ex-sabaki-1-responses.json',
+      'test/ex-sabaki-1-lastmove.sgf',
+    );
 
-    sgfOpts.showVariationsAfterLastMove = true;
-    sgfOpts.analyzeTurnsGiven = true;
-    sgfOpts.analyzeTurns = [0,1,2,3,4,5];
+    sgfopts.showVariationsAfterLastMove = true;
+    sgfopts.analyzeTurnsGiven = true;
+    sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
 
-    compareWithoutComments('test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json', 
-      'test/ex-sabaki-1-turns-lastmove.sgf');
+    compareWithoutComments(
+      'test/ex-sabaki-1.sgf',
+      'test/ex-sabaki-1-responses.json',
+      'test/ex-sabaki-1-turns-lastmove.sgf',
+    );
 
-    sgfOpts.showVariationsAfterLastMove = false;
-    sgfOpts.analyzeTurnsGiven = true;
-    sgfOpts.analyzeTurns = [0,1,2,3,4,5];
+    sgfopts.showVariationsAfterLastMove = false;
+    sgfopts.analyzeTurnsGiven = true;
 
-    compareWithoutComments('test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json', 
-      'test/ex-sabaki-1-turns.sgf');
+    compareWithoutComments(
+      'test/ex-sabaki-1.sgf',
+      'test/ex-sabaki-1-responses.json',
+      'test/ex-sabaki-1-turns.sgf',
+    );
 
     function compareWithComments(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
       const responses = fs.readFileSync(json).toString();
-      const gametree = new GameTree(sgf, responses, sgfOpts);
-      const rsgf = gametree.sgf();
+      const gametree = new GameTree(sgf, responses, sgfopts);
+      const rsgf = gametree.getSGF();
       const ex = fs.readFileSync(expected).toString();
 
       assert.equal(ex, rsgf);
     }
 
-    sgfOpts.maxVariationsForEachMove = 10;
-    sgfOpts.maxWinrateLossForGoodMove = 2;
-    sgfOpts.minWinrateLossForBadMove = 5;
-    sgfOpts.minWinrateLossForBadHotSpot = 20;
-    sgfOpts.minWinrateLossForVariations = 5;
-    sgfOpts.showVariationsAfterLastMove = false;
-    sgfOpts.analyzeTurnsGiven = false;
+    sgfopts.maxVariationsForEachMove = 10;
+    sgfopts.maxWinrateLossForGoodMove = 2;
+    sgfopts.minWinrateLossForBadMove = 5;
+    sgfopts.minWinrateLossForBadHotSpot = 20;
+    sgfopts.minWinrateLossForVariations = 5;
+    sgfopts.showVariationsAfterLastMove = false;
+    sgfopts.analyzeTurnsGiven = false;
 
     // Be careful. Easy to fail with the change of comments formats.
-    compareWithComments('test/ex-ren-vs-shin.sgf', 
-      'test/ex-ren-vs-shin-responses.json', 
-      'test/ex-ren-vs-shin-analyzed.sgf');
+    compareWithComments(
+      'test/ex-ren-vs-shin.sgf',
+      'test/ex-ren-vs-shin-responses.json',
+      'test/ex-ren-vs-shin-analyzed.sgf',
+    );
   });
 });
