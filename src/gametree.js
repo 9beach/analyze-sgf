@@ -3,65 +3,9 @@
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
+const report = require('./report-moves');
 const sgfconv = require('./sgfconv');
 const Node = require('./node');
-
-// [1, 2, 5] => 'move 1, move 2, move 5'
-function joinmoves(moves) {
-  return moves
-    .sort((a, b) => a - b)
-    .map((x) => `move ${x + 1}`)
-    .join(', ');
-}
-
-// Return value is like:
-// * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...
-function formatmoves(goodbad, moves, total, listmoves = true) {
-  let format;
-
-  if (moves && moves.length > 0) {
-    const ratio = ((moves.length / total) * 100).toFixed(2);
-    format = `* ${goodbad} (${ratio}%, ${moves.length}/${total})`;
-  } else {
-    format = '';
-  }
-
-  if (moves && listmoves) {
-    format += `: ${joinmoves(moves)}\n`;
-  } else if (format !== '') {
-    format += '\n';
-  }
-
-  return format;
-}
-
-// Return value is like:
-// * Good moves (75.00%, 78/104)
-// * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...
-// * Bad hot spots (0.96%, 1/104): move 141
-function movesstat(total, moves) {
-  return (
-    formatmoves('Good moves', moves[0], total, false) +
-    formatmoves('Bad moves', moves[1], total) +
-    formatmoves('Bad hot spots', moves[2], total)
-  );
-}
-
-// Return values are like: '신진서 (Black):', 'Black :', 'White :'
-function getplayer(key, color, root) {
-  let pl = sgfconv.valueFromSequence(key, root);
-
-  pl = pl.replace(/ *$/, '');
-  pl = pl.replace(/^ */, '');
-
-  if (pl !== '') {
-    pl += ` (${color}):`;
-  } else {
-    pl = `${color}:`;
-  }
-
-  return pl;
-}
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
@@ -116,8 +60,8 @@ class GameTree {
     this.sgf = '';
 
     // 0: Good, 1: bad, and 2: bad hot spots.
-    const blacks = [[], [], []];
-    const whites = [[], [], []];
+    const blackgoodbads = [[], [], []];
+    const whitegoodbads = [[], [], []];
 
     for (let i = this.nodes.length - 1; i >= 0; i -= 1) {
       const node = this.nodes[i];
@@ -127,23 +71,23 @@ class GameTree {
       // Counts bad moves for root comment
       if (node.winrateLoss < this.goodmovewinrate) {
         if (pl === 'B') {
-          blacks[0].push(i);
+          blackgoodbads[0].push(i);
         } else {
-          whites[0].push(i);
+          whitegoodbads[0].push(i);
         }
       }
       if (node.winrateLoss > this.badmovewinrate) {
         if (pl === 'B') {
-          blacks[1].push(i);
+          blackgoodbads[1].push(i);
         } else {
-          whites[1].push(i);
+          whitegoodbads[1].push(i);
         }
       }
       if (node.winrateLoss > this.badhotspotwinrate) {
         if (pl === 'B') {
-          blacks[2].push(i);
+          blackgoodbads[2].push(i);
         } else {
-          whites[2].push(i);
+          whitegoodbads[2].push(i);
         }
       }
 
@@ -172,7 +116,7 @@ class GameTree {
     if (this.responsesgiven) {
       this.root = sgfconv.addComment(
         this.root,
-        this.setRootComment(blacks, whites),
+        this.setRootComment(blackgoodbads, whitegoodbads),
       );
     }
 
@@ -287,7 +231,7 @@ class GameTree {
   }
 
   // Sets players info, total good moves, bad moves, ... in root comment.
-  setRootComment(blacks, whites) {
+  setRootComment(blackgoodbads, whitegoodbads) {
     if (this.rootComment) {
       return this.rootComment;
     }
@@ -296,34 +240,28 @@ class GameTree {
       return this.rootComment;
     }
 
-    const blacktot = this.nodes.reduce(
+    const blackplayer = sgfconv.valueFromSequence('PB', this.root);
+    const whiteplayer = sgfconv.valueFromSequence('PW', this.root);
+    const blacktotal = this.nodes.reduce(
       (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
       0,
     );
-    const whitetot = this.nodes.reduce(
-      (acc, cur) => acc + (cur.sequence[0] === 'W' ? 1 : 0),
-      0,
+    const whitetotal = this.nodes.length - blacktotal;
+
+    this.rootComment = report(
+      blackplayer,
+      blacktotal,
+      blackgoodbads,
+      whiteplayer,
+      whitetotal,
+      whitegoodbads,
+      this.goodmovewinrate,
+      this.badmovewinrate,
+      this.badhotspotwinrate,
+      this.variationwinrate,
+      this.maxvariations,
+      this.maxvisits,
     );
-
-    const pb = getplayer('PB', 'Black', this.root);
-    const pw = getplayer('PW', 'White', this.root);
-
-    this.rootComment =
-      `# Analyze-SGF Report` +
-      `\n\n${pb}\n${movesstat(blacktot, blacks)}` +
-      `\n${pw}\n${movesstat(whitetot, whites)}` +
-      `\nGood move: less than ` +
-      `${this.goodmovewinrate * 100}% win rate loss` +
-      `\nBad move: more than ` +
-      `${this.badmovewinrate * 100}% win rate loss` +
-      `\nBad hot spot: more than ` +
-      `${this.badhotspotwinrate * 100}% win rate loss` +
-      `\n\nVariations added for the moves of more then ` +
-      `${this.variationwinrate * 100}% win rate loss.` +
-      `\nMaximum variations number for each move is ` +
-      `${this.maxvariations}.` +
-      `\n\nAnalyzed by KataGo Parallel Analysis Engine ` +
-      `(${this.maxvisits} max visits).`;
 
     return this.rootComment;
   }
