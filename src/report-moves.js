@@ -1,6 +1,6 @@
 /**
- * @fileOverview GameTree data structure. Please see
- *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
+ * @fileOverview Generate the game report on players info, good moves,
+ *               bad moves, and bad hot spots.
  */
 
 // [1, 2, 5] => 'move 1, move 2, move 5'
