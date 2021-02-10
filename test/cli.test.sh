@@ -4,7 +4,7 @@ set -e
 
 sample=$(mktemp)
 
-echo Tests src/cli.sh with option -r.
+echo Tests src/index.js with option -r.
 
 cp test/ex-ren-vs-shin.sgf $sample.sgf
 

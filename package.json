@@ -17,10 +17,10 @@
   "license": "MIT",
   "main": "src/index.js",
   "bin": {
-    "analyze-sgf": "src/cli.js"
+    "analyze-sgf": "src/index.js"
   },
   "scripts": {
-    "test": "mocha && test/cli-test.sh",
+    "test": "mocha && test/cli.test.sh",
     "lint": "eslint src/**.js test/**.js"
   },
   "publishConfig": {
