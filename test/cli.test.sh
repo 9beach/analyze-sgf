@@ -2,22 +2,23 @@
 
 set -e
 
-sample=$(mktemp)
+test=$(mktemp)
 
 echo Tests src/index.js with option -r.
 
-cp test/ex-ren-vs-shin.sgf $sample.sgf
+cp test/ex-ren-vs-shin.sgf $test.sgf
 
-# Creates $sample-analyzed.sgf.
-src/cli.js -r test/ex-ren-vs-shin-responses.json $sample.sgf \
+# Creates $test-analyzed.sgf.
+src/index.js -r test/ex-ren-vs-shin-responses.json $test.sgf \
 	-g 'maxWinrateLossForGoodMove:2,minWinrateLossForBadMove:5,minWinrateLossForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateLossForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	&> /dev/null
+
 # Strips commemnts.
-cat test/ex-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $sample-expected
-cat $sample-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $sample-result
+cat test/ex-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-expected
+cat $test-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-result
 
 # Compares them.
-diff $sample-expected $sample-result
+diff $test-expected $test-result
 
-rm -f $sample-*
-echo Success.
+rm -f $test-*
+echo Ok

@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "mocha && test/cli.test.sh",
-    "lint": "eslint src/**.js test/**.js"
+    "lint": "eslint ."
   },
   "publishConfig": {
     "access": "public"

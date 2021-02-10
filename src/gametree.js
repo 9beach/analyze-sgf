@@ -6,22 +6,6 @@
 const sgfconv = require('./sgfconv');
 const Node = require('./node');
 
-// Return values are like: '신진서 (Black):', 'Black :', 'White :'
-function getplayer(key, color, root) {
-  let pl = sgfconv.valueFromSequence(key, root);
-
-  pl = pl.replace(/ *$/, '');
-  pl = pl.replace(/^ */, '');
-
-  if (pl !== '') {
-    pl += ` (${color}):`;
-  } else {
-    pl = `${color}:`;
-  }
-
-  return pl;
-}
-
 // [1, 2, 5] => 'move 1, move 2, move 5'
 function joinmoves(moves) {
   return moves
@@ -61,6 +45,22 @@ function movesstat(total, moves) {
     formatmoves('Bad moves', moves[1], total) +
     formatmoves('Bad hot spots', moves[2], total)
   );
+}
+
+// Return values are like: '신진서 (Black):', 'Black :', 'White :'
+function getplayer(key, color, root) {
+  let pl = sgfconv.valueFromSequence(key, root);
+
+  pl = pl.replace(/ *$/, '');
+  pl = pl.replace(/^ */, '');
+
+  if (pl !== '') {
+    pl += ` (${color}):`;
+  } else {
+    pl = `${color}:`;
+  }
+
+  return pl;
 }
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
