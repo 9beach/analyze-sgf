@@ -205,9 +205,7 @@ class GameTree {
     // Sorts responses by turnNumber.
     //
     // Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
-    function turnnumber(a) {
-      return parseInt(a.replace(/.*:/, ''), 10);
-    }
+    const turnnumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
     responses.sort((a, b) => turnnumber(a) - turnnumber(b));
 
     // Notice that:

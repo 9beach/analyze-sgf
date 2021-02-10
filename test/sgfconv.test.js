@@ -176,24 +176,25 @@ describe('katagomovesFromSequence', () => {
 
 describe('katagomovesFromSequence/removeTails', () => {
   it('should be expected values.', () => {
+    const movesfromsequence = (sgf) =>
+      sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
     let sgf;
-    const removesequence = sgfconv.katagomovesFromSequence;
 
     sgf = fs.readFileSync('test/ex-sabaki-1.sgf').toString();
-    assert.equal(3, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(3, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-sabaki-2.sgf').toString();
-    assert.equal(18, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(18, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-oro-1.sgf').toString();
-    assert.equal(294, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(294, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-oro-2.sgf').toString();
-    assert.equal(226, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(226, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-complex.sgf').toString();
-    assert.equal(12, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(12, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-ren-vs-shin.sgf').toString();
-    assert.equal(207, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(207, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-lee-vs-alphago.sgf').toString();
-    assert.equal(180, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(180, movesfromsequence(sgf).length);
     sgf = fs.readFileSync('test/ex-encoding-cp949.sgf').toString();
-    assert.equal(18, removesequence(sgfconv.removeTails(sgf)).length);
+    assert.equal(18, movesfromsequence(sgf).length);
   });
 });
