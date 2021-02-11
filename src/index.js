@@ -189,8 +189,7 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
 
     // Saves responses to SGF.
     const rsgfpath = `${
-      sgfpath.substring(0, sgfpath.lastIndexOf('.')) +
-      defaultopts.sgf.fileSuffix
+      sgfpath.substring(0, sgfpath.lastIndexOf('.')) + sgfopts.fileSuffix
     }.sgf`;
     const gametree = new GameTree(sgf, responses, sgfopts);
 
