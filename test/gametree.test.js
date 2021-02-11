@@ -16,7 +16,7 @@ describe('GameTree', () => {
     assert.equal(gametree.getSGF(), '(PL[];B[aa];W[bb])');
   });
 
-  it('should be expected values for test/ex-ren-vs-shin.*', () => {
+  it('should be expected values for "test/ex-ren-vs-shin.*".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateLossForGoodMove = 2;
     sgfopts.minWinrateLossForBadMove = 5;

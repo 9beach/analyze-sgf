@@ -23,8 +23,8 @@ class Node {
     this.pl = sequence.substring(index, index + 1);
   }
 
-  // Calculates scoreLoss, winrateLoss, ..., from KataGo response, and
-  // sets them to myself.
+  // Calculates scoreLoss, winrateLoss, ..., from KataGo response, and sets
+  // them to myself.
   setWinrate(previnfo, currentinfo) {
     if (previnfo) {
       const winrateLoss = previnfo.winrate - currentinfo.winrate;

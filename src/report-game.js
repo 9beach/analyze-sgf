@@ -11,7 +11,7 @@ function joinmoves(moves) {
     .join(', ');
 }
 
-// ('Bad moves', [39, 69, 105, 109,...], 104) =>
+// ('Bad moves', [39, 69, 105, 109, ...], 104) =>
 // '* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...'
 function movesstat(goodorbad, moves, total, listmoves = true) {
   let format;

@@ -41,17 +41,14 @@ describe('valueFromSequence', () => {
     assert.equal(sgfconv.valueFromSequence('ZZ', value), '');
     assert.equal(sgfconv.valueFromSequence('AA', value), '44');
   });
-  it('should be expected values for test/ex-sabaki-1.sgf', () => {
+  it('should be expected values for "test/ex-sabaki-1.sgf".', () => {
     const result = fs.readFileSync('test/ex-sabaki-1.sgf');
     const sequence = sgfconv.removeTails(result.toString());
     assert.equal(sgfconv.valueFromSequence('AP', sequence), 'Sabaki:0.51.1');
     assert.equal(sgfconv.valueFromSequence('KM', sequence), '6.5');
     assert.equal(sgfconv.valueFromSequence('GM', sequence), '1');
   });
-});
-
-describe('valueFromSequence for test/ex-encoding-cp949.sgf', () => {
-  it('should be expected values.', () => {
+  it('should be expected values for "test/ex-encoding-cp949.sgf".', () => {
     const content = fs.readFileSync('test/ex-encoding-cp949.sgf');
     const detected = jschardet.detect(content);
     const sgf = iconv.decode(content, detected.encoding).toString();
@@ -185,9 +182,6 @@ describe('katagomovesFromSequence', () => {
       ['B', 'H13'],
     ]);
   });
-});
-
-describe('katagomovesFromSequence/removeTails', () => {
   it('should be expected values.', () => {
     const movesfromsequence = (sgf) =>
       sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
