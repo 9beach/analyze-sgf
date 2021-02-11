@@ -1,14 +1,16 @@
 # Path and arguments of KataGo Parallel Analysis Engine.
 katago:
-  # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe".
+  # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
-  # e.g. "analysis -model katago-best-network.bin.gz -config analysis_example.cfg".
+  # e.g.
+  # "analysis -model katago-best-network.bin.gz -config analysis_example.cfg"
   # Note that "analysis_example.cfg" is different to "gtp_example.cfg".
   arguments: "KataGo arguments here"
 
 # Analysis query options for KataGo Parallel Analysis Engine.
 #
-# Please visit <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
+# Please visit
+# <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
   # e.g. "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
