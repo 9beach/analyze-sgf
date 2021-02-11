@@ -1,0 +1,1345 @@
+(;TE[제13회 춘란배 4강]C[# Analyze-SGF Report
+
+신진서 (Black):
+* Good moves (75.00%, 78/104)
+* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
+* Bad hot spots (0.96%, 1/104): move 141
+
+롄샤오 (White):
+* Good moves (74.76%, 77/103)
+* Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
+* Bad hot spots (1.94%, 2/103): move 174, move 176
+
+Good move: less than 2% win rate loss
+Bad move: more than 5% win rate loss
+Bad hot spot: more than 20% win rate loss
+
+Variations added for the moves of more then 5% win rate loss.
+Maximum variations number for each move is 10.
+
+Analyzed by KataGo Parallel Analysis Engine (6415 max visits).]RD[2021-01-20 ]PC[온라인]TM[2시간]LT[60]LC[5]KM[7.5]RE[207수 흑불계승]PB[신진서]BR[9단]PW[롄샤오]HD[0]WR[9단]GK[1]TC[]AP[Sabaki:0.51.1]CA[UTF-8];B[pd]TE[1]SBKV[39.23]C[As Black:
+* Win rate: 39.23%
+* Win rate loss: 0.12%
+* Score lead: -0.91
+* Score loss: -0.00
+* Visits: 6415];W[dp]TE[1]SBKV[39.14]C[As White:
+* Win rate: 60.86%
+* Win rate loss: -0.09%
+* Score lead: 0.92
+* Score loss: -0.00
+* Visits: 6415];B[pp]TE[1]SBKV[39.19]C[As Black:
+* Win rate: 39.19%
+* Win rate loss: -0.06%
+* Score lead: -0.89
+* Score loss: -0.03
+* Visits: 6415];W[dc]TE[1]SBKV[41.02]C[As White:
+* Win rate: 58.98%
+* Win rate loss: 1.82%
+* Score lead: 0.70
+* Score loss: 0.19
+* Visits: 6415];B[cq]TE[1]SBKV[41.16]C[As Black:
+* Win rate: 41.16%
+* Win rate loss: -0.15%
+* Score lead: -0.68
+* Score loss: -0.02
+* Visits: 6415];W[cp]TE[1]SBKV[41.01]C[As White:
+* Win rate: 58.99%
+* Win rate loss: -0.15%
+* Score lead: 0.70
+* Score loss: -0.01
+* Visits: 6415];B[dq]TE[1]SBKV[41.04]C[As Black:
+* Win rate: 41.04%
+* Win rate loss: -0.03%
+* Score lead: -0.69
+* Score loss: -0.00
+* Visits: 6415];W[ep]TE[1]SBKV[40.97]C[As White:
+* Win rate: 59.03%
+* Win rate loss: -0.07%
+* Score lead: 0.70
+* Score loss: -0.01
+* Visits: 6415];B[fq]TE[1]SBKV[41.08]C[As Black:
+* Win rate: 41.08%
+* Win rate loss: -0.12%
+* Score lead: -0.69
+* Score loss: -0.01
+* Visits: 6415];W[qc]TE[1]SBKV[40.68]C[As White:
+* Win rate: 59.32%
+* Win rate loss: -0.40%
+* Score lead: 0.74
+* Score loss: -0.05
+* Visits: 6415];B[qd]TE[1]SBKV[40.48]C[As Black:
+* Win rate: 40.48%
+* Win rate loss: 0.20%
+* Score lead: -0.78
+* Score loss: 0.04
+* Visits: 6415];W[pc]TE[1]SBKV[40.52]C[As White:
+* Win rate: 59.48%
+* Win rate loss: 0.04%
+* Score lead: 0.78
+* Score loss: 0.00
+* Visits: 6415];B[od]TE[1]SBKV[40.40]C[As Black:
+* Win rate: 40.40%
+* Win rate loss: 0.12%
+* Score lead: -0.77
+* Score loss: -0.01
+* Visits: 6415];W[nb]TE[1]SBKV[40.26]C[As White:
+* Win rate: 59.74%
+* Win rate loss: -0.14%
+* Score lead: 0.78
+* Score loss: -0.01
+* Visits: 6415];B[gr]TE[1]SBKV[39.86]C[As Black:
+* Win rate: 39.86%
+* Win rate loss: 0.40%
+* Score lead: -0.81
+* Score loss: 0.03
+* Visits: 6415];W[cf]TE[1]SBKV[39.49]C[As White:
+* Win rate: 60.51%
+* Win rate loss: -0.37%
+* Score lead: 0.85
+* Score loss: -0.04
+* Visits: 6415];B[dl]TE[1]SBKV[39.37]C[As Black:
+* Win rate: 39.37%
+* Win rate loss: 0.12%
+* Score lead: -0.86
+* Score loss: 0.01
+* Visits: 6415];W[go]TE[1]SBKV[39.13]C[As White:
+* Win rate: 60.87%
+* Win rate loss: -0.24%
+* Score lead: 0.88
+* Score loss: -0.02
+* Visits: 6415];B[ch]TE[1]SBKV[39.45]C[As Black:
+* Win rate: 39.45%
+* Win rate loss: -0.32%
+* Score lead: -0.84
+* Score loss: -0.05
+* Visits: 6415];W[qq]TE[1]SBKV[39.33]C[As White:
+* Win rate: 60.67%
+* Win rate loss: -0.12%
+* Score lead: 0.83
+* Score loss: 0.01
+* Visits: 6415];B[pq]TE[1]SBKV[39.45]C[As Black:
+* Win rate: 39.45%
+* Win rate loss: -0.12%
+* Score lead: -0.81
+* Score loss: -0.01
+* Visits: 6415];W[qp]TE[1]SBKV[39.39]C[As White:
+* Win rate: 60.61%
+* Win rate loss: -0.06%
+* Score lead: 0.82
+* Score loss: -0.01
+* Visits: 6415];B[qn]TE[1]SBKV[39.57]C[As Black:
+* Win rate: 39.57%
+* Win rate loss: -0.18%
+* Score lead: -0.80
+* Score loss: -0.02
+* Visits: 6415];W[qo]TE[1]SBKV[39.34]C[As White:
+* Win rate: 60.66%
+* Win rate loss: -0.22%
+* Score lead: 0.82
+* Score loss: -0.02
+* Visits: 6415];B[po]TE[1]SBKV[39.38]C[As Black:
+* Win rate: 39.38%
+* Win rate loss: -0.03%
+* Score lead: -0.81
+* Score loss: -0.00
+* Visits: 6415];W[rn]TE[1]SBKV[39.32]C[As White:
+* Win rate: 60.68%
+* Win rate loss: -0.06%
+* Score lead: 0.82
+* Score loss: -0.01
+* Visits: 6415];B[qr]TE[1]SBKV[38.71]C[As Black:
+* Win rate: 38.71%
+* Win rate loss: 0.61%
+* Score lead: -0.88
+* Score loss: 0.06
+* Visits: 6415];W[rr]TE[1]SBKV[38.64]C[As White:
+* Win rate: 61.36%
+* Win rate loss: -0.06%
+* Score lead: 0.89
+* Score loss: -0.01
+* Visits: 6415];B[ro]TE[1]SBKV[38.85]C[As Black:
+* Win rate: 38.85%
+* Win rate loss: -0.20%
+* Score lead: -0.87
+* Score loss: -0.02
+* Visits: 6415];W[rp]TE[1]SBKV[40.03]C[As White:
+* Win rate: 59.97%
+* Win rate loss: 1.19%
+* Score lead: 0.80
+* Score loss: 0.06
+* Visits: 6415];B[rm]TE[1]SBKV[40.06]C[As Black:
+* Win rate: 40.06%
+* Win rate loss: -0.03%
+* Score lead: -0.80
+* Score loss: -0.01
+* Visits: 6415];W[pn]TE[1]SBKV[41.28]C[As White:
+* Win rate: 58.72%
+* Win rate loss: 1.21%
+* Score lead: 0.65
+* Score loss: 0.15
+* Visits: 6415];B[qm]SBKV[38.33]C[As Black:
+* Win rate: 38.33%
+* Win rate loss: 2.94%
+* Score lead: -0.91
+* Score loss: 0.26
+* Visits: 6415];W[on]TE[1]SBKV[39.10]C[As White:
+* Win rate: 60.90%
+* Win rate loss: 0.77%
+* Score lead: 0.90
+* Score loss: 0.01
+* Visits: 6415];B[ol]TE[1]SBKV[39.04]C[As Black:
+* Win rate: 39.04%
+* Win rate loss: 0.06%
+* Score lead: -0.92
+* Score loss: 0.02
+* Visits: 6415];W[mn]TE[1]SBKV[38.90]C[As White:
+* Win rate: 61.10%
+* Win rate loss: -0.14%
+* Score lead: 0.94
+* Score loss: -0.02
+* Visits: 6415];B[lp]TE[1]SBKV[39.27]C[As Black:
+* Win rate: 39.27%
+* Win rate loss: -0.37%
+* Score lead: -0.90
+* Score loss: -0.04
+* Visits: 6415];W[ko]TE[1]SBKV[38.88]C[As White:
+* Win rate: 61.12%
+* Win rate loss: -0.39%
+* Score lead: 0.93
+* Score loss: -0.04
+* Visits: 6415](;B[kp]BM[1]SBKV[32.56]C[As Black:
+* Win rate: 32.56%
+* Win rate loss: 6.32%
+* Score lead: -1.72
+* Score loss: 0.78
+* Visits: 6415];W[jo]TE[1]SBKV[32.34]C[As White:
+* Win rate: 67.66%
+* Win rate loss: -0.22%
+* Score lead: 1.75
+* Score loss: -0.03
+* Visits: 6415];B[jp]TE[1]SBKV[30.92]C[As Black:
+* Win rate: 30.92%
+* Win rate loss: 1.42%
+* Score lead: -1.77
+* Score loss: 0.02
+* Visits: 6415];W[io]TE[1]SBKV[30.60]C[As White:
+* Win rate: 69.40%
+* Win rate loss: -0.32%
+* Score lead: 1.81
+* Score loss: -0.04
+* Visits: 6415];B[no]TE[1]SBKV[30.93]C[As Black:
+* Win rate: 30.93%
+* Win rate loss: -0.33%
+* Score lead: -1.76
+* Score loss: -0.05
+* Visits: 6415];W[nn]TE[1]SBKV[30.74]C[As White:
+* Win rate: 69.26%
+* Win rate loss: -0.18%
+* Score lead: 1.78
+* Score loss: -0.02
+* Visits: 6415];B[pj]TE[1]SBKV[31.82]C[As Black:
+* Win rate: 31.82%
+* Win rate loss: -1.07%
+* Score lead: -1.57
+* Score loss: -0.21
+* Visits: 6415];W[mc]TE[1]SBKV[31.20]C[As White:
+* Win rate: 68.80%
+* Win rate loss: -0.62%
+* Score lead: 1.70
+* Score loss: -0.12
+* Visits: 6415];B[hp]TE[1]SBKV[31.77]C[As Black:
+* Win rate: 31.77%
+* Win rate loss: -0.57%
+* Score lead: -1.60
+* Score loss: -0.10
+* Visits: 6415];W[ip]TE[1]SBKV[31.24]C[As White:
+* Win rate: 68.76%
+* Win rate loss: -0.52%
+* Score lead: 1.77
+* Score loss: -0.17
+* Visits: 6415];B[lo]TE[1]SBKV[32.54]C[As Black:
+* Win rate: 32.54%
+* Win rate loss: -1.30%
+* Score lead: -1.62
+* Score loss: -0.14
+* Visits: 6415];W[ln]TE[1]SBKV[32.46]C[As White:
+* Win rate: 67.54%
+* Win rate loss: -0.08%
+* Score lead: 1.64
+* Score loss: -0.01
+* Visits: 6415];B[iq]TE[1]SBKV[31.49]C[As Black:
+* Win rate: 31.49%
+* Win rate loss: 0.97%
+* Score lead: -1.63
+* Score loss: -0.01
+* Visits: 6415];W[ho]TE[1]SBKV[31.13]C[As White:
+* Win rate: 68.87%
+* Win rate loss: -0.36%
+* Score lead: 1.66
+* Score loss: -0.03
+* Visits: 6415];B[eh]SBKV[28.69]C[As Black:
+* Win rate: 28.69%
+* Win rate loss: 2.44%
+* Score lead: -1.98
+* Score loss: 0.32
+* Visits: 6415];W[cj]SBKV[31.24]C[As White:
+* Win rate: 68.76%
+* Win rate loss: 2.55%
+* Score lead: 1.62
+* Score loss: 0.36
+* Visits: 6415];B[dj]TE[1]SBKV[31.81]C[As Black:
+* Win rate: 31.81%
+* Win rate loss: -0.57%
+* Score lead: -1.57
+* Score loss: -0.05
+* Visits: 6415];W[ci]TE[1]SBKV[31.36]C[As White:
+* Win rate: 68.64%
+* Win rate loss: -0.45%
+* Score lead: 1.63
+* Score loss: -0.06
+* Visits: 6415];B[dh]TE[1]SBKV[31.43]C[As Black:
+* Win rate: 31.43%
+* Win rate loss: -0.07%
+* Score lead: -1.61
+* Score loss: -0.02
+* Visits: 6415];W[bl]TE[1]SBKV[30.75]C[As White:
+* Win rate: 69.25%
+* Win rate loss: -0.68%
+* Score lead: 1.70
+* Score loss: -0.09
+* Visits: 6415];B[dd]TE[1]SBKV[29.71]C[As Black:
+* Win rate: 29.71%
+* Win rate loss: 1.05%
+* Score lead: -1.84
+* Score loss: 0.13
+* Visits: 6415];W[ed]TE[1]SBKV[29.21]C[As White:
+* Win rate: 70.79%
+* Win rate loss: -0.49%
+* Score lead: 1.89
+* Score loss: -0.06
+* Visits: 6415];B[cc]TE[1]SBKV[29.27]C[As Black:
+* Win rate: 29.27%
+* Win rate loss: -0.06%
+* Score lead: -1.88
+* Score loss: -0.01
+* Visits: 6415];W[cd]TE[1]SBKV[28.80]C[As White:
+* Win rate: 71.20%
+* Win rate loss: -0.48%
+* Score lead: 1.90
+* Score loss: -0.02
+* Visits: 6415];B[de]TE[1]SBKV[28.71]C[As Black:
+* Win rate: 28.71%
+* Win rate loss: 0.08%
+* Score lead: -1.90
+* Score loss: 0.01
+* Visits: 6415](;W[ce]BM[1]SBKV[40.15]C[As White:
+* Win rate: 59.85%
+* Win rate loss: 11.43%
+* Score lead: 0.65
+* Score loss: 1.25
+* Visits: 6415];B[ec]SBKV[35.33]C[As Black:
+* Win rate: 35.33%
+* Win rate loss: 4.82%
+* Score lead: -1.16
+* Score loss: 0.51
+* Visits: 6415];W[db]TE[1]SBKV[35.22]C[As White:
+* Win rate: 64.78%
+* Win rate loss: -0.10%
+* Score lead: 1.18
+* Score loss: -0.02
+* Visits: 6415];B[df]TE[1]SBKV[35.55]C[As Black:
+* Win rate: 35.55%
+* Win rate loss: -0.33%
+* Score lead: -1.14
+* Score loss: -0.04
+* Visits: 6415];W[fc]TE[1]SBKV[35.13]C[As White:
+* Win rate: 64.87%
+* Win rate loss: -0.42%
+* Score lead: 1.18
+* Score loss: -0.03
+* Visits: 6415](;B[ck]BM[1]SBKV[28.10]C[As Black:
+* Win rate: 28.10%
+* Win rate loss: 7.03%
+* Score lead: -2.06
+* Score loss: 0.88
+* Visits: 6415];W[bk]SBKV[31.82]C[As White:
+* Win rate: 68.18%
+* Win rate loss: 3.72%
+* Score lead: 1.65
+* Score loss: 0.41
+* Visits: 6415];B[cb]TE[1]SBKV[32.19]C[As Black:
+* Win rate: 32.19%
+* Win rate loss: -0.37%
+* Score lead: -1.59
+* Score loss: -0.06
+* Visits: 6415];W[eb]TE[1]SBKV[32.16]C[As White:
+* Win rate: 67.84%
+* Win rate loss: -0.03%
+* Score lead: 1.60
+* Score loss: -0.01
+* Visits: 6415];B[bd]TE[1]SBKV[32.37]C[As Black:
+* Win rate: 32.37%
+* Win rate loss: -0.21%
+* Score lead: -1.57
+* Score loss: -0.04
+* Visits: 6415];W[be]TE[1]SBKV[30.67]C[As White:
+* Win rate: 69.33%
+* Win rate loss: -1.71%
+* Score lead: 1.59
+* Score loss: -0.03
+* Visits: 6415];B[ac]SBKV[28.24]C[As Black:
+* Win rate: 28.24%
+* Win rate loss: 2.42%
+* Score lead: -2.08
+* Score loss: 0.48
+* Visits: 6415];W[di]TE[1]SBKV[25.29]C[As White:
+* Win rate: 74.71%
+* Win rate loss: -2.95%
+* Score lead: 2.12
+* Score loss: -0.05
+* Visits: 6415];B[ei]TE[1]SBKV[25.09]C[As Black:
+* Win rate: 25.09%
+* Win rate loss: 0.19%
+* Score lead: -2.17
+* Score loss: 0.04
+* Visits: 6415];W[ej]TE[1]SBKV[24.85]C[As White:
+* Win rate: 75.15%
+* Win rate loss: -0.24%
+* Score lead: 2.18
+* Score loss: -0.01
+* Visits: 6415];B[fj]TE[1]SBKV[25.02]C[As Black:
+* Win rate: 25.02%
+* Win rate loss: -0.17%
+* Score lead: -2.11
+* Score loss: -0.07
+* Visits: 6415];W[dk]TE[1]SBKV[24.82]C[As White:
+* Win rate: 75.18%
+* Win rate loss: -0.20%
+* Score lead: 2.13
+* Score loss: -0.02
+* Visits: 6415];B[ek]TE[1]SBKV[24.88]C[As Black:
+* Win rate: 24.88%
+* Win rate loss: -0.06%
+* Score lead: -2.11
+* Score loss: -0.02
+* Visits: 6415];W[cg]TE[1]SBKV[24.20]C[As White:
+* Win rate: 75.80%
+* Win rate loss: -0.69%
+* Score lead: 2.19
+* Score loss: -0.08
+* Visits: 6415];B[dj]SBKV[21.13]C[As Black:
+* Win rate: 21.13%
+* Win rate loss: 3.06%
+* Score lead: -2.93
+* Score loss: 0.74
+* Visits: 6415];W[dg]TE[1]SBKV[21.08]C[As White:
+* Win rate: 78.92%
+* Win rate loss: -0.05%
+* Score lead: 2.94
+* Score loss: -0.01
+* Visits: 6415];B[bi]TE[1]SBKV[19.84]C[As Black:
+* Win rate: 19.84%
+* Win rate loss: 1.25%
+* Score lead: -2.56
+* Score loss: -0.38
+* Visits: 6415];W[bj]TE[1]SBKV[19.09]C[As White:
+* Win rate: 80.91%
+* Win rate loss: -0.74%
+* Score lead: 2.61
+* Score loss: -0.05
+* Visits: 6415];B[bg]TE[1]SBKV[19.35]C[As Black:
+* Win rate: 19.35%
+* Win rate loss: -0.26%
+* Score lead: -2.54
+* Score loss: -0.06
+* Visits: 6415];W[cn]TE[1]SBKV[18.48]C[As White:
+* Win rate: 81.52%
+* Win rate loss: -0.87%
+* Score lead: 2.60
+* Score loss: -0.06
+* Visits: 6415];B[ae]TE[1]SBKV[18.78]C[As Black:
+* Win rate: 18.78%
+* Win rate loss: -0.30%
+* Score lead: -2.47
+* Score loss: -0.13
+* Visits: 6415];W[eg]TE[1]SBKV[18.40]C[As White:
+* Win rate: 81.60%
+* Win rate loss: -0.38%
+* Score lead: 2.53
+* Score loss: -0.06
+* Visits: 6415];B[fg]TE[1]SBKV[18.50]C[As Black:
+* Win rate: 18.50%
+* Win rate loss: -0.09%
+* Score lead: -2.50
+* Score loss: -0.03
+* Visits: 6415];W[ff]TE[1]SBKV[17.75]C[As White:
+* Win rate: 82.25%
+* Win rate loss: -0.75%
+* Score lead: 2.60
+* Score loss: -0.10
+* Visits: 6415];B[bf]TE[1]SBKV[17.78]C[As Black:
+* Win rate: 17.78%
+* Win rate loss: -0.03%
+* Score lead: -2.59
+* Score loss: -0.01
+* Visits: 6415];W[ef]TE[1]SBKV[17.72]C[As White:
+* Win rate: 82.28%
+* Win rate loss: -0.06%
+* Score lead: 2.60
+* Score loss: -0.01
+* Visits: 6415];B[md]TE[1]SBKV[16.11]C[As Black:
+* Win rate: 16.11%
+* Win rate loss: 1.61%
+* Score lead: -2.55
+* Score loss: -0.04
+* Visits: 6415](;W[ld]BM[1]SBKV[21.31]C[As White:
+* Win rate: 78.69%
+* Win rate loss: 5.20%
+* Score lead: 2.14
+* Score loss: 0.41
+* Visits: 6415];B[nc]SBKV[16.98]C[As Black:
+* Win rate: 16.98%
+* Win rate loss: 4.34%
+* Score lead: -2.94
+* Score loss: 0.80
+* Visits: 6415];W[lb]SBKV[20.71]C[As White:
+* Win rate: 79.29%
+* Win rate loss: 3.73%
+* Score lead: 2.23
+* Score loss: 0.71
+* Visits: 6415];B[le]TE[1]SBKV[21.40]C[As Black:
+* Win rate: 21.40%
+* Win rate loss: -0.69%
+* Score lead: -2.18
+* Score loss: -0.05
+* Visits: 6415];W[kd]TE[1]SBKV[21.96]C[As White:
+* Win rate: 78.04%
+* Win rate loss: 0.56%
+* Score lead: 2.07
+* Score loss: 0.11
+* Visits: 6415];B[mf]SBKV[19.91]C[As Black:
+* Win rate: 19.91%
+* Win rate loss: 2.04%
+* Score lead: -2.30
+* Score loss: 0.23
+* Visits: 6415](;W[lj]BM[1]SBKV[27.79]C[As White:
+* Win rate: 72.21%
+* Win rate loss: 7.88%
+* Score lead: 1.30
+* Score loss: 0.99
+* Visits: 6415];B[ml]TE[1]SBKV[29.07]C[As Black:
+* Win rate: 29.07%
+* Win rate loss: -1.28%
+* Score lead: -1.33
+* Score loss: 0.03
+* Visits: 6415](;W[ll]BM[1]SBKV[37.78]C[As White:
+* Win rate: 62.22%
+* Win rate loss: 8.71%
+* Score lead: 0.36
+* Score loss: 0.97
+* Visits: 6415](;B[mj]BM[1]SBKV[19.44]C[As Black:
+* Win rate: 19.44%
+* Win rate loss: 18.34%
+* Score lead: -1.80
+* Score loss: 1.43
+* Visits: 6415](;W[oc]BM[1]SBKV[28.95]C[As White:
+* Win rate: 71.05%
+* Win rate loss: 9.51%
+* Score lead: 0.96
+* Score loss: 0.83
+* Visits: 6415];B[nd]SBKV[24.72]C[As Black:
+* Win rate: 24.72%
+* Win rate loss: 4.23%
+* Score lead: -1.13
+* Score loss: 0.17
+* Visits: 6415](;W[rc]BM[1]SBKV[31.65]C[As White:
+* Win rate: 68.35%
+* Win rate loss: 6.93%
+* Score lead: 0.95
+* Score loss: 0.19
+* Visits: 6415](;B[rd]BM[1]SBKV[13.23]C[As Black:
+* Win rate: 13.23%
+* Win rate loss: 18.41%
+* Score lead: -2.15
+* Score loss: 1.20
+* Visits: 6415];W[pr]TE[1]SBKV[13.04]C[As White:
+* Win rate: 86.96%
+* Win rate loss: -0.20%
+* Score lead: 2.14
+* Score loss: 0.00
+* Visits: 6415];B[or]TE[1]SBKV[13.13]C[As Black:
+* Win rate: 13.13%
+* Win rate loss: -0.09%
+* Score lead: -2.13
+* Score loss: -0.02
+* Visits: 6415];W[qs]TE[1]SBKV[13.11]C[As White:
+* Win rate: 86.89%
+* Win rate loss: -0.02%
+* Score lead: 2.12
+* Score loss: 0.01
+* Visits: 6415];B[nq]TE[1]SBKV[11.82]C[As Black:
+* Win rate: 11.82%
+* Win rate loss: 1.29%
+* Score lead: -2.31
+* Score loss: 0.20
+* Visits: 6415](;W[gg]BM[1]SBKV[20.87]C[As White:
+* Win rate: 79.13%
+* Win rate loss: 9.05%
+* Score lead: 1.49
+* Score loss: 0.82
+* Visits: 6415];B[jf]SBKV[17.67]C[As Black:
+* Win rate: 17.67%
+* Win rate loss: 3.20%
+* Score lead: -2.13
+* Score loss: 0.64
+* Visits: 6415](;W[ke]BM[1]SBKV[29.12]C[As White:
+* Win rate: 70.88%
+* Win rate loss: 11.45%
+* Score lead: 0.75
+* Score loss: 1.38
+* Visits: 6415];B[kf]TE[1]SBKV[28.53]C[As Black:
+* Win rate: 28.53%
+* Win rate loss: 0.59%
+* Score lead: -0.78
+* Score loss: 0.03
+* Visits: 6415];W[lg]TE[1]SBKV[28.86]C[As White:
+* Win rate: 71.14%
+* Win rate loss: 0.33%
+* Score lead: 0.78
+* Score loss: 0.00
+* Visits: 6415];B[lf]TE[1]SBKV[28.10]C[As Black:
+* Win rate: 28.10%
+* Win rate loss: 0.76%
+* Score lead: -0.79
+* Score loss: 0.01
+* Visits: 6415](;W[bq]BM[1]SBKV[37.07]C[As White:
+* Win rate: 62.93%
+* Win rate loss: 8.97%
+* Score lead: 0.19
+* Score loss: 0.60
+* Visits: 6415](;B[br]BM[1]SBKV[30.39]C[As Black:
+* Win rate: 30.39%
+* Win rate loss: 6.67%
+* Score lead: -0.62
+* Score loss: 0.42
+* Visits: 6415];W[mk]SBKV[35.00]C[As White:
+* Win rate: 65.00%
+* Win rate loss: 4.60%
+* Score lead: 0.27
+* Score loss: 0.34
+* Visits: 6415];B[nk]TE[1]SBKV[34.94]C[As Black:
+* Win rate: 34.94%
+* Win rate loss: 0.06%
+* Score lead: -0.27
+* Score loss: -0.01
+* Visits: 6415];W[lk]TE[1]SBKV[34.04]C[As White:
+* Win rate: 65.96%
+* Win rate loss: -0.89%
+* Score lead: 0.32
+* Score loss: -0.05
+* Visits: 6415];B[mi]TE[1]SBKV[34.01]C[As Black:
+* Win rate: 34.01%
+* Win rate loss: 0.03%
+* Score lead: -0.32
+* Score loss: 0.00
+* Visits: 6415];W[li]TE[1]SBKV[33.47]C[As White:
+* Win rate: 66.53%
+* Win rate loss: -0.54%
+* Score lead: 0.36
+* Score loss: -0.04
+* Visits: 6415];B[mh]SBKV[29.12]C[As Black:
+* Win rate: 29.12%
+* Win rate loss: 4.35%
+* Score lead: -0.61
+* Score loss: 0.25
+* Visits: 6415];W[sd]TE[1]SBKV[29.72]C[As White:
+* Win rate: 70.28%
+* Win rate loss: 0.60%
+* Score lead: 0.57
+* Score loss: 0.04
+* Visits: 6415];B[se]TE[1]SBKV[29.69]C[As Black:
+* Win rate: 29.69%
+* Win rate loss: 0.02%
+* Score lead: -0.57
+* Score loss: -0.01
+* Visits: 6415];W[sc]TE[1]SBKV[29.51]C[As White:
+* Win rate: 70.49%
+* Win rate loss: -0.18%
+* Score lead: 0.58
+* Score loss: -0.01
+* Visits: 6415];B[re]TE[1]SBKV[29.41]C[As Black:
+* Win rate: 29.41%
+* Win rate loss: 0.10%
+* Score lead: -0.58
+* Score loss: 0.01
+* Visits: 6415];W[gk]SBKV[32.11]C[As White:
+* Win rate: 67.89%
+* Win rate loss: 2.70%
+* Score lead: 0.43
+* Score loss: 0.15
+* Visits: 6415](;B[gj]BM[1]SBKV[26.19]C[As Black:
+* Win rate: 26.19%
+* Win rate loss: 5.92%
+* Score lead: -0.66
+* Score loss: 0.22
+* Visits: 6415];W[hj]TE[1]SBKV[25.81]C[As White:
+* Win rate: 74.19%
+* Win rate loss: -0.38%
+* Score lead: 0.63
+* Score loss: 0.03
+* Visits: 6415];B[hi]TE[1]SBKV[26.44]C[As Black:
+* Win rate: 26.44%
+* Win rate loss: -0.63%
+* Score lead: -0.60
+* Score loss: -0.02
+* Visits: 6415];W[hk]TE[1]SBKV[26.06]C[As White:
+* Win rate: 73.94%
+* Win rate loss: -0.38%
+* Score lead: 0.61
+* Score loss: -0.01
+* Visits: 6415];B[id]TE[1]SBKV[26.36]C[As Black:
+* Win rate: 26.36%
+* Win rate loss: -0.30%
+* Score lead: -0.62
+* Score loss: 0.01
+* Visits: 6415](;W[hh]BM[1]SBKV[34.25]C[As White:
+* Win rate: 65.75%
+* Win rate loss: 7.90%
+* Score lead: 4.22
+* Score loss: -3.60
+* Visits: 6415];B[hf]TE[1]SBKV[35.07]C[As Black:
+* Win rate: 35.07%
+* Win rate loss: -0.82%
+* Score lead: -3.67
+* Score loss: -0.56
+* Visits: 6415];W[ba]TE[1]SBKV[35.22]C[As White:
+* Win rate: 64.78%
+* Win rate loss: 0.15%
+* Score lead: 2.46
+* Score loss: 1.21
+* Visits: 6415](;B[ca]BM[1]HO[1]SBKV[15.12]C[As Black:
+* Win rate: 15.12%
+* Win rate loss: 20.10%
+* Score lead: -38.29
+* Score loss: 35.84
+* Visits: 6415];W[bb]TE[1]SBKV[13.43]C[As White:
+* Win rate: 86.57%
+* Win rate loss: -1.69%
+* Score lead: 40.72
+* Score loss: -2.42
+* Visits: 6415];B[bc]TE[1]SBKV[11.58]C[As Black:
+* Win rate: 11.58%
+* Win rate loss: 1.85%
+* Score lead: -50.77
+* Score loss: 10.06
+* Visits: 6415];W[ai]TE[1]SBKV[10.98]C[As White:
+* Win rate: 89.02%
+* Win rate loss: -0.60%
+* Score lead: 52.75
+* Score loss: -1.97
+* Visits: 6415];B[bh]TE[1]SBKV[10.03]C[As Black:
+* Win rate: 10.03%
+* Win rate loss: 0.95%
+* Score lead: -54.24
+* Score loss: 1.49
+* Visits: 6415](;W[je]BM[1]SBKV[25.76]C[As White:
+* Win rate: 74.24%
+* Win rate loss: 15.73%
+* Score lead: 1.52
+* Score loss: 52.72
+* Visits: 6415];B[ii]SBKV[21.10]C[As Black:
+* Win rate: 21.10%
+* Win rate loss: 4.66%
+* Score lead: -0.87
+* Score loss: -0.65
+* Visits: 6415];W[ie]TE[1]SBKV[20.15]C[As White:
+* Win rate: 79.85%
+* Win rate loss: -0.94%
+* Score lead: 0.93
+* Score loss: -0.07
+* Visits: 6415];B[ih]SBKV[15.73]C[As Black:
+* Win rate: 15.73%
+* Win rate loss: 4.42%
+* Score lead: -1.49
+* Score loss: 0.56
+* Visits: 6415](;W[he]BM[1]SBKV[25.07]C[As White:
+* Win rate: 74.93%
+* Win rate loss: 9.34%
+* Score lead: 0.60
+* Score loss: 0.90
+* Visits: 6415];B[sn]TE[1]SBKV[25.87]C[As Black:
+* Win rate: 25.87%
+* Win rate loss: -0.79%
+* Score lead: -0.56
+* Score loss: -0.03
+* Visits: 6415];W[eq]TE[1]SBKV[27.73]C[As White:
+* Win rate: 72.27%
+* Win rate loss: 1.86%
+* Score lead: 0.37
+* Score loss: 0.19
+* Visits: 6415];B[er]TE[1]SBKV[27.55]C[As Black:
+* Win rate: 27.55%
+* Win rate loss: 0.18%
+* Score lead: -0.39
+* Score loss: 0.01
+* Visits: 6415];W[cr]TE[1]SBKV[28.99]C[As White:
+* Win rate: 71.01%
+* Win rate loss: 1.44%
+* Score lead: 0.25
+* Score loss: 0.14
+* Visits: 6415];B[dr]TE[1]SBKV[29.50]C[As Black:
+* Win rate: 29.50%
+* Win rate loss: -0.51%
+* Score lead: -0.25
+* Score loss: 0.00
+* Visits: 6415];W[ar]TE[1]SBKV[29.75]C[As White:
+* Win rate: 70.25%
+* Win rate loss: 0.25%
+* Score lead: 0.24
+* Score loss: 0.01
+* Visits: 6415];B[bs]TE[1]SBKV[29.64]C[As Black:
+* Win rate: 29.64%
+* Win rate loss: 0.11%
+* Score lead: -0.24
+* Score loss: 0.00
+* Visits: 6415];W[fl]SBKV[33.46]C[As White:
+* Win rate: 66.54%
+* Win rate loss: 3.82%
+* Score lead: 0.17
+* Score loss: 0.07
+* Visits: 6415];B[bp]TE[1]SBKV[34.12]C[As Black:
+* Win rate: 34.12%
+* Win rate loss: -0.66%
+* Score lead: -0.09
+* Score loss: -0.08
+* Visits: 6415];W[bo]TE[1]SBKV[34.98]C[As White:
+* Win rate: 65.02%
+* Win rate loss: 0.86%
+* Score lead: 0.74
+* Score loss: -0.64
+* Visits: 6415](;B[gf]BM[1]SBKV[19.81]C[As Black:
+* Win rate: 19.81%
+* Win rate loss: 15.17%
+* Score lead: -0.99
+* Score loss: 0.25
+* Visits: 6415];W[hg]TE[1]SBKV[18.16]C[As White:
+* Win rate: 81.84%
+* Win rate loss: -1.66%
+* Score lead: 1.68
+* Score loss: -0.70
+* Visits: 6415];B[if]TE[1]SBKV[18.58]C[As Black:
+* Win rate: 18.58%
+* Win rate loss: -0.43%
+* Score lead: -1.68
+* Score loss: -0.00
+* Visits: 6415];W[fh]TE[1]SBKV[18.58]C[As White:
+* Win rate: 81.42%
+* Win rate loss: -0.00%
+* Score lead: 1.70
+* Score loss: -0.02
+* Visits: 6415](;B[ge]BM[1]SBKV[12.81]C[As Black:
+* Win rate: 12.81%
+* Win rate loss: 5.78%
+* Score lead: -2.85
+* Score loss: 1.14
+* Visits: 6415](;W[gd]BM[1]SBKV[18.43]C[As White:
+* Win rate: 81.57%
+* Win rate loss: 5.62%
+* Score lead: 1.72
+* Score loss: 1.13
+* Visits: 6415];B[jj]TE[1]SBKV[19.03]C[As Black:
+* Win rate: 19.03%
+* Win rate loss: -0.61%
+* Score lead: -1.63
+* Score loss: -0.09
+* Visits: 6415];W[ij]SBKV[21.24]C[As White:
+* Win rate: 78.76%
+* Win rate loss: 2.21%
+* Score lead: 5.06
+* Score loss: -3.43
+* Visits: 6415];B[cm]SBKV[18.93]C[As Black:
+* Win rate: 18.93%
+* Win rate loss: 2.31%
+* Score lead: -1.90
+* Score loss: -3.16
+* Visits: 6415];W[bm]TE[1]SBKV[15.97]C[As White:
+* Win rate: 84.03%
+* Win rate loss: -2.95%
+* Score lead: 2.19
+* Score loss: -0.30
+* Visits: 6415];B[fm]TE[1]SBKV[14.14]C[As Black:
+* Win rate: 14.14%
+* Win rate loss: 1.83%
+* Score lead: -5.33
+* Score loss: 3.14
+* Visits: 6415](;W[el]BM[1]SBKV[28.55]C[As White:
+* Win rate: 71.45%
+* Win rate loss: 14.41%
+* Score lead: 0.72
+* Score loss: 4.61
+* Visits: 6415](;B[em]BM[1]SBKV[11.08]C[As Black:
+* Win rate: 11.08%
+* Win rate loss: 17.48%
+* Score lead: -5.65
+* Score loss: 4.93
+* Visits: 6415](;W[gl]BM[1]HO[1]SBKV[65.47]C[As White:
+* Win rate: 34.53%
+* Win rate loss: 54.39%
+* Score lead: -1.49
+* Score loss: 7.14
+* Visits: 6415];B[dm]TE[1]SBKV[64.98]C[As Black:
+* Win rate: 64.98%
+* Win rate loss: 0.49%
+* Score lead: 1.38
+* Score loss: 0.10
+* Visits: 6415](;W[lh]BM[1]HO[1]SBKV[85.57]C[As White:
+* Win rate: 14.43%
+* Win rate loss: 20.59%
+* Score lead: -3.31
+* Score loss: 1.93
+* Visits: 6415];B[ig]TE[1]SBKV[87.15]C[As Black:
+* Win rate: 87.15%
+* Win rate loss: -1.58%
+* Score lead: 3.41
+* Score loss: -0.10
+* Visits: 6415];W[ji]TE[1]SBKV[87.20]C[As White:
+* Win rate: 12.80%
+* Win rate loss: 0.05%
+* Score lead: -3.43
+* Score loss: 0.02
+* Visits: 6415](;B[gn]BM[1]SBKV[71.45]C[As Black:
+* Win rate: 71.45%
+* Win rate loss: 15.75%
+* Score lead: 2.18
+* Score loss: 1.25
+* Visits: 6415](;W[gm]BM[1]SBKV[85.85]C[As White:
+* Win rate: 14.15%
+* Win rate loss: 14.40%
+* Score lead: -2.91
+* Score loss: 0.73
+* Visits: 6415];B[fo]TE[1]SBKV[85.98]C[As Black:
+* Win rate: 85.98%
+* Win rate loss: -0.13%
+* Score lead: 3.20
+* Score loss: -0.29
+* Visits: 6415];W[hn]TE[1]SBKV[86.29]C[As White:
+* Win rate: 13.71%
+* Win rate loss: 0.31%
+* Score lead: -3.11
+* Score loss: -0.09
+* Visits: 6415](;B[ki]BM[1]SBKV[72.45]C[As Black:
+* Win rate: 72.45%
+* Win rate loss: 13.84%
+* Score lead: 2.41
+* Score loss: 0.71
+* Visits: 6415](;W[jk]BM[1]SBKV[92.08]C[As White:
+* Win rate: 7.92%
+* Win rate loss: 19.62%
+* Score lead: -2.95
+* Score loss: 0.54
+* Visits: 6415];B[aq]TE[1]SBKV[92.53]C[As Black:
+* Win rate: 92.53%
+* Win rate loss: -0.45%
+* Score lead: 2.92
+* Score loss: 0.03
+* Visits: 6415];W[fp]TE[1]SBKV[93.99]C[As White:
+* Win rate: 6.01%
+* Win rate loss: 1.46%
+* Score lead: -4.05
+* Score loss: 1.13
+* Visits: 6415];B[gp]TE[1]SBKV[93.38]C[As Black:
+* Win rate: 93.38%
+* Win rate loss: 0.62%
+* Score lead: 4.61
+* Score loss: -0.56
+* Visits: 6415];W[fn]TE[1]SBKV[94.21]C[As White:
+* Win rate: 5.79%
+* Win rate loss: 0.83%
+* Score lead: -4.01
+* Score loss: -0.60
+* Visits: 6415];B[fk]SBKV[91.79]C[As Black:
+* Win rate: 91.79%
+* Win rate loss: 2.42%
+* Score lead: 3.48
+* Score loss: 0.52
+* Visits: 6415](;W[dn]BM[1]SBKV[98.55]C[As White:
+* Win rate: 1.45%
+* Win rate loss: 6.76%
+* Score lead: -3.48
+* Score loss: -0.01
+* Visits: 6415];B[fe]TE[1]SBKV[98.45]C[As Black:
+* Win rate: 98.45%
+* Win rate loss: 0.10%
+* Score lead: 3.68
+* Score loss: -0.20
+* Visits: 6415];W[ee]TE[1]SBKV[98.48]C[As White:
+* Win rate: 1.52%
+* Win rate loss: 0.03%
+* Score lead: -3.62
+* Score loss: -0.05
+* Visits: 6415];B[oo]TE[1]SBKV[99.00]C[As Black:
+* Win rate: 99.00%
+* Win rate loss: -0.53%
+* Score lead: 3.75
+* Score loss: -0.13
+* Visits: 6415];W[jh]TE[1]SBKV[98.94]C[As White:
+* Win rate: 1.06%
+* Win rate loss: -0.06%
+* Score lead: -3.99
+* Score loss: 0.24
+* Visits: 6415];B[kh]TE[1]SBKV[99.13]C[As Black:
+* Win rate: 99.13%
+* Win rate loss: -0.19%
+* Score lead: 4.31
+* Score loss: -0.32
+* Visits: 6415];W[kj]TE[1]SBKV[99.01]C[As White:
+* Win rate: 0.99%
+* Win rate loss: -0.12%
+* Score lead: -4.00
+* Score loss: -0.32
+* Visits: 6415];B[kg]TE[1]SBKV[99.07]C[As Black:
+* Win rate: 99.07%
+* Win rate loss: -0.06%
+* Score lead: 4.09
+* Score loss: -0.09
+* Visits: 6415];W[mg]TE[1]SBKV[99.15]C[As White:
+* Win rate: 0.85%
+* Win rate loss: 0.09%
+* Score lead: -3.96
+* Score loss: -0.13
+* Visits: 6415];B[ng]TE[1]SBKV[99.18]C[As Black:
+* Win rate: 99.18%
+* Win rate loss: -0.03%
+* Score lead: 3.96
+* Score loss: -0.00
+* Visits: 6415];W[sp]TE[1]SBKV[99.18]C[As White:
+* Win rate: 0.82%
+* Win rate loss: 0.00%
+* Score lead: -3.69
+* Score loss: -0.27
+* Visits: 6415];B[so]TE[1]SBKV[99.18]C[As Black:
+* Win rate: 99.18%
+* Win rate loss: 0.01%
+* Score lead: 4.03
+* Score loss: -0.34
+* Visits: 6415];W[mo]TE[1]SBKV[99.15]C[As White:
+* Win rate: 0.85%
+* Win rate loss: -0.03%
+* Score lead: -4.02
+* Score loss: -0.01
+* Visits: 6415];B[mp]TE[1]SBKV[99.23]C[As Black:
+* Win rate: 99.23%
+* Win rate loss: -0.08%
+* Score lead: 4.03
+* Score loss: -0.01
+* Visits: 6415];W[mm]TE[1]SBKV[99.28]C[As White:
+* Win rate: 0.72%
+* Win rate loss: 0.06%
+* Score lead: -3.89
+* Score loss: -0.14
+* Visits: 6415];B[nl]TE[1]SBKV[99.32]C[As Black:
+* Win rate: 99.32%
+* Win rate loss: -0.04%
+* Score lead: 3.92
+* Score loss: -0.02
+* Visits: 6415];W[pm]TE[1]SBKV[99.41]C[As White:
+* Win rate: 0.59%
+* Win rate loss: 0.09%
+* Score lead: -3.80
+* Score loss: -0.12
+* Visits: 6415];B[pl]TE[1]SBKV[99.45]C[As Black:
+* Win rate: 99.45%
+* Win rate loss: -0.04%
+* Score lead: 3.79
+* Score loss: 0.01
+* Visits: 6415])(;W[mo]TE[1]SBKV[91.08]C[As White:
+* Win rate: 8.92%
+* Win rate loss: -0.71%
+* Score lead: -3.42
+* Score loss: -0.06
+* Visits: 3782];B[mp];W[oo];B[eo];W[do];B[en];W[dn];B[mr];W[mg];B[ng];W[np];B[oq];W[jh];B[kh];W[kj];B[kg])(;W[oo]TE[1]SBKV[92.19]C[As White:
+* Win rate: 7.81%
+* Win rate loss: 0.40%
+* Score lead: -3.54
+* Score loss: 0.05
+* Visits: 1286];B[eo];W[do];B[en];W[dn];B[np];W[mo];B[lq];W[mg];B[ng];W[jh];B[kh];W[kj];B[kg];W[fe];B[os])(;W[jq]TE[1]SBKV[91.26]C[As White:
+* Win rate: 8.74%
+* Win rate loss: -0.52%
+* Score lead: -3.62
+* Score loss: 0.13
+* Visits: 747];B[ir];W[mo];B[mp];W[oo];B[eo];W[do];B[en];W[dn];B[mr];W[np];B[oq];W[mg];B[ng];W[jh];B[kh])(;W[eo]TE[1]SBKV[92.22]C[As White:
+* Win rate: 7.78%
+* Win rate loss: 0.44%
+* Score lead: -3.30
+* Score loss: -0.19
+* Visits: 2];B[oo]))(;W[fp]TE[1]SBKV[72.13]C[As White:
+* Win rate: 27.87%
+* Win rate loss: -0.33%
+* Score lead: -2.40
+* Score loss: -0.01
+* Visits: 6068];B[jk];W[oo];B[fn];W[gq];B[fr];W[jq];B[hq];W[np];B[oq];W[mq];B[mr];W[lq];B[kq])(;W[cl]TE[1]SBKV[72.83]C[As White:
+* Win rate: 27.17%
+* Win rate loss: 0.37%
+* Score lead: -2.31
+* Score loss: -0.10
+* Visits: 46];B[dk];W[fp];B[jk];W[gi];B[fi];W[fk];B[gh];W[mg];B[ng];W[gi];B[fn];W[gq])(;W[kj]TE[1]SBKV[69.41]C[As White:
+* Win rate: 30.59%
+* Win rate loss: -3.05%
+* Score lead: -1.98
+* Score loss: -0.43
+* Visits: 3];B[jh];W[jk]))(;B[aq]TE[1]SBKV[86.49]C[As Black:
+* Win rate: 86.49%
+* Win rate loss: -0.20%
+* Score lead: 3.13
+* Score loss: -0.01
+* Visits: 6300];W[fp];B[gp];W[dn];B[eo];W[do];B[gi];W[oo];B[np];W[mo];B[mp];W[mr];B[os];W[hq];B[gq];W[jq]))(;W[hq]TE[1]SBKV[68.61]C[As White:
+* Win rate: 31.39%
+* Win rate loss: -2.84%
+* Score lead: -2.17
+* Score loss: -0.01
+* Visits: 1820];B[aq];W[oo];B[np];W[mo];B[mp];W[hr];B[ir];W[gs];B[jk];W[kr];B[lr];W[kj];B[im];W[jl];B[gm])(;W[oo]TE[1]SBKV[71.79]C[As White:
+* Win rate: 28.21%
+* Win rate loss: 0.35%
+* Score lead: -2.17
+* Score loss: -0.01
+* Visits: 3409];B[np];W[hq];B[gp];W[gm];B[fn];W[mo];B[mp];W[hn];B[aq];W[fo];B[gi];W[jq];B[ir];W[jr];B[gq]))(;B[aq]TE[1]SBKV[87.62]C[As Black:
+* Win rate: 87.62%
+* Win rate loss: -0.42%
+* Score lead: 3.48
+* Score loss: -0.05
+* Visits: 5926];W[mo];B[mp];W[oo];B[np];W[hq];B[gp];W[gm];B[gi];W[jq];B[ir];W[jr];B[gq];W[op];B[oq];W[lr]))(;W[oo]TE[1]SBKV[64.39]C[As White:
+* Win rate: 35.61%
+* Win rate loss: -0.59%
+* Score lead: -1.34
+* Score loss: -0.04
+* Visits: 5965];B[np];W[mo];B[mp];W[hq];B[aq];W[hr];B[ir];W[gp];B[ji];W[is];B[js];W[hs];B[kr];W[jk];B[gm]))(;W[cl]TE[1]SBKV[10.83]C[As White:
+* Win rate: 89.17%
+* Win rate loss: -0.24%
+* Score lead: 5.71
+* Score loss: -0.06
+* Visits: 6261];B[mb];W[ma];B[dm];W[dk];B[fk];W[gl];B[ck];W[ig];B[fi];W[ji];B[jh];W[ki];B[aq]))(;B[fk]TE[1]SBKV[29.03]C[As Black:
+* Win rate: 29.03%
+* Win rate loss: -0.48%
+* Score lead: -0.62
+* Score loss: -0.10
+* Visits: 5812];W[em];B[gl];W[hl];B[en];W[gm];B[dm];W[fn];B[ki];W[ig];B[lh];W[jg];B[kh];W[jk];B[aq];W[oo]))(;W[ji]TE[1]SBKV[13.07]C[As White:
+* Win rate: 86.93%
+* Win rate loss: -1.08%
+* Score lead: 6.04
+* Score loss: -0.71
+* Visits: 4791];B[el];W[cl];B[jh];W[ki];B[gl];W[fk];B[hl];W[ik];B[jl];W[jk];B[en];W[gm];B[il];W[kj];B[gn]))(;W[ig]TE[1]SBKV[12.43]C[As White:
+* Win rate: 87.57%
+* Win rate loss: -0.37%
+* Score lead: 2.91
+* Score loss: -0.06
+* Visits: 6068];B[jh];W[gd];B[aq];W[oo];B[np];W[cl];B[el];W[dk];B[fi];W[fk];B[ej];W[hq];B[hr];W[em];B[dm]))(;B[jj]TE[1]SBKV[19.21]C[As Black:
+* Win rate: 19.21%
+* Win rate loss: -0.63%
+* Score lead: -1.64
+* Score loss: -0.06
+* Visits: 5684];W[jk];B[el];W[cl];B[ge];W[gd];B[aq];W[oo];B[fm];W[np];B[mp];W[op];B[oq];W[hq];B[hr];W[os]))(;B[aq]TE[1]SBKV[35.41]C[As Black:
+* Win rate: 35.41%
+* Win rate loss: -0.43%
+* Score lead: -0.74
+* Score loss: 0.01
+* Visits: 6101];W[fh];B[el];W[cl];B[fm];W[ig];B[dn];W[fp];B[fn];W[gq];B[fr];W[gi];B[jh];W[dm];B[em];W[cm]))(;W[hq]TE[1]SBKV[15.09]C[As White:
+* Win rate: 84.91%
+* Win rate loss: -0.64%
+* Score lead: 1.55
+* Score loss: -0.05
+* Visits: 5898];B[gp];W[mr];B[jq];W[so];B[he];W[hd];B[fl];W[os];B[ns];W[nr];B[ps];W[eq];B[er];W[os];B[gd]))(;W[gi]TE[1]SBKV[9.52]C[As White:
+* Win rate: 90.48%
+* Win rate loss: -0.51%
+* Score lead: 54.96
+* Score loss: -0.72
+* Visits: 6008];B[fi];W[fk];B[fl];W[em];B[gh];W[ih];B[ii];W[jh];B[ji];W[kh];B[hg];W[gf];B[il];W[gm];B[gl]))(;B[bb]TE[1]SBKV[35.62]C[As Black:
+* Win rate: 35.62%
+* Win rate loss: -0.40%
+* Score lead: -1.46
+* Score loss: -1.00
+* Visits: 5536];W[ca];B[ii];W[gi];B[ih];W[hq];B[hr];W[gf];B[cl];W[el];B[fi];W[fl];B[dm];W[gh];B[fk];W[ig])(;B[gi]TE[1]SBKV[33.28]C[As Black:
+* Win rate: 33.28%
+* Win rate loss: 1.94%
+* Score lead: -4.41
+* Score loss: 1.95
+* Visits: 241];W[af];B[ag];W[bb];B[ii];W[so];B[jc];W[sm];B[rl];W[cr];B[dr];W[ar]))(;W[ie]TE[1]SBKV[25.93]C[As White:
+* Win rate: 74.07%
+* Win rate loss: -0.43%
+* Score lead: 0.64
+* Score loss: -0.01
+* Visits: 6149];B[je];W[jd];B[he];W[if];B[hf];W[ig];B[hg];W[hd];B[gh];W[gf];B[ih];W[jg];B[ge];W[kg];B[gd]))(;B[ie]TE[1]SBKV[32.41]C[As Black:
+* Win rate: 32.41%
+* Win rate loss: -0.30%
+* Score lead: -0.47
+* Score loss: 0.03
+* Visits: 4036];W[id];B[ij];W[hq];B[hr];W[hi];B[ii];W[hh];B[jh];W[cl];B[jl];W[hl];B[fh];W[gj];B[dk])(;B[bp]TE[1]SBKV[33.37]C[As Black:
+* Win rate: 33.37%
+* Win rate loss: -1.26%
+* Score lead: -0.28
+* Score loss: -0.15
+* Visits: 564];W[bo];B[ie];W[id];B[he];W[hd];B[ij];W[hq];B[hr];W[mo];B[mp];W[oo];B[np];W[jq];B[ir];W[mr])(;B[hi]TE[1]SBKV[32.60]C[As Black:
+* Win rate: 32.60%
+* Win rate loss: -0.49%
+* Score lead: -0.34
+* Score loss: -0.09
+* Visits: 542];W[hq];B[gp];W[mr];B[nr];W[jq];B[ir];W[jr];B[gq])(;B[he]TE[1]SBKV[31.35]C[As Black:
+* Win rate: 31.35%
+* Win rate loss: 0.75%
+* Score lead: -0.33
+* Score loss: -0.10
+* Visits: 342];W[ie];B[hf];W[id];B[hi];W[hj];B[ii];W[ij];B[sn];W[fl];B[ji];W[if];B[hg])(;B[hf]TE[1]SBKV[30.59]C[As Black:
+* Win rate: 30.59%
+* Win rate loss: 1.52%
+* Score lead: -0.36
+* Score loss: -0.08
+* Visits: 251];W[ie];B[he];W[id];B[hi];W[hj];B[ii];W[ij];B[sn];W[fl];B[ji];W[if];B[hg];W[fh])(;B[ji]TE[1]SBKV[31.85]C[As Black:
+* Win rate: 31.85%
+* Win rate loss: 0.26%
+* Score lead: -0.39
+* Score loss: -0.04
+* Visits: 154];W[oo];B[ie];W[id];B[np];W[ij];B[he];W[hd];B[sn];W[cl];B[gj])(;B[hj]TE[1]SBKV[30.13]C[As Black:
+* Win rate: 30.13%
+* Win rate loss: 1.97%
+* Score lead: -0.56
+* Score loss: 0.13
+* Visits: 114];W[gj];B[gi];W[hi];B[ie];W[id];B[ii];W[hh];B[ik];W[gh];B[jh];W[fi])(;B[gl]TE[1]SBKV[30.32]C[As Black:
+* Win rate: 30.32%
+* Win rate loss: 1.78%
+* Score lead: -0.39
+* Score loss: -0.05
+* Visits: 29];W[hl];B[ie];W[id];B[fl];W[so];B[bp];W[bo]))(;B[lk]TE[1]SBKV[37.83]C[As Black:
+* Win rate: 37.83%
+* Win rate loss: -0.76%
+* Score lead: -0.14
+* Score loss: -0.05
+* Visits: 4791];W[kk];B[mk];W[hq];B[hr];W[kj];B[kl];W[mo];B[mp];W[lm];B[li];W[ki];B[kh];W[jh];B[br];W[kg])(;B[li]TE[1]SBKV[35.40]C[As Black:
+* Win rate: 35.40%
+* Win rate loss: 1.67%
+* Score lead: -0.25
+* Score loss: 0.05
+* Visits: 739];W[mk];B[nk];W[lk];B[ki];W[sd];B[se];W[sc];B[re];W[eq];B[er];W[br];B[he];W[id];B[ie];W[hd]))(;W[hq]TE[1]SBKV[26.96]C[As White:
+* Win rate: 73.04%
+* Win rate loss: -1.14%
+* Score lead: 0.87
+* Score loss: -0.08
+* Visits: 5232];B[hr];W[mi];B[lk];W[kk];B[mk];W[kj];B[kl];W[lm];B[li];W[kh];B[mh];W[ki];B[lh];W[mg];B[nh]))(;W[hq]TE[1]SBKV[16.89]C[As White:
+* Win rate: 83.11%
+* Win rate loss: -0.77%
+* Score lead: 2.22
+* Score loss: -0.09
+* Visits: 5487];B[hr];W[li];B[lk];W[kk];B[mk];W[kf];B[ke];W[je];B[kg];W[if];B[lf];W[ig];B[kl];W[sd];B[se]))(;W[hq]TE[1]SBKV[11.07]C[As White:
+* Win rate: 88.93%
+* Win rate loss: -0.75%
+* Score lead: 2.42
+* Score loss: -0.10
+* Visits: 5563];B[hr];W[ke];B[li];W[lk];B[kf];W[jf];B[kg];W[ki];B[sc];W[sb];B[sd];W[mk];B[mi];W[nk];B[oj]))(;B[pr]TE[1]SBKV[31.95]C[As Black:
+* Win rate: 31.95%
+* Win rate loss: -0.30%
+* Score lead: -0.93
+* Score loss: -0.01
+* Visits: 6135];W[so];B[rd];W[mi];B[lk];W[pl];B[kj];W[li];B[kl];W[pm];B[qk];W[nj];B[ok];W[ki];B[dn];W[pk]))(;W[pr]TE[1]SBKV[24.25]C[As White:
+* Win rate: 75.75%
+* Win rate loss: -0.47%
+* Score lead: 1.16
+* Score loss: -0.03
+* Visits: 6073];B[or];W[qs];B[rc];W[rb];B[lk];W[hq];B[ir];W[kk];B[mk];W[ke];B[kf];W[jf];B[kg];W[kl];B[kj]))(;W[pr]TE[1]SBKV[18.94]C[As White:
+* Win rate: 81.06%
+* Win rate loss: -0.50%
+* Score lead: 1.83
+* Score loss: -0.04
+* Visits: 6093];B[rc];W[hq];B[ir];W[rb];B[or];W[qs];B[li];W[rd];B[re];W[sc];B[lk];W[ke];B[gg];W[ne];B[nd]))(;B[lk]TE[1]SBKV[38.44]C[As Black:
+* Win rate: 38.44%
+* Win rate loss: -0.66%
+* Score lead: -0.32
+* Score loss: -0.05
+* Visits: 5635];W[mk];B[kk];W[nl];B[mj];W[nk];B[nj];W[ok];B[oj];W[pk];B[qk];W[jf];B[rc];W[rb];B[jg];W[kg]))(;W[lg]TE[1]SBKV[28.46]C[As White:
+* Win rate: 71.54%
+* Win rate loss: -0.61%
+* Score lead: 1.33
+* Score loss: 0.01
+* Visits: 2606];B[dn];W[ll];B[lk];W[kk];B[mk];W[kj];B[pr];W[so];B[cm];W[bm];B[co];W[bn];B[bp];W[bo];B[bq])(;W[pr]TE[1]SBKV[28.43]C[As White:
+* Win rate: 71.57%
+* Win rate loss: -0.64%
+* Score lead: 1.59
+* Score loss: -0.26
+* Visits: 1043];B[or];W[qs];B[kk];W[kj];B[jk];W[lg];B[dn];W[fp];B[cm];W[bm];B[co];W[bn])(;W[nj]TE[1]SBKV[29.09]C[As White:
+* Win rate: 70.91%
+* Win rate loss: 0.02%
+* Score lead: 1.43
+* Score loss: -0.10
+* Visits: 1087];B[kk];W[kj];B[dn];W[fp];B[cm];W[bm];B[co];W[bn];B[bp];W[bo];B[bq];W[do];B[pr])(;W[oc]TE[1]SBKV[28.61]C[As White:
+* Win rate: 71.39%
+* Win rate loss: -0.46%
+* Score lead: 1.30
+* Score loss: 0.04
+* Visits: 575];B[nd];W[pr];B[or];W[qs];B[kk];W[kj];B[jk];W[lg];B[km];W[oi];B[pi];W[oh];B[mg];W[mh])(;W[ni]TE[1]SBKV[30.65]C[As White:
+* Win rate: 69.35%
+* Win rate loss: 1.58%
+* Score lead: 1.13
+* Score loss: 0.20
+* Visits: 209];B[oh];W[pr];B[or];W[qs];B[kl];W[hq];B[nq];W[hr];B[ir])(;W[mh]TE[1]SBKV[30.76]C[As White:
+* Win rate: 69.24%
+* Win rate loss: 1.69%
+* Score lead: 1.05
+* Score loss: 0.28
+* Visits: 139];B[oh];W[pr];B[or];W[qs];B[kk];W[kj];B[km];W[jk];B[kn];W[ll])(;W[rc]TE[1]SBKV[28.62]C[As White:
+* Win rate: 71.38%
+* Win rate loss: -0.45%
+* Score lead: 1.33
+* Score loss: 0.00
+* Visits: 133];B[rd];W[nj];B[mk];W[mj];B[kk];W[pi];B[qi];W[oj])(;W[ai]TE[1]SBKV[30.49]C[As White:
+* Win rate: 69.51%
+* Win rate loss: 1.42%
+* Score lead: 1.10
+* Score loss: 0.23
+* Visits: 38];B[bh];W[lg];B[nh];W[oc];B[nd])(;W[oj]TE[1]SBKV[30.46]C[As White:
+* Win rate: 69.54%
+* Win rate loss: 1.39%
+* Score lead: 0.94
+* Score loss: 0.40
+* Visits: 7];B[oi];W[nj];B[pk]))(;W[pr]TE[1]SBKV[19.31]C[As White:
+* Win rate: 80.69%
+* Win rate loss: -0.60%
+* Score lead: 2.37
+* Score loss: -0.08
+* Visits: 5650];B[or];W[qs];B[ml];W[hq];B[ir];W[oc];B[nd];W[rc];B[rd];W[jf];B[dn];W[bq];B[km];W[kn];B[br]))(;W[rd]TE[1]SBKV[15.17]C[As White:
+* Win rate: 84.83%
+* Win rate loss: -0.94%
+* Score lead: 2.65
+* Score loss: -0.09
+* Visits: 5013];B[re];W[rc];B[qf];W[ld];B[le];W[me];B[nd];W[kd];B[lf];W[mj];B[ml];W[ll];B[mk];W[lk];B[lj]))(;B[fe]TE[1]SBKV[35.57]C[As Black:
+* Win rate: 35.57%
+* Win rate loss: -0.44%
+* Score lead: -1.11
+* Score loss: -0.07
+* Visits: 5997];W[bc];B[ml];W[kl];B[md];W[ld];B[nc];W[lb];B[le];W[kd];B[rc];W[rb];B[rd];W[mg];B[ke];W[oh]))(;W[ec]TE[1]SBKV[28.35]C[As White:
+* Win rate: 71.65%
+* Win rate loss: -0.36%
+* Score lead: 1.94
+* Score loss: -0.04
+* Visits: 6066];B[bn];W[cm];B[df];W[bc];B[ce];W[cb];B[bp];W[fk];B[ml];W[pr];B[or];W[qs];B[md]))(;B[or]TE[1]SBKV[39.11]C[As Black:
+* Win rate: 39.11%
+* Win rate loss: -0.24%
+* Score lead: -0.90
+* Score loss: -0.04
+* Visits: 2088];W[qs];B[lo];W[ln];B[kn];W[np];B[nq];W[pr];B[kq];W[nk];B[pj];W[jo];B[km];W[nl];B[im];W[in])(;B[lo]TE[1]SBKV[38.95]C[As Black:
+* Win rate: 38.95%
+* Win rate loss: -0.07%
+* Score lead: -0.93
+* Score loss: -0.00
+* Visits: 3724];W[ln];B[or];W[qs];B[kn];W[np];B[nq];W[pr];B[kq];W[nk];B[pj];W[jo];B[km];W[nl];B[im];W[in])(;B[no]TE[1]SBKV[37.58]C[As Black:
+* Win rate: 37.58%
+* Win rate loss: 1.30%
+* Score lead: -1.10
+* Score loss: 0.16
+* Visits: 391];W[nn];B[lo];W[ln];B[kn];W[jo];B[km];W[nk];B[im];W[in];B[hm];W[kq];B[lq];W[kr])(;B[nc]TE[1]SBKV[38.49]C[As Black:
+* Win rate: 38.49%
+* Win rate loss: 0.38%
+* Score lead: -0.99
+* Score loss: 0.05
+* Visits: 75];W[mb];B[lo];W[ln];B[no];W[nn];B[kn];W[jo];B[km];W[nk];B[im];W[in])(;B[dd]TE[1]SBKV[39.27]C[As Black:
+* Win rate: 39.27%
+* Win rate loss: -0.40%
+* Score lead: -0.88
+* Score loss: -0.05
+* Visits: 31];W[cd];B[ec];W[de];B[ed];W[db];B[lo];W[ln]))
