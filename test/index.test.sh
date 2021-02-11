@@ -3,7 +3,7 @@
 set -e
 
 # Test 1.
-echo Tests src/index.js with option -r.
+echo -n Tests src/index.js with option -r.
 
 test=$(mktemp)
 
@@ -23,8 +23,10 @@ diff $test-expected $test-result
 
 rm -f $test-*
 
+echo -e "\033[1;32m Ok \033[0m"
+
 # Test 2.
-echo Tests src/index.js with option -k.
+echo -n Tests src/index.js with option -k.
 
 test=$(mktemp)
 
@@ -44,5 +46,4 @@ diff $test-expected $test-result
 
 rm -f $test-*
 
-# Ok!
-echo Ok
+echo -e "\033[1;32m Ok \033[0m"

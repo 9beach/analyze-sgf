@@ -5,13 +5,13 @@
 
 const sgfconv = require('./sgfconv');
 
-// Contains 1) Node or tailless NodeSequence of SGF, 2) win rate infomations,
-// and 3) NodeSequence for variations.
+// Contains Node or tailless NodeSequence of SGF, win rate infomations, and
+// NodeSequence for variations.
 class Node {
   constructor(sequence) {
     // Node or tailless NodeSequence of SGF.
     //
-    // (ex) 'B[aa]', 'W[cc]', ';B[dp];W[po];B[hm]', ...
+    // 'B[aa]' or 'W[cc]' or ';B[dp];W[po];B[hm]' or ...
     this.sequence = sequence;
     const index = sequence.search(/\b[BW]\[/);
 
@@ -52,12 +52,11 @@ class Node {
     this.visits = currentinfo.visits;
   }
 
-  // Add properties (comment, god move, bad move, ...) to this.sequence.
+  // Add properties (comment, god move, bad move, ...) to this.sequence, and
+  // returns this.sequence.
   //
-  // The change of this.sequence is like:
-  //
-  // "B[po]" => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
-  // "(;B[po];W[os];...)" => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
+  // sgfOpts => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
+  // sgfOpts => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
   setProperties(sgfOpts) {
     if (this.propertiesGot === true) {
       return this.sequence;
@@ -91,8 +90,9 @@ class Node {
     return this.sequence;
   }
 
-  // Returns "As Black:\n* Win rate: 55.00%\n* Win rate ...".
-  // Used as comment.
+  // Used for comment.
+  //
+  // () => "As Black:\n* Win rate: 55.00%\n* Win rate loss: ...".
   statistics() {
     const pl = this.pl === 'W' ? 'As White:\n' : 'As Black:\n';
     const visits = `* Visits: ${this.visits}`;
