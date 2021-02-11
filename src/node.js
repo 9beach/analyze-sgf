@@ -66,7 +66,7 @@ class Node {
 
     if (this.winrate != null) {
       // Comment.
-      properties = sgfconv.addComment(properties, this.statistics());
+      properties = sgfconv.addComment(properties, this.getWinratesComment());
 
       // RSGF winrate.
       properties = sgfconv.addProperty(
@@ -90,10 +90,8 @@ class Node {
     return this.sequence;
   }
 
-  // Used for comment.
-  //
   // () => "As Black:\n* Win rate: 55.00%\n* Win rate loss: ...".
-  statistics() {
+  getWinratesComment() {
     const pl = this.pl === 'W' ? 'As White:\n' : 'As Black:\n';
     const visits = `* Visits: ${this.visits}`;
     let winrate;
