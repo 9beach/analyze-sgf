@@ -3,10 +3,9 @@
  *               formats.
  */
 
-// 'XX[11]YY[22]', 0 => '11'
-// 'XX[11]YY[22]', 2 => '11'
-// 'XX[11]YY[22]', 8 => '22'
-// 'XX[11]YY[22]', 9 => ''
+// ('XX[11]YY[22]', 0) => '11'
+// ('XX[11]YY[22]', 8) => '22'
+// ('XX[11]YY[22]', 9) => ''
 function inBraket(value, index = 0) {
   const start = value.indexOf('[', index);
   const end = value.indexOf(']', start);
@@ -21,15 +20,15 @@ function inBraket(value, index = 0) {
     .replace(/ *$/, '');
 }
 
-// 'XX', 'XX[11]YY[22]YY[33]' => 11
+// ('XX', 'XX[11]YY[22]YY[33]') => 11
 function valueFromSequence(prop, sgf) {
   const start = sgf.search(new RegExp(`\\b${prop}\\[`));
 
   return start === -1 ? '' : inBraket(sgf, start);
 }
 
-// 'AB', '(;GM[1]FF[4]...AB[dp][pd];W...' => '[dp][pd]'
-// 'GM', '(;GM[1]FF[4]...AB[dp][pd];W...' => '[1]'
+// ('AB', '(;GM[1]FF[4]...AB[dp][pd];W...') => '[dp][pd]'
+// ('GM', '(;GM[1]FF[4]...AB[dp][pd];W...') => '[1]'
 function rawvaluesFromSequence(prop, sgf) {
   if (sgf.indexOf(`${prop}[`) !== -1) {
     const re = new RegExp(`.*\\b${prop}((\\[[^\\]]*\\])+).*`);
@@ -39,7 +38,7 @@ function rawvaluesFromSequence(prop, sgf) {
   return '';
 }
 
-// 'YY', 'XX[11]YY[22][33]' => ['22', '33']
+// ('YY', 'XX[11]YY[22][33]') => ['22', '33']
 function valuesFromSequence(prop, sgf) {
   const values = rawvaluesFromSequence(prop, sgf);
 
@@ -187,14 +186,14 @@ function toBadHotSpot(sequence, index = 0) {
   return addProperty(sequence, 'BM[1]HO[1]', index);
 }
 
-// ('(;W[aa];B[bb];W[cc])', 'test', 0)
-// => '(;W[aa]C[test]BM[1]HO[1];B[bb];W[cc])'
+// ('(;W[aa];B[bb];W[cc])', 'test', 0) =>
+// '(;W[aa]C[test]BM[1]HO[1];B[bb];W[cc])'
 function addComment(sequence, comment, index = 0) {
   const replaced = comment.replace(/\]/g, '\\]');
   return addProperty(sequence, `C[${replaced}]`, index);
 }
 
-// Gets PLs. pls = [ 'B', 'W' ] or [ 'W', 'B' ]
+// rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]
 function getPLs(rootsequence) {
   const { root } = rootsequence;
   const { sequence } = rootsequence;
@@ -239,8 +238,7 @@ function katagomovesFromSequence(sequence) {
   return moves;
 }
 
-// '..AB[aa][bb]AW[ab][cc];W[po]...'
-// => [["B","A1"],["B","B2"],["W","A2"],["W","C3"]]
+// '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
 function initialstonesFromSequence(sequence) {
   const ab = valuesFromSequence('AB', sequence);
   const aw = valuesFromSequence('AW', sequence);
@@ -256,8 +254,7 @@ function initialstonesFromSequence(sequence) {
   return initialStones;
 }
 
-// ("W", {scoreLead: 21.05059, pv:["A1","B2","C3"]})
-// => '(;W[aa];B[bb];W[cc])'
+// ("W", {scoreLead: 21.05059, pv:["A1","B2","C3"]}) => '(;W[aa];B[bb];W[cc])'
 function katagomoveinfoToSequence(player, moveInfo) {
   let pl = player;
   let sequence = '(';
