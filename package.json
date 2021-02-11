@@ -20,7 +20,7 @@
     "analyze-sgf": "src/index.js"
   },
   "scripts": {
-    "test": "mocha && test/cli.test.sh",
+    "test": "mocha && test/index.test.sh",
     "lint": "eslint ."
   },
   "publishConfig": {

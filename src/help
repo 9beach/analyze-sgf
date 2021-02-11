@@ -1,17 +1,20 @@
-Usage: analyze-sgf [-k=json-data] [-g=json-data] [-s] [-r=json-file] sgf-file
+Usage: analyze-sgf [-a=options] [-g=options] [-k=options] [-s] [-f=path] sgf
 
 Option:
-  -k, --katago            JSON data for KataGo Parallel Analysis Engine query
-  -g, --sgf               JSON data for making reviewed SGF file
-  -s,                     Save KataGo responses JSON
-  -r,                     Analyze KataGo responses JSON
+  -a, --analysis          Options for KataGo Parallel Analysis Engine query
+  -g, --sgf               Options for making reviewed SGF file
+  -k, --katago            Options for path and arguments of KataGo
+  -s,                     Save KataGo analysis as JSON file
+  -f,                     Analyze KataGo JSON file
 
 Examples:
-  analyze-sgf -k 'rules:"korean",komi:6.5' baduk.sgf
-  analyze-sgf -k 'maxVisits:6400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -g 'maxVisits:600' baduk.sgf
   analyze-sgf baduk.sgf
-  analyze-sgf -r baduk-responses.json baduk.sgf
+  analyze-sgf -a 'rules:"korean",komi:6.5' baduk.sgf
+  analyze-sgf -a 'maxVisits:600' baduk.sgf
+  analyze-sgf -a 'maxVisits:6400,analyzeTurns:[197,198]' baduk.sgf
+  analyze-sgf -f baduk-responses.json baduk.sgf
+  analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
+  analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>

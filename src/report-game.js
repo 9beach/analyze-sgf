@@ -11,14 +11,14 @@ function joinmoves(moves) {
     .join(', ');
 }
 
-// Return value is like:
-// * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...
-function movesstat(goodbad, moves, total, listmoves = true) {
+// ('Bad moves', [39, 69, 105, 109,...], 104) =>
+// '* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...'
+function movesstat(goodorbad, moves, total, listmoves = true) {
   let format;
 
   if (moves && moves.length > 0) {
     const ratio = ((moves.length / total) * 100).toFixed(2);
-    format = `* ${goodbad} (${ratio}%, ${moves.length}/${total})`;
+    format = `* ${goodorbad} (${ratio}%, ${moves.length}/${total})`;
   } else {
     format = '';
   }
@@ -32,11 +32,7 @@ function movesstat(goodbad, moves, total, listmoves = true) {
   return format;
 }
 
-// Return value is like:
-// * Good moves (75.00%, 78/104)
-// * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...
-// * Bad hot spots (0.96%, 1/104): move 141
-function goodbadsreport(total, moves) {
+function reportgoodandbad(total, moves) {
   return (
     movesstat('Good moves', moves[0], total, false) +
     movesstat('Bad moves', moves[1], total) +
@@ -44,7 +40,8 @@ function goodbadsreport(total, moves) {
   );
 }
 
-// Return values are like: '신진서 (Black):', 'Black :', 'White :'
+// (' 신진서  ', 'Black') => '신진서 (Black):'
+// ('', 'Black') => 'Black:'
 function blackorwhite(player, color) {
   let pl = player.replace(/ *$/, '').replace(/^ */, '');
 
@@ -58,7 +55,7 @@ function blackorwhite(player, color) {
 }
 
 // Generates report.
-function reportmoves(
+function reportgame(
   blackplayer,
   blacktotal,
   blackgoodbads,
@@ -77,8 +74,8 @@ function reportmoves(
 
   return (
     `# Analyze-SGF Report` +
-    `\n\n${pb}\n${goodbadsreport(blacktotal, blackgoodbads)}` +
-    `\n${pw}\n${goodbadsreport(whitetotal, whitegoodbads)}` +
+    `\n\n${pb}\n${reportgoodandbad(blacktotal, blackgoodbads)}` +
+    `\n${pw}\n${reportgoodandbad(whitetotal, whitegoodbads)}` +
     `\nGood move: less than ${goodmovewinrate * 100}% win rate loss` +
     `\nBad move: more than ${badmovewinrate * 100}% win rate loss` +
     `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate loss` +
@@ -89,4 +86,4 @@ function reportmoves(
   );
 }
 
-module.exports = reportmoves;
+module.exports = reportgame;

@@ -4,7 +4,9 @@
 katago:
   # For example, "/root/bin/katago".
   path: "KataGo path here"
-  # For example, "analysis -model katago-best-network.bin.gz -config /root/bin/analysis_example.cfg".
+  # For example, 
+  # "analysis -model katago-best-network.bin.gz -config analysis_example.cfg".
+  #
   # Note that "analysis_example.cfg" is different to "gtp_example.cfg".
   # Please see <https://github.com/lightvector/KataGo/blob/master/cpp/configs/analysis_example.cfg>.
   arguments: "KataGo arguments here"
@@ -13,6 +15,7 @@ katago:
 #
 # Please see <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
+  # korean, tromp-taylor, chinese, ...
   rules: "tromp-taylor"
   # If input SGF has no komi field (KM), then uses below.
   komi: 7.5
@@ -27,14 +30,14 @@ sgf:
   # When you open output SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
-  # If less than maxWinrateLossForGoodMove percents down with a move, that move 
-  # is good.
+  # If less than maxWinrateLossForGoodMove percents down with a move, that 
+  # move is good.
   maxWinrateLossForGoodMove: 2.0
-  # If more than maxWinrateLossForGoodMove percents down with a move, that move 
-  # is bad.
+  # If more than maxWinrateLossForGoodMove percents down with a move, that 
+  # move is bad.
   minWinrateLossForBadMove: 5.0
-  # If more than minWinrateLossForBadHotSpot percents down with a move, that move 
-  # is a bad hotspot, and it's really bad.
+  # If more than minWinrateLossForBadHotSpot percents down with a move, that 
+  # move is a bad hotspot, and it's really bad.
   minWinrateLossForBadHotSpot: 20.0
   # In SGF, the last move can't have variations. So we add a pass move after 
   # the last move, and then add the proposed variations to that pass move.

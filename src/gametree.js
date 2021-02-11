@@ -3,7 +3,7 @@
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
-const report = require('./report-moves');
+const report = require('./report-game');
 const sgfconv = require('./sgfconv');
 const Node = require('./node');
 
@@ -45,84 +45,6 @@ class GameTree {
 
     // Second, gets win rate infos and varations from KataGo responses.
     this.fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
-  }
-
-  getRootComment() {
-    return this.rootComment;
-  }
-
-  // Makes SGF GameTree, and returns it.
-  getSGF() {
-    if (this.sgf) {
-      return this.sgf;
-    }
-
-    this.sgf = '';
-
-    // 0: Good, 1: bad, and 2: bad hot spots.
-    const blackgoodbads = [[], [], []];
-    const whitegoodbads = [[], [], []];
-
-    for (let i = this.nodes.length - 1; i >= 0; i -= 1) {
-      const node = this.nodes[i];
-      const { pl } = node;
-      let tail = '';
-
-      // Counts bad moves for root comment
-      if (node.winrateLoss < this.goodmovewinrate) {
-        if (pl === 'B') {
-          blackgoodbads[0].push(i);
-        } else {
-          whitegoodbads[0].push(i);
-        }
-      }
-      if (node.winrateLoss > this.badmovewinrate) {
-        if (pl === 'B') {
-          blackgoodbads[1].push(i);
-        } else {
-          whitegoodbads[1].push(i);
-        }
-      }
-      if (node.winrateLoss > this.badhotspotwinrate) {
-        if (pl === 'B') {
-          blackgoodbads[2].push(i);
-        } else {
-          whitegoodbads[2].push(i);
-        }
-      }
-
-      // Adds variations.
-      //
-      // If winrateLoss of a node is bigger than minWinrateLossForVariations,
-      // add variations.
-      if (node.variations) {
-        if (
-          node.winrateLoss > this.variationwinrate ||
-          this.badmoveonlyvariations === false ||
-          this.turnsgiven ||
-          (i === this.nodes.length - 1 && this.lastmovevariations)
-        ) {
-          tail += node.variations.reduce((acc, cur) => acc + cur.sequence, '');
-        }
-      }
-
-      if (tail !== '') {
-        this.sgf = `(;${node.sequence}${this.sgf})${tail}`;
-      } else {
-        this.sgf = `;${node.sequence}${this.sgf}`;
-      }
-    }
-
-    if (this.responsesgiven) {
-      this.root = sgfconv.addComment(
-        this.root,
-        this.setRootComment(blackgoodbads, whitegoodbads),
-      );
-    }
-
-    this.sgf = `(${this.root}${this.sgf})`;
-
-    return this.sgf;
   }
 
   // Fills winrate infos and variations of nodes from KataGo Analysis
@@ -230,7 +152,86 @@ class GameTree {
     // FIXME: Remove last move if have no variations.
   }
 
-  // Sets players info, total good moves, bad moves, ... in root comment.
+  getRootComment() {
+    return this.rootComment;
+  }
+
+  // Makes SGF GameTree, and returns it.
+  getSGF() {
+    if (this.sgf) {
+      return this.sgf;
+    }
+
+    this.sgf = '';
+
+    // 0: Good, 1: bad, and 2: bad hot spots.
+    const blackgoodbads = [[], [], []];
+    const whitegoodbads = [[], [], []];
+
+    for (let i = this.nodes.length - 1; i >= 0; i -= 1) {
+      const node = this.nodes[i];
+      const { pl } = node;
+      let tail = '';
+
+      // Counts bad moves for root comment
+      if (node.winrateLoss < this.goodmovewinrate) {
+        if (pl === 'B') {
+          blackgoodbads[0].push(i);
+        } else {
+          whitegoodbads[0].push(i);
+        }
+      }
+      if (node.winrateLoss > this.badmovewinrate) {
+        if (pl === 'B') {
+          blackgoodbads[1].push(i);
+        } else {
+          whitegoodbads[1].push(i);
+        }
+      }
+      if (node.winrateLoss > this.badhotspotwinrate) {
+        if (pl === 'B') {
+          blackgoodbads[2].push(i);
+        } else {
+          whitegoodbads[2].push(i);
+        }
+      }
+
+      // Adds variations.
+      //
+      // If winrateLoss of a node is bigger than minWinrateLossForVariations,
+      // add variations.
+      if (node.variations) {
+        if (
+          node.winrateLoss > this.variationwinrate ||
+          this.badmoveonlyvariations === false ||
+          this.turnsgiven ||
+          (i === this.nodes.length - 1 && this.lastmovevariations)
+        ) {
+          tail += node.variations.reduce((acc, cur) => acc + cur.sequence, '');
+        }
+      }
+
+      if (tail !== '') {
+        this.sgf = `(;${node.sequence}${this.sgf})${tail}`;
+      } else {
+        this.sgf = `;${node.sequence}${this.sgf}`;
+      }
+    }
+
+    if (this.responsesgiven) {
+      this.root = sgfconv.addComment(
+        this.root,
+        this.setRootComment(blackgoodbads, whitegoodbads),
+      );
+    }
+
+    this.sgf = `(${this.root}${this.sgf})`;
+
+    return this.sgf;
+  }
+
+  // Sets players info, total good moves, bad moves, ... to root comment, and
+  // returns it.
   setRootComment(blackgoodbads, whitegoodbads) {
     if (this.rootComment) {
       return this.rootComment;
@@ -241,11 +242,11 @@ class GameTree {
     }
 
     const blackplayer = sgfconv.valueFromSequence('PB', this.root);
-    const whiteplayer = sgfconv.valueFromSequence('PW', this.root);
     const blacktotal = this.nodes.reduce(
       (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
       0,
     );
+    const whiteplayer = sgfconv.valueFromSequence('PW', this.root);
     const whitetotal = this.nodes.length - blacktotal;
 
     this.rootComment = report(
