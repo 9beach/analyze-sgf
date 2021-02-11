@@ -1,5 +1,7 @@
 const fs = require('fs');
 const assert = require('assert');
+const jschardet = require('jschardet');
+const iconv = require('iconv-lite');
 
 const sgfconv = require('../src/sgfconv');
 
@@ -45,6 +47,17 @@ describe('valueFromSequence', () => {
     assert.equal(sgfconv.valueFromSequence('AP', sequence), 'Sabaki:0.51.1');
     assert.equal(sgfconv.valueFromSequence('KM', sequence), '6.5');
     assert.equal(sgfconv.valueFromSequence('GM', sequence), '1');
+  });
+});
+
+describe('valueFromSequence for test/ex-encoding-cp949.sgf', () => {
+  it('should be expected values.', () => {
+    const content = fs.readFileSync('test/ex-encoding-cp949.sgf');
+    const detected = jschardet.detect(content);
+    const sgf = iconv.decode(content, detected.encoding).toString();
+
+    assert.equal('커제', sgfconv.valueFromSequence('PB', sgf));
+    assert.equal('탕웨이싱', sgfconv.valueFromSequence('PW', sgf));
   });
 });
 

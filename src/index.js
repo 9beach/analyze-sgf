@@ -9,7 +9,7 @@ const yaml = require('js-yaml');
 const pgetopt = require('posix-getopt');
 const homedir = require('os').homedir();
 const jschardet = require('jschardet');
-const { Iconv } = require('iconv');
+const iconv = require('iconv-lite');
 const { spawn } = require('child_process');
 
 const parseBadJSON = require('./bad-json');
@@ -168,8 +168,7 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
     // Reads SGF.
     const content = await fs.readFile(sgfpath);
     const detected = jschardet.detect(content);
-    const iconv = new Iconv(detected.encoding, 'utf-8');
-    const sgf = iconv.convert(content).toString('utf-8');
+    const sgf = iconv.decode(content, detected.encoding).toString();
 
     // Makes query for KataGo.
     const query = sgfToKataGoAnalysisQuery(sgf, analysisopts);
