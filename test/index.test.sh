@@ -7,15 +7,15 @@ echo -n Tests src/index.js with option -r.
 
 test=$(mktemp)
 
-cp test/ex-ren-vs-shin.sgf $test.sgf
+cp test/t-ren-vs-shin.sgf $test.sgf
 
 # Creates $test-analyzed.sgf.
-src/index.js -f test/ex-ren-vs-shin-responses.json \
+src/index.js -f test/t-ren-vs-shin-responses.json \
 	-g 'maxWinrateLossForGoodMove:2,minWinrateLossForBadMove:5,minWinrateLossForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateLossForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	$test.sgf &> /dev/null
 
 # Strips commemnts.
-cat test/ex-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-expected
+cat test/t-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-expected
 cat $test-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-result
 
 # Compares them.
@@ -30,15 +30,15 @@ echo -n Tests src/index.js with option -k.
 
 test=$(mktemp)
 
-cp test/ex-ren-vs-shin.sgf $test.sgf
+cp test/t-ren-vs-shin.sgf $test.sgf
 
 # Creates $test-analyzed.sgf. Mock-up test.
-src/index.js -k 'path:"cat",arguments:"test/ex-ren-vs-shin-responses.json"' \
+src/index.js -k 'path:"cat",arguments:"test/t-ren-vs-shin-responses.json"' \
 	-g 'maxWinrateLossForGoodMove:2,minWinrateLossForBadMove:5,minWinrateLossForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateLossForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
         $test.sgf &> /dev/null
 
 # Strips commemnts.
-cat test/ex-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-expected
+cat test/t-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-expected
 cat $test-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $test-result
 
 # Compares them.

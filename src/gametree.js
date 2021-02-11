@@ -43,16 +43,13 @@ class GameTree {
       left = left.substring(start + 3, left.length);
     }
 
-    // Second, gets win rate infos and varations from KataGo responses.
+    // Second, fills win rates and variations from KataGo analysis.
     this.fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
   }
 
-  // Fills winrate infos and variations of nodes from KataGo Analysis
-  // responses.
+  // From KataGo analysis, fills win rates and variations.
   fromKataGoResponses(katagoresponses, pls) {
     // Checks KataGo error response.
-    //
-    // Now responses is of array type.
     if (
       katagoresponses.search('{"error":"') === 0 ||
       katagoresponses.search('{"warning":') === 0
@@ -90,7 +87,7 @@ class GameTree {
 
       this.maxvisits = Math.max(curjson.rootInfo.visits, this.maxvisits);
 
-      // Sets info to move (turnNumber - 1).
+      // Sets win rates to move (turnNumber - 1).
       if (turnNumber !== 0) {
         if (prevjson != null && turnNumber - 1 === prevjson.turnNumber) {
           this.nodes[turnNumber - 1].setWinrate(
@@ -139,7 +136,7 @@ class GameTree {
       prevjson = curjson;
     });
 
-    // Converts infos to SGF move properties.
+    // Converts win rates to SGF properties.
     this.nodes.forEach((node) => {
       // Adds move properties.
       node.setProperties(this.opts);

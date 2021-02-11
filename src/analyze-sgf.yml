@@ -1,21 +1,16 @@
 # Path and arguments of KataGo Parallel Analysis Engine.
-#
-# Please visit <https://github.com/9beach/analyze-sgf>.
 katago:
-  # For example, "/root/bin/katago".
+  # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe".
   path: "KataGo path here"
-  # For example, 
-  # "analysis -model katago-best-network.bin.gz -config analysis_example.cfg".
-  #
+  # e.g. "analysis -model katago-best-network.bin.gz -config analysis_example.cfg".
   # Note that "analysis_example.cfg" is different to "gtp_example.cfg".
-  # Please see <https://github.com/lightvector/KataGo/blob/master/cpp/configs/analysis_example.cfg>.
   arguments: "KataGo arguments here"
 
 # Analysis query options for KataGo Parallel Analysis Engine.
 #
-# Please see <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
+# Please visit <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
-  # korean, tromp-taylor, chinese, ...
+  # e.g. "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
   # If input SGF has no komi field (KM), then uses below.
   komi: 7.5
@@ -26,7 +21,7 @@ analysis:
 
 # Options for making reviewed SGF file.
 sgf:
-  # SGF can put good/bad/hotspot labels on moves for coloring game tree of SGF.
+  # SGF can put good/bad/hotspot labels on moves for coloring game tree.
   # When you open output SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
@@ -42,10 +37,10 @@ sgf:
   # In SGF, the last move can't have variations. So we add a pass move after 
   # the last move, and then add the proposed variations to that pass move.
   showVariationsAfterLastMove: false
-  # If `-k 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
+  # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
   # move 1, move 6, and move 11, and then add the variations for those moves.
-  # But 'analyzeTurn' is not given, analyze-sgf analyzes all the moves, and 
-  # adds the variations for the moves whose winrate loss are larger than 
+  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and 
+  # adds the variations for the moves whose win rate loss are larger than 
   # minWinrateLossForVariations.
   minWinrateLossForVariations: 5
   showBadVariations: false

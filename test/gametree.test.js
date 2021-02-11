@@ -16,7 +16,7 @@ describe('GameTree', () => {
     assert.equal(gametree.getSGF(), '(PL[];B[aa];W[bb])');
   });
 
-  it('should be expected values for "test/ex-ren-vs-shin.*".', () => {
+  it('should be expected values for "test/t-ren-vs-shin.*".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateLossForGoodMove = 2;
     sgfopts.minWinrateLossForBadMove = 5;
@@ -32,31 +32,31 @@ describe('GameTree', () => {
       let rsgf = gametree.getSGF();
       rsgf = sgfconv.removeComment(rsgf);
 
-      let ex = fs.readFileSync(expected).toString();
-      ex = sgfconv.removeComment(ex);
+      let esgf = fs.readFileSync(expected).toString();
+      esgf = sgfconv.removeComment(esgf);
 
-      assert.equal(ex, rsgf);
+      assert.equal(esgf, rsgf);
     }
 
     compareWithoutComments(
-      'test/ex-ren-vs-shin.sgf',
-      'test/ex-ren-vs-shin-responses.json',
-      'test/ex-ren-vs-shin-analyzed.sgf',
+      'test/t-ren-vs-shin.sgf',
+      'test/t-ren-vs-shin-responses.json',
+      'test/t-ren-vs-shin-analyzed.sgf',
     );
 
     compareWithoutComments(
-      'test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json',
-      'test/ex-sabaki-1-default.sgf',
+      'test/t-sabaki-1.sgf',
+      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1-default.sgf',
     );
 
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurnsGiven = false;
 
     compareWithoutComments(
-      'test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json',
-      'test/ex-sabaki-1-lastmove.sgf',
+      'test/t-sabaki-1.sgf',
+      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1-lastmove.sgf',
     );
 
     sgfopts.showVariationsAfterLastMove = true;
@@ -64,18 +64,18 @@ describe('GameTree', () => {
     sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
 
     compareWithoutComments(
-      'test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json',
-      'test/ex-sabaki-1-turns-lastmove.sgf',
+      'test/t-sabaki-1.sgf',
+      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1-turns-lastmove.sgf',
     );
 
     sgfopts.showVariationsAfterLastMove = false;
     sgfopts.analyzeTurnsGiven = true;
 
     compareWithoutComments(
-      'test/ex-sabaki-1.sgf',
-      'test/ex-sabaki-1-responses.json',
-      'test/ex-sabaki-1-turns.sgf',
+      'test/t-sabaki-1.sgf',
+      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1-turns.sgf',
     );
 
     function compareWithComments(original, json, expected) {
@@ -83,9 +83,8 @@ describe('GameTree', () => {
       const responses = fs.readFileSync(json).toString();
       const gametree = new GameTree(sgf, responses, sgfopts);
       const rsgf = gametree.getSGF();
-      const ex = fs.readFileSync(expected).toString();
 
-      assert.equal(ex, rsgf);
+      assert.equal(fs.readFileSync(expected).toString(), rsgf);
     }
 
     sgfopts.maxVariationsForEachMove = 10;
@@ -98,9 +97,9 @@ describe('GameTree', () => {
 
     // Be careful. Easy to fail with the change of comments formats.
     compareWithComments(
-      'test/ex-ren-vs-shin.sgf',
-      'test/ex-ren-vs-shin-responses.json',
-      'test/ex-ren-vs-shin-analyzed.sgf',
+      'test/t-ren-vs-shin.sgf',
+      'test/t-ren-vs-shin-responses.json',
+      'test/t-ren-vs-shin-analyzed.sgf',
     );
   });
 });
