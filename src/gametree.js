@@ -75,7 +75,7 @@ class GameTree {
     // * Adds variations (responses[0].moveInfos) to nodes[0].variations.
     // * Sets win rates info (responses[1].rootInfo) to nodes[0].
     // * responses[0].rootInfo is useless.
-    let prevjson = undefined;
+    let prevjson;
     this.maxvisits = 0;
 
     // Sets win rates and add PVs.
@@ -84,7 +84,7 @@ class GameTree {
       const { turnNumber } = curjson;
       const curturn = turnNumber - 1;
       const nextturn = curturn + 1;
-      const prevturn = (prevjson ? prevjson.turnNumber - 1 : undefined);
+      const prevturn = prevjson ? prevjson.turnNumber - 1 : undefined;
       const nextpl = pls[nextturn % 2];
 
       this.maxvisits = Math.max(curjson.rootInfo.visits, this.maxvisits);
