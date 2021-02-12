@@ -152,6 +152,11 @@ describe('katagomoveinfoToSequence', () => {
       sgfconv.katagomoveinfoToSequence('W', moveInfo),
       '(;W[aa];B[bb];W[cc])',
     );
+
+    assert.equal(
+      sgfconv.katagomoveinfoToSequence('B', moveInfo),
+      '(;B[aa];W[bb];B[cc])',
+    );
   });
 });
 
@@ -187,25 +192,19 @@ describe('katagomovesFromSequence', () => {
     ]);
   });
   it('should be expected values.', () => {
-    const movesfromsequence = (sgf) =>
-      sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
-    let sgf;
+    const movesfromsequence = (len, path) => {
+      const sgf = fs.readFileSync(path).toString();
+      const moves = sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
+      assert.equal(len, moves.length);
+    };
 
-    sgf = fs.readFileSync('test/t-sabaki-1.sgf').toString();
-    assert.equal(3, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-sabaki-2.sgf').toString();
-    assert.equal(18, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-oro-1.sgf').toString();
-    assert.equal(294, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-oro-2.sgf').toString();
-    assert.equal(226, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-complex.sgf').toString();
-    assert.equal(12, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-ren-vs-shin.sgf').toString();
-    assert.equal(207, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-lee-vs-alphago.sgf').toString();
-    assert.equal(180, movesfromsequence(sgf).length);
-    sgf = fs.readFileSync('test/t-encoding-cp949.sgf').toString();
-    assert.equal(18, movesfromsequence(sgf).length);
+    movesfromsequence(12, 'test/t-complex.sgf');
+    movesfromsequence(18, 'test/t-encoding-cp949.sgf');
+    movesfromsequence(180, 'test/t-lee-vs-alphago.sgf');
+    movesfromsequence(294, 'test/t-oro-1.sgf');
+    movesfromsequence(226, 'test/t-oro-2.sgf');
+    movesfromsequence(207, 'test/t-ren-vs-shin.sgf');
+    movesfromsequence(3, 'test/t-sabaki-1.sgf');
+    movesfromsequence(18, 'test/t-sabaki-2.sgf');
   });
 });

@@ -94,13 +94,11 @@ function iaFromJ1(value) {
 
 // Removes line feeds and comments.
 function removeComment(sgf) {
-  let removed = sgf;
-
-  removed = removed.replace(/\r\n/g, '').replace(/\n/g, '');
-  removed = removed.replace(/\bC\[[^\]]*\\\]/g, 'C[');
-  removed = removed.replace(/\bC\[[^\]]*\]/g, '');
-
-  return removed;
+  return sgf
+    .replace(/\r\n/g, '')
+    .replace(/\n/g, '')
+    .replace(/\bC\[[^\]]*\\\]/g, 'C[')
+    .replace(/\bC\[[^\]]*\]/g, '');
 }
 
 // '(abc(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
@@ -112,16 +110,17 @@ function removeTails(sgf) {
   // FIXME: Very poor logic.
   for (;;) {
     moves = reduced;
-    // ')  )' => '))'
-    // '(  )' => '))'
-    // '(  (' => '(('
-    reduced = reduced.replace(/([()]) *([()])/g, '$1$2');
-    // ')(dfg)' => ')'
-    reduced = reduced.replace(/\)\([^()]*\)/g, ')');
-    // '((abc))' => '(abc)'
-    // 'x(abc)y' => 'xabcy'
-    // 'x(abc)(' => 'x(abc)('
-    reduced = reduced.replace(/([^)])\(([^()]*)\)([^(])/g, '$1$2$3');
+    reduced = reduced
+      // ')  )' => '))'
+      // '(  )' => '))'
+      // '(  (' => '(('
+      .replace(/([()]) *([()])/g, '$1$2')
+      // ')(dfg)' => ')'
+      .replace(/\)\([^()]*\)/g, ')')
+      // '((abc))' => '(abc)'
+      // 'x(abc)y' => 'xabcy'
+      // 'x(abc)(' => 'x(abc)('
+      .replace(/([^)])\(([^()]*)\)([^(])/g, '$1$2$3');
 
     if (moves === reduced) break;
   }
@@ -195,8 +194,7 @@ function addComment(sequence, comment, index = 0) {
 
 // rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]
 function getPLs(rootsequence) {
-  const { root } = rootsequence;
-  const { sequence } = rootsequence;
+  const { root, sequence } = rootsequence;
   const pls = [];
 
   const index = sequence.search(/\b[BW]\[/);
@@ -217,29 +215,17 @@ function getPLs(rootsequence) {
 // '..AB[dp];W[po];B[hm]TE[1];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
 // '..AB[dp];W[po];B[hm]TE[1];W[]...' => [["W","Q15"],["B","H13"]]
 function katagomovesFromSequence(sequence) {
-  const moves = [];
-  let left = sequence;
-  let start = -1;
-
-  for (;;) {
-    start = left.search(/;[BW]\[[^\]]/);
-    if (start === -1) {
-      break;
-    }
-
-    const value = inBraket(left, start + 1);
-    moves.push([left[start + 1], iaToJ1(value)]);
-    left = left.substring(start + 3, left.length);
-  }
-
-  return moves;
+  return sequence
+    .split(';')
+    .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
+    .map((move) => [move[0], iaToJ1(move.substring(2, 4))]);
 }
 
 // '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
 function initialstonesFromSequence(sequence) {
+  const initialStones = [];
   const ab = valuesFromSequence('AB', sequence);
   const aw = valuesFromSequence('AW', sequence);
-  const initialStones = [];
 
   ab.forEach((pos) => initialStones.push(['B', iaToJ1(pos)]));
   aw.forEach((pos) => initialStones.push(['W', iaToJ1(pos)]));
@@ -247,20 +233,17 @@ function initialstonesFromSequence(sequence) {
   return initialStones;
 }
 
-// ("W", {scoreLead: 21.05059, pv:["A1","B2","C3"]}) => '(;W[aa];B[bb];W[cc])'
-function katagomoveinfoToSequence(player, moveInfo) {
-  let pl = player;
-  let sequence = '(';
+// ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'
+function katagomoveinfoToSequence(pl, moveInfo) {
+  const sequence = moveInfo.pv.reduce(
+    (acc, move) => [
+      `${acc[0]};${acc[1]}[${iaFromJ1(move)}]`,
+      acc[1] === 'W' ? 'B' : 'W',
+    ],
+    ['', pl],
+  );
 
-  moveInfo.pv.forEach((move) => {
-    sequence += `;${pl}[${iaFromJ1(move)}]`;
-
-    if (pl === 'W') pl = 'B';
-    else pl = 'W';
-  });
-  sequence += ')';
-
-  return sequence;
+  return `(${sequence[0]})`;
 }
 
 module.exports = {

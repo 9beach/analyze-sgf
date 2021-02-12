@@ -13,7 +13,6 @@ class GameTree {
     const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
 
     this.root = rootsequence.root;
-    this.nodes = [];
     this.opts = sgfOpts;
 
     // Makes long option names short.
@@ -29,19 +28,10 @@ class GameTree {
     this.badmoveonlyvariations = sgfOpts.showVariationsOnlyForBadMove;
 
     // First, gets root node and tailless main sequence from sgf.
-    let left = rootsequence.sequence;
-    let start = -1;
-
-    for (;;) {
-      start = left.search(/;[BW]\[/);
-      if (start === -1) {
-        break;
-      }
-      const index = left.indexOf(']', start);
-      this.nodes.push(new Node(left.substring(start + 1, index + 1)));
-
-      left = left.substring(start + 3, left.length);
-    }
+    this.nodes = rootsequence.sequence
+      .split(';')
+      .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
+      .map((node) => new Node(node.substring(0, 5)));
 
     // Second, fills win rates and variations from KataGo analysis.
     this.fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
