@@ -72,9 +72,8 @@ class GameTree {
     responses.sort((a, b) => turnnumber(a) - turnnumber(b));
 
     // Notice that:
-    // * pls[0] is the first move player.
-    // * Adds responses[0].moveInfos to nodes[0].variations.
-    // * Sets responses[1].rootInfo to nodes[0];
+    // * Adds variations (responses[0].moveInfos) to nodes[0].variations.
+    // * Sets win rates info (responses[1].rootInfo) to nodes[0].
     // * responses[0].rootInfo is useless.
     let prevjson = undefined;
     this.maxvisits = 0;
@@ -86,10 +85,11 @@ class GameTree {
       const curturn = turnNumber - 1;
       const nextturn = curturn + 1;
       const prevturn = (prevjson ? prevjson.turnNumber - 1 : undefined);
+      const nextpl = pls[nextturn % 2];
 
       this.maxvisits = Math.max(curjson.rootInfo.visits, this.maxvisits);
 
-      // Sets win rates to move (turnNumber - 1).
+      // Sets win rates to current turn.
       if (curturn >= 0) {
         const node = this.nodes[curturn];
         if (curturn === prevturn + 1) {
@@ -99,15 +99,13 @@ class GameTree {
         }
       }
 
-      const nextPL = pls[nextturn % 2];
-
       // To add PVs after last move. Adds pass move (B[], or W[]), and
       // then adds PVs.
       if (this.lastmovevariations && this.nodes.length === nextturn) {
-        this.nodes.push(new Node(`${nextPL}[]`));
+        this.nodes.push(new Node(`${nextpl}[]`));
       }
 
-      // Adds variations to the next move.
+      // Adds variations to the next turn.
       if (
         (this.lastmovevariations || nextturn < this.nodes.length) &&
         (!this.turnsgiven || this.turns.indexOf(nextturn) !== -1)
@@ -117,7 +115,7 @@ class GameTree {
 
         curjson.moveInfos.some((moveInfo) => {
           const variation = new Node(
-            sgfconv.katagomoveinfoToSequence(nextPL, moveInfo),
+            sgfconv.katagomoveinfoToSequence(nextpl, moveInfo),
           );
 
           variation.setWinrate(curjson.rootInfo, moveInfo, this.opts);
