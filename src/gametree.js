@@ -97,6 +97,7 @@ class GameTree {
         } else {
           this.nodes[turnNumber - 1].setWinrate(null, curjson.rootInfo);
         }
+        this.nodes[turnNumber - 1].setProperties(this.opts);
       }
 
       const nextPL = pls[turnNumber % 2];
@@ -121,6 +122,7 @@ class GameTree {
           );
 
           variation.setWinrate(curjson.rootInfo, moveInfo);
+          variation.setProperties(this.opts);
 
           if (
             this.badvariations === true ||
@@ -136,16 +138,6 @@ class GameTree {
       prevjson = curjson;
     });
 
-    // Converts win rates to SGF properties.
-    this.nodes.forEach((node) => {
-      // Adds move properties.
-      node.setProperties(this.opts);
-
-      if (node.variations) {
-        // Adds variations properties.
-        node.variations.forEach((v) => v.setProperties(this.opts));
-      }
-    });
     // FIXME: Remove last move if have no variations.
   }
 

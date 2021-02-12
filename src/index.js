@@ -48,8 +48,8 @@ function sgfToKataGoAnalysisQuery(sgf, opts) {
 }
 
 // Requests analysis to KataGo, and reads responses.
-async function kataGoAnalyze(sgf, query, katagoopts) {
-  const katago = spawn(`${katagoopts.path} ${katagoopts.arguments}`, [], {
+async function kataGoAnalyze(sgf, query, katagoOpts) {
+  const katago = spawn(`${katagoOpts.path} ${katagoOpts.arguments}`, [], {
     shell: true,
   });
 
@@ -58,9 +58,9 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
 
   katago.on('exit', (code) => {
     if (code !== 0) {
-      console.error(`Failed to run KataGo from ${config}`);
+      console.error(`Failed to run KataGo. Try to fix "${config}".`);
       // Just for error readibility.
-      const opts = JSON.stringify(katagoopts, null, 2)
+      const opts = JSON.stringify(katagoOpts, null, 2)
         .replace(/,\n/, '\n')
         .replace('  "path": ', '  path: ')
         .replace('  "arguments": ', '  arguments: ');
@@ -105,9 +105,9 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
 
   let responsespath = null;
   let savegiven = false;
-  let analysisopts = {};
-  let sgfopts = {};
-  let katagoopts = {};
+  let analysisOpts = {};
+  let sgfOpts = {};
+  let katagoOpts = {};
 
   // Parses args.
   try {
@@ -126,16 +126,16 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
       }
       switch (opt.option) {
         case 'a':
-          analysisopts = parseBadJSON(opt.optarg);
+          analysisOpts = parseBadJSON(opt.optarg);
           if (opt.optarg.search('analyzeTurns') >= 0) {
             turnsgiven = true;
           }
           break;
         case 'k':
-          katagoopts = parseBadJSON(opt.optarg);
+          katagoOpts = parseBadJSON(opt.optarg);
           break;
         case 'g':
-          sgfopts = parseBadJSON(opt.optarg);
+          sgfOpts = parseBadJSON(opt.optarg);
           break;
         case 's':
           savegiven = true;
@@ -149,7 +149,7 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
       }
     }
 
-    sgfopts.analyzeTurnsGiven = turnsgiven;
+    sgfOpts.analyzeTurnsGiven = turnsgiven;
 
     if (parser.optind() >= process.argv.length) {
       console.error(help);
@@ -159,11 +159,11 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
     const sgfpath = process.argv[parser.optind()];
 
     // Reads config file.
-    const defaultopts = yaml.load(await fs.readFile(config));
+    const defaultOpts = yaml.load(await fs.readFile(config));
 
-    analysisopts = { ...defaultopts.analysis, ...analysisopts };
-    sgfopts = { ...defaultopts.sgf, ...sgfopts };
-    katagoopts = { ...defaultopts.katago, ...katagoopts };
+    analysisOpts = { ...defaultOpts.analysis, ...analysisOpts };
+    sgfOpts = { ...defaultOpts.sgf, ...sgfOpts };
+    katagoOpts = { ...defaultOpts.katago, ...katagoOpts };
 
     // Reads SGF.
     const content = await fs.readFile(sgfpath);
@@ -171,13 +171,13 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
     const sgf = iconv.decode(content, detected.encoding).toString();
 
     // Makes query for KataGo.
-    const query = sgfToKataGoAnalysisQuery(sgf, analysisopts);
+    const query = sgfToKataGoAnalysisQuery(sgf, analysisOpts);
     // Copys some options.
-    sgfopts.analyzeTurns = query.analyzeTurns;
+    sgfOpts.analyzeTurns = query.analyzeTurns;
 
     const responses =
       responsespath == null
-        ? await kataGoAnalyze(sgf, JSON.stringify(query), katagoopts)
+        ? await kataGoAnalyze(sgf, JSON.stringify(query), katagoOpts)
         : (await fs.readFile(responsespath)).toString();
 
     if (savegiven && !responsespath) {
@@ -189,9 +189,9 @@ async function kataGoAnalyze(sgf, query, katagoopts) {
 
     // Saves responses to SGF.
     const rsgfpath = `${
-      sgfpath.substring(0, sgfpath.lastIndexOf('.')) + sgfopts.fileSuffix
+      sgfpath.substring(0, sgfpath.lastIndexOf('.')) + sgfOpts.fileSuffix
     }.sgf`;
-    const gametree = new GameTree(sgf, responses, sgfopts);
+    const gametree = new GameTree(sgf, responses, sgfOpts);
 
     await fs.writeFile(rsgfpath, gametree.getSGF());
     console.error(`"${rsgfpath}" created.`);
