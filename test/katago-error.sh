@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
->&2 echo This is test response of KataGo error.
->&2 echo This is error text.
+>&2 echo This is KataGo error test.
+>&2 echo This is error message.
 
 exit 1

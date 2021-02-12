@@ -2,6 +2,9 @@
 
 set -e
 
+REPO_PATH="$(dirname $(cd "$(dirname "$0")" > /dev/null 2>&1; pwd -P))"
+cd $REPO_PATH
+
 ######################
 # Setup test fixtures.
 ######################
@@ -55,8 +58,8 @@ src/index.js -k 'path:"test/katago-error.sh",arguments:""' $test.sgf 2> $test-re
 
 grep '  path: "test/katago-error.sh"' $test-result &> /dev/null
 grep '  arguments: "' $test-result &> /dev/null
-grep 'This is test response of KataGo error' $test-result &> /dev/null
-grep 'This is error text' $test-result &> /dev/null
+grep 'This is KataGo error test' $test-result &> /dev/null
+grep 'This is error message' $test-result &> /dev/null
 
 echo -e "\033[1;32m Ok \033[0m"
 
