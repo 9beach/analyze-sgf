@@ -1,8 +1,0 @@
-"komi" is set to 7.5 from SGF.
-Failed to run KataGo. Try to fix "/Users/hcho/.analyze-sgf.yml".
-{
-  path: "test/katago-error.sh"
-  arguments: ""
-}
-This is test response of KataGo error.
-This is error text.
