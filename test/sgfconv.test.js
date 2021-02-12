@@ -165,6 +165,10 @@ describe('initialstonesFromSequence', () => {
       ['W', 'C3'],
     ]);
   });
+  it('should be expected values.', () => {
+    const sequence = '(...HA[2];B[hm]TE[1]...)';
+    assert.deepEqual(sgfconv.initialstonesFromSequence(sequence), []);
+  });
 });
 
 describe('katagomovesFromSequence', () => {

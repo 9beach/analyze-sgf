@@ -80,6 +80,7 @@ class GameTree {
     let prevjson = null;
     this.maxvisits = 0;
 
+    // Sets win rates and add PVs.
     responses.forEach((response) => {
       const curjson = JSON.parse(response);
       // turnNumber - 1 is current node.
@@ -89,21 +90,18 @@ class GameTree {
 
       // Sets win rates to move (turnNumber - 1).
       if (turnNumber !== 0) {
+        const node = this.nodes[turnNumber - 1];
         if (prevjson != null && turnNumber - 1 === prevjson.turnNumber) {
-          this.nodes[turnNumber - 1].setWinrate(
-            prevjson.rootInfo,
-            curjson.rootInfo,
-          );
+          node.setWinrate(prevjson.rootInfo, curjson.rootInfo, this.opts);
         } else {
-          this.nodes[turnNumber - 1].setWinrate(null, curjson.rootInfo);
+          node.setWinrate(null, curjson.rootInfo, this.opts);
         }
-        this.nodes[turnNumber - 1].setProperties(this.opts);
       }
 
       const nextPL = pls[turnNumber % 2];
 
-      // To add PVs after last move. We add pass move (B[], or W[]), and
-      // then add PVs.
+      // To add PVs after last move. Adds pass move (B[], or W[]), and
+      // then adds PVs.
       if (this.lastmovevariations && this.nodes.length === turnNumber) {
         this.nodes.push(new Node(`${nextPL}[]`));
       }
@@ -121,8 +119,7 @@ class GameTree {
             sgfconv.katagomoveinfoToSequence(nextPL, moveInfo),
           );
 
-          variation.setWinrate(curjson.rootInfo, moveInfo);
-          variation.setProperties(this.opts);
+          variation.setWinrate(curjson.rootInfo, moveInfo, this.opts);
 
           if (
             this.badvariations === true ||
@@ -151,85 +148,78 @@ class GameTree {
       return this.sgf;
     }
 
-    this.sgf = '';
-
-    // 0: Good, 1: bad, and 2: bad hot spots.
-    const blackgoodbads = [[], [], []];
-    const whitegoodbads = [[], [], []];
-
-    for (let i = this.nodes.length - 1; i >= 0; i -= 1) {
-      const node = this.nodes[i];
-      const { pl } = node;
+    // Accumulates nodes and tails (variations).
+    let last = true;
+    this.sgf = this.nodes.reduceRight((acc, node) => {
       let tail = '';
 
-      // Counts bad moves for root comment
-      if (node.winrateLoss < this.goodmovewinrate) {
-        if (pl === 'B') {
-          blackgoodbads[0].push(i);
-        } else {
-          whitegoodbads[0].push(i);
-        }
-      }
-      if (node.winrateLoss > this.badmovewinrate) {
-        if (pl === 'B') {
-          blackgoodbads[1].push(i);
-        } else {
-          whitegoodbads[1].push(i);
-        }
-      }
-      if (node.winrateLoss > this.badhotspotwinrate) {
-        if (pl === 'B') {
-          blackgoodbads[2].push(i);
-        } else {
-          whitegoodbads[2].push(i);
-        }
-      }
-
-      // Adds variations.
-      //
-      // If winrateLoss of a node is bigger than minWinrateLossForVariations,
-      // add variations.
       if (node.variations) {
         if (
-          node.winrateLoss > this.variationwinrate ||
-          this.badmoveonlyvariations === false ||
           this.turnsgiven ||
-          (i === this.nodes.length - 1 && this.lastmovevariations)
+          this.badmoveonlyvariations === false ||
+          node.winrateLoss > this.variationwinrate ||
+          (last && this.lastmovevariations)
         ) {
-          tail += node.variations.reduce((acc, cur) => acc + cur.sequence, '');
+          last = false;
+          tail += node.variations.reduce(
+            (sum, variation) => sum + variation.sequence,
+            '',
+          );
         }
       }
 
       if (tail !== '') {
-        this.sgf = `(;${node.sequence}${this.sgf})${tail}`;
-      } else {
-        this.sgf = `;${node.sequence}${this.sgf}`;
+        return `(;${node.sequence}${acc})${tail}`;
       }
-    }
+      return `;${node.sequence}${acc}`;
+    }, '');
 
     if (this.responsesgiven) {
-      this.root = sgfconv.addComment(
-        this.root,
-        this.setRootComment(blackgoodbads, whitegoodbads),
-      );
+      this.setRootComment();
     }
-
     this.sgf = `(${this.root}${this.sgf})`;
 
     return this.sgf;
   }
 
-  // Sets players info, total good moves, bad moves, ... to root comment, and
-  // returns it.
-  setRootComment(blackgoodbads, whitegoodbads) {
+  // Sets players info, total good moves, bad moves, ... to this.rootComment
+  // and this.root.
+  setRootComment() {
     if (this.rootComment) {
-      return this.rootComment;
+      return;
     }
     if (this.turnsgiven) {
       this.rootComment = '';
-      return this.rootComment;
+      return;
     }
 
+    // Counts good moves, bad moves, and bad hotspots.
+    // 0: Good, 1: bad, and 2: bad hotspots.
+    const blackgoodbads = [[], [], []];
+    const whitegoodbads = [[], [], []];
+
+    function addtoblackorwhite(pl, index, num) {
+      if (pl === 'B') {
+        blackgoodbads[index].push(num);
+      } else {
+        whitegoodbads[index].push(num);
+      }
+    }
+
+    this.nodes.forEach((node, i) => {
+      const { pl } = node;
+
+      if (node.winrateLoss < this.goodmovewinrate) {
+        addtoblackorwhite(pl, 0, i);
+      } else if (node.winrateLoss > this.badmovewinrate) {
+        addtoblackorwhite(pl, 1, i);
+        if (node.winrateLoss > this.badhotspotwinrate) {
+          addtoblackorwhite(pl, 2, i);
+        }
+      }
+    });
+
+    // Makes report, i.e. root comment.
     const blackplayer = sgfconv.valueFromSequence('PB', this.root);
     const blacktotal = this.nodes.reduce(
       (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
@@ -253,7 +243,7 @@ class GameTree {
       this.maxvisits,
     );
 
-    return this.rootComment;
+    this.root = sgfconv.addComment(this.root, this.rootComment);
   }
 }
 

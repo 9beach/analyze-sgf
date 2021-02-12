@@ -25,7 +25,7 @@ class Node {
 
   // Calculates scoreLoss, winrateLoss, ..., from KataGo response, and sets
   // them to myself.
-  setWinrate(previnfo, currentinfo) {
+  setWinrate(previnfo, currentinfo, sgfOpts) {
     if (previnfo) {
       const winrateLoss = previnfo.winrate - currentinfo.winrate;
       const scoreLoss = previnfo.scoreLead - currentinfo.scoreLead;
@@ -50,16 +50,21 @@ class Node {
     this.winrate = currentinfo.winrate;
     this.scoreLead = currentinfo.scoreLead;
     this.visits = currentinfo.visits;
+
+    if (sgfOpts) {
+      this.setProperties(sgfOpts);
+    }
   }
 
-  // Add properties (comment, god move, bad move, ...) to this.sequence, and
-  // returns this.sequence.
+  // Add properties (comment, god move, bad move, ...) to this.sequence.
+  //
+  // Private. `setWinrate` automatically calls this.
   //
   // sgfOpts => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
   // sgfOpts => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
   setProperties(sgfOpts) {
     if (this.propertiesGot === true) {
-      return this.sequence;
+      return;
     }
 
     let properties = this.sequence;
@@ -86,8 +91,6 @@ class Node {
 
     this.propertiesGot = true;
     this.sequence = properties;
-
-    return this.sequence;
   }
 
   // () => "As Black:\n* Win rate: 55.00%\n* Win rate loss: ...".

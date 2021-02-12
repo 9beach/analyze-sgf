@@ -43,7 +43,7 @@ function valuesFromSequence(prop, sgf) {
   const values = rawvaluesFromSequence(prop, sgf);
 
   return values.length === 0
-    ? ''
+    ? []
     : values.substring(1, values.length - 1).split('][');
 }
 
@@ -244,12 +244,8 @@ function initialstonesFromSequence(sequence) {
   const aw = valuesFromSequence('AW', sequence);
   const initialStones = [];
 
-  for (let i = 0; i < ab.length; i += 1) {
-    initialStones.push(['B', iaToJ1(ab[i])]);
-  }
-  for (let i = 0; i < aw.length; i += 1) {
-    initialStones.push(['W', iaToJ1(aw[i])]);
-  }
+  ab.forEach((pos) => initialStones.push(['B', iaToJ1(pos)]));
+  aw.forEach((pos) => initialStones.push(['W', iaToJ1(pos)]));
 
   return initialStones;
 }
