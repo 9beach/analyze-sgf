@@ -72,47 +72,48 @@ class GameTree {
     responses.sort((a, b) => turnnumber(a) - turnnumber(b));
 
     // Notice that:
-    // - pls -> pls[0] is the first move player.
-    // - moves, nodes -> moves[0] is the first move.
-    // - curjson.turnNumber -> 0, for the variations for the first move.
-    // - curjson.turnNumber -> 1, for the first move info.
-    // - turnNumber 0 -> pl 'W', nextPL 'B'
-    let prevjson = null;
+    // * pls[0] is the first move player.
+    // * Adds responses[0].moveInfos to nodes[0].variations.
+    // * Sets responses[1].rootInfo to nodes[0];
+    // * responses[0].rootInfo is useless.
+    let prevjson = undefined;
     this.maxvisits = 0;
 
     // Sets win rates and add PVs.
     responses.forEach((response) => {
       const curjson = JSON.parse(response);
-      // turnNumber - 1 is current node.
       const { turnNumber } = curjson;
+      const curturn = turnNumber - 1;
+      const nextturn = curturn + 1;
+      const prevturn = (prevjson ? prevjson.turnNumber - 1 : undefined);
 
       this.maxvisits = Math.max(curjson.rootInfo.visits, this.maxvisits);
 
       // Sets win rates to move (turnNumber - 1).
-      if (turnNumber !== 0) {
-        const node = this.nodes[turnNumber - 1];
-        if (prevjson != null && turnNumber - 1 === prevjson.turnNumber) {
+      if (curturn >= 0) {
+        const node = this.nodes[curturn];
+        if (curturn === prevturn + 1) {
           node.setWinrate(prevjson.rootInfo, curjson.rootInfo, this.opts);
         } else {
           node.setWinrate(null, curjson.rootInfo, this.opts);
         }
       }
 
-      const nextPL = pls[turnNumber % 2];
+      const nextPL = pls[nextturn % 2];
 
       // To add PVs after last move. Adds pass move (B[], or W[]), and
       // then adds PVs.
-      if (this.lastmovevariations && this.nodes.length === turnNumber) {
+      if (this.lastmovevariations && this.nodes.length === nextturn) {
         this.nodes.push(new Node(`${nextPL}[]`));
       }
 
-      // Adds variations to next pl.
+      // Adds variations to the next move.
       if (
-        (this.lastmovevariations || turnNumber !== this.nodes.length) &&
-        (!this.turnsgiven || this.turns.indexOf(turnNumber) !== -1)
+        (this.lastmovevariations || nextturn < this.nodes.length) &&
+        (!this.turnsgiven || this.turns.indexOf(nextturn) !== -1)
       ) {
-        this.nodes[turnNumber].variations = [];
-        const { variations } = this.nodes[turnNumber];
+        this.nodes[nextturn].variations = [];
+        const { variations } = this.nodes[nextturn];
 
         curjson.moveInfos.some((moveInfo) => {
           const variation = new Node(
