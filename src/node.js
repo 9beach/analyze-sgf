@@ -27,15 +27,12 @@ class Node {
   // them to myself.
   setWinrate(previnfo, currentinfo, sgfOpts) {
     if (previnfo) {
-      const winrateLoss = previnfo.winrate - currentinfo.winrate;
-      const scoreLoss = previnfo.scoreLead - currentinfo.scoreLead;
+      this.winrateLoss = previnfo.winrate - currentinfo.winrate;
+      this.scoreLoss = previnfo.scoreLead - currentinfo.scoreLead;
 
       if (this.pl === 'W') {
-        this.winrateLoss = -winrateLoss;
-        this.scoreLoss = -scoreLoss;
-      } else {
-        this.winrateLoss = winrateLoss;
-        this.scoreLoss = scoreLoss;
+        this.winrateLoss = -this.winrateLoss;
+        this.scoreLoss = -this.scoreLoss;
       }
     }
 
@@ -71,7 +68,7 @@ class Node {
 
     if (this.winrate != null) {
       // Comment.
-      properties = sgfconv.addComment(properties, this.getWinratesComment());
+      properties = sgfconv.addComment(properties, this.getWinratesReport());
 
       // RSGF winrate.
       properties = sgfconv.addProperty(
@@ -94,7 +91,7 @@ class Node {
   }
 
   // () => "As Black:\n* Win rate: 55.00%\n* Win rate loss: ...".
-  getWinratesComment() {
+  getWinratesReport() {
     const pl = this.pl === 'W' ? 'As White:\n' : 'As Black:\n';
     const visits = `* Visits: ${this.visits}`;
     let winrate;
@@ -107,7 +104,7 @@ class Node {
     scoreLead = parseFloat(this.myScoreLead).toFixed(2);
     scoreLead = `* Score lead: ${scoreLead}\n`;
 
-    if (this.winrateLoss != null) {
+    if (this.winrateLoss !== undefined) {
       winrateLoss = (parseFloat(this.winrateLoss) * 100).toFixed(2);
       winrateLoss = `* Win rate loss: ${winrateLoss}%\n`;
       scoreLoss = `* Score loss: ${parseFloat(this.scoreLoss).toFixed(2)}\n`;
