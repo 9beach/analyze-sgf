@@ -62,6 +62,12 @@ class GameTree {
     responses.sort((a, b) => turnnumber(a) - turnnumber(b));
 
     // Notice that:
+    //
+    // KataGo's moveInfos (variations or PVs) of turnNumber is for the 
+    // variations of node[turnNumber], but KataGo's rootInfo (win rates info)
+    // of turnNumber is for node[turnNumber - 1]. So we call (turnNumber - 1)
+    // curturn, and call turnNumber nextturn.
+    //
     // * Adds variations (responses[0].moveInfos) to nodes[0].variations.
     // * Sets win rates info (responses[1].rootInfo) to nodes[0].
     // * responses[0].rootInfo is useless.
