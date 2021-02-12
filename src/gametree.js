@@ -184,10 +184,7 @@ class GameTree {
   // Sets players info, total good moves, bad moves, ... to this.rootComment
   // and this.root.
   setRootComment() {
-    if (this.rootComment) {
-      return;
-    }
-    if (this.turnsgiven) {
+    if (this.rootComment || this.turnsgiven) {
       this.rootComment = '';
       return;
     }
@@ -198,11 +195,8 @@ class GameTree {
     const whitegoodbads = [[], [], []];
 
     function addtoblackorwhite(pl, index, num) {
-      if (pl === 'B') {
-        blackgoodbads[index].push(num);
-      } else {
-        whitegoodbads[index].push(num);
-      }
+      if (pl === 'B') blackgoodbads[index].push(num);
+      else whitegoodbads[index].push(num);
     }
 
     this.nodes.forEach((node, i) => {

@@ -208,11 +208,8 @@ function getPLs(rootsequence) {
     pls.push('B');
   }
 
-  if (pls[0] === 'W') {
-    pls.push('B');
-  } else {
-    pls.push('W');
-  }
+  if (pls[0] === 'W') pls.push('B');
+  else pls.push('W');
 
   return pls;
 }
@@ -258,11 +255,8 @@ function katagomoveinfoToSequence(player, moveInfo) {
   moveInfo.pv.forEach((move) => {
     sequence += `;${pl}[${iaFromJ1(move)}]`;
 
-    if (pl === 'W') {
-      pl = 'B';
-    } else {
-      pl = 'W';
-    }
+    if (pl === 'W') pl = 'B';
+    else pl = 'W';
   });
   sequence += ')';
 
