@@ -223,14 +223,10 @@ function katagomovesFromSequence(sequence) {
 
 // '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
 function initialstonesFromSequence(sequence) {
-  const initialStones = [];
-  const ab = valuesFromSequence('AB', sequence);
-  const aw = valuesFromSequence('AW', sequence);
-
-  ab.forEach((pos) => initialStones.push(['B', iaToJ1(pos)]));
-  aw.forEach((pos) => initialStones.push(['W', iaToJ1(pos)]));
-
-  return initialStones;
+  return [
+    ...valuesFromSequence('AB', sequence).map((pos) => ['B', iaToJ1(pos)]),
+    ...valuesFromSequence('AW', sequence).map((pos) => ['W', iaToJ1(pos)]),
+  ];
 }
 
 // ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'

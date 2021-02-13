@@ -104,29 +104,20 @@ class GameTree {
         (!this.opts.analyzeTurnsGiven ||
           this.opts.analyzeTurns.indexOf(nextturn) !== -1)
       ) {
-        this.nodes[nextturn].variations = [];
-        const { variations } = this.nodes[nextturn];
+        this.nodes[nextturn].variations = curjson.moveInfos
+          .map((moveinfo, index) => {
+            const variation = new Node(
+              sgfconv.katagomoveinfoToSequence(nextpl, moveinfo),
+            );
 
-        curjson.moveInfos.every((moveInfo) => {
-          if (variations.length >= this.opts.maxVariationsForEachMove) {
-            return false;
-          }
-
-          const variation = new Node(
-            sgfconv.katagomoveinfoToSequence(nextpl, moveInfo),
-          );
-
-          variation.setWinrate(curjson.rootInfo, moveInfo, this.opts);
-
-          if (
+            variation.setWinrate(curjson.rootInfo, moveinfo, this.opts);
+            return variation;
+          })
+          .filter((variation) => (
             this.opts.showBadVariations === true ||
             this.goodmovewinrate > variation.winrateLoss
-          ) {
-            variations.push(variation);
-          }
-
-          return true;
-        });
+          ))
+          .slice(0, this.opts.maxVariationsForEachMove);
       }
       prevjson = curjson;
     });
