@@ -62,7 +62,7 @@ function reportGame(
   badhotspotwinrate,
   variationwinrate,
   maxvariations,
-  maxvisits,
+  visits,
 ) {
   const pb = colorPL(stat.pb, 'Black');
   const pw = colorPL(stat.pw, 'White');
@@ -77,7 +77,7 @@ function reportGame(
     `\n\nVariations added for the moves of more then ` +
     `${variationwinrate * 100}% win rate loss.` +
     `\nMaximum variations number for each move is ${maxvariations}.` +
-    `\n\nAnalyzed by KataGo Parallel Analysis Engine (${maxvisits} max visits).`
+    `\n\nAnalyzed by KataGo Parallel Analysis Engine (${visits} max visits).`
   );
 }
 
