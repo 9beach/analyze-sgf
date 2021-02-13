@@ -1,4 +1,5 @@
-/** @fileOverview GameTree data structure. Please see
+/**
+ * @fileOverview GameTree data structure. Please see
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
@@ -58,9 +59,9 @@ class GameTree {
     //
     // * responses.length === nodes.length + 1
     // * Adds responses[0].moveInfos to nodes[0].variations.
-    // * To use moveInfos (preview variations) of the last response, we need to
-    //   add the node of pass move (B[] or W[]) to this.nodes, and then we can
-    //   add moveInfos to the node.
+    // * To use moveInfos (preview variations) of the last response, we need
+    //   to add the node of pass move (B[] or W[]) to this.nodes, and then we
+    //   can add moveInfos to the node.
     // * Sets win rates info (responses[1].rootInfo) to nodes[0].
     // * responses[0].rootInfo is useless.
     //
