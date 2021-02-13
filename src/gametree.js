@@ -1,5 +1,4 @@
-/**
- * @fileOverview GameTree data structure. Please see
+/** @fileOverview GameTree data structure. Please see
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
@@ -20,9 +19,6 @@ class GameTree {
     this.badmovewinrate = sgfOpts.minWinrateLossForBadMove / 100;
     this.badhotspotwinrate = sgfOpts.minWinrateLossForBadHotSpot / 100;
     this.variationwinrate = sgfOpts.minWinrateLossForVariations / 100;
-    this.badvariations = sgfOpts.showBadVariations;
-    this.turns = sgfOpts.analyzeTurns;
-    this.lastmovevariations = sgfOpts.showVariationsAfterLastMove;
 
     // First, gets root node and tailless main sequence from sgf.
     this.nodes = rootsequence.sequence
@@ -94,20 +90,25 @@ class GameTree {
 
       // To add PVs after last move. Adds pass move (B[], or W[]), and
       // then adds PVs.
-      if (this.lastmovevariations && this.nodes.length === nextturn) {
+      if (
+        this.opts.showVariationsAfterLastMove &&
+        this.nodes.length === nextturn
+      ) {
         this.nodes.push(new Node(`${nextpl}[]`));
       }
 
       // Adds variations to the next turn.
       if (
-        (this.lastmovevariations || nextturn < this.nodes.length) &&
-        (!this.sgfOpts.analyzeTurnsGiven || this.turns.indexOf(nextturn) !== -1)
+        (this.opts.showVariationsAfterLastMove ||
+          nextturn < this.nodes.length) &&
+        (!this.opts.analyzeTurnsGiven ||
+          this.opts.analyzeTurns.indexOf(nextturn) !== -1)
       ) {
         this.nodes[nextturn].variations = [];
         const { variations } = this.nodes[nextturn];
 
         curjson.moveInfos.every((moveInfo) => {
-          if (variations.length >= sgfOpts.maxVariationsForEachMove) {
+          if (variations.length >= this.opts.maxVariationsForEachMove) {
             return false;
           }
 
@@ -118,7 +119,7 @@ class GameTree {
           variation.setWinrate(curjson.rootInfo, moveInfo, this.opts);
 
           if (
-            this.badvariations === true ||
+            this.opts.showBadVariations === true ||
             this.goodmovewinrate > variation.winrateLoss
           ) {
             variations.push(variation);
@@ -150,10 +151,10 @@ class GameTree {
 
       if (node.variations) {
         if (
-          this.sgfOpts.analyzeTurnsGiven ||
-          sgfOpts.showVariationsOnlyForBadMove == false ||
+          this.opts.analyzeTurnsGiven ||
+          this.opts.showVariationsOnlyForBadMove === false ||
           node.winrateLoss > this.variationwinrate ||
-          (last && this.lastmovevariations)
+          (last && this.opts.showVariationsAfterLastMove)
         ) {
           last = false;
           tail += node.variations.reduce(
@@ -180,7 +181,7 @@ class GameTree {
   // Sets players info, total good moves, bad moves, ... to this.rootComment
   // and this.root.
   setRootComment() {
-    if (this.rootComment || this.sgfOpts.analyzeTurnsGiven) {
+    if (this.rootComment || this.opts.analyzeTurnsGiven) {
       this.rootComment = '';
       return;
     }
@@ -228,7 +229,7 @@ class GameTree {
       this.badmovewinrate,
       this.badhotspotwinrate,
       this.variationwinrate,
-      sgfOpts.maxVariationsForEachMove,
+      this.opts.maxVariationsForEachMove,
       this.maxvisits,
     );
 
