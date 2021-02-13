@@ -56,12 +56,7 @@ function blackorwhite(player, color) {
 
 // Generates report.
 function reportgame(
-  blackplayer,
-  blacktotal,
-  blackgoodbads,
-  whiteplayer,
-  whitetotal,
-  whitegoodbads,
+  stat,
   goodmovewinrate,
   badmovewinrate,
   badhotspotwinrate,
@@ -69,13 +64,13 @@ function reportgame(
   maxvariations,
   maxvisits,
 ) {
-  const pb = blackorwhite(blackplayer, 'Black');
-  const pw = blackorwhite(whiteplayer, 'White');
+  const pb = blackorwhite(stat.blackplayer, 'Black');
+  const pw = blackorwhite(stat.whiteplayer, 'White');
 
   return (
     `# Analyze-SGF Report` +
-    `\n\n${pb}\n${reportgoodandbad(blacktotal, blackgoodbads)}` +
-    `\n${pw}\n${reportgoodandbad(whitetotal, whitegoodbads)}` +
+    `\n\n${pb}\n${reportgoodandbad(stat.blacktotal, stat.blackgoodbads)}` +
+    `\n${pw}\n${reportgoodandbad(stat.whitetotal, stat.whitegoodbads)}` +
     `\nGood move: less than ${goodmovewinrate * 100}% win rate loss` +
     `\nBad move: more than ${badmovewinrate * 100}% win rate loss` +
     `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate loss` +

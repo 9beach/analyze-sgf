@@ -8,29 +8,29 @@ const Node = require('./node');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
-  constructor(sgf, katagoResponses, sgfOpts) {
+  constructor(sgf, katagoResponses, opts) {
     const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
 
     this.root = rootsequence.root;
-    this.opts = sgfOpts;
+    this.opts = opts;
 
     // Makes long option names short.
-    this.goodmovewinrate = sgfOpts.maxWinrateLossForGoodMove / 100;
-    this.badmovewinrate = sgfOpts.minWinrateLossForBadMove / 100;
-    this.badhotspotwinrate = sgfOpts.minWinrateLossForBadHotSpot / 100;
-    this.variationwinrate = sgfOpts.minWinrateLossForVariations / 100;
+    this.goodmovewinrate = opts.maxWinrateLossForGoodMove / 100;
+    this.badmovewinrate = opts.minWinrateLossForBadMove / 100;
+    this.badhotspotwinrate = opts.minWinrateLossForBadHotSpot / 100;
+    this.variationwinrate = opts.minWinrateLossForVariations / 100;
 
-    // First, gets root node and tailless main sequence from sgf.
+    // Gets root node and tailless main sequence from sgf.
     this.nodes = rootsequence.sequence
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
       .map((node) => new Node(node.substring(0, 5)));
 
-    // Second, fills win rates and variations from KataGo analysis.
+    // Fills win rates and variations of this.nodes.
     this.fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
   }
 
-  // From KataGo analysis, fills win rates and variations.
+  // From KataGo responses, fills win rates and variations of this.nodes.
   fromKataGoResponses(katagoresponses, pls) {
     // Checks KataGo error response.
     if (
@@ -56,18 +56,22 @@ class GameTree {
 
     // Notice that:
     //
-    // KataGo's moveInfos (variations or PVs) of turnNumber is for the
-    // variations of node[turnNumber], but KataGo's rootInfo (win rates info)
-    // of turnNumber is for node[turnNumber - 1]. So we call (turnNumber - 1)
-    // curturn, and call turnNumber nextturn.
-    //
-    // * Adds variations (responses[0].moveInfos) to nodes[0].variations.
+    // * responses.length === nodes.length + 1
+    // * Adds responses[0].moveInfos to nodes[0].variations.
+    // * To use moveInfos (preview variations) of the last response, we need to
+    //   add the node of pass move (B[] or W[]) to this.nodes, and then we can
+    //   add moveInfos to the node.
     // * Sets win rates info (responses[1].rootInfo) to nodes[0].
     // * responses[0].rootInfo is useless.
+    //
+    // KataGo's moveInfos (variations) of turnNumber is for the variations of
+    // node[turnNumber], but KataGo's rootInfo (win rates info) of turnNumber
+    // is for node[turnNumber - 1]. So we call (turnNumber - 1) curturn, and
+    // call turnNumber nextturn.
     let prevjson;
     this.maxvisits = 0;
 
-    // Sets win rates and add PVs.
+    // Sets win rates and add moveInfos (variations) to this.nodes.
     responses.forEach((response) => {
       const curjson = JSON.parse(response);
       const { turnNumber } = curjson;
@@ -78,18 +82,20 @@ class GameTree {
 
       this.maxvisits = Math.max(curjson.rootInfo.visits, this.maxvisits);
 
-      // Sets win rates to current turn.
+      // Sets win rates to this.nodes[curturn].
       if (curturn >= 0) {
         const node = this.nodes[curturn];
         if (curturn === prevturn + 1) {
+          // To calculate node.winrateLoss, we need both of
+          // prevjson.rootInfo.winrate and curjson.rootInfo.winrate.
           node.setWinrate(prevjson.rootInfo, curjson.rootInfo, this.opts);
         } else {
           node.setWinrate(null, curjson.rootInfo, this.opts);
         }
       }
 
-      // To add PVs after last move. Adds pass move (B[], or W[]), and
-      // then adds PVs.
+      // For preview variations of last response, adds the node of pass move
+      // (B[] or W[]) to this.nodes.
       if (
         this.opts.showVariationsAfterLastMove &&
         this.nodes.length === nextturn
@@ -97,15 +103,14 @@ class GameTree {
         this.nodes.push(new Node(`${nextpl}[]`));
       }
 
-      // Adds variations to the next turn.
+      // Adds variations to this.nodes[nextturn].
       if (
-        (this.opts.showVariationsAfterLastMove ||
-          nextturn < this.nodes.length) &&
+        nextturn < this.nodes.length &&
         (!this.opts.analyzeTurnsGiven ||
           this.opts.analyzeTurns.indexOf(nextturn) !== -1)
       ) {
         this.nodes[nextturn].variations = curjson.moveInfos
-          .map((moveinfo, index) => {
+          .map((moveinfo) => {
             const variation = new Node(
               sgfconv.katagomoveinfoToSequence(nextpl, moveinfo),
             );
@@ -113,10 +118,11 @@ class GameTree {
             variation.setWinrate(curjson.rootInfo, moveinfo, this.opts);
             return variation;
           })
-          .filter((variation) => (
-            this.opts.showBadVariations === true ||
-            this.goodmovewinrate > variation.winrateLoss
-          ))
+          .filter(
+            (variation) =>
+              this.opts.showBadVariations === true ||
+              this.goodmovewinrate > variation.winrateLoss,
+          )
           .slice(0, this.opts.maxVariationsForEachMove);
       }
       prevjson = curjson;
@@ -130,6 +136,9 @@ class GameTree {
   }
 
   // Makes SGF GameTree, and returns it.
+  //
+  // To understand the logic below, you need to read
+  // <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
   getSGF() {
     if (this.sgf) {
       return this.sgf;
@@ -179,43 +188,40 @@ class GameTree {
 
     // Counts good moves, bad moves, and bad hotspots.
     // 0: Good, 1: bad, and 2: bad hotspots.
-    const blackgoodbads = [[], [], []];
-    const whitegoodbads = [[], [], []];
+    const stat = {
+      blackgoodbads: [[], [], []],
+      whitegoodbads: [[], [], []],
+    };
 
     function addtoblackorwhite(pl, index, num) {
-      if (pl === 'B') blackgoodbads[index].push(num);
-      else whitegoodbads[index].push(num);
+      if (pl === 'B') stat.blackgoodbads[index].push(num);
+      else stat.whitegoodbads[index].push(num);
     }
 
-    this.nodes.forEach((node, i) => {
+    this.nodes.forEach((node, num) => {
       const { pl } = node;
 
       if (node.winrateLoss < this.goodmovewinrate) {
-        addtoblackorwhite(pl, 0, i);
+        addtoblackorwhite(pl, 0, num);
       } else if (node.winrateLoss > this.badmovewinrate) {
-        addtoblackorwhite(pl, 1, i);
+        addtoblackorwhite(pl, 1, num);
         if (node.winrateLoss > this.badhotspotwinrate) {
-          addtoblackorwhite(pl, 2, i);
+          addtoblackorwhite(pl, 2, num);
         }
       }
     });
 
     // Makes report, i.e. root comment.
-    const blackplayer = sgfconv.valueFromSequence('PB', this.root);
-    const blacktotal = this.nodes.reduce(
+    stat.blackplayer = sgfconv.valueFromSequence('PB', this.root);
+    stat.blacktotal = this.nodes.reduce(
       (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
       0,
     );
-    const whiteplayer = sgfconv.valueFromSequence('PW', this.root);
-    const whitetotal = this.nodes.length - blacktotal;
+    stat.whiteplayer = sgfconv.valueFromSequence('PW', this.root);
+    stat.whitetotal = this.nodes.length - stat.blacktotal;
 
     this.rootComment = report(
-      blackplayer,
-      blacktotal,
-      blackgoodbads,
-      whiteplayer,
-      whitetotal,
-      whitegoodbads,
+      stat,
       this.goodmovewinrate,
       this.badmovewinrate,
       this.badhotspotwinrate,
