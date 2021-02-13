@@ -74,8 +74,6 @@ function iaToJ1(value) {
 }
 
 // 'A1' => 'aa'
-// 'B4' => 'b4'
-// 'J1' => 'ia'
 function iaFromJ1(value) {
   const v = value;
 
@@ -129,9 +127,7 @@ function removeTails(sgf) {
 }
 
 // '(abc;B[aa];B[bb]' => { root: 'abc', sequence: ';B[aa];B[bb]' }
-// '(;W[aa];B[bb]' => { root: '', sequence: ';W[aa];B[bb]' }
 // '(;o[aa];B[bb]' => { root: ';o[aa]', sequence: ';B[bb]' }
-// '(;abc)' => { root: ';abc', sequence: '' }
 // '(abc;)' => { root: 'abc;', sequence: '' }
 function rootsequenceFromSGF(sgf) {
   let tailless = sgf;
@@ -185,8 +181,7 @@ function toBadHotSpot(sequence, index = 0) {
   return addProperty(sequence, 'BM[1]HO[1]', index);
 }
 
-// ('(;W[aa];B[bb];W[cc])', 'test', 0) =>
-// '(;W[aa]C[test]BM[1]HO[1];B[bb];W[cc])'
+// ('(;W[aa];B[bb])', 'hey[]', 0) => '(;W[aa]C[hey[\]];B[bb])'
 function addComment(sequence, comment, index = 0) {
   const replaced = comment.replace(/\]/g, '\\]');
   return addProperty(sequence, `C[${replaced}]`, index);
@@ -212,21 +207,21 @@ function getPLs(rootsequence) {
   return pls;
 }
 
-// '..AB[dp];W[po];B[hm]TE[1];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
-// '..AB[dp];W[po];B[hm]TE[1];W[]...' => [["W","Q15"],["B","H13"]]
-function katagomovesFromSequence(sequence) {
-  return sequence
-    .split(';')
-    .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
-    .map((move) => [move[0], iaToJ1(move.substring(2, 4))]);
-}
-
 // '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
 function initialstonesFromSequence(sequence) {
   return [
     ...valuesFromSequence('AB', sequence).map((pos) => ['B', iaToJ1(pos)]),
     ...valuesFromSequence('AW', sequence).map((pos) => ['W', iaToJ1(pos)]),
   ];
+}
+
+// '..AB[dp];W[po];B[hm];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
+// '..AB[dp];W[po];B[hm]TE[1];W[]...' => [["W","Q15"],["B","H13"]]
+function katagomovesFromSequence(sequence) {
+  return sequence
+    .split(';')
+    .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
+    .map((move) => [move[0], iaToJ1(move.substring(2, 4))]);
 }
 
 // ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'
@@ -245,17 +240,17 @@ function katagomoveinfoToSequence(pl, moveInfo) {
 module.exports = {
   iaFromJ1,
   iaToJ1,
+  getPLs,
   valueFromSequence,
   valuesFromSequence,
+  addProperty,
   toGoodNode,
   toBadNode,
   toBadHotSpot,
-  rootsequenceFromSGF,
-  getPLs,
-  removeTails,
-  removeComment,
   addComment,
-  addProperty,
+  removeComment,
+  removeTails,
+  rootsequenceFromSGF,
   initialstonesFromSequence,
   katagomovesFromSequence,
   katagomoveinfoToSequence,

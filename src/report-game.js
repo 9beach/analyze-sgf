@@ -32,7 +32,7 @@ function movesstat(goodorbad, moves, total, listmoves = true) {
   return format;
 }
 
-function reportgoodandbad(total, moves) {
+function reportGoodAndBad(total, moves) {
   return (
     movesstat('Good moves', moves[0], total, false) +
     movesstat('Bad moves', moves[1], total) +
@@ -42,7 +42,7 @@ function reportgoodandbad(total, moves) {
 
 // (' 신진서  ', 'Black') => '신진서 (Black):'
 // ('', 'Black') => 'Black:'
-function blackorwhite(player, color) {
+function colorPL(player, color) {
   let pl = player.replace(/ *$/, '').replace(/^ */, '');
 
   if (pl !== '') {
@@ -55,7 +55,7 @@ function blackorwhite(player, color) {
 }
 
 // Generates report.
-function reportgame(
+function reportGame(
   stat,
   goodmovewinrate,
   badmovewinrate,
@@ -64,13 +64,13 @@ function reportgame(
   maxvariations,
   maxvisits,
 ) {
-  const pb = blackorwhite(stat.blackplayer, 'Black');
-  const pw = blackorwhite(stat.whiteplayer, 'White');
+  const pb = colorPL(stat.pb, 'Black');
+  const pw = colorPL(stat.pw, 'White');
 
   return (
     `# Analyze-SGF Report` +
-    `\n\n${pb}\n${reportgoodandbad(stat.blacktotal, stat.blackgoodbads)}` +
-    `\n${pw}\n${reportgoodandbad(stat.whitetotal, stat.whitegoodbads)}` +
+    `\n\n${pb}\n${reportGoodAndBad(stat.blacksTotal, stat.blackGoodBads)}` +
+    `\n${pw}\n${reportGoodAndBad(stat.whitesTotal, stat.whiteGoodBads)}` +
     `\nGood move: less than ${goodmovewinrate * 100}% win rate loss` +
     `\nBad move: more than ${badmovewinrate * 100}% win rate loss` +
     `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate loss` +
@@ -81,4 +81,4 @@ function reportgame(
   );
 }
 
-module.exports = reportgame;
+module.exports = reportGame;

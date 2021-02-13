@@ -189,36 +189,36 @@ class GameTree {
     // Counts good moves, bad moves, and bad hotspots.
     // 0: Good, 1: bad, and 2: bad hotspots.
     const stat = {
-      blackgoodbads: [[], [], []],
-      whitegoodbads: [[], [], []],
+      blackGoodBads: [[], [], []],
+      whiteGoodBads: [[], [], []],
     };
 
-    function addtoblackorwhite(pl, index, num) {
-      if (pl === 'B') stat.blackgoodbads[index].push(num);
-      else stat.whitegoodbads[index].push(num);
+    function addToBlackOrWhite(pl, index, num) {
+      if (pl === 'B') stat.blackGoodBads[index].push(num);
+      else stat.whiteGoodBads[index].push(num);
     }
 
     this.nodes.forEach((node, num) => {
       const { pl } = node;
 
       if (node.winrateLoss < this.goodmovewinrate) {
-        addtoblackorwhite(pl, 0, num);
+        addToBlackOrWhite(pl, 0, num);
       } else if (node.winrateLoss > this.badmovewinrate) {
-        addtoblackorwhite(pl, 1, num);
+        addToBlackOrWhite(pl, 1, num);
         if (node.winrateLoss > this.badhotspotwinrate) {
-          addtoblackorwhite(pl, 2, num);
+          addToBlackOrWhite(pl, 2, num);
         }
       }
     });
 
     // Makes report, i.e. root comment.
-    stat.blackplayer = sgfconv.valueFromSequence('PB', this.root);
-    stat.blacktotal = this.nodes.reduce(
+    stat.pb = sgfconv.valueFromSequence('PB', this.root);
+    stat.blacksTotal = this.nodes.reduce(
       (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
       0,
     );
-    stat.whiteplayer = sgfconv.valueFromSequence('PW', this.root);
-    stat.whitetotal = this.nodes.length - stat.blacktotal;
+    stat.pw = sgfconv.valueFromSequence('PW', this.root);
+    stat.whitesTotal = this.nodes.length - stat.blacksTotal;
 
     this.rootComment = report(
       stat,
