@@ -109,7 +109,11 @@ class GameTree {
         this.nodes[nextturn].variations = [];
         const { variations } = this.nodes[nextturn];
 
-        curjson.moveInfos.some((moveInfo) => {
+        curjson.moveInfos.every((moveInfo) => {
+          if (variations.length >= this.maxvariations) {
+            return false;
+          }
+
           const variation = new Node(
             sgfconv.katagomoveinfoToSequence(nextpl, moveInfo),
           );
@@ -120,11 +124,10 @@ class GameTree {
             this.badvariations === true ||
             this.goodmovewinrate > variation.winrateLoss
           ) {
-            if (variations.length < this.maxvariations) {
-              variations.push(variation);
-            }
+            variations.push(variation);
           }
-          return variations.length >= this.maxvariations;
+
+          return true;
         });
       }
       prevjson = curjson;
