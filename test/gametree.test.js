@@ -27,7 +27,10 @@ describe('GameTree', () => {
 
     function compareWithoutComments(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
-      const responses = fs.readFileSync(json).toString();
+      let responses = fs.readFileSync(json).toString();
+      const index = responses.indexOf('\n');
+      responses = responses.substring(index + 1);
+
       const gametree = new GameTree(sgf, responses, sgfopts);
       let rsgf = gametree.getSGF();
       rsgf = sgfconv.removeComment(rsgf);
@@ -80,7 +83,11 @@ describe('GameTree', () => {
 
     function compareWithComments(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
-      const responses = fs.readFileSync(json).toString();
+
+      let responses = fs.readFileSync(json).toString();
+      const index = responses.indexOf('\n');
+      responses = responses.substring(index + 1);
+
       const gametree = new GameTree(sgf, responses, sgfopts);
       const rsgf = gametree.getSGF();
 

@@ -5,6 +5,7 @@
  */
 
 const fs = require('fs').promises;
+const path = require('path')
 const yaml = require('js-yaml');
 const pgetopt = require('posix-getopt');
 const homedir = require('os').homedir();
@@ -16,7 +17,7 @@ const parseBadJSON = require('./bad-json');
 const GameTree = require('./gametree');
 const sgfconv = require('./sgfconv');
 
-const config = `${homedir}/.analyze-sgf.yml`;
+const config = `${homedir}${path.sep}.analyze-sgf.yml`;
 
 // Makes JSON data to send KataGo Parallel Analysis Engine.
 function sgfToKataGoAnalysisQuery(sgf, opts) {
@@ -103,7 +104,7 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
 
   const help = (await fs.readFile(require.resolve('./help'))).toString();
 
-  let responsespath = null;
+  let responsespath;
   let savegiven = false;
   let analysisOpts = {};
   let sgfOpts = {};
@@ -151,12 +152,15 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
 
     sgfOpts.analyzeTurnsGiven = turnsgiven;
 
-    if (parser.optind() >= process.argv.length) {
+    if (parser.optind() >= process.argv.length && !responsespath) {
       console.error(help);
       process.exit(1);
     }
 
-    const sgfpath = process.argv[parser.optind()];
+    let sgfpath;
+    if (parser.optind() < process.argv.length) {
+      sgfpath = process.argv[parser.optind()];
+    }
 
     // Reads config file.
     const defaultOpts = yaml.load(await fs.readFile(config));
@@ -165,31 +169,49 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     sgfOpts = { ...defaultOpts.sgf, ...sgfOpts };
     katagoOpts = { ...defaultOpts.katago, ...katagoOpts };
 
-    // Reads SGF.
-    const content = await fs.readFile(sgfpath);
-    const detected = jschardet.detect(content);
-    const sgf = iconv.decode(content, detected.encoding).toString();
+    let responses, sgf;
 
-    // Makes query for KataGo.
-    const query = sgfToKataGoAnalysisQuery(sgf, analysisOpts);
-    // Copys some options.
-    sgfOpts.analyzeTurns = query.analyzeTurns;
+    if (responsespath) { // by KataGo Analysis JSON.
+      const sgfresponses = (await fs.readFile(responsespath)).toString();
+      // First line is SGF.
+      const index = sgfresponses.indexOf('\n');
+      sgf = sgfresponses.substring(0, index);
+      responses = sgfresponses.substring(index + 1);
 
-    const responses =
-      responsespath == null
-        ? await kataGoAnalyze(sgf, JSON.stringify(query), katagoOpts)
-        : (await fs.readFile(responsespath)).toString();
+      if (!analysisOpts.analyzeTurns) {
+        sgfOpts.analyzeTurns = [...Array(1000).keys()];
+      }
+    } else { // By KataGo.
+      // Reads SGF.
+      const content = await fs.readFile(sgfpath);
+      const detected = jschardet.detect(content);
+      sgf = iconv.decode(content, detected.encoding).toString();
 
-    if (savegiven && !responsespath) {
-      const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
+      // Makes query for KataGo.
+      const query = sgfToKataGoAnalysisQuery(sgf, analysisOpts);
+      // Copys some options.
+      sgfOpts.analyzeTurns = query.analyzeTurns;
 
-      await fs.writeFile(`${sgfName}-responses.json`, responses);
-      console.error(`"${sgfName}-responses.json" created.`);
+      responses = await kataGoAnalyze(sgf, JSON.stringify(query), katagoOpts)
+
+      if (savegiven) {
+        const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
+
+        await fs.writeFile(
+          `${sgfName}-responses.json`,
+          sgfconv.removeTails(sgf) + responses,
+        );
+        console.error(`"${sgfName}-responses.json" created.`);
+      }
     }
 
     // Saves responses to SGF.
-    const rsgfpath = `${
-      sgfpath.substring(0, sgfpath.lastIndexOf('.')) + sgfOpts.fileSuffix
+    let rsgfpath;
+    if (sgfpath) rsgfpath = sgfpath;
+    else rsgfpath = responsespath;
+
+    rsgfpath = `${
+      rsgfpath.substring(0, rsgfpath.lastIndexOf('.')) + sgfOpts.fileSuffix
     }.sgf`;
     const gametree = new GameTree(sgf, responses, sgfOpts);
 

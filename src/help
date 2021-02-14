@@ -1,4 +1,4 @@
-Usage: analyze-sgf [-a=options] [-g=options] [-k=options] [-s] [-f=path] sgf
+Usage: analyze-sgf [-a=opts] [-g=opts] [-k=opts] [-s] [-f=file] [sgf]
 
 Option:
   -a, --analysis          Options for KataGo Parallel Analysis Engine query
@@ -13,7 +13,7 @@ Examples:
   analyze-sgf -a 'maxVisits:600' baduk.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -s baduk.sgf
-  analyze-sgf -f baduk-responses.json baduk.sgf
+  analyze-sgf -f baduk-responses.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 

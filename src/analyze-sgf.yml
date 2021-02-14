@@ -3,8 +3,7 @@ katago:
   # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
   # e.g.
-  # "analysis -model katago-best-network.bin.gz -config analysis_example.cfg"
-  # Note that "analysis_example.cfg" is different to "gtp_example.cfg".
+  # "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
 # Analysis query options for KataGo Parallel Analysis Engine.
