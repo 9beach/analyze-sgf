@@ -63,9 +63,8 @@ function prevChar(c) {
 // 'bd' => 'B4'
 // 'ia' => 'J1'
 function iaToJ1(value) {
-  let v = value;
+  const v = value.toUpperCase();
 
-  v = v.toUpperCase();
   if (v[0] >= 'I') {
     return nextChar(v[0]) + (v.charCodeAt(1) - 64).toString();
   }
@@ -74,9 +73,7 @@ function iaToJ1(value) {
 }
 
 // 'A1' => 'aa'
-function iaFromJ1(value) {
-  const v = value;
-
+function iaFromJ1(v) {
   if (v[0] >= 'J') {
     return (
       prevChar(v[0].toLowerCase()) +
@@ -130,9 +127,9 @@ function removeTails(sgf) {
 // '(;o[aa];B[bb]' => { root: ';o[aa]', sequence: ';B[bb]' }
 // '(abc;)' => { root: 'abc;', sequence: '' }
 function rootsequenceFromSGF(sgf) {
-  let tailless = sgf;
+  let tailless = removeTails(sgf);
 
-  tailless = removeTails(tailless);
+  // Skips ORO winrates ')\n// ...\n//...'.
   tailless = tailless.substring(0, tailless.lastIndexOf(')') + 1);
 
   if (tailless[0] !== '(' || tailless[tailless.length - 1] !== ')') {
