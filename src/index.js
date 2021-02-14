@@ -5,7 +5,7 @@
  */
 
 const fs = require('fs').promises;
-const path = require('path')
+const path = require('path');
 const yaml = require('js-yaml');
 const pgetopt = require('posix-getopt');
 const homedir = require('os').homedir();
@@ -169,9 +169,11 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     sgfOpts = { ...defaultOpts.sgf, ...sgfOpts };
     katagoOpts = { ...defaultOpts.katago, ...katagoOpts };
 
-    let responses, sgf;
+    let responses;
+    let sgf;
 
-    if (responsespath) { // by KataGo Analysis JSON.
+    if (responsespath) {
+      // by KataGo Analysis JSON.
       const sgfresponses = (await fs.readFile(responsespath)).toString();
       // First line is SGF.
       const index = sgfresponses.indexOf('\n');
@@ -181,7 +183,8 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
       if (!analysisOpts.analyzeTurns) {
         sgfOpts.analyzeTurns = [...Array(1000).keys()];
       }
-    } else { // By KataGo.
+    } else {
+      // By KataGo.
       // Reads SGF.
       const content = await fs.readFile(sgfpath);
       const detected = jschardet.detect(content);
@@ -192,7 +195,7 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
       // Copys some options.
       sgfOpts.analyzeTurns = query.analyzeTurns;
 
-      responses = await kataGoAnalyze(sgf, JSON.stringify(query), katagoOpts)
+      responses = await kataGoAnalyze(sgf, JSON.stringify(query), katagoOpts);
 
       if (savegiven) {
         const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
