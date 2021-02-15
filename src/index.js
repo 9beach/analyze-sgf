@@ -99,7 +99,7 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     await fs.access(config);
   } catch (error) {
     await fs.copyFile(require.resolve('./analyze-sgf.yml'), config);
-    console.error(`${config} created.`);
+    console.error(`${config} generated.`);
   }
 
   const help = (await fs.readFile(require.resolve('./help'))).toString();
@@ -204,7 +204,7 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
           `${sgfName}-responses.json`,
           `${sgfconv.removeTails(sgf)}\n${responses}`,
         );
-        console.error(`${sgfName}-responses.json created.`);
+        console.error(`${sgfName}-responses.json generated.`);
       }
     }
 
@@ -219,7 +219,7 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     const gametree = new GameTree(sgf, responses, sgfOpts);
 
     await fs.writeFile(rsgfpath, gametree.getSGF());
-    console.error(`${rsgfpath} created.`);
+    console.error(`${rsgfpath} generated.`);
 
     const report = gametree.getRootComment();
     if (report !== '') {
