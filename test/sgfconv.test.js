@@ -131,7 +131,8 @@ describe('removeTails', () => {
     assert.equal(sgfconv.removeTails(values[7]), 'aa[aa(]11x');
     assert.equal(sgfconv.removeTails(values[8]), '(aa[aa)]11x)');
     assert.equal(sgfconv.removeTails(values[9]), 'aa[aa](11x');
-
+  });
+  it('should be expected values.', () => {
     const sgf = fs.readFileSync('test/t-sabaki-1.sgf');
     assert.equal(
       sgfconv.removeTails(sgf.toString()),
@@ -187,7 +188,8 @@ describe('katagomovesFromSequence', () => {
       ['W', 'Q15'],
       ['B', 'H13'],
     ]);
-
+  });
+  it('should be expected values for "test/t-*".', () => {
     const movesfromsequence = (len, path) => {
       const sgf = fs.readFileSync(path).toString();
       const moves = sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
@@ -200,6 +202,7 @@ describe('katagomovesFromSequence', () => {
     movesfromsequence(294, 'test/t-oro-1.sgf');
     movesfromsequence(226, 'test/t-oro-2.sgf');
     movesfromsequence(207, 'test/t-ren-vs-shin.sgf');
+    movesfromsequence(302, 'test/t-shin-vs-ke.sgf');
     movesfromsequence(3, 'test/t-sabaki-1.sgf');
     movesfromsequence(18, 'test/t-sabaki-2.sgf');
   });

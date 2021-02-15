@@ -16,7 +16,7 @@ describe('GameTree', () => {
     assert.equal(gametree.getSGF(), '(PL[];B[aa];W[bb])');
   });
 
-  it('should be expected values for "test/t-ren-vs-shin.*".', () => {
+  it('should be expected values for "test/t-*".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateLossForGoodMove = 2;
     sgfopts.minWinrateLossForBadMove = 5;
@@ -40,6 +40,11 @@ describe('GameTree', () => {
 
       assert.equal(esgf, rsgf);
     }
+    compareWithoutComments(
+      'test/t-shin-vs-ke.sgf',
+      'test/t-shin-vs-ke-responses.json',
+      'test/t-shin-vs-ke-analyzed.sgf',
+    );
 
     compareWithoutComments(
       'test/t-ren-vs-shin.sgf',

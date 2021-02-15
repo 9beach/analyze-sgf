@@ -14,22 +14,18 @@ function joinmoves(moves) {
 // ('Bad moves', [39, 69, 105, 109, ...], 104) =>
 // '* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...'
 function movesstat(goodorbad, moves, total, listmoves = true) {
-  let format;
-
-  if (moves && moves.length > 0) {
-    const ratio = ((moves.length / total) * 100).toFixed(2);
-    format = `* ${goodorbad} (${ratio}%, ${moves.length}/${total})`;
-  } else {
-    format = '';
+  if (!moves.length) {
+    return '';
   }
 
-  if (moves && listmoves) {
-    format += `: ${joinmoves(moves)}\n`;
-  } else if (format !== '') {
-    format += '\n';
+  const ratio = ((moves.length / total) * 100).toFixed(2);
+  let format = `* ${goodorbad} (${ratio}%, ${moves.length}/${total})`;
+
+  if (listmoves) {
+    format += `: ${joinmoves(moves)}`;
   }
 
-  return format;
+  return `${format}\n`;
 }
 
 function reportGoodAndBad(total, moves) {

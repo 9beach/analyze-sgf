@@ -10,21 +10,22 @@
 먼저 [Node.js](https://nodejs.org/)를 설치합니다.
 
 그다음, 맥이나 리눅스 환경에서는 터미널에서 다음을 실행하여 설치합니다.
-```
+```console
 $ sudo npm install -g analyze-sgf
 ```
 
-마이크로소프트 윈도우 환경에서는 도스 창에서 다음을 실행하여 설치합니다.
-```
-C:\Users\hcho>npm install -g analyze-sgf
+마이크로소프트 윈도우 환경에서는 명령 프롬프트 또는 PowerShell에서 다음을 실행하여 설치합니다.
+```console
+C:\Users\hcho> npm install -g analyze-sgf
 ```
 
 ## 기본 사용법
 
-설치한 뒤 `analyze-sgf`를 처음 실행하면 다음과 같이 사용법이 출력되고 홈 디렉터리에 `.analyze-sgf.yml` 파일이 생성됩니다. 이제 사용법을 하나씩 알아봅시다.
-```
-C:\Users\hcho>analyze-sgf
-"C:\Users\hcho\.analyze-sgf.yml" created.
+설치한 뒤 `analyze-sgf`를 처음 실행하면 다음과 같이 사용법이 출력되고 홈 디렉터리에 `.analyze-sgf.yml` 파일이 생성됩니다. 윈도우 환경에서는 `analyze-sgf`가 아닌 `analyze-sgf.cmd`로 실행해야 하지만 편의상 모두 `analyze-sgf`로 표시하겠습니다. 이제 사용법을 하나씩 알아봅시다.
+
+```console
+$ analyze-sgf
+/Users/hcho/.analyze-sgf.yml created.
 Usage: analyze-sgf [-a=options] [-g=options] [-k=options] [-s] [-f=path] sgf
 
 Option:
@@ -108,9 +109,9 @@ sgf:
 `.analyze-sgf.yml` 파일에서 `"KataGo path here"`, `"KataGo arguments here"` 두 항목을 설치된 카타고에 맞게 수정하세요. 카타고는 따로 설치해야 합니다. 그다음 아래와 같이 `analyze-sgf ren-vs-shin.sgf`로 실행하면 간단한 분석 결과가 출력되고 `ren-vs-shin-analyzed.sgf`라는 파일이 생깁니다.
 
 **실행 화면**
-```
-C:\Users\hcho>analyze-sgf ren-vs-shin.sgf
-"ren-vs-shin-analyzed.sgf" created.
+```console
+$ analyze-sgf ren-vs-shin.sgf
+ren-vs-shin-analyzed.sgf created.
 # Analyze-SGF Report
 
 신진서 (Black):
@@ -147,14 +148,14 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 `.analyze-sgf.yml` 파일은 `analyze-sgf`의 모든 기본 설정을 저장합니다. 기본 설정들을 수정하기 위해서는 `.analyze-sgf.yml` 파일을 고칠 수도 있고 `analyze-sgf` 실행 시 전달할 수도 있습니다. 예를 들어, 카타고 분석 엔진의 탐색 숫자를 조절하기 위해서는 `analysis` 항목의 `maxVisits` 값을 변경해야 하는데, 파일을 변경할 수도 있고 다음과 같이 실행 시 지정할 수도 있습니다.
 
-```
-C:\Users\hcho>analyze-sgf -a 'maxVisits:600' baduk.sgf
+```console
+C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
 ```
 
 `maxVisits`은 한 수를 분석할 때 카타고 분석 엔진 탐색 수의 총합으로, 분석의 정확도와 시간을 좌우합니다. 만약 `maxVisits`을 10000으로 두고, 나쁜 수의 기준을 3%로 줄인 뒤, 위에서 문제가 된 174, 176 수만을 분석하기 위해서는 다음과 같이 실행합니다.
 
-```
-C:\Users\hcho>analyze-sgf -a 'maxVisits:10000,analyzeTurns[173,175]' -g 'minWinrateLossForBadMove:3' baduk.sgf
+```console
+$ analyze-sgf -a 'maxVisits:10000,analyzeTurns[173,175]' -g 'minWinrateLossForBadMove:3' baduk.sgf
 ```
 
 `-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 분석 대상을 변화도가 아닌 이후 예상도로 보기 때문에 174번째 수를 분석하기 위해서는 173을 요청해야 합니다. 이와 같이 `analyzeTurns`을 지정하면, 지정된 변화도만을 보여 주며 분석 결과를 요약해서 화면에 출력하지는 않습니다. `analyzeTurns`을 지정하지 않으면 `minWinrateLossForVariations`보다 큰 승률 하락을 보인 모든 수의 변화도를 보여 주며 분석 결과 또한 요약해서 화면에 출력합니다.
@@ -163,32 +164,40 @@ C:\Users\hcho>analyze-sgf -a 'maxVisits:10000,analyzeTurns[173,175]' -g 'minWinr
 
 `.analyze-sgf.yml` 설정값에 따옴표가 있는 것은 실행 시에도 따옴표를 붙여야 합니다. 즉 아래와 같이 실행해야 합니다.
 ```console
-C:\Users\hcho>analyze-sgf -a 'rules:"korean"' baduk.sgf
+$ analyze-sgf -a 'rules:"korean"' baduk.sgf
 ```
 
 ## 고급 설정
 
 카타고를 통해 분석하는 데는 꽤 긴 시간이 필요합니다. 그런데 분석된 기보에는 수행 당시의 `minWinrateLossForVariations` 설정값 이상의 승률 하락을 보인 수의 변화도만 존재하며, 좋은 수, 나쁜 수 기준 또한 수행 당시의 설정에 종속됩니다. 이런 설정을 바꾸려면 시간을 들여 새로 분석해야 합니다. 그래서 `analyze-sgf`에는 `-s` 옵션으로 카타고 분석 데이터를 저장해 두고 이를 활용하는 기능이 있습니다.
 
-```
-C:\Users\hcho>analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
+```console
+$ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
 "komi" is set to 7.5 from SGF.
-"baduk-responses.json" created.
-"baduk-analyzed.sgf" created.
+baduk-responses.json created.
+baduk-analyzed.sgf created.
 # Analyze-SGF Report
 ...
 ```
-위와 같이 `maxVisits:30000`으로 실행하면 아주 긴 시간을 들여 많은 것을 분석합니다. 이 정보는 `-s`에 의해  `baduk-responses.json`으로 저장되었습니다. 이제 다음과 같이 수행하면 카타고를 이용하지 않고 `baduk-responses.json`를 이용해서 실행과 동시에 분석을 끝마칩니다.
+위와 같이 `maxVisits:30000`으로 실행하면 아주 긴 시간을 들여 많은 것을 분석합니다. 이 정보는 `-s`에 의해  `baduk-responses.json`으로 저장되었습니다. 다음과 같이 수행하면 카타고를 이용하지 않고 `baduk-responses.json`를 이용해서 실행과 동시에 분석을 끝마칩니다.
 
-```
-C:\Users\hcho>analyze-sgf -f baduk-responses.json -a 'analyzeTurns[168,169]'
+```console
+$ analyze-sgf -f baduk-responses.json -a 'analyzeTurns[168,169]' -g 'maxVariationsForEachMove:20, showBadVariations:true'
 ```
 
-이제 기본 변화도에 없었던 169, 170 번째 수의 변화도를 볼 수 있습니다. 다음과 같이 실행하면, 모든 수의 변화도를 저장할 수 있습니다.
+이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 20개까지 볼 수 있습니다.
 
+다음과 같이 실행하면 169, 170 번째 수의 변화도만 10만회 탐방을 통해 분석합니다.
+
+```console
+$ analyze-sgf -a 'analyzeTurns[168,169],maxVisits:100000' -g 'maxVariationsForEachMove:20, showBadVariations:true'
 ```
-C:\Users\hcho>analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100'
+
+다음과 같이 실행하면, 모든 수의 변화도를 볼 수 있습니다.
+
+```console
+$ analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100'
 ```
-```
-C:\Users\hcho>analyze-sgf -g 'minWinrateLossForVariations:-100' baduk.sgf
+```console
+$ analyze-sgf -g 'minWinrateLossForVariations:-100' baduk.sgf
 ```
