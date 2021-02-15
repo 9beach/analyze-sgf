@@ -9,7 +9,7 @@ const Node = require('./node');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
-  constructor(sgf, katagoResponses, opts) {
+  constructor(sgf, katagoresponses, opts) {
     const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
 
     this.root = rootsequence.root;
@@ -28,7 +28,7 @@ class GameTree {
       .map((node) => new Node(node.substring(0, 5)));
 
     // Fills win rates and variations of this.nodes.
-    this.fromKataGoResponses(katagoResponses, sgfconv.getPLs(rootsequence));
+    this.fromKataGoResponses(katagoresponses, sgfconv.getPLs(rootsequence));
   }
 
   // From KataGo responses, fills win rates and variations of this.nodes.
@@ -107,7 +107,7 @@ class GameTree {
       // Adds variations to this.nodes[nextturn].
       if (
         nextturn < this.nodes.length &&
-        (!this.opts.analyzeTurnsGiven ||
+        (!this.opts.analyzeTurns ||
           this.opts.analyzeTurns.indexOf(nextturn) !== -1)
       ) {
         this.nodes[nextturn].variations = curjson.moveInfos
@@ -152,7 +152,7 @@ class GameTree {
 
       if (node.variations) {
         if (
-          this.opts.analyzeTurnsGiven ||
+          this.opts.analyzeTurns ||
           this.opts.showVariationsOnlyForBadMove === false ||
           node.winrateLoss > this.variationwinrate ||
           (last && this.opts.showVariationsAfterLastMove)
@@ -171,9 +171,7 @@ class GameTree {
       return `;${node.sequence}${acc}`;
     }, '');
 
-    if (this.responsesgiven) {
-      this.setRootComment();
-    }
+    this.setRootComment();
     this.sgf = `(${this.root}${this.sgf})`;
 
     return this.sgf;
@@ -182,7 +180,7 @@ class GameTree {
   // Sets players info, total good moves, bad moves, ... to this.rootComment
   // and this.root.
   setRootComment() {
-    if (this.rootComment || this.opts.analyzeTurnsGiven) {
+    if (!this.responsesgiven || this.rootComment || this.opts.analyzeTurns) {
       this.rootComment = '';
       return;
     }

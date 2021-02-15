@@ -5,6 +5,7 @@
  */
 
 const fs = require('fs').promises;
+const afs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 const pgetopt = require('posix-getopt');
@@ -20,14 +21,13 @@ const sgfconv = require('./sgfconv');
 const config = `${homedir}${path.sep}.analyze-sgf.yml`;
 
 // Makes JSON data to send KataGo Parallel Analysis Engine.
-function sgfToKataGoAnalysisQuery(sgf, opts) {
+function sgfToKataGoAnalysisQuery(id, sgf, opts) {
   const query = { ...opts };
   const sequence = sgfconv.removeTails(sgf);
   const komi = sgfconv.valueFromSequence('KM', sequence);
 
   if (komi !== '') {
     query.komi = parseFloat(komi);
-    console.error(`"komi" is set to ${query.komi} from SGF.`);
   }
 
   const initialPlayer = sgfconv.valueFromSequence('PL', sequence);
@@ -37,7 +37,7 @@ function sgfToKataGoAnalysisQuery(sgf, opts) {
     console.error(`"initialPlayer" is set to ${initialPlayer} from SGF.`);
   }
 
-  query.id = '9beach';
+  query.id = `9beach-${id.toString().padStart(3, '0')}`;
   query.initialStones = sgfconv.initialstonesFromSequence(sequence);
   query.moves = sgfconv.katagomovesFromSequence(sequence);
 
@@ -49,8 +49,8 @@ function sgfToKataGoAnalysisQuery(sgf, opts) {
 }
 
 // Requests analysis to KataGo, and reads responses.
-async function kataGoAnalyze(sgf, query, katagoOpts) {
-  const katago = spawn(`${katagoOpts.path} ${katagoOpts.arguments}`, [], {
+async function kataGoAnalyze(queries, opts) {
+  const katago = spawn(`${opts.path} ${opts.arguments}`, [], {
     shell: true,
   });
 
@@ -59,20 +59,20 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
 
   katago.on('exit', (code) => {
     if (code !== 0) {
-      console.error(`Failed to run KataGo. Try to fix "${config}".`);
-      // Just for error readibility.
-      const opts = JSON.stringify(katagoOpts, null, 2)
+      const erroropts = JSON.stringify(opts, null, 2)
         .replace(/,\n/, '\n')
         .replace('  "path": ', '  path: ')
         .replace('  "arguments": ', '  arguments: ');
-      console.error(opts);
-      process.stderr.write(error);
+      process.stderr.write(
+        `Failed to run KataGo. Try to fix "${config}".\n` +
+          `${erroropts}\n${error}`,
+      );
       process.exit(1);
     }
   });
 
   // Sends query to KataGo.
-  await katago.stdin.write(query);
+  await katago.stdin.write(queries);
   katago.stdin.end();
 
   // Reads analysis from KataGo.
@@ -90,6 +90,21 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
   }
 
   return responses;
+}
+
+function saveAnalyzed(targetpath, sgf, responses, opts) {
+  const rsgfpath = `${
+    targetpath.substring(0, targetpath.lastIndexOf('.')) + opts.fileSuffix
+  }.sgf`;
+  const gametree = new GameTree(sgf, responses, opts);
+
+  afs.writeFileSync(rsgfpath, gametree.getSGF());
+  console.error(`${rsgfpath} generated.`);
+
+  const report = gametree.getRootComment();
+  if (report !== '') {
+    console.log(report);
+  }
 }
 
 // Main routine.
@@ -118,7 +133,6 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     );
 
     let opt = null;
-    let turnsgiven = false;
 
     for (;;) {
       opt = parser.getopt();
@@ -128,9 +142,6 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
       switch (opt.option) {
         case 'a':
           analysisOpts = parseBadJSON(opt.optarg);
-          if (opt.optarg.search('analyzeTurns') >= 0) {
-            turnsgiven = true;
-          }
           break;
         case 'k':
           katagoOpts = parseBadJSON(opt.optarg);
@@ -150,16 +161,20 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
       }
     }
 
-    sgfOpts.analyzeTurnsGiven = turnsgiven;
+    let sgfpaths;
 
-    if (parser.optind() >= process.argv.length && !responsespath) {
-      console.error(help);
-      process.exit(1);
-    }
-
-    let sgfpath;
+    // sgfpaths given.
     if (parser.optind() < process.argv.length) {
-      sgfpath = process.argv[parser.optind()];
+      sgfpaths = process.argv.slice(parser.optind());
+      if (responsespath) {
+        console.error(
+          `\`-f\` option can't be used with SGF files: ${sgfpaths}`,
+        );
+        process.exit(1);
+      }
+    } else if (!responsespath) {
+      console.error('Please specify SGF files or `-f` option.');
+      process.exit(1);
     }
 
     // Reads config file.
@@ -169,64 +184,70 @@ async function kataGoAnalyze(sgf, query, katagoOpts) {
     sgfOpts = { ...defaultOpts.sgf, ...sgfOpts };
     katagoOpts = { ...defaultOpts.katago, ...katagoOpts };
 
-    let responses;
-    let sgf;
-
     if (responsespath) {
-      // by KataGo Analysis JSON.
+      // Analyzes by KataGo Analysis JSON.
       const sgfresponses = (await fs.readFile(responsespath)).toString();
       // First line is SGF.
       const index = sgfresponses.indexOf('\n');
-      sgf = sgfresponses.substring(0, index);
-      responses = sgfresponses.substring(index + 1);
+      const sgf = sgfresponses.substring(0, index);
+      const responses = sgfresponses.substring(index + 1);
 
-      if (!analysisOpts.analyzeTurns) {
-        sgfOpts.analyzeTurns = [...Array(1000).keys()];
-      }
+      saveAnalyzed(responsespath, sgf, responses, sgfOpts);
     } else {
-      // By KataGo.
-      // Reads SGF.
-      const content = await fs.readFile(sgfpath);
-      const detected = jschardet.detect(content);
-      sgf = iconv.decode(content, detected.encoding).toString();
+      // Analyzes by KataGo Analysis Engine.
+      //
+      // Reads SGF and makes KagaGo queries.
+      const sgfqueries = sgfpaths.map((sgfpath, id) => {
+        const content = afs.readFileSync(sgfpath);
+        const detected = jschardet.detect(content);
+        const sgf = iconv.decode(content, detected.encoding).toString();
+        const query = sgfToKataGoAnalysisQuery(id, sgf, analysisOpts);
 
-      // Makes query for KataGo.
-      const query = sgfToKataGoAnalysisQuery(sgf, analysisOpts);
-      // Copys some options.
-      sgfOpts.analyzeTurns = query.analyzeTurns;
+        return { sgf, query };
+      });
 
-      responses = await kataGoAnalyze(sgf, JSON.stringify(query), katagoOpts);
+      const response = await kataGoAnalyze(
+        sgfqueries.reduce(
+          (acc, sgfquery) => `${JSON.stringify(sgfquery.query)}\n${acc}`,
+          '',
+        ),
+        katagoOpts,
+      );
 
-      if (savegiven) {
-        const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
-
-        await fs.writeFile(
-          `${sgfName}-responses.json`,
-          `${sgfconv.removeTails(sgf)}\n${responses}`,
-        );
-        console.error(`${sgfName}-responses.json generated.`);
+      if (response === '') {
+        return;
       }
-    }
 
-    // Saves responses to SGF.
-    let rsgfpath;
-    if (sgfpath) rsgfpath = sgfpath;
-    else rsgfpath = responsespath;
+      // Splits long response by query id.
+      const responses = response.split('\n').reduce((acc, analysis) => {
+        const index = parseInt(analysis.replace(/.*9beach-/, ''), 10);
+        if (Number.isNaN(index)) return acc;
+        acc[index] += `${analysis}\n`;
+        return acc;
+      }, new Array(sgfpaths.length).fill(''));
 
-    rsgfpath = `${
-      rsgfpath.substring(0, rsgfpath.lastIndexOf('.')) + sgfOpts.fileSuffix
-    }.sgf`;
-    const gametree = new GameTree(sgf, responses, sgfOpts);
+      sgfpaths.forEach((sgfpath, id) => {
+        try {
+          // Saves analysis responses to JSON.
+          if (savegiven) {
+            const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
 
-    await fs.writeFile(rsgfpath, gametree.getSGF());
-    console.error(`${rsgfpath} generated.`);
+            afs.writeFileSync(
+              `${sgfName}-responses.json`,
+              `${sgfconv.removeTails(sgfqueries[id].sgf)}\n${responses[id]}`,
+            );
+            console.error(`${sgfName}-responses.json generated.`);
+          }
 
-    const report = gametree.getRootComment();
-    if (report !== '') {
-      console.log(report);
+          // Saves analyzed SGF.
+          saveAnalyzed(sgfpath, sgfqueries[id].sgf, responses[id], sgfOpts);
+        } catch (error) {
+          console.error(error.message);
+        }
+      });
     }
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     process.exit(1);
   }
 })();

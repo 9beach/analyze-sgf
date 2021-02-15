@@ -23,7 +23,7 @@ describe('GameTree', () => {
     sgfopts.minWinrateLossForBadHotSpot = 20;
     sgfopts.minWinrateLossForVariations = 5;
     sgfopts.showVariationsAfterLastMove = false;
-    sgfopts.analyzeTurnsGiven = false;
+    sgfopts.analyzeTurns = undefined;
 
     function compareWithoutComments(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
@@ -59,7 +59,7 @@ describe('GameTree', () => {
     );
 
     sgfopts.showVariationsAfterLastMove = true;
-    sgfopts.analyzeTurnsGiven = false;
+    sgfopts.analyzeTurns = undefined;
 
     compareWithoutComments(
       'test/t-sabaki-1.sgf',
@@ -68,7 +68,6 @@ describe('GameTree', () => {
     );
 
     sgfopts.showVariationsAfterLastMove = true;
-    sgfopts.analyzeTurnsGiven = true;
     sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
 
     compareWithoutComments(
@@ -78,7 +77,6 @@ describe('GameTree', () => {
     );
 
     sgfopts.showVariationsAfterLastMove = false;
-    sgfopts.analyzeTurnsGiven = true;
 
     compareWithoutComments(
       'test/t-sabaki-1.sgf',
@@ -105,7 +103,7 @@ describe('GameTree', () => {
     sgfopts.minWinrateLossForBadHotSpot = 20;
     sgfopts.minWinrateLossForVariations = 5;
     sgfopts.showVariationsAfterLastMove = false;
-    sgfopts.analyzeTurnsGiven = false;
+    sgfopts.analyzeTurns = undefined;
 
     // Be careful. Easy to fail with the change of comments formats.
     compareWithComments(
