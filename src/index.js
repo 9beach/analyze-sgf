@@ -10,6 +10,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 const pgetopt = require('posix-getopt');
 const homedir = require('os').homedir();
+const chalk = require('chalk');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
 const { spawn } = require('child_process');
@@ -18,6 +19,7 @@ const parseBadJSON = require('./bad-json');
 const GameTree = require('./gametree');
 const sgfconv = require('./sgfconv');
 
+const log = (message) => console.error(chalk.grey(message));
 const config = `${homedir}${path.sep}.analyze-sgf.yml`;
 
 // Makes JSON data to send KataGo Parallel Analysis Engine.
@@ -34,7 +36,6 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
 
   if (initialPlayer !== '') {
     query.initialPlayer = initialPlayer;
-    console.error(`"initialPlayer" is set to ${initialPlayer} from SGF.`);
   }
 
   query.id = id;
@@ -55,18 +56,15 @@ async function kataGoAnalyze(queries, opts) {
   });
 
   let responses = '';
-  let called = false;
 
-  katago.stderr.on('data', (error) => {
-    if (!called) {
-      called = true;
-      console.error(
+  katago.on('exit', (code) => {
+    if (code !== 0) {
+      log(
         `Failed to run KataGo. Please fix "${config}".` +
           `\n${JSON.stringify(opts)}`,
       );
+      process.exit(1);
     }
-    process.stderr.write(error);
-    process.exit(1);
   });
 
   // Sends query to KataGo.
@@ -89,7 +87,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
   const gametree = new GameTree(sgf, responses, opts);
 
   afs.writeFileSync(rsgfpath, gametree.getSGF());
-  console.error(`${rsgfpath} generated.`);
+  log(`${rsgfpath} generated.`);
 
   const report = gametree.getRootComment();
   if (report !== '') {
@@ -99,12 +97,12 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
 
 // Main routine.
 (async () => {
-  // Creates config file.
+  // Generates config file.
   try {
     await fs.access(config);
   } catch (error) {
     await fs.copyFile(require.resolve('./analyze-sgf.yml'), config);
-    console.error(`${config} generated.`);
+    log(`${config} generated.`);
   }
 
   const help = (await fs.readFile(require.resolve('./help'))).toString();
@@ -147,7 +145,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
           break;
         case 'h':
         default:
-          console.error(help);
+          process.stderr.write(help);
           process.exit(1);
       }
     }
@@ -158,14 +156,12 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
     if (parser.optind() < process.argv.length) {
       sgfpaths = process.argv.slice(parser.optind());
       if (responsespath) {
-        console.error(
-          `\`-f\` option can't be used with SGF files: ${sgfpaths}`,
-        );
+        log(`\`-f\` option can't be used with SGF files: ${sgfpaths}`);
         process.exit(1);
       }
     } else if (!responsespath) {
-      console.error('Please specify SGF files or `-f` option.');
-      console.error(help);
+      log('Please specify SGF files or `-f` option.');
+      process.stderr.write(help);
       process.exit(1);
     }
 
@@ -175,6 +171,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
     analysisOpts = { ...opts.analysis, ...analysisOpts };
     sgfOpts = { ...opts.sgf, ...sgfOpts };
     katagoOpts = { ...opts.katago, ...katagoOpts };
+    sgfOpts.analyzeTurns = analysisOpts.analyzeTurns;
 
     if (responsespath) {
       // Analyzes by KataGo Analysis JSON.
@@ -204,7 +201,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
 
       const response = await kataGoAnalyze(
         sgfqueries
-          .map((sgfquery) => `${JSON.stringify(sgfquery.sgf)}`)
+          .map((sgfquery) => `${JSON.stringify(sgfquery.query)}`)
           .join('\n'),
         katagoOpts,
       );
@@ -225,6 +222,12 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
 
       sgfpaths.forEach((sgfpath, id) => {
         try {
+          if (responses[id] === '') {
+            throw Error('no response');
+          }
+          if (responses[id].search('{"error":"') === 0) {
+            throw Error(responses[id].replace('\n', ''));
+          }
           // Saves analysis responses to JSON.
           if (savegiven) {
             const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
@@ -234,18 +237,18 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
               `${sgfName}-responses.json`,
               `${sgfconv.removeTails(sgfqueries[id].sgf)}\n${responses[id]}`,
             );
-            console.error(`${sgfName}-responses.json generated.`);
+            log(`${sgfName}-responses.json generated.`);
           }
 
           // Saves analyzed SGF.
           saveAnalyzed(sgfpath, sgfqueries[id].sgf, responses[id], sgfOpts);
         } catch (error) {
-          console.error(error.message);
+          log(`KataGo error: ${error.message} while processing ${sgfpath}`);
         }
       });
     }
   } catch (error) {
-    console.error(error.message);
+    log(error.message);
     process.exit(1);
   }
 })();

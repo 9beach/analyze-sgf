@@ -38,11 +38,11 @@
     "cli"
   ],
   "dependencies": {
+    "chalk": "^4.1.0",
     "iconv-lite": "^0.6.2",
     "js-yaml": "^3.13.1",
     "jschardet": "^2.2.0",
-    "posix-getopt": "^1.2.0",
-    "xyz2sgf": "^0.1.0"
+    "posix-getopt": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^7.19.0",

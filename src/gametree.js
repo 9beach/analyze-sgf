@@ -14,6 +14,7 @@ class GameTree {
 
     this.root = rootsequence.root;
     this.opts = opts;
+    this.rootComment = '';
 
     // Makes long option names short.
     this.goodmovewinrate = opts.maxWinrateLossForGoodMove / 100;
@@ -34,11 +35,8 @@ class GameTree {
   // From KataGo responses, fills win rates and variations of this.nodes.
   fromKataGoResponses(katagoresponses, pls) {
     // Checks KataGo error response.
-    if (
-      katagoresponses.search('{"error":"') === 0 ||
-      katagoresponses.search('{"warning":') === 0
-    ) {
-      throw Error(`KataGo error: ${katagoresponses}`);
+    if (katagoresponses.search('{"error":"') === 0) {
+      throw Error(katagoresponses.replace('\n', ''));
     }
 
     let responses = katagoresponses.split('\n');
@@ -75,6 +73,10 @@ class GameTree {
     // Sets win rates and add moveInfos (variations) to this.nodes.
     responses.forEach((response) => {
       const curjson = JSON.parse(response);
+      // Skips warning.
+      if (curjson.warning) {
+        return;
+      }
       const { turnNumber } = curjson;
       const curturn = turnNumber - 1;
       const nextturn = curturn + 1;
@@ -180,8 +182,11 @@ class GameTree {
   // Sets players info, total good moves, bad moves, ... to this.rootComment
   // and this.root.
   setRootComment() {
-    if (!this.responsesgiven || this.rootComment || this.opts.analyzeTurns) {
-      this.rootComment = '';
+    if (
+      !this.responsesgiven ||
+      this.rootComment !== '' ||
+      this.opts.analyzeTurns
+    ) {
       return;
     }
 
