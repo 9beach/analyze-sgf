@@ -55,20 +55,17 @@ async function kataGoAnalyze(queries, opts) {
   });
 
   let responses = '';
-  let error = '';
+  let called = false;
 
-  katago.on('exit', (code) => {
-    if (code !== 0) {
-      const erroropts = JSON.stringify(opts, null, 2)
-        .replace(/,\n/, '\n')
-        .replace('  "path": ', '  path: ')
-        .replace('  "arguments": ', '  arguments: ');
-      process.stderr.write(
-        `Failed to run KataGo. Try to fix "${config}".\n` +
-          `${erroropts}\n${error}`,
+  katago.stderr.on('data', (error) => {
+    if (!called) {
+      called = true;
+      console.error(
+        `Failed to run KataGo. Please fix "${config}".` +
+          `\n${JSON.stringify(opts)}`,
       );
-      process.exit(1);
     }
+    process.stderr.write(error);
   });
 
   // Sends query to KataGo.
@@ -76,17 +73,9 @@ async function kataGoAnalyze(queries, opts) {
   katago.stdin.end();
 
   // Reads analysis from KataGo.
-  //
   // eslint-disable-next-line no-restricted-syntax
   for await (const data of katago.stdout) {
     responses += data;
-  }
-
-  // Reads stderr from KataGo.
-  //
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const data of katago.stderr) {
-    error += data;
   }
 
   return responses;

@@ -57,10 +57,9 @@ echo -n Tests src/index.js with option -k and \"katago-error.sh\".
 
 src/index.js -k 'path:"test/katago-error.sh",arguments:""' $temp.sgf 2> $temp-result || true
 
-grep '  path: "test/katago-error.sh"' $temp-result &> /dev/null
-grep '  arguments: ""' $temp-result &> /dev/null
-grep 'This is KataGo error test.' $temp-result &> /dev/null
-grep 'This is error message.' $temp-result &> /dev/null
+grep '^{"path":"test/katago-error.sh","arguments":""}' $temp-result &> /dev/null
+grep '^This is KataGo error test.' $temp-result &> /dev/null
+grep '^This is error message.' $temp-result &> /dev/null
 
 echo -e "\033[1;32m Ok \033[0m"
 
