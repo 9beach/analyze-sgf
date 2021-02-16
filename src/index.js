@@ -37,7 +37,7 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
     console.error(`"initialPlayer" is set to ${initialPlayer} from SGF.`);
   }
 
-  query.id = `9beach-${id.toString().padStart(3, '0')}`;
+  query.id = id;
   query.initialStones = sgfconv.initialstonesFromSequence(sequence);
   query.moves = sgfconv.katagomovesFromSequence(sequence);
 
@@ -128,7 +128,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
   // Parses args.
   try {
     const parser = new pgetopt.BasicParser(
-      'k:(katago)a:(analysis)g:(sgf)sf:',
+      'k:(katago)a:(analysis)g:(sgf)sf:h',
       process.argv,
     );
 
@@ -155,6 +155,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
         case 'f':
           responsespath = opt.optarg;
           break;
+        case 'h':
         default:
           console.error(help);
           process.exit(1);
@@ -174,20 +175,21 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
       }
     } else if (!responsespath) {
       console.error('Please specify SGF files or `-f` option.');
+      console.error(help);
       process.exit(1);
     }
 
     // Reads config file.
-    const defaultOpts = yaml.load(await fs.readFile(config));
+    const opts = yaml.load(await fs.readFile(config));
 
-    analysisOpts = { ...defaultOpts.analysis, ...analysisOpts };
-    sgfOpts = { ...defaultOpts.sgf, ...sgfOpts };
-    katagoOpts = { ...defaultOpts.katago, ...katagoOpts };
+    analysisOpts = { ...opts.analysis, ...analysisOpts };
+    sgfOpts = { ...opts.sgf, ...sgfOpts };
+    katagoOpts = { ...opts.katago, ...katagoOpts };
 
     if (responsespath) {
       // Analyzes by KataGo Analysis JSON.
       const sgfresponses = (await fs.readFile(responsespath)).toString();
-      // First line is SGF.
+      // JSON file format: tailless SGF + '\n' + KataGo response.
       const index = sgfresponses.indexOf('\n');
       const sgf = sgfresponses.substring(0, index);
       const responses = sgfresponses.substring(index + 1);
@@ -201,30 +203,35 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
         const content = afs.readFileSync(sgfpath);
         const detected = jschardet.detect(content);
         const sgf = iconv.decode(content, detected.encoding).toString();
-        const query = sgfToKataGoAnalysisQuery(id, sgf, analysisOpts);
+        const query = sgfToKataGoAnalysisQuery(
+          `9beach-${id.toString().padStart(3, '0')}`,
+          sgf,
+          analysisOpts,
+        );
 
         return { sgf, query };
       });
 
       const response = await kataGoAnalyze(
-        sgfqueries.reduce(
-          (acc, sgfquery) => `${JSON.stringify(sgfquery.query)}\n${acc}`,
-          '',
-        ),
+        sgfqueries
+          .map((sgfquery) => `${JSON.stringify(sgfquery.sgf)}`)
+          .join('\n'),
         katagoOpts,
       );
 
+      // Does not exit. gives "katago.on('exit', (code) => { ..." a change.
       if (response === '') {
         return;
       }
 
       // Splits long response by query id.
       const responses = response.split('\n').reduce((acc, analysis) => {
-        const index = parseInt(analysis.replace(/.*9beach-/, ''), 10);
-        if (Number.isNaN(index)) return acc;
-        acc[index] += `${analysis}\n`;
+        // analysis: '{"id":"9beach-000","isDuringSearch" ...'
+        const id = parseInt(analysis.replace(/.*9beach-/, ''), 10);
+        if (Number.isNaN(id)) return acc;
+        acc[id] += `${analysis}\n`;
         return acc;
-      }, new Array(sgfpaths.length).fill(''));
+      }, Array(sgfpaths.length).fill(''));
 
       sgfpaths.forEach((sgfpath, id) => {
         try {
@@ -232,6 +239,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
           if (savegiven) {
             const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
 
+            // JSON file format: tailless SGF + '\n' + KataGo response.
             afs.writeFileSync(
               `${sgfName}-responses.json`,
               `${sgfconv.removeTails(sgfqueries[id].sgf)}\n${responses[id]}`,
