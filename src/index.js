@@ -66,6 +66,7 @@ async function kataGoAnalyze(queries, opts) {
       );
     }
     process.stderr.write(error);
+    process.exit(1);
   });
 
   // Sends query to KataGo.
@@ -208,7 +209,7 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
         katagoOpts,
       );
 
-      // Does not exit. gives "katago.on('exit', (code) => { ..." a change.
+      // Does not exit. Gives "katago.on('exit', (code) => { ..." a change.
       if (response === '') {
         return;
       }

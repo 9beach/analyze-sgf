@@ -71,15 +71,11 @@ echo -e "\033[1;32m Ok \033[0m"
 #########
 echo -n Tests src/index.js with option -k and \"katago-error.sh\".
 
-src/index.js -k 'path:"test/katago-error.sh",arguments:""' $temp.sgf 2> $temp.stderr || true
-
-grep '{"path":"test/katago-error.sh","arguments":""}' $temp.stderr &> /dev/null && \
-	grep 'This is KataGo error test.' $temp.stderr &> /dev/null && \
-	grep 'This is error message.' $temp.stderr &> /dev/null
+src/index.js -k 'path:"test/katago-error.sh",arguments:""' $temp.sgf 2> $temp.stderr
 
 ret=$?
 
-if [ $ret -ne 0 ]; then
+if [ $ret -eq 0 ]; then
 	echo -e "\033[1;31m Error \033[0m"
 	echo -e "\033[1;31mResult:\033[0m"
 	cat $temp.stderr
