@@ -234,10 +234,10 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
 
             // JSON file format: tailless SGF + '\n' + KataGo response.
             afs.writeFileSync(
-              `${sgfName}-responses.json`,
+              `${sgfName}${sgfOpts.jsonSuffix}.json`,
               `${sgfconv.removeTails(sgfqueries[id].sgf)}\n${responses[id]}`,
             );
-            log(`${sgfName}-responses.json generated.`);
+            log(`${sgfName}${sgfOpts.jsonSuffix}.json generated.`);
           }
 
           // Saves analyzed SGF.

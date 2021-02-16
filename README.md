@@ -123,6 +123,7 @@ sgf:
   # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes 
   # analysis to "baduk-analyzed.sgf"
   fileSuffix: "-analyzed"
+  jsonSuffix: "-responses"
 ```
 
 이제 기보 파일, 가령 `신진서-렌샤오.sgf`로 `analyze-sgf`를 실행하면 간단한 분석 결과가
@@ -169,7 +170,7 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 `.analyze-sgf.yml` 파일은 `analyze-sgf`의 모든 기본 설정을 저장합니다. 기본 설정을 수정하기 위해
 `.analyze-sgf.yml` 파일을 수정할 수도 있고 `analyze-sgf`를 실행할 때 지정할 수도 있습니다. 예를 들어, 카타고
-분석 엔진의 탐색 숫자를 조절하기 위해서는 `analysis` 섹션의 `maxVisits` 값을 변경해야 하는데, 다음과 같이
+분석 엔진의 탐색 숫자를 조절하기 위해서는 `analysis` 섹션의 `maxVisits` 값을 변경해야 하는데 다음과 같이,
 실행할 때 지정할 수도 있습니다.
 
 ```console
@@ -209,13 +210,12 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-"komi" is set to 7.5 from SGF.
 baduk-responses.json generated.
 baduk-analyzed.sgf generated.
 ...
 ```
 
-위와 같이 `maxVisits:30000`으로 실행하면 긴 시간을 들여 많은 것을 분석합니다. 그리고 그 결과는 `-s`에 의해
+위와 같이 `maxVisits`에 큰수를 지정하면 긴 시간을 들여 많은 것을 분석합니다. 그리고 그 결과는 `-s`에 의해
 `baduk-responses.json`으로 저장되었습니다. 아래와 같이 실행하면 카타고가 아닌 `baduk-responses.json`을
 이용해서 실행과 동시에 분석을 끝마칩니다.
 
@@ -229,10 +229,10 @@ analyze-sgf -f baduk-responses.json -a 'analyzeTurns[168,169]' -g 'maxVariations
 몇 시간을 기다릴 수 있다면 `-s -a 'maxVisits:100000'`과 같이 아주 큰 탐색 숫자를 주고 분석 데이터를 저장하세요.
 실시간으로 카타고를 이용하는 것과는 차원이 다른 깊이를 제공합니다.
 
-카타고 분석 데이터에 존재하는 모든 변화도를 보고 싶다면 다음과 같이 실행합니다.
+카타고 분석 데이터에 존재하는 모든 변화도를 보고 싶다면 다음을 실행합니다.
 
 ```console
-analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100,showBadVariations=true'
+analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
 ```
 
 ## 남은 일

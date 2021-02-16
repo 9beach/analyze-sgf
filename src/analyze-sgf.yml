@@ -49,3 +49,4 @@ sgf:
   # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes 
   # analysis to "baduk-analyzed.sgf"
   fileSuffix: "-analyzed"
+  jsonSuffix: "-responses"
