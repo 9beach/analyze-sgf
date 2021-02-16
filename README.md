@@ -16,6 +16,7 @@
 재활용하는 방법도 제공합니다. 이것은 실시간으로 카타고를 이용하는 것과는 차원이 다른 깊이를 제공합니다.
 
 ## 설치
+
 먼저 [Node.js](https://nodejs.org/)와 [카타고](https://github.com/lightvector/KataGo/releases)를
 설치한 뒤 `analyze-sgf`를 설치합니다.
 
@@ -25,16 +26,16 @@
 sudo npm install -g analyze-sgf
 ```
 
-마이크로소프트 윈도우 환경에서는 명령 프롬프트 또는 PowerShell에서 다음을 실행합니다.
+마이크로소프트 윈도우 환경에서는 명령 프롬프트나 PowerShell에서 다음을 실행합니다.
 
 ```console
 C:\Users\hcho> npm install -g analyze-sgf
 ```
 
-## 기본 사용법
+## 사용법
 
-`analyze-sgf`를 처음 실행하면 다음과 같이, 홈 디렉터리에 `.analyze-sgf.yml` 파일이 생성된 뒤 기본 사용법이
-출력됩니다. 윈도우 환경에서는 `analyze-sgf`가 아닌 `analyze-sgf.cmd`로 실행해야 하지만 편의상 모두
+`analyze-sgf`를 처음 실행하면 다음과 같이, 홈 디렉터리에 `.analyze-sgf.yml` 파일을 만들고 기본 사용법을
+출력합니다. 윈도우 환경에서는 `analyze-sgf`가 아닌 `analyze-sgf.cmd`로 실행해야 하지만 편의상 모두
 `analyze-sgf`로 표시하겠습니다. 이제 사용법을 하나씩 알아봅시다.
 
 ```console
@@ -164,7 +165,7 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateLossForBadMove`, `minWinrateLossForBadHotSpot`,
 `maxWinrateLossForGoodMove` 설정 값을 지정해서 변경할 수 있습니다. 다음 섹션에서 더 자세히 살펴보겠습니다.
 
-## 기본 설정
+## 설정
 
 `.analyze-sgf.yml` 파일은 `analyze-sgf`의 모든 기본 설정을 저장합니다. 기본 설정을 수정하기 위해
 `.analyze-sgf.yml` 파일을 수정할 수도 있고 `analyze-sgf`를 실행할 때 지정할 수도 있습니다. 예를 들어, 카타고
@@ -175,18 +176,18 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
 ```
 
-카타고 분석 엔진이 한 수를 분석할 때 얼마나 많은 탐색을 할지 `maxVisits`이 결정합니다. 크면 클수록 분석은 더
-정확하지만 시간도 더 많이 걸립니다. 만약 `maxVisits`을 10000으로 두고, 나쁜 수의 기준을 3%로 줄인 뒤, 위에서
+한 수를 분석할 때 카타고 분석 엔진이 얼마나 많은 탐색을 할지 `maxVisits` 값으로 설정합니다. 크면 클수록 분석은 더
+정확해지지만 시간도 더 많이 걸립니다. 만약 `maxVisits`을 10000으로 두고, 나쁜 수의 기준을 3%로 줄인 뒤, 위에서
 문제가 된 174, 176 수만을 분석하려면 다음을 실행합니다.
 
 ```console
 analyze-sgf -a 'maxVisits:10000,analyzeTurns[173,175]' -g 'minWinrateLossForBadMove:3' baduk.sgf
 ```
 
-`-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 변화도보다는 예상도 개념을 선호하기 때문에
-174번째 수를 분석하기 위해서는 173을 요청해야 합니다. `analyzeTurns`을 지정하면, 지정된 변화도만을 보여 주며
-분석 결과를 요약해서 화면에 출력하지 않습니다. `analyzeTurns`을 지정하지 않으면 승률 하락이
-`minWinrateLossForVariations`보다 큰 모든 수의 변화도를 보여 주며 분석 결과 또한 요약해서 화면에 출력합니다.
+`-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 변화도가 아닌 예상도라는 개념으로 분석하기 때문에
+174번째 수를 분석하기 위해서는 173을 요청해야 합니다. `analyzeTurns`을 지정하면, 지정된 수의 변화도만 보여 주며
+분석 결과를 요약해서 화면에 출력하지는 않습니다. `analyzeTurns`을 지정하지 않으면 승률 하락이
+`minWinrateLossForVariations`보다 큰 모든 수의 변화도를 보여 주며 분석 결과를 요약해서 화면에 출력합니다.
 
 이와 같이 `.analyze-sgf.yml` 파일의 모든 설정은 직접 수정할 수도, 실행할 때 지정할 수도 있습니다.
 
@@ -201,10 +202,10 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ## 고급 설정
 
-카타고로 분석하려면 꽤 긴 시간이 필요합니다. 그런데 분석된 기보에는 승률 하락이 `minWinrateLossForVariations`
-보다 큰 수의 변화도만 수록되며, 좋은 수, 나쁜 수 기준 또한 수행 당시의 설정에 따릅니다. 이런 설정을 바꾸려고
+카타고로 분석하는 데는 꽤 긴 시간이 걸립니다. 그런데 분석된 기보에는 승률 하락이 `minWinrateLossForVariations`보다
+큰 수의 변화도만 수록되며, 좋은 수, 나쁜 수의 기준 또한 분석 이후에는 바꿀 수 없습니다. 이런 설정을 바꾸려고
 시간을 들여 새로 분석해야 한다면 많이 실망스러울 것입니다. 그래서 `analyze-sgf`에는 `-s` 옵션으로 카타고
-분석 데이터를 저장해 두고 이를 활용하는 기능이 있습니다.
+분석 데이터를 저장해 두고 이를 재활용하는 기능이 있습니다.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
@@ -215,21 +216,23 @@ baduk-analyzed.sgf generated.
 ```
 
 위와 같이 `maxVisits:30000`으로 실행하면 긴 시간을 들여 많은 것을 분석합니다. 그리고 그 결과는 `-s`에 의해
-`baduk-responses.json`으로 저장되었습니다. 다음과 같이 수행하면 카타고를 이용하지 않고 `baduk-responses.json`를
-재활용해서 실행과 동시에 분석을 끝마칩니다.
+`baduk-responses.json`으로 저장되었습니다. 아래와 같이 실행하면 카타고가 아닌 `baduk-responses.json`을
+이용해서 실행과 동시에 분석을 끝마칩니다.
 
 ```console
 analyze-sgf -f baduk-responses.json -a 'analyzeTurns[168,169]' -g 'maxVariationsForEachMove:20, showBadVariations:true'
 ```
 
-이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다. 몇 시간을
-기다릴 수 있다면 `-s -a 'maxVisits:100000'`과 같이 더 큰 탐색 숫자를 주는 것도 고려하세요. 실시간으로
-카타고를 이용하는 것과는 차원이 다른 깊이를 제공합니다.
+이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다. 물론
+이 때는 저장된 분석 정보를 이용하기 때문에 `maxVisits`을 새로 지정해도 탐색 수가 바뀌지는 않습니다.
 
-모든 수의 변화도를 보고 싶다면 다음과 같이 실행합니다.
+몇 시간을 기다릴 수 있다면 `-s -a 'maxVisits:100000'`과 같이 아주 큰 탐색 숫자를 주고 분석 데이터를 저장하세요.
+실시간으로 카타고를 이용하는 것과는 차원이 다른 깊이를 제공합니다.
+
+카타고 분석 데이터에 존재하는 모든 변화도를 보고 싶다면 다음과 같이 실행합니다.
 
 ```console
-analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100'
+analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100,showBadVariations=true'
 ```
 
 ## 남은 일

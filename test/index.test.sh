@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 REPO_PATH="$(dirname $(cd "$(dirname "$0")" > /dev/null 2>&1; pwd -P))"
 cd $REPO_PATH
 
@@ -27,7 +25,16 @@ cat test/t-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $t
 cat $temp-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $temp-result
 
 # Compares them.
-diff $temp-expected $temp-result
+diff $temp-expected $temp-result > $temp.stdout
+
+ret=$?
+
+if [ $ret -ne 0 ]; then
+	echo -e "\033[1;31m Error \033[0m"
+	cat $temp.stdout
+	rm -f $temp-*
+	exit $ret
+fi
 
 echo -e "\033[1;32m Ok \033[0m"
 
@@ -46,7 +53,16 @@ cat test/t-ren-vs-shin-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $t
 cat $temp-analyzed.sgf | tr -d '\n' | sed -e 's:C\[[^]]*\]::g' > $temp-result
 
 # Compares them.
-diff $temp-expected $temp-result
+diff $temp-expected $temp-result > $temp.stdout
+
+ret=$?
+
+if [ $ret -ne 0 ]; then
+	echo -e "\033[1;31m Error \033[0m"
+	cat $temp.stdout
+	rm -f $temp-*
+	exit $ret
+fi
 
 echo -e "\033[1;32m Ok \033[0m"
 
@@ -55,11 +71,21 @@ echo -e "\033[1;32m Ok \033[0m"
 #########
 echo -n Tests src/index.js with option -k and \"katago-error.sh\".
 
-src/index.js -k 'path:"test/katago-error.sh",arguments:""' $temp.sgf 2> $temp-result || true
+src/index.js -k 'path:"test/katago-error.sh",arguments:""' $temp.sgf 2> $temp.stderr || true
 
-grep '^{"path":"test/katago-error.sh","arguments":""}' $temp-result &> /dev/null
-grep '^This is KataGo error test.' $temp-result &> /dev/null
-grep '^This is error message.' $temp-result &> /dev/null
+grep '{"path":"test/katago-error.sh","arguments":""}' $temp.stderr &> /dev/null && \
+	grep 'This is KataGo error test.' $temp.stderr &> /dev/null && \
+	grep 'This is error message.' $temp.stderr &> /dev/null
+
+ret=$?
+
+if [ $ret -ne 0 ]; then
+	echo -e "\033[1;31m Error \033[0m"
+	echo -e "\033[1;31mResult:\033[0m"
+	cat $temp.stderr
+	rm -f $temp-*
+	exit $ret
+fi
 
 echo -e "\033[1;32m Ok \033[0m"
 
