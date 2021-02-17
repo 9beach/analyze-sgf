@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileOverview Parse process arguments and config, and return JSON object.
+ * @fileOverview A function for parsing process arguments and config.
  */
 
 const afs = require('fs');
@@ -13,6 +13,7 @@ const chalk = require('chalk');
 
 const parseBadJSON = require('./bad-json');
 
+// Parses process arguments and config, and return JSON object.
 function getopts() {
   const log = (message) => console.error(chalk.grey(message));
   const config = `${homedir}${path.sep}.analyze-sgf.yml`;
