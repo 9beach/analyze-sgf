@@ -10,10 +10,13 @@ const yamlpath = require.resolve('../src/analyze-sgf.yml');
 const opts = yaml.load(fs.readFileSync(yamlpath));
 const sgfopts = opts.sgf;
 
+const compareButLines = (x, y) =>
+  assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
+
 describe('GameTree', () => {
   it('should be expected values.', () => {
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
-    assert.equal(gametree.getSGF(), '(PL[];B[aa];W[bb])');
+    compareButLines(gametree.getSGF(), '(PL[];B[aa];W[bb])');
   });
 
   it('should be expected values for "test/t-*".', () => {
@@ -25,7 +28,7 @@ describe('GameTree', () => {
     sgfopts.showVariationsAfterLastMove = false;
     sgfopts.analyzeTurns = undefined;
 
-    function compareWithoutComments(original, json, expected) {
+    function compareButComments(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
       let responses = fs.readFileSync(json).toString();
       const index = responses.indexOf('\n');
@@ -41,45 +44,45 @@ describe('GameTree', () => {
       assert.equal(esgf, rsgf);
     }
 
-    compareWithoutComments(
+    compareButComments(
       'test/t-ren-vs-shin.sgf',
-      'test/t-ren-vs-shin-responses.json',
+      'test/t-ren-vs-shin.json',
       'test/t-ren-vs-shin-analyzed.sgf',
     );
 
-    compareWithoutComments(
+    compareButComments(
       'test/t-sabaki-1.sgf',
-      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1.json',
       'test/t-sabaki-1-default.sgf',
     );
 
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = undefined;
 
-    compareWithoutComments(
+    compareButComments(
       'test/t-sabaki-1.sgf',
-      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1.json',
       'test/t-sabaki-1-lastmove.sgf',
     );
 
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
 
-    compareWithoutComments(
+    compareButComments(
       'test/t-sabaki-1.sgf',
-      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1.json',
       'test/t-sabaki-1-turns-lastmove.sgf',
     );
 
     sgfopts.showVariationsAfterLastMove = false;
 
-    compareWithoutComments(
+    compareButComments(
       'test/t-sabaki-1.sgf',
-      'test/t-sabaki-1-responses.json',
+      'test/t-sabaki-1.json',
       'test/t-sabaki-1-turns.sgf',
     );
 
-    function compareWithComments(original, json, expected) {
+    function compare(original, json, expected) {
       const sgf = fs.readFileSync(original).toString();
 
       let responses = fs.readFileSync(json).toString();
@@ -89,7 +92,7 @@ describe('GameTree', () => {
       const gametree = new GameTree(sgf, responses, sgfopts);
       const rsgf = gametree.getSGF();
 
-      assert.equal(fs.readFileSync(expected).toString(), rsgf);
+      compareButLines(fs.readFileSync(expected).toString(), rsgf);
     }
 
     sgfopts.maxVariationsForEachMove = 10;
@@ -101,9 +104,9 @@ describe('GameTree', () => {
     sgfopts.analyzeTurns = undefined;
 
     // Be careful. Easy to fail with the change of comments formats.
-    compareWithComments(
+    compare(
       'test/t-ren-vs-shin.sgf',
-      'test/t-ren-vs-shin-responses.json',
+      'test/t-ren-vs-shin.json',
       'test/t-ren-vs-shin-analyzed.sgf',
     );
   });

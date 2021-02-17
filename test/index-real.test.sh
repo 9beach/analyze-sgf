@@ -22,8 +22,8 @@ src/index.js -a 'maxVisits:1' -g 'minWinrateLossForVariations:-100,showBadVariat
 	$temp-?.sgf &> $temp.result
 
 wc0=$(wc < $temp.result | awk '{print $2}')
-wc1="$(wc < $temp-1-responses.json | awk '{print $2}')"
-wc2="$(wc < $temp-2-responses.json | awk '{print $2}')"
+wc1="$(wc < $temp-1.json | awk '{print $2}')"
+wc2="$(wc < $temp-2.json | awk '{print $2}')"
 
 if [[ $wc0 -gt 140 ]] && [[ $wc1 -eq 5 ]] && [[ $wc2 -eq 8 ]]; then
 	echo -e "\033[1;32m Ok \033[0m"
@@ -31,9 +31,9 @@ else
 	echo -e "\033[1;31m Failure \033[0m"
 	echo $wc0 $wc1 $wc2
 	echo -----------
-	cat $temp-1-responses.json
+	cat $temp-1.json
 	echo -----------
-	cat $temp-2-responses.json
+	cat $temp-2.json
 	exit 1
 fi
 

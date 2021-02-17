@@ -13,7 +13,7 @@ Examples:
   analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -s baduk.sgf
-  analyze-sgf -f baduk-responses.json
+  analyze-sgf -f baduk.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 

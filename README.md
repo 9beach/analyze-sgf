@@ -57,7 +57,7 @@ Examples:
   analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -s baduk.sgf
-  analyze-sgf -f baduk-responses.json
+  analyze-sgf -f baduk.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
@@ -123,7 +123,6 @@ sgf:
   # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes 
   # analysis to "baduk-analyzed.sgf"
   fileSuffix: "-analyzed"
-  jsonSuffix: "-responses"
 ```
 
 이제 기보 파일, 가령 `신진서-렌샤오.sgf`로 `analyze-sgf`를 실행하면 간단한 분석 결과가
@@ -210,17 +209,17 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-baduk-responses.json generated.
+baduk.json generated.
 baduk-analyzed.sgf generated.
 ...
 ```
 
 위와 같이 `maxVisits`에 큰수를 지정하면 긴 시간을 들여 많은 것을 분석합니다. 그리고 그 결과는 `-s`에 의해
-`baduk-responses.json`으로 저장되었습니다. 아래와 같이 실행하면 카타고가 아닌 `baduk-responses.json`을
+`baduk.json`으로 저장되었습니다. 아래와 같이 실행하면 카타고가 아닌 `baduk.json`을
 이용해서 실행과 동시에 분석을 끝마칩니다.
 
 ```console
-analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' -f baduk-responses.json
+analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' -f baduk.json
 ```
 
 이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다. 저장된
@@ -232,7 +231,7 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 카타고 분석 데이터에 존재하는 모든 변화도를 보고 싶다면 다음을 실행합니다.
 
 ```console
-analyze-sgf -f baduk-responses.json -g 'minWinrateLossForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
+analyze-sgf -f baduk.json -g 'minWinrateLossForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
 ```
 
 ## 남은 일

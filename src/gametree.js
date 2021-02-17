@@ -168,9 +168,9 @@ class GameTree {
       }
 
       if (tail !== '') {
-        return `(;${node.sequence}${acc})${tail}`;
+        return `\n(;${node.sequence}${acc})${tail}`;
       }
-      return `;${node.sequence}${acc}`;
+      return `\n;${node.sequence}${acc}`;
     }, '');
 
     this.setRootComment();
