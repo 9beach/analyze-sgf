@@ -70,9 +70,9 @@ function reportGame(
     `\nGood move: less than ${goodmovewinrate * 100}% win rate loss` +
     `\nBad move: more than ${badmovewinrate * 100}% win rate loss` +
     `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate loss` +
-    `\n\nVariations added for the moves of more then ` +
+    `\n\nVariations added for the moves of more than ` +
     `${variationwinrate * 100}% win rate loss.` +
-    `\nMaximum variations number for each move is ${maxvariations}.` +
+    `\nThe maximum variation number for each move is ${maxvariations}.` +
     `\n\nAnalyzed by KataGo Parallel Analysis Engine (${visits} max visits).`
   );
 }
