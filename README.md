@@ -150,7 +150,7 @@ Bad move: more than 5% win rate loss
 Bad hot spot: more than 20% win rate loss
 
 Variations added for the moves of more then 5% win rate loss.
-Maximum variations number for each move is 10.
+The maximum variation number for each move is 10.
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
