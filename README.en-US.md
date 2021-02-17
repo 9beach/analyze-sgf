@@ -25,8 +25,9 @@ depth compared to using KataGo in real-time.
 
 ## Installation
 
-First install [Node.js] and [https://github.com/lightvector/KataGo/releases)],
-then install `analyze-sgf`.
+First install  [Node.js](https://nodejs.org/) and
+[KataGo](https://github.com/lightvector/KataGo/releases), then install
+`analyze-sgf`.
 
 On a Mac or Linux environment, run the following from a terminal.
 
