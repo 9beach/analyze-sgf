@@ -40,11 +40,6 @@ describe('GameTree', () => {
 
       assert.equal(esgf, rsgf);
     }
-    compareWithoutComments(
-      'test/t-shin-vs-ke.sgf',
-      'test/t-shin-vs-ke-responses.json',
-      'test/t-shin-vs-ke-analyzed.sgf',
-    );
 
     compareWithoutComments(
       'test/t-ren-vs-shin.sgf',
