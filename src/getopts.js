@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileOverview Command line interface for analyze-sgf.
+ * @fileOverview Parse process arguments and config, and return JSON object.
  */
 
 const afs = require('fs');
