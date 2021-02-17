@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/9beach/analyze-sgf.svg?branch=master)](https://travis-ci.org/9beach/analyze-sgf)
 [![npm version](https://badge.fury.io/js/analyze-sgf.svg)](https://badge.fury.io/js/analyze-sgf)
 
+한국어 | [English](README.en-US.md)
+
 `analyze-sgf`는 [카타고 분석 엔진](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)으로
 [기보](https://en.wikipedia.org/wiki/Smart_Game_Format) 파일을 분석해서 승률 그래프, 좋은 수, 나쁜 수를
 표시하고 변화도를 제안하여 새로운 기보 파일로 저장합니다.
