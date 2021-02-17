@@ -184,6 +184,10 @@ if (parser.optind() < process.argv.length) {
   process.exit(1);
 }
 
+if (responsesPath && saveGiven) {
+  log('neglected `-s` with `-f`.');
+}
+
 // Reads config file.
 const opts = yaml.load(afs.readFileSync(config));
 

@@ -177,12 +177,12 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
 ```
 
-한 수를 분석할 때 카타고 분석 엔진이 얼마나 많은 탐색을 할지 `maxVisits` 값으로 설정합니다. 크면 클수록 분석은 더
-정확해지지만 시간도 더 많이 걸립니다. 만약 `maxVisits`을 10000으로 두고, 나쁜 수의 기준을 3%로 줄인 뒤, 위에서
-문제가 된 174, 176 수만을 분석하려면 다음을 실행합니다.
+한 수를 분석할 때 카타고 분석 엔진이 얼마나 많은 탐색을 할지는 `maxVisits` 값으로 설정합니다. 크면 클수록 분석은 더
+정확해지지만 시간도 더 많이 걸립니다. 만약 `maxVisits`을 10000으로 두고, 위에서 문제가 된 174, 176 수에 대해
+최대 20개의 변화도를 분석하려면 다음을 실행합니다.
 
 ```console
-analyze-sgf -a 'maxVisits:10000,analyzeTurns[173,175]' -g 'minWinrateLossForBadMove:3' baduk.sgf
+analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' baduk.sgf
 ```
 
 `-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 변화도가 아닌 예상도라는 개념으로 분석하기 때문에
@@ -220,11 +220,11 @@ baduk-analyzed.sgf generated.
 이용해서 실행과 동시에 분석을 끝마칩니다.
 
 ```console
-analyze-sgf -f baduk-responses.json -a 'analyzeTurns[168,169]' -g 'maxVariationsForEachMove:20, showBadVariations:true'
+analyze-sgf -f baduk-responses.json -a 'analyzeTurns:[168,169]' -g 'maxVariationsForEachMove:20, showBadVariations:true'
 ```
 
 이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다. 물론
-이 때는 저장된 분석 정보를 이용하기 때문에 `maxVisits`을 새로 지정해도 탐색 수가 바뀌지는 않습니다.
+이 때는 저장된 분석 정보를 이용하기 때문에 `analyzeTurns`을 제외한 모든 `-a` 옵션의 값들은 무시됩니다.
 
 몇 시간을 기다릴 수 있다면 `-s -a 'maxVisits:100000'`과 같이 아주 큰 탐색 숫자를 주고 분석 데이터를 저장하세요.
 실시간으로 카타고를 이용하는 것과는 차원이 다른 깊이를 제공합니다.
