@@ -10,16 +10,16 @@ files by [KataGo Parallel Analysis Engine](https://github.com/lightvector/KataGo
 to generate the win rate graphs, label good and bad moves, propose the
 variations, and save them as new SGF files.
 
-With [Sabaki](https://sabaki.yichuanshen.de/) or
-[Lizzie](https://github.com/featurecat/lizzie) with
-KataGo, you can analyze an SGF file in real-time. But with `analyze-sgf`, you
-can analyze many SGF files all at once, and save the KataGo reviewed SGF files
-automatically. If you open these reviewed SGF files with Sabaki, you can
-analyze them with the help of the overall win rate, good and bad move
-labels, and proposed variations.
+You can analyze an SGF file one by one in real-time by linking
+[Sabaki](https://sabaki.yichuanshen.de/) or
+[Lizzie](https://github.com/featurecat/lizzie) and KataGo. But with
+`analyze-sgf`, you can analyze many SGF files all at once, and save the KataGo
+reviewed SGF files automatically. If you open these with Sabaki, you can
+analyze them with the help of the overall win rate, good and bad move labels,
+and proposed variations.
 
 `analyze-sgf` also gives you a way to specify a very large number of visits
-and let KataGo analyze several hours, then save and recycle the 
+and let KataGo analyze several hours, then save and recycle the
 KataGo analysis data (not reviewed SGF). This provides a whole new level of
 depth compared to using KataGo in real-time.
 
