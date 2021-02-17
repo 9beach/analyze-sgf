@@ -111,9 +111,8 @@ sgf:
   # If more than minWinrateLossForBadHotSpot percents down with a move, that 
   # move is a bad hotspot, and it's really bad.
   minWinrateLossForBadHotSpot: 20.0
-  # In SGF, the last move can't have variations. So we add a pass move after 
-  # the last move, and then add the proposed variations to that pass move.
-  showVariationsAfterLastMove: false
+  # In SGF, the last move can't have variations. So we add a passing move
+  # after the last move, and then add the proposed variations to that move.  showVariationsAfterLastMove: false
   # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
   # move 1, move 6, and move 11, and then add the variations for those moves.
   # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and 

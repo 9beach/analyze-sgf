@@ -7,8 +7,8 @@
 
 `analyze-sgf` analyzes [SGF](https://en.wikipedia.org/wiki/Smart_Game_Format)
 files by [KataGo Parallel Analysis Engine](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)
-to generate the win rate graphs, and label good and bad moves, and propose
-the variations, and save them as new SGF files.
+to generate the win rate graphs, label good and bad moves, propose the
+variations, and save them as new SGF files.
 
 With [Sabaki](https://sabaki.yichuanshen.de/) or
 [Lizzie](https://github.com/featurecat/lizzie) with
@@ -122,8 +122,8 @@ sgf:
   # If more than minWinrateLossForBadHotSpot percents down with a move, that 
   # move is a bad hotspot, and it's really bad.
   minWinrateLossForBadHotSpot: 20.0
-  # In SGF, the last move can't have variations. So we add a passing move after 
-  # the last move, and then add the proposed variations to that pass move.
+  # In SGF, the last move can't have variations. So we add a passing move
+  # after the last move, and then add the proposed variations to that move.
   showVariationsAfterLastMove: false
   # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
   # move 1, move 6, and move 11, and then add the variations for those moves.
