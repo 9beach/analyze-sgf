@@ -20,6 +20,7 @@
     "analyze-sgf": "src/index.js"
   },
   "scripts": {
+    "all": "npm run lint && npm test && test/index-real.test.sh",
     "test": "mocha && test/index.test.sh",
     "lint": "eslint ."
   },

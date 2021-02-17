@@ -133,7 +133,7 @@ function rootsequenceFromSGF(sgf) {
   tailless = tailless.substring(0, tailless.lastIndexOf(')') + 1);
 
   if (tailless[0] !== '(' || tailless[tailless.length - 1] !== ')') {
-    throw Error(`SGF parse error: ${tailless}`);
+    throw Error(`SGF parse error: "${sgf}"`);
   }
 
   // Root node may have ';', so start from 2.

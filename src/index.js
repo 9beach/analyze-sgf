@@ -4,7 +4,6 @@
  * @fileOverview Command line interface for analyze-sgf.
  */
 
-const fs = require('fs').promises;
 const afs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
@@ -49,6 +48,42 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
   return query;
 }
 
+function saveAnalyzed(targetPath, sgf, responses, saveResponse, opts) {
+  try {
+    if (responses === '') {
+      throw Error('no response');
+    }
+    if (responses.search('{"error":"') === 0) {
+      throw Error(responses.replace('\n', ''));
+    }
+
+    const targetName = targetPath.substring(0, targetPath.lastIndexOf('.'));
+
+    // Saves analysis responses to JSON.
+    if (saveResponse) {
+      const jsonPath = `${targetName}${opts.jsonSuffix}.json`;
+
+      // JSON file format: tailless SGF + '\n' + KataGo response.
+      afs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
+      log(`${jsonPath} generated.`);
+    }
+
+    // Saves analyzed SGF.
+    const gametree = new GameTree(sgf, responses, opts);
+    const sgfPath = `${targetName}${opts.fileSuffix}.sgf`;
+
+    afs.writeFileSync(sgfPath, gametree.getSGF());
+    log(`${sgfPath} generated.`);
+
+    const report = gametree.getRootComment();
+    if (report !== '') {
+      console.log(report);
+    }
+  } catch (error) {
+    log(`KataGo error: ${error.message} while processing ${targetPath}`);
+  }
+}
+
 // Requests analysis to KataGo, and reads responses.
 async function kataGoAnalyze(queries, opts) {
   const katago = spawn(`${opts.path} ${opts.arguments}`, [], {
@@ -80,114 +115,101 @@ async function kataGoAnalyze(queries, opts) {
   return responses;
 }
 
-function saveAnalyzed(targetpath, sgf, responses, opts) {
-  const rsgfpath = `${
-    targetpath.substring(0, targetpath.lastIndexOf('.')) + opts.fileSuffix
-  }.sgf`;
-  const gametree = new GameTree(sgf, responses, opts);
+// Starts main routine.
+//
+// Generates config file.
+try {
+  afs.accessSync(config);
+} catch (error) {
+  afs.copyFileSync(require.resolve('./analyze-sgf.yml'), config);
+  log(`${config} generated.`);
+}
 
-  afs.writeFileSync(rsgfpath, gametree.getSGF());
-  log(`${rsgfpath} generated.`);
+const help = afs.readFileSync(require.resolve('./help')).toString();
 
-  const report = gametree.getRootComment();
-  if (report !== '') {
-    console.log(report);
+let responsesPath;
+let saveGiven = false;
+let analysisOpts = {};
+let sgfOpts = {};
+let katagoOpts = {};
+
+// Parses args.
+const parser = new pgetopt.BasicParser(
+  'k:(katago)a:(analysis)g:(sgf)sf:h',
+  process.argv,
+);
+
+let opt = null;
+
+for (;;) {
+  opt = parser.getopt();
+  if (opt === undefined) {
+    break;
+  }
+  switch (opt.option) {
+    case 'a':
+      analysisOpts = parseBadJSON(opt.optarg);
+      break;
+    case 'k':
+      katagoOpts = parseBadJSON(opt.optarg);
+      break;
+    case 'g':
+      sgfOpts = parseBadJSON(opt.optarg);
+      break;
+    case 's':
+      saveGiven = true;
+      break;
+    case 'f':
+      responsesPath = opt.optarg;
+      break;
+    case 'h':
+    default:
+      process.stderr.write(help);
+      process.exit(1);
   }
 }
 
-// Main routine.
-(async () => {
-  // Generates config file.
-  try {
-    await fs.access(config);
-  } catch (error) {
-    await fs.copyFile(require.resolve('./analyze-sgf.yml'), config);
-    log(`${config} generated.`);
+let sgfPaths;
+
+// sgfPaths given.
+if (parser.optind() < process.argv.length) {
+  sgfPaths = process.argv.slice(parser.optind());
+  if (responsesPath) {
+    log(`\`-f\` option can't be used with SGF files: ${sgfPaths}`);
+    process.exit(1);
   }
+} else if (!responsesPath) {
+  log('Please specify SGF files or `-f` option.');
+  process.stderr.write(help);
+  process.exit(1);
+}
 
-  const help = (await fs.readFile(require.resolve('./help'))).toString();
+// Reads config file.
+const opts = yaml.load(afs.readFileSync(config));
 
-  let responsespath;
-  let savegiven = false;
-  let analysisOpts = {};
-  let sgfOpts = {};
-  let katagoOpts = {};
+analysisOpts = { ...opts.analysis, ...analysisOpts };
+sgfOpts = { ...opts.sgf, ...sgfOpts };
+katagoOpts = { ...opts.katago, ...katagoOpts };
+sgfOpts.analyzeTurns = analysisOpts.analyzeTurns;
 
-  // Parses args.
+// Starts async communication with kataGoAnalyze().
+(async () => {
   try {
-    const parser = new pgetopt.BasicParser(
-      'k:(katago)a:(analysis)g:(sgf)sf:h',
-      process.argv,
-    );
-
-    let opt = null;
-
-    for (;;) {
-      opt = parser.getopt();
-      if (opt === undefined) {
-        break;
-      }
-      switch (opt.option) {
-        case 'a':
-          analysisOpts = parseBadJSON(opt.optarg);
-          break;
-        case 'k':
-          katagoOpts = parseBadJSON(opt.optarg);
-          break;
-        case 'g':
-          sgfOpts = parseBadJSON(opt.optarg);
-          break;
-        case 's':
-          savegiven = true;
-          break;
-        case 'f':
-          responsespath = opt.optarg;
-          break;
-        case 'h':
-        default:
-          process.stderr.write(help);
-          process.exit(1);
-      }
-    }
-
-    let sgfpaths;
-
-    // sgfpaths given.
-    if (parser.optind() < process.argv.length) {
-      sgfpaths = process.argv.slice(parser.optind());
-      if (responsespath) {
-        log(`\`-f\` option can't be used with SGF files: ${sgfpaths}`);
-        process.exit(1);
-      }
-    } else if (!responsespath) {
-      log('Please specify SGF files or `-f` option.');
-      process.stderr.write(help);
-      process.exit(1);
-    }
-
-    // Reads config file.
-    const opts = yaml.load(await fs.readFile(config));
-
-    analysisOpts = { ...opts.analysis, ...analysisOpts };
-    sgfOpts = { ...opts.sgf, ...sgfOpts };
-    katagoOpts = { ...opts.katago, ...katagoOpts };
-    sgfOpts.analyzeTurns = analysisOpts.analyzeTurns;
-
-    if (responsespath) {
+    if (responsesPath) {
       // Analyzes by KataGo Analysis JSON.
-      const sgfresponses = (await fs.readFile(responsespath)).toString();
+      const sgfresponses = afs.readFileSync(responsesPath).toString();
       // JSON file format: tailless SGF + '\n' + KataGo response.
       const index = sgfresponses.indexOf('\n');
       const sgf = sgfresponses.substring(0, index);
       const responses = sgfresponses.substring(index + 1);
 
-      saveAnalyzed(responsespath, sgf, responses, sgfOpts);
+      saveAnalyzed(responsesPath, sgf, responses, false, sgfOpts);
     } else {
       // Analyzes by KataGo Analysis Engine.
       //
       // Reads SGF and makes KagaGo queries.
-      const sgfqueries = sgfpaths.map((sgfpath, id) => {
-        const content = afs.readFileSync(sgfpath);
+      const sgfqueries = sgfPaths.map((sgfPath, id) => {
+        const content = afs.readFileSync(sgfPath);
         const detected = jschardet.detect(content);
         const sgf = iconv.decode(content, detected.encoding).toString();
         const query = sgfToKataGoAnalysisQuery(
@@ -199,14 +221,16 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
         return { sgf, query };
       });
 
+      // Sends queries to KataGo
       const response = await kataGoAnalyze(
+        // Gets queries olny.
         sgfqueries
           .map((sgfquery) => `${JSON.stringify(sgfquery.query)}`)
           .join('\n'),
         katagoOpts,
       );
 
-      // Does not exit. Gives "katago.on('exit', (code) => { ..." a change.
+      // Does not exit if fails. Gives "katago.on('exit', ...)" a change.
       if (response === '') {
         return;
       }
@@ -218,34 +242,18 @@ function saveAnalyzed(targetpath, sgf, responses, opts) {
         if (Number.isNaN(id)) return acc;
         acc[id] += `${analysis}\n`;
         return acc;
-      }, Array(sgfpaths.length).fill(''));
+      }, Array(sgfPaths.length).fill(''));
 
-      sgfpaths.forEach((sgfpath, id) => {
-        try {
-          if (responses[id] === '') {
-            throw Error('no response');
-          }
-          if (responses[id].search('{"error":"') === 0) {
-            throw Error(responses[id].replace('\n', ''));
-          }
-          // Saves analysis responses to JSON.
-          if (savegiven) {
-            const sgfName = sgfpath.substring(0, sgfpath.lastIndexOf('.'));
-
-            // JSON file format: tailless SGF + '\n' + KataGo response.
-            afs.writeFileSync(
-              `${sgfName}${sgfOpts.jsonSuffix}.json`,
-              `${sgfconv.removeTails(sgfqueries[id].sgf)}\n${responses[id]}`,
-            );
-            log(`${sgfName}${sgfOpts.jsonSuffix}.json generated.`);
-          }
-
-          // Saves analyzed SGF.
-          saveAnalyzed(sgfpath, sgfqueries[id].sgf, responses[id], sgfOpts);
-        } catch (error) {
-          log(`KataGo error: ${error.message} while processing ${sgfpath}`);
-        }
-      });
+      sgfPaths.forEach((sgfPath, id) =>
+        // Saves analyzed SGF.
+        saveAnalyzed(
+          sgfPath,
+          sgfqueries[id].sgf,
+          responses[id],
+          saveGiven,
+          sgfOpts,
+        ),
+      );
     }
   } catch (error) {
     log(error.message);
