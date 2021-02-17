@@ -202,7 +202,6 @@ describe('katagomovesFromSequence', () => {
     movesfromsequence(294, 'test/t-oro-1.sgf');
     movesfromsequence(226, 'test/t-oro-2.sgf');
     movesfromsequence(207, 'test/t-ren-vs-shin.sgf');
-    movesfromsequence(302, 'test/t-shin-vs-ke.sgf');
     movesfromsequence(3, 'test/t-sabaki-1.sgf');
     movesfromsequence(4, 'test/t-sabaki-2.sgf');
   });
