@@ -18,10 +18,6 @@ automatically. If you open this reviewed SGF files with Sabaki, you can
 analyze them with the help of the overall win rate, good and bad move
 labes, and proposed variations.
 
-You can specify a very large number of visits, `analyze-sgf` lets Katago to
-analyze them for hours, and then saves the results. This will provide a
-different depth than using Katago in real time.
-
 `analyze-sgf` also gives you a way to specify a very large number of visits
 and let KataGo analyze several hours, then save and recycle the 
 KataGo analysis data (not reviewed SGF). This provides a whole new level of
