@@ -220,11 +220,11 @@ baduk-analyzed.sgf generated.
 이용해서 실행과 동시에 분석을 끝마칩니다.
 
 ```console
-analyze-sgf -f baduk-responses.json -a 'analyzeTurns:[168,169]' -g 'maxVariationsForEachMove:20, showBadVariations:true'
+analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' -f baduk-responses.json
 ```
 
-이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다. 물론
-이 때는 저장된 분석 정보를 이용하기 때문에 `analyzeTurns`을 제외한 모든 `-a` 옵션의 값들은 무시됩니다.
+이제 기존에 없었던 169, 170 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다. 저장된
+분석 정보를 이용하기 때문에 `analyzeTurns`를 제외한 `maxVisits` 등의 `-a` 옵션 값은 무시됩니다.
 
 몇 시간을 기다릴 수 있다면 `-s -a 'maxVisits:100000'`과 같이 아주 큰 탐색 숫자를 주고 분석 데이터를 저장하세요.
 실시간으로 카타고를 이용하는 것과는 차원이 다른 깊이를 제공합니다.
