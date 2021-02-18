@@ -213,10 +213,10 @@ Because KataGo analyzes with the concept of the proposed variations, in
 order to analyze the 174th move, we need to request 173.
 
 If `analyzeTurns` is specified, only the variations of specified moves are
-saved. The analysis results are not summarized on a terminal. If `analyzeTurns`
+saved. The analysis results are not summarized on the terminal. If `analyzeTurns`
 is not specified, all the variations of the moves with a win rate drop greater
 than `minWinrateDropForVariations` are saved, and the analysis results are
-summarized on a terminal.
+summarized on the terminal.
 
 Komi is automatically set using the information in the SGF file even if the
 `-a 'komi:6.5'` option is not specified.
@@ -231,10 +231,10 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 ## Advanced Options
 
 It takes quite a long time to analyze with KataGo. However, in the reviewed
-SGF, not all pieces of information of KataGo analysis are stored. It would be very
-frustrating if you had to take the time to analyze it again with different
-settings. So `analyze-sgf` can save and recycle the KataGo
-analysis data with the `-s` option.
+SGF, not all pieces of information of KataGo analysis are stored. It would be
+very frustrating if you had to take the time to analyze it again with different
+settings. So `analyze-sgf` can save and recycle the KataGo analysis data with
+the `-s` option.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
@@ -268,7 +268,7 @@ data, do the following:
 analyze-sgf -f baduk.json -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
 ```
 
-## TODO
+## TODOs
 
 * Support Tygem file (`.gib`)
 * Internationalization
