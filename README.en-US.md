@@ -29,13 +29,13 @@ First install  [Node.js](https://nodejs.org/) and
 [KataGo](https://github.com/lightvector/KataGo/releases), then install
 `analyze-sgf`.
 
-In Mac or Linux environment, run the following from the terminal.
+In Mac or Linux, run the following from the terminal.
 
 ```console
 sudo npm install -g analyze-sgf
 ```
 
-In Microsoft Windows environment, run the following from the `Command Prompt`
+In Microsoft Windows, run the following from the `Command Prompt`
 or `PowerShell`.
 ```console
 C:\Users\hcho> npm install -g analyze-sgf
@@ -74,7 +74,7 @@ Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
 analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 ```
 
-In a Windows environment, it should be run with `analyze-sgf.cmd` rather than
+In Microsoft Windows, it should be run with `analyze-sgf.cmd` rather than
 `analyze-sgf`, but for convenience, we'll term all as `analyze-sgf`. Now let's
 look at how to use them one by one.
 
