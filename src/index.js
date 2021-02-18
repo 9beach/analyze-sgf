@@ -24,6 +24,12 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
 
   if (komi !== '') {
     query.komi = parseFloat(komi);
+  } else {
+    // Handles SGF dialect.
+    const ko = sgfconv.valueFromSequence('KO', sequence);
+    if (ko !== '') {
+      query.komi = parseFloat(ko);
+    }
   }
 
   const initialPlayer = sgfconv.valueFromSequence('PL', sequence);

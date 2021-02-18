@@ -138,21 +138,23 @@ sgf:
   fileSuffix: "-analyzed"
 ```
 
-Now, run `analyze-sgf` with a SGF file, for example, `신진서-렌샤오.sgf`,
-the simple analysis result will be printed out, and a file `신진서-렌샤오-analized.sgf`
+Now, run `analyze-sgf` with a SGF file, for example, `shin-vs-lian.sgf`,
+the simple analysis result will be printed out, and a file `shin-vs-lian-analized.sgf`
 is generated.
 
 ```console
-$ analyze-sgf 신진서-렌샤오.sgf
-신진서-렌샤오-analyzed.sgf generated.
+$ analyze-sgf shin-vs-lian.sgf
+shin-vs-lian-analyzed.sgf generated.
 # Analyze-SGF Report
 
-신진서 (Black):
+13th Chunlan Cup, semi-final, Komi 7.5, B+R, 2021-01-20
+
+Shin Jinseo (Black):
 * Good moves (75.00%, 78/104)
 * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Bad hot spots (0.96%, 1/104): move 141
 
-롄샤오 (White):
+Lian Xiao (White):
 * Good moves (74.76%, 77/103)
 * Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
 * Bad hot spots (1.94%, 2/103): move 174, move 176
@@ -161,7 +163,7 @@ Good move: less than 2% win rate drop
 Bad move: more than 5% win rate drop
 Bad hot spot: more than 20% win rate drop
 
-Variations added for the moves of more than 5% win rate drop.
+Variations added for the moves having more than 5% win rate drop.
 The maximum variation number for each move is 10.
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).

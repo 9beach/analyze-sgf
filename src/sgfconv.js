@@ -123,6 +123,20 @@ function removeTails(sgf) {
   return reduced;
 }
 
+// ('(;W[aa];B[bb];W[cc])', 'XX', 0) => '(;W[aa]XX;B[bb];W[cc])'
+// ('(;W[aa];B[bb];W[cc])', 'XX', 7) => '(;W[aa];B[bb]XX;W[cc])'
+function addProperty(sequence, mark, index) {
+  const start = sequence.indexOf(']', index);
+
+  if (start !== -1) {
+    return (
+      sequence.substring(0, start + 1) + mark + sequence.substring(start + 1)
+    );
+  }
+
+  return '';
+}
+
 // '(abc;B[aa];B[bb]' => { root: 'abc', sequence: ';B[aa];B[bb]' }
 // '(;o[aa];B[bb]' => { root: ';o[aa]', sequence: ';B[bb]' }
 // '(abc;)' => { root: 'abc;', sequence: '' }
@@ -147,20 +161,6 @@ function rootsequenceFromSGF(sgf) {
     root: tailless.substring(1, start),
     sequence: tailless.substring(start, tailless.length - 1),
   };
-}
-
-// ('(;W[aa];B[bb];W[cc])', 'XX', 0) => '(;W[aa]XX;B[bb];W[cc])'
-// ('(;W[aa];B[bb];W[cc])', 'XX', 7) => '(;W[aa];B[bb]XX;W[cc])'
-function addProperty(sequence, mark, index) {
-  const start = sequence.indexOf(']', index);
-
-  if (start !== -1) {
-    return (
-      sequence.substring(0, start + 1) + mark + sequence.substring(start + 1)
-    );
-  }
-
-  return '';
 }
 
 // ('(;W[aa];B[bb];W[cc])', 0) => '(;W[aa]TE[1];B[bb];W[cc])'

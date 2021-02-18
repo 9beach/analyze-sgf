@@ -135,6 +135,8 @@ $ analyze-sgf 신진서-렌샤오.sgf
 신진서-렌샤오-analyzed.sgf generated.
 # Analyze-SGF Report
 
+제13회 춘란배 4강, Komi 7.5, 207수 흑불계승, 2021-01-20
+
 신진서 (Black):
 * Good moves (75.00%, 78/104)
 * Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
@@ -149,7 +151,7 @@ Good move: less than 2% win rate drop
 Bad move: more than 5% win rate drop
 Bad hot spot: more than 20% win rate drop
 
-Variations added for the moves of more then 5% win rate drop.
+Variations added for the moves having more than 5% win rate drop.
 The maximum variation number for each move is 10.
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).

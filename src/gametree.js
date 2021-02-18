@@ -3,8 +3,8 @@
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
-const report = require('./report-game');
 const sgfconv = require('./sgfconv');
+const reportGame = require('./report-game');
 const Node = require('./node');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
@@ -195,6 +195,7 @@ class GameTree {
     const stat = {
       blackGoodBads: [[], [], []],
       whiteGoodBads: [[], [], []],
+      root: this.root,
     };
 
     function addToBlackOrWhite(pl, index, num) {
@@ -216,15 +217,13 @@ class GameTree {
     });
 
     // Makes report, i.e. root comment.
-    stat.pb = sgfconv.valueFromSequence('PB', this.root);
     stat.blacksTotal = this.nodes.reduce(
       (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
       0,
     );
-    stat.pw = sgfconv.valueFromSequence('PW', this.root);
     stat.whitesTotal = this.nodes.length - stat.blacksTotal;
 
-    this.rootComment = report(
+    this.rootComment = reportGame(
       stat,
       this.goodmovewinrate,
       this.badmovewinrate,
