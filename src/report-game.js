@@ -67,11 +67,11 @@ function reportGame(
     `# Analyze-SGF Report` +
     `\n\n${pb}\n${reportGoodAndBad(stat.blacksTotal, stat.blackGoodBads)}` +
     `\n${pw}\n${reportGoodAndBad(stat.whitesTotal, stat.whiteGoodBads)}` +
-    `\nGood move: less than ${goodmovewinrate * 100}% win rate loss` +
-    `\nBad move: more than ${badmovewinrate * 100}% win rate loss` +
-    `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate loss` +
+    `\nGood move: less than ${goodmovewinrate * 100}% win rate drop` +
+    `\nBad move: more than ${badmovewinrate * 100}% win rate drop` +
+    `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate drop` +
     `\n\nVariations added for the moves of more than ` +
-    `${variationwinrate * 100}% win rate loss.` +
+    `${variationwinrate * 100}% win rate drop.` +
     `\nThe maximum variation number for each move is ${maxvariations}.` +
     `\n\nAnalyzed by KataGo Parallel Analysis Engine (${visits} max visits).`
   );

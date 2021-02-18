@@ -19,7 +19,7 @@ echo -n Tests src/index.js with option -f.
 
 # Creates $temp-analyzed.sgf.
 src/index.js -f $temp.json \
-	-g 'maxWinrateLossForGoodMove:2,minWinrateLossForBadMove:5,minWinrateLossForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateLossForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
+	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	&> /dev/null
 
 # Strips commemnts.
@@ -38,7 +38,7 @@ echo -n Tests src/index.js with option -k and \"tail\".
 
 # Creates $temp-analyzed.sgf.
 src/index.js -k 'path:"tail",arguments:"-n +2 test/t-ren-vs-shin.json"' \
-	-g 'maxWinrateLossForGoodMove:2,minWinrateLossForBadMove:5,minWinrateLossForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateLossForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
+	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
         $temp.sgf &> /dev/null
 
 # Strips commemnts.

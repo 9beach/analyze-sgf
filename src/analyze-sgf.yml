@@ -26,26 +26,26 @@ sgf:
   # When you open output SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
-  # If less than maxWinrateLossForGoodMove percents down with a move, that 
+  # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
   # move is good.
-  maxWinrateLossForGoodMove: 2.0
-  # If more than maxWinrateLossForGoodMove percents down with a move, that 
+  maxWinrateDropForGoodMove: 2.0
+  # If win rate drops by more than minWinrateDropForBadMove for a move, that
   # move is bad.
-  minWinrateLossForBadMove: 5.0
-  # If more than minWinrateLossForBadHotSpot percents down with a move, that 
-  # move is a bad hotspot, and it's really bad.
-  minWinrateLossForBadHotSpot: 20.0
-  # In SGF, the last move can't have variations. So we add a pass move after 
+  minWinrateDropForBadMove: 5.0
+  # If win rate drops by more than minWinrateDropForBadHotSpot for a move, that
+  # move is a bad hotspot.
+  minWinrateDropForBadHotSpot: 20.0
+  # In SGF, the last move can't have variations. So we add a pass move after
   # the last move, and then add the proposed variations to that pass move.
   showVariationsAfterLastMove: false
   # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
   # move 1, move 6, and move 11, and then add the variations for those moves.
-  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and 
-  # adds the variations for the moves whose win rate loss are larger than 
-  # minWinrateLossForVariations.
-  minWinrateLossForVariations: 5
+  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and
+  # adds the variations for the moves whose win rate drop more than
+  # minWinrateDropForVariations.
+  minWinrateDropForVariations: 5
   showBadVariations: false
   maxVariationsForEachMove: 10
-  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes 
+  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes
   # analysis to "baduk-analyzed.sgf"
   fileSuffix: "-analyzed"

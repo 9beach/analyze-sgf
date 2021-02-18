@@ -18,7 +18,7 @@ cp test/t-sabaki-2.sgf $temp-2.sgf
 echo -n Tests src/index.js with option -a and \"t-sabaki-?.sgf\".
 
 # Creates $temp-analyzed.sgf.
-src/index.js -a 'maxVisits:1' -g 'minWinrateLossForVariations:-100,showBadVariations:true' -s \
+src/index.js -a 'maxVisits:1' -g 'minWinrateDropForVariations:-100,showBadVariations:true' -s \
 	$temp-?.sgf &> $temp.result
 
 wc0=$(wc < $temp.result | awk '{print $2}')

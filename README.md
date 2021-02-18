@@ -102,26 +102,27 @@ sgf:
   # When you open output SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
-  # If less than maxWinrateLossForGoodMove percents down with a move, that 
+  # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
   # move is good.
-  maxWinrateLossForGoodMove: 2.0
-  # If more than maxWinrateLossForGoodMove percents down with a move, that 
+  maxWinrateDropForGoodMove: 2.0
+  # If win rate drops by more than minWinrateDropForBadMove for a move, that
   # move is bad.
-  minWinrateLossForBadMove: 5.0
-  # If more than minWinrateLossForBadHotSpot percents down with a move, that 
-  # move is a bad hotspot, and it's really bad.
-  minWinrateLossForBadHotSpot: 20.0
+  minWinrateDropForBadMove: 5.0
+  # If win rate drops by more than minWinrateDropForBadHotSpot for a move, that
+  # move is a bad hotspot.
+  minWinrateDropForBadHotSpot: 20.0
   # In SGF, the last move can't have variations. So we add a passing move
-  # after the last move, and then add the proposed variations to that move.  showVariationsAfterLastMove: false
+  # after the last move, and then add the proposed variations to that move.
+  showVariationsAfterLastMove: false
   # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
   # move 1, move 6, and move 11, and then add the variations for those moves.
-  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and 
-  # adds the variations for the moves whose win rate loss are larger than 
-  # minWinrateLossForVariations.
-  minWinrateLossForVariations: 5
+  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and
+  # adds the variations for the moves whose win rate drops more than
+  # minWinrateDropForVariations.
+  minWinrateDropForVariations: 5
   showBadVariations: false
   maxVariationsForEachMove: 10
-  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes 
+  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes
   # analysis to "baduk-analyzed.sgf"
   fileSuffix: "-analyzed"
 ```
@@ -144,11 +145,11 @@ $ analyze-sgf 신진서-렌샤오.sgf
 * Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
 * Bad hot spots (1.94%, 2/103): move 174, move 176
 
-Good move: less than 2% win rate loss
-Bad move: more than 5% win rate loss
-Bad hot spot: more than 20% win rate loss
+Good move: less than 2% win rate drop
+Bad move: more than 5% win rate drop
+Bad hot spot: more than 20% win rate drop
 
-Variations added for the moves of more then 5% win rate loss.
+Variations added for the moves of more then 5% win rate drop.
 The maximum variation number for each move is 10.
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
@@ -163,8 +164,8 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
 
 승률이 5% 이상 하락하면 빨간색 점으로, 20% 이상 하락하면 빨간색 리본으로, 2% 이내로 하락하면 초록색 점으로
-착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateLossForBadMove`, `minWinrateLossForBadHotSpot`,
-`maxWinrateLossForGoodMove` 설정 값을 지정해서 변경할 수 있습니다. 다음 섹션에서 더 자세히 살펴보겠습니다.
+착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
+`maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다. 다음 섹션에서 더 자세히 살펴보겠습니다.
 
 ## 설정
 
@@ -188,7 +189,7 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 `-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 변화도가 아닌 예상도라는 개념으로 분석하기 때문에
 174번째 수를 분석하기 위해서는 173을 요청해야 합니다. `analyzeTurns`을 지정하면, 지정된 수의 변화도만 보여 주며
 분석 결과를 요약해서 화면에 출력하지는 않습니다. `analyzeTurns`을 지정하지 않으면 승률 하락이
-`minWinrateLossForVariations`보다 큰 모든 수의 변화도를 보여 주며 분석 결과를 요약해서 화면에 출력합니다.
+`minWinrateDropForVariations`보다 큰 모든 수의 변화도를 보여 주며 분석 결과를 요약해서 화면에 출력합니다.
 
 이와 같이 `.analyze-sgf.yml` 파일의 모든 설정은 직접 수정할 수도, 실행할 때 지정할 수도 있습니다.
 
@@ -203,7 +204,7 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ## 고급 설정
 
-카타고로 분석하는 데는 꽤 긴 시간이 걸립니다. 그런데 분석된 기보에는 승률 하락이 `minWinrateLossForVariations`보다
+카타고로 분석하는 데는 꽤 긴 시간이 걸립니다. 그런데 분석된 기보에는 승률 하락이 `minWinrateDropForVariations`보다
 큰 수의 변화도만 수록되며, 좋은 수, 나쁜 수의 기준 또한 분석 이후에는 바꿀 수 없습니다. 이런 설정을 바꾸려고
 시간을 들여 새로 분석해야 한다면 많이 실망스러울 것입니다. 그래서 `analyze-sgf`에는 `-s` 옵션으로 카타고
 분석 데이터를 저장해 두고 이를 재활용하는 기능이 있습니다.
@@ -232,7 +233,7 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 카타고 분석 데이터에 존재하는 모든 변화도를 보고 싶다면 다음을 실행합니다.
 
 ```console
-analyze-sgf -f baduk.json -g 'minWinrateLossForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
+analyze-sgf -f baduk.json -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
 ```
 
 ## 남은 일

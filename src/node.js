@@ -23,16 +23,16 @@ class Node {
     this.pl = sequence.substring(index, index + 1);
   }
 
-  // Calculates scoreLoss, winrateLoss, ..., from KataGo response, and sets
+  // Calculates scoreDrop, winrateDrop, ..., from KataGo response, and sets
   // them to myself.
   setWinrate(previnfo, currentinfo, sgfOpts) {
     if (previnfo) {
-      this.winrateLoss = previnfo.winrate - currentinfo.winrate;
-      this.scoreLoss = previnfo.scoreLead - currentinfo.scoreLead;
+      this.winrateDrop = previnfo.winrate - currentinfo.winrate;
+      this.scoreDrop = previnfo.scoreLead - currentinfo.scoreLead;
 
       if (this.pl === 'W') {
-        this.winrateLoss = -this.winrateLoss;
-        this.scoreLoss = -this.scoreLoss;
+        this.winrateDrop = -this.winrateDrop;
+        this.scoreDrop = -this.scoreDrop;
       }
     }
 
@@ -78,11 +78,11 @@ class Node {
       );
     }
 
-    if (this.winrateLoss < sgfOpts.maxWinrateLossForGoodMove / 100) {
+    if (this.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100) {
       properties = sgfconv.toGoodNode(properties, 0);
-    } else if (this.winrateLoss > sgfOpts.minWinrateLossForBadHotSpot / 100) {
+    } else if (this.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100) {
       properties = sgfconv.toBadHotSpot(properties, 0);
-    } else if (this.winrateLoss > sgfOpts.minWinrateLossForBadMove / 100) {
+    } else if (this.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100) {
       properties = sgfconv.toBadNode(properties, 0);
     }
 
@@ -90,30 +90,30 @@ class Node {
     this.sequence = properties;
   }
 
-  // () => "As Black:\n* Win rate: 55.00%\n* Win rate loss: ...".
+  // () => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
   getWinratesReport() {
     const pl = this.pl === 'W' ? 'As White:\n' : 'As Black:\n';
     const visits = `* Visits: ${this.visits}`;
     let winrate;
     let scoreLead;
-    let winrateLoss;
-    let scoreLoss;
+    let winrateDrop;
+    let scoreDrop;
 
     winrate = (parseFloat(this.myWinrate) * 100).toFixed(2);
     winrate = `* Win rate: ${winrate}%\n`;
     scoreLead = parseFloat(this.myScoreLead).toFixed(2);
     scoreLead = `* Score lead: ${scoreLead}\n`;
 
-    if (this.winrateLoss !== undefined) {
-      winrateLoss = (parseFloat(this.winrateLoss) * 100).toFixed(2);
-      winrateLoss = `* Win rate loss: ${winrateLoss}%\n`;
-      scoreLoss = `* Score loss: ${parseFloat(this.scoreLoss).toFixed(2)}\n`;
+    if (this.winrateDrop !== undefined) {
+      winrateDrop = (parseFloat(this.winrateDrop) * 100).toFixed(2);
+      winrateDrop = `* Win rate drop: ${winrateDrop}%\n`;
+      scoreDrop = `* Score drop: ${parseFloat(this.scoreDrop).toFixed(2)}\n`;
     } else {
-      winrateLoss = '';
-      scoreLoss = '';
+      winrateDrop = '';
+      scoreDrop = '';
     }
 
-    return pl + winrate + winrateLoss + scoreLead + scoreLoss + visits;
+    return pl + winrate + winrateDrop + scoreLead + scoreDrop + visits;
   }
 }
 

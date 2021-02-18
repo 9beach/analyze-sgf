@@ -95,7 +95,22 @@ function getopts() {
   katago = { ...opts.katago, ...katago };
   analysis = { ...opts.analysis, ...analysis };
   sgf = { ...opts.sgf, ...sgf };
+
   sgf.analyzeTurns = analysis.analyzeTurns;
+
+  // Backward compatibility to v0.0.8
+  if (sgf.maxWinrateLossForGoodMove && !sgf.maxWinrateDropForGoodMove) {
+    sgf.maxWinrateDropForGoodMove = sgf.maxWinrateLossForGoodMove;
+  }
+  if (sgf.minWinrateLossForBadMove && !sgf.minWinrateDropForBadMove) {
+    sgf.minWinrateDropForBadMove = sgf.minWinrateLossForBadMove;
+  }
+  if (sgf.minWinrateLossForBadHotSpot && !sgf.minWinrateDropForBadHotSpot) {
+    sgf.minWinrateDropForBadHotSpot = sgf.minWinrateLossForBadHotSpot;
+  }
+  if (sgf.minWinrateLossForVariations && !sgf.minWinrateDropForVariations) {
+    sgf.minWinrateDropForVariations = sgf.minWinrateLossForVariations;
+  }
 
   return { katago, analysis, sgf, sgfPaths, responsesPath, saveGiven };
 }

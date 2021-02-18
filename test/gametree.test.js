@@ -50,10 +50,10 @@ describe('GameTree', () => {
 
   it('should be expected values for "test/t-*".', () => {
     sgfopts.maxVariationsForEachMove = 10;
-    sgfopts.maxWinrateLossForGoodMove = 2;
-    sgfopts.minWinrateLossForBadMove = 5;
-    sgfopts.minWinrateLossForBadHotSpot = 20;
-    sgfopts.minWinrateLossForVariations = 5;
+    sgfopts.maxWinrateDropForGoodMove = 2;
+    sgfopts.minWinrateDropForBadMove = 5;
+    sgfopts.minWinrateDropForBadHotSpot = 20;
+    sgfopts.minWinrateDropForVariations = 5;
     sgfopts.showVariationsAfterLastMove = false;
     sgfopts.analyzeTurns = undefined;
 
@@ -96,10 +96,10 @@ describe('GameTree', () => {
     );
 
     sgfopts.maxVariationsForEachMove = 10;
-    sgfopts.maxWinrateLossForGoodMove = 2;
-    sgfopts.minWinrateLossForBadMove = 5;
-    sgfopts.minWinrateLossForBadHotSpot = 20;
-    sgfopts.minWinrateLossForVariations = 5;
+    sgfopts.maxWinrateDropForGoodMove = 2;
+    sgfopts.minWinrateDropForBadMove = 5;
+    sgfopts.minWinrateDropForBadHotSpot = 20;
+    sgfopts.minWinrateDropForVariations = 5;
     sgfopts.showVariationsAfterLastMove = false;
     sgfopts.analyzeTurns = undefined;
 

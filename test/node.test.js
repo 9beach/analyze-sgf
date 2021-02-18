@@ -19,22 +19,22 @@ describe('Node', () => {
     assert.equal(node.winrate, currinfo.winrate);
     assert.equal(node.scoreLead, currinfo.scoreLead);
     assert.equal(node.visits, currinfo.visits);
-    assert.equal(node.winrateLoss.toFixed(2), -0.04);
-    assert.equal(node.scoreLoss.toFixed(1), -1.5);
+    assert.equal(node.winrateDrop.toFixed(2), -0.04);
+    assert.equal(node.scoreDrop.toFixed(1), -1.5);
     assert.equal(node.myWinrate, currinfo.winrate);
     assert.equal(node.myScoreLead, currinfo.scoreLead);
 
     node = new Node(';B[aa];W[bb]');
     node.setWinrate(null, currinfo);
 
-    assert.equal(node.winrateLoss, undefined);
-    assert.equal(node.scoreLoss, undefined);
+    assert.equal(node.winrateDrop, undefined);
+    assert.equal(node.scoreDrop, undefined);
 
     node = new Node(';W[aa];B[bb]');
     node.setWinrate(previnfo, currinfo);
 
-    assert.equal(node.winrateLoss.toFixed(2), 0.04);
-    assert.equal(node.scoreLoss.toFixed(1), 1.5);
+    assert.equal(node.winrateDrop.toFixed(2), 0.04);
+    assert.equal(node.scoreDrop.toFixed(1), 1.5);
     assert.equal(node.myScoreLead.toFixed(1), -6.5);
     assert.equal(node.myWinrate.toFixed(2), 0.56);
   });

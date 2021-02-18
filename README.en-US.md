@@ -113,32 +113,32 @@ sgf:
   # When you open output SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
-  # If less than maxWinrateLossForGoodMove percents down with a move, that 
+  # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
   # move is good.
-  maxWinrateLossForGoodMove: 2.0
-  # If more than maxWinrateLossForGoodMove percents down with a move, that 
+  maxWinrateDropForGoodMove: 2.0
+  # If win rate drops by more than minWinrateDropForBadMove for a move, that
   # move is bad.
-  minWinrateLossForBadMove: 5.0
-  # If more than minWinrateLossForBadHotSpot percents down with a move, that 
-  # move is a bad hotspot, and it's really bad.
-  minWinrateLossForBadHotSpot: 20.0
+  minWinrateDropForBadMove: 5.0
+  # If win rate drops by more than minWinrateDropForBadHotSpot for a move, that
+  # move is a bad hotspot.
+  minWinrateDropForBadHotSpot: 20.0
   # In SGF, the last move can't have variations. So we add a passing move
   # after the last move, and then add the proposed variations to that move.
   showVariationsAfterLastMove: false
   # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
   # move 1, move 6, and move 11, and then add the variations for those moves.
-  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and 
-  # adds the variations for the moves whose win rate loss are larger than 
-  # minWinrateLossForVariations.
-  minWinrateLossForVariations: 5
+  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and
+  # adds the variations for the moves whose win rate drops more than
+  # minWinrateDropForVariations.
+  minWinrateDropForVariations: 5
   showBadVariations: false
   maxVariationsForEachMove: 10
-  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes 
+  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes
   # analysis to "baduk-analyzed.sgf"
   fileSuffix: "-analyzed"
 ```
 
-Now, run `analyze-sgf` with a SGF file, for example, `신진서-렌샤오.sgf`, 
+Now, run `analyze-sgf` with a SGF file, for example, `신진서-렌샤오.sgf`,
 the simple analysis result will be printed out, and a file `신진서-렌샤오-analized.sgf`
 is generated.
 
@@ -157,11 +157,11 @@ $ analyze-sgf 신진서-렌샤오.sgf
 * Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
 * Bad hot spots (1.94%, 2/103): move 174, move 176
 
-Good move: less than 2% win rate loss
-Bad move: more than 5% win rate loss
-Bad hot spot: more than 20% win rate loss
+Good move: less than 2% win rate drop
+Bad move: more than 5% win rate drop
+Bad hot spot: more than 20% win rate drop
 
-Variations added for the moves of more than 5% win rate loss.
+Variations added for the moves of more than 5% win rate drop.
 The maximum variation number for each move is 10.
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
@@ -178,8 +178,8 @@ The two screenshots below show the file opened in Sabaki.
 If the win rate falls by more than 5%, a node of the game tree turns to a
 red dot, if more than 20%, turns to a red ribbon, and if within 2%,
 turns to a green dot. This criterion can be changed by specifying the
-`minWinrateLossForBadMove`, `minWinrateLossForBadHotSpot`, and
-`maxWinrateLossForGoodMove` settings in `.analyze-sgf.yml` file.
+`minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and
+`maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
 We'll take a closer look in the next section.
 
 ## Settings
@@ -212,7 +212,7 @@ order to analyze the 174th move, we need to request 173.
 If `analyzeTurns` is specified, only the variations of specified moves are
 saved. The analysis results are not summarized on a terminal. If `analyzeTurns`
 is not specified, all the variations of the moves with a win rate drop greater
-than `minWinrateLossForVariations` are saved, and the analysis results are
+than `minWinrateDropForVariations` are saved, and the analysis results are
 summarized on a terminal.
 
 Komi is automatically set using the information in the SGF file even if the
@@ -262,7 +262,7 @@ If you want to see all the variations that exist in your KataGo analysis
 data, do the following:
 
 ```console
-analyze-sgf -f baduk.json -g 'minWinrateLossForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
+analyze-sgf -f baduk.json -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
 ```
 
 ## TODO

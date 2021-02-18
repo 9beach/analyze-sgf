@@ -17,10 +17,10 @@ class GameTree {
     this.rootComment = '';
 
     // Makes long option names short.
-    this.goodmovewinrate = opts.maxWinrateLossForGoodMove / 100;
-    this.badmovewinrate = opts.minWinrateLossForBadMove / 100;
-    this.badhotspotwinrate = opts.minWinrateLossForBadHotSpot / 100;
-    this.variationwinrate = opts.minWinrateLossForVariations / 100;
+    this.goodmovewinrate = opts.maxWinrateDropForGoodMove / 100;
+    this.badmovewinrate = opts.minWinrateDropForBadMove / 100;
+    this.badhotspotwinrate = opts.minWinrateDropForBadHotSpot / 100;
+    this.variationwinrate = opts.minWinrateDropForVariations / 100;
 
     // Gets root node and tailless main sequence from sgf.
     this.nodes = rootsequence.sequence
@@ -89,7 +89,7 @@ class GameTree {
       if (curturn >= 0) {
         const node = this.nodes[curturn];
         if (curturn === prevturn + 1) {
-          // To calculate node.winrateLoss, we need both of
+          // To calculate node.winrateDrop, we need both of
           // prevjson.rootInfo.winrate and curjson.rootInfo.winrate.
           node.setWinrate(prevjson.rootInfo, curjson.rootInfo, this.opts);
         } else {
@@ -124,7 +124,7 @@ class GameTree {
           .filter(
             (variation) =>
               this.opts.showBadVariations === true ||
-              this.goodmovewinrate > variation.winrateLoss,
+              this.goodmovewinrate > variation.winrateDrop,
           )
           .slice(0, this.opts.maxVariationsForEachMove);
       }
@@ -156,7 +156,7 @@ class GameTree {
         if (
           this.opts.analyzeTurns ||
           this.opts.showVariationsOnlyForBadMove === false ||
-          node.winrateLoss > this.variationwinrate ||
+          node.winrateDrop > this.variationwinrate ||
           (last && this.opts.showVariationsAfterLastMove)
         ) {
           last = false;
@@ -205,11 +205,11 @@ class GameTree {
     this.nodes.forEach((node, num) => {
       const { pl } = node;
 
-      if (node.winrateLoss < this.goodmovewinrate) {
+      if (node.winrateDrop < this.goodmovewinrate) {
         addToBlackOrWhite(pl, 0, num);
-      } else if (node.winrateLoss > this.badmovewinrate) {
+      } else if (node.winrateDrop > this.badmovewinrate) {
         addToBlackOrWhite(pl, 1, num);
-        if (node.winrateLoss > this.badhotspotwinrate) {
+        if (node.winrateDrop > this.badhotspotwinrate) {
           addToBlackOrWhite(pl, 2, num);
         }
       }
