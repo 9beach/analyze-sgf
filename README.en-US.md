@@ -29,25 +29,22 @@ First install  [Node.js](https://nodejs.org/) and
 [KataGo](https://github.com/lightvector/KataGo/releases), then install
 `analyze-sgf`.
 
-On a Mac or Linux environment, run the following from a terminal.
+In Mac or Linux environment, run the following from the terminal.
 
 ```console
 sudo npm install -g analyze-sgf
 ```
 
-In Microsoft Windows environment, run the following from a `Command Prompt` or
-`PowerShell`.
+In Microsoft Windows environment, run the following from the `Command Prompt`
+or `PowerShell`.
 ```console
 C:\Users\hcho> npm install -g analyze-sgf
 ```
 
 ## Usage
 
-The first time you run `analyze-sgf`, it creates a `.analyze-sgf.yml` file in
-your home directory and prints out the usage as follows: In a Windows
-environment, it should be run with `analyze-sgf.cmd` rather than `analyze-sgf`,
-but for convenience, we'll term all as `analyze-sgf`. Now let's look at how
-to use them one by one.
+The first time you run `analyze-sgf`, it generates a `.analyze-sgf.yml` file
+in your home directory and prints out the usage as follows:
 
 ```console
 $ analyze-sgf
@@ -77,10 +74,14 @@ Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
 analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 ```
 
+In a Windows environment, it should be run with `analyze-sgf.cmd` rather than
+`analyze-sgf`, but for convenience, we'll term all as `analyze-sgf`. Now let's
+look at how to use them one by one.
+
 To run `analyze-sgf`, you need to set the KataGo path in the
 `.analyze-sgf.yml` file in your home directory. The contents of the
 `.analyze-sgf.yml` file is as follows. Among these, you need to modify the
-two values ​​"KataGo path here" and "KataGo arguments here" to suit your
+two values "KataGo path here" and "KataGo arguments here" to suit your
 installed KataGo. Please refer to the example.
 
 ```yml
@@ -177,14 +178,14 @@ The two screenshots below show the file opened in Sabaki.
 **Navigating the variations with Sabaki**
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
 
-If the win rate falls by more than 5%, a node of the game tree turns to a
+If the win rate drops by more than 5%, a node of the game tree turns to a
 red dot, if more than 20%, turns to a red ribbon, and if within 2%,
 turns to a green dot. This criterion can be changed by specifying the
 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and
 `maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
 We'll take a closer look in the next section.
 
-## Settings
+## Options
 
 The `.analyze-sgf.yml` file saves all the default settings for `analyze-sgf`.
 You can either modify the `.analyze-sgf.yml` file to modify the default
@@ -200,8 +201,8 @@ C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
 The `maxVisits` value determines how many visits the KataGo Parallel
 Analysis Engine will do when analyzing a move. The larger it is, the more
 accurate the analysis, but it takes more time. If you have `maxVisits` set
-to 10000, and want to analyze up to 20 variations for the moves of 174 and
-176, run:
+to 10000, and want to analyze up to 20 variations for 174th and 176th moves,
+run:
 
 ```console
 analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' baduk.sgf
@@ -227,7 +228,7 @@ runtime. That is, you should run it like this:
 analyze-sgf -a 'rules:"korean"' baduk.sgf
 ```
 
-## Advanced settings
+## Advanced Options
 
 It takes quite a long time to analyze with KataGo. However, in the reviewed
 SGF, not all pieces of information of KataGo analysis are stored. It would be very
