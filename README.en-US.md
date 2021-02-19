@@ -7,7 +7,7 @@
 
 `analyze-sgf` analyzes [SGF](https://en.wikipedia.org/wiki/Smart_Game_Format)
 files by [KataGo Parallel Analysis Engine](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)
-to generate the win rate graphs, label good and bad moves, propose the
+to generate the win rate graphs, label the good and bad moves, propose the
 variations, and save them as new SGF files.
 
 You can analyze an SGF file one by one in real-time by linking
@@ -178,7 +178,7 @@ The two screenshots below show the file opened in Sabaki.
 **Navigating the variations with Sabaki**
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
 
-If the win rate drops by more than 5%, a node of the game tree turns to a
+If the win rate drops by more than 5%, the node of the game tree turns to a
 red dot, if more than 20%, turns to a red ribbon, and if within 2%,
 turns to a green dot. This criterion can be changed by specifying the
 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and

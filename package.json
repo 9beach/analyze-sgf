@@ -21,7 +21,7 @@
   },
   "scripts": {
     "all": "npm run lint && npm test && test/index-real.test.sh",
-    "test": "mocha && test/index.test.sh",
+    "test": "mocha && test/index-mockup.test.sh",
     "lint": "eslint ."
   },
   "publishConfig": {

@@ -58,8 +58,8 @@ class GameTree {
     // * responses.length === nodes.length + 1
     // * Adds responses[0].moveInfos to nodes[0].variations.
     // * To use moveInfos (preview variations) of the last response, we need
-    //   to add the node of pass move (B[] or W[]) to this.nodes, and then we
-    //   can add moveInfos to the node.
+    //   to add the node of passing move (B[] or W[]) to this.nodes, and then
+    //   we can add moveInfos to the node.
     // * Sets win rates info (responses[1].rootInfo) to nodes[0].
     // * responses[0].rootInfo is useless.
     //
@@ -97,8 +97,8 @@ class GameTree {
         }
       }
 
-      // For preview variations of last response, adds the node of pass move
-      // (B[] or W[]) to this.nodes.
+      // For preview variations of last response, adds the node of passing
+      // move (B[] or W[]) to this.nodes.
       if (
         this.opts.showVariationsAfterLastMove &&
         this.nodes.length === nextturn
