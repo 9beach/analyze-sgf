@@ -18,23 +18,43 @@ cp test/t-sabaki-2.sgf $temp-2.sgf
 echo -n Tests src/index.js with option -a and \"t-sabaki-?.sgf\".
 
 # Creates $temp-analyzed.sgf.
-src/index.js -a 'maxVisits:1' -g 'minWinrateDropForVariations:-100,showBadVariations:true' -s \
+src/index.js -a 'maxVisits:10' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3' -s \
 	$temp-?.sgf &> $temp.result
 
 wc0=$(wc < $temp.result | awk '{print $2}')
 wc1="$(wc < $temp-1.json | awk '{print $2}')"
 wc2="$(wc < $temp-2.json | awk '{print $2}')"
+wc3=$(cat $temp-1-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)
+wc4=$(cat $temp-2-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)
 
-if [[ $wc0 -gt 140 ]] && [[ $wc1 -eq 5 ]] && [[ $wc2 -eq 8 ]]; then
+if [[ $wc0 -gt 150 ]] && [[ $wc1 -eq 5 ]] && [[ $wc2 -eq 8 ]] && [[ $wc3 -eq 12 ]] && [[ $wc4 -eq 16 ]]; then
 	echo -e "\033[1;32m Ok \033[0m"
 else
 	echo -e "\033[1;31m Failure \033[0m"
-	echo $wc0 $wc1 $wc2
+	echo $wc0 $wc1 $wc2 $wc3 $wc4
 	echo -----------
 	cat $temp-1.json
 	echo -----------
 	cat $temp-2.json
 	exit 1
+fi
+
+#########
+# Test 2.
+#########
+echo -n Tests src/index.js with option -a \"analyzeTurns\" and \"t-sabaki-?.sgf\".
+
+# Creates $temp-analyzed.sgf.
+src/index.js -a 'maxVisits:10,analyzeTurns:[0,3]' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3,showVariationsAfterLastMove:true' \
+	$temp-?.sgf &> $temp.result
+
+wc0=$(cat $temp-1-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)
+wc1=$(cat $temp-2-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)
+
+if [[ $wc0 -eq 8 ]] && [[ $wc1 -eq 8 ]]; then
+	echo -e "\033[1;32m Ok \033[0m"
+else
+	echo -e "\033[1;31m Failure \033[0m"
 fi
 
 #########################

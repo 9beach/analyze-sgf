@@ -44,6 +44,11 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
 
   if (!query.analyzeTurns) {
     query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
+  } else {
+    // Removes out-of-bounds.
+    query.analyzeTurns = query.analyzeTurns.filter(
+      (t) => t >= 0 && t <= query.moves.length,
+    );
   }
 
   return query;
