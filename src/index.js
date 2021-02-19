@@ -44,11 +44,6 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
 
   if (!query.analyzeTurns) {
     query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
-  } else {
-    // Removes out-of-bounds.
-    query.analyzeTurns = query.analyzeTurns.filter(
-      (t) => t >= 0 && t <= query.moves.length,
-    );
   }
 
   return query;
@@ -69,7 +64,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, opts) {
     if (saveResponse) {
       const jsonPath = `${targetName}.json`;
 
-      // JSON file format: tailless SGF + '\n' + KataGo response.
+      // JSON file format: tailless SGF + '\n' + KataGo responses.
       afs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
       log(`${jsonPath} generated.`);
     }
@@ -131,7 +126,7 @@ const opts = getopts();
     if (opts.responsesPath) {
       // Analyzes by KataGo Analysis JSON.
       const sgfresponses = afs.readFileSync(opts.responsesPath).toString();
-      // JSON file format: tailless SGF + '\n' + KataGo response.
+      // JSON file format: tailless SGF + '\n' + KataGo responses.
       const index = sgfresponses.indexOf('\n');
       const sgf = sgfresponses.substring(0, index);
       const responses = sgfresponses.substring(index + 1);
@@ -141,52 +136,26 @@ const opts = getopts();
       // Analyzes by KataGo Analysis Engine.
       //
       // Reads SGF and makes KagaGo queries.
-      const sgfqueries = opts.sgfPaths.map((sgfPath, id) => {
+      opts.sgfPaths.map(async (sgfPath, i) => {
         const content = afs.readFileSync(sgfPath);
         const detected = jschardet.detect(content);
         const sgf = iconv.decode(content, detected.encoding).toString();
         const query = sgfToKataGoAnalysisQuery(
-          `9beach-${id.toString().padStart(3, '0')}`,
+          `9beach-${i.toString().padStart(3, '0')}`,
           sgf,
           opts.analysis,
         );
 
-        return { sgf, query };
+        // Sends queries to KataGo
+        const responses = await kataGoAnalyze(
+          JSON.stringify(query),
+          opts.katago,
+        );
+
+        if (responses !== '') {
+          saveAnalyzed(sgfPath, sgf, responses, opts.saveGiven, opts.sgf);
+        }
       });
-
-      // Sends queries to KataGo
-      const response = await kataGoAnalyze(
-        // Gets queries olny.
-        sgfqueries
-          .map((sgfquery) => `${JSON.stringify(sgfquery.query)}`)
-          .join('\n'),
-        opts.katago,
-      );
-
-      // Does not exit(1) if fails. Gives "katago.on('exit', ...)" a change.
-      if (response === '') {
-        return;
-      }
-
-      // Splits long response by query id.
-      const responses = response.split('\n').reduce((acc, analysis) => {
-        // analysis: '{"id":"9beach-000","isDuringSearch" ...'
-        const id = parseInt(analysis.replace(/.*9beach-/, ''), 10);
-        if (Number.isNaN(id)) return acc;
-        acc[id] += `${analysis}\n`;
-        return acc;
-      }, Array(opts.sgfPaths.length).fill(''));
-
-      opts.sgfPaths.forEach((sgfPath, id) =>
-        // Saves analyzed SGF.
-        saveAnalyzed(
-          sgfPath,
-          sgfqueries[id].sgf,
-          responses[id],
-          opts.saveGiven,
-          opts.sgf,
-        ),
-      );
     }
   } catch (error) {
     log(error.message);
