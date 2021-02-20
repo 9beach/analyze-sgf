@@ -13,6 +13,7 @@ const { spawn } = require('child_process');
 const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
 const GameTree = require('./gametree');
+const toSGF = require('./gib2sgf');
 
 const log = (message) => console.error(chalk.grey(message));
 
@@ -20,12 +21,21 @@ const log = (message) => console.error(chalk.grey(message));
 //
 const opts = getopts();
 
+const getext = (path) =>
+  path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
+
 // Starts async communication with kataGoAnalyze().
 (async () => {
   try {
     // Analyzes by KataGo Analysis JSON, not by KataGO engine.
     if (opts.jsonGiven) {
       opts.paths.forEach((path) => {
+        const ext = getext(path);
+        if (ext !== 'json') {
+          log(`neglected ${path}.`);
+          return;
+        }
+
         const sgfresponses = afs.readFileSync(path).toString();
         // JSON file format: tailless SGF + '\n' + KataGo responses.
         const index = sgfresponses.indexOf('\n');
@@ -39,9 +49,16 @@ const opts = getopts();
       //
       // Reads SGF and makes KagaGo queries.
       opts.paths.map(async (path, i) => {
+        const ext = getext(path);
+        if (ext !== 'sgf' && ext !== 'gib') {
+          log(`neglected ${path}.`);
+          return;
+        }
+
         const content = afs.readFileSync(path);
         const detected = jschardet.detect(content);
-        const sgf = iconv.decode(content, detected.encoding).toString();
+        let sgf = iconv.decode(content, detected.encoding).toString();
+        if (ext === 'gib') sgf = toSGF(sgf);
         const query = sgfToKataGoAnalysisQuery(
           `9beach-${i.toString().padStart(3, '0')}`,
           sgf,

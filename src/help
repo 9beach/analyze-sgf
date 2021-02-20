@@ -9,7 +9,7 @@ Option:
   -h, --help              Display this help and exit
 
 Examples:
-  analyze-sgf baduk-1.sgf baduk-2.sgf
+  analyze-sgf baduk-1.sgf baduk-2.gib
   analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -s baduk-1.sgf baduk-2.sgf
