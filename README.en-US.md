@@ -6,14 +6,15 @@
 [한국어](README.md) | English
 
 `analyze-sgf` analyzes [SGF](https://en.wikipedia.org/wiki/Smart_Game_Format)
-files by [KataGo Parallel Analysis Engine](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)
+and Tygem's GIB format by
+[KataGo Parallel Analysis Engine](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)
 to generate the win rate graphs, label the good and bad moves, propose the
 variations, and save them as new SGF files.
 
-You can analyze an SGF file one by one in real-time by linking
+You can analyze an SGF/GIB file one by one in real-time by linking
 [Sabaki](https://sabaki.yichuanshen.de/) or
 [Lizzie](https://github.com/featurecat/lizzie) and KataGo. But with
-`analyze-sgf`, you can analyze many SGF files all at once, and save the KataGo
+`analyze-sgf`, you can analyze many SGF/GIB files all at once, and save the KataGo
 reviewed SGF files automatically. If you open these with Sabaki, you can
 analyze them with the help of the overall win rate, good and bad move labels,
 and proposed variations.
@@ -49,7 +50,7 @@ in your home directory and prints out the usage as follows:
 ```console
 $ analyze-sgf
 /Users/hcho/.analyze-sgf.yml generated.
-Please specify SGF files.
+Please specify SGF/GIB files.
 Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
 Option:
@@ -101,7 +102,7 @@ katago:
 analysis:
   # e.g. "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
-  # If input SGF has no komi field (KM), then uses below.
+  # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
   boardXSize: 19
   boardYSize: 19
@@ -111,7 +112,7 @@ analysis:
 # Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
-  # When you open output SGF in applications like Sabaki, you can check them.
+  # When you open reviewed SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
   # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
@@ -139,7 +140,7 @@ sgf:
   fileSuffix: "-analyzed"
 ```
 
-Now, run `analyze-sgf` with a SGF file, for example, `shin-vs-lian.sgf`,
+Now, run `analyze-sgf` with a SGF/GIB file, for example, `shin-vs-lian.sgf`,
 the simple analysis result will be printed out, and a file `shin-vs-lian-analized.sgf`
 is generated.
 
@@ -183,7 +184,8 @@ red dot, if more than 20%, turns to a red ribbon, and if within 2%,
 turns to a green dot. This criterion can be changed by specifying the
 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and
 `maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
-We'll take a closer look in the next section.
+
+The comment of each move contains information about win rate and score, as well as links to moves with huge win rate drop, so you can quickly analyze your game.
 
 ## Options
 
@@ -218,7 +220,7 @@ is not specified, all the variations of the moves with a win rate drop greater
 than `minWinrateDropForVariations` are saved, and the analysis results are
 summarized on the terminal.
 
-Komi is automatically set using the information in the SGF file even if the
+Komi is automatically set using the information in the SGF/GIB file even if the
 `-a 'komi:6.5'` option is not specified.
 
 Anything with quotes in the `.analyze-sgf.yml` setting must be quoted at
@@ -257,7 +259,7 @@ exist before, including the variations of bad win rates. Saved analysis
 information is used, so values for `-a` options such as `maxVisits`
 other than `analyzeTurns` are ignored.
 
-If you can wait a few hours, give it very large visits and save the analysis
+If you can wait a few hours, give it very large number of visits and save the analysis
 data with `-s -a 'maxVisits:100000'`. This provides a whole new level of depth
 compared to using KataGo in real-time.
 

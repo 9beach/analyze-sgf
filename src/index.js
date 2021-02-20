@@ -32,7 +32,7 @@ const getext = (path) =>
       opts.paths.forEach((path) => {
         const ext = getext(path);
         if (ext !== 'json') {
-          log(`neglected ${path}.`);
+          log(`skip ${path}.`);
           return;
         }
 
@@ -51,7 +51,7 @@ const getext = (path) =>
       opts.paths.map(async (path, i) => {
         const ext = getext(path);
         if (ext !== 'sgf' && ext !== 'gib') {
-          log(`neglected ${path}.`);
+          log(`skip ${path}.`);
           return;
         }
 
@@ -140,10 +140,10 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
     const gametree = new GameTree(sgf, responses, sgfOpts);
     const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
 
-    afs.writeFileSync(sgfPath, gametree.getSGF());
+    afs.writeFileSync(sgfPath, gametree.get());
     log(`${sgfPath} generated.`);
 
-    const report = gametree.getRootComment();
+    const report = gametree.getComment();
     if (report !== '') {
       console.log(report);
     }

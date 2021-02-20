@@ -7,10 +7,7 @@ const sgfconv = require('./sgfconv');
 
 // [1, 2, 5] => 'move 1, move 2, move 5'
 function joinmoves(moves) {
-  return moves
-    .sort((a, b) => a - b)
-    .map((x) => `move ${x + 1}`)
-    .join(', ');
+  return moves.map((x) => `move ${x + 1}`).join(', ');
 }
 
 // ('Bad moves', [39, 69, 105, 109, ...], 104) =>
@@ -102,4 +99,40 @@ function reportGame(
   );
 }
 
-module.exports = reportGame;
+function nextBads(stat, pl, turnNumber) {
+  const goodbads = pl === 'B' ? stat.blackGoodBads : stat.whiteGoodBads;
+  const color = pl === 'B' ? 'Black' : 'White';
+  const bads = goodbads[1]
+    .filter((m) => m > turnNumber)
+    .map((x) => `move ${x + 1}`)
+    .join(', ');
+  const badhotspots = goodbads[2]
+    .filter((m) => m > turnNumber)
+    .map((x) => `move ${x + 1}`)
+    .join(', ');
+
+  const report = [];
+
+  if (bads !== '') {
+    report.push(`* ${color} bad moves: ${bads}`);
+  }
+  if (badhotspots !== '') {
+    report.push(`* ${color} bad hot spots: ${badhotspots}`);
+  }
+
+  return report;
+}
+
+// Generates next bad moves report.
+function reportBadsLeft(stat, turnNumber) {
+  const report = [
+    ...nextBads(stat, 'B', turnNumber),
+    ...nextBads(stat, 'W', turnNumber),
+  ];
+  if (report.length !== 0) {
+    return `Bad moves left:\n\n${report.join('\n')}`;
+  }
+  return '';
+}
+
+module.exports = { reportGame, reportBadsLeft };

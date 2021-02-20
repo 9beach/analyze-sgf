@@ -6,7 +6,7 @@
 한국어 | [English](README.en-US.md)
 
 `analyze-sgf`는 [카타고 분석 엔진](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)으로
-[기보](https://en.wikipedia.org/wiki/Smart_Game_Format) 파일을 분석해서 승률 그래프, 좋은 수, 나쁜 수를
+[SGF](https://en.wikipedia.org/wiki/Smart_Game_Format) 및 타이젬 파일(GIB)을 분석해서 승률 그래프, 좋은 수, 나쁜 수를
 표시하고 변화도를 제안하여 새로운 기보 파일로 저장합니다.
 
 [사바키](https://sabaki.yichuanshen.de/)나 [리지](https://github.com/featurecat/lizzie)와 카타고를
@@ -43,7 +43,7 @@ C:\Users\hcho> npm install -g analyze-sgf
 ```console
 $ analyze-sgf
 /Users/hcho/.analyze-sgf.yml generated.
-Please specify SGF files.
+Please specify SGF/GIB files.
 Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
 Option:
@@ -89,7 +89,7 @@ katago:
 analysis:
   # e.g. "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
-  # If input SGF has no komi field (KM), then uses below.
+  # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
   boardXSize: 19
   boardYSize: 19
@@ -99,7 +99,7 @@ analysis:
 # Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
-  # When you open output SGF in applications like Sabaki, you can check them.
+  # When you open reviewed SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
   # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
@@ -167,7 +167,9 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 승률이 5% 이상 하락하면 빨간색 점으로, 20% 이상 하락하면 빨간색 리본으로, 2% 이내로 하락하면 초록색 점으로
 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
-`maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다. 다음 섹션에서 더 자세히 살펴보겠습니다.
+`maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다.
+
+매 수마다 승률 및 집 변동에 관한 정보와 승률 하락이 큰 수에 대한 링크를 포함하고 있어서 빠르게 승부처를 분석할 수 있습니다.
 
 ## 설정
 

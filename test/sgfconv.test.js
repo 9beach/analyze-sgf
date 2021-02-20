@@ -41,15 +41,15 @@ describe('valueFromSequence', () => {
     assert.equal(sgfconv.valueFromSequence('ZZ', value), '');
     assert.equal(sgfconv.valueFromSequence('AA', value), '44');
   });
-  it('should be expected values for "test/t-sabaki-1.sgf".', () => {
-    const result = fs.readFileSync('test/t-sabaki-1.sgf');
+  it('should be expected values for "test/examples/t-sabaki-1.sgf".', () => {
+    const result = fs.readFileSync('test/examples/t-sabaki-1.sgf');
     const sequence = sgfconv.removeTails(result.toString());
     assert.equal(sgfconv.valueFromSequence('AP', sequence), 'Sabaki:0.51.1');
     assert.equal(sgfconv.valueFromSequence('KM', sequence), '6.5');
     assert.equal(sgfconv.valueFromSequence('GM', sequence), '1');
   });
-  it('should be expected values for "test/t-encoding-cp949.sgf".', () => {
-    const content = fs.readFileSync('test/t-encoding-cp949.sgf');
+  it('should be expected values for "test/examples/t-encoding-cp949.sgf".', () => {
+    const content = fs.readFileSync('test/examples/t-encoding-cp949.sgf');
     const detected = jschardet.detect(content);
     const sgf = iconv.decode(content, detected.encoding).toString();
 
@@ -133,7 +133,7 @@ describe('removeTails', () => {
     assert.equal(sgfconv.removeTails(values[9]), 'aa[aa](11x');
   });
   it('should be expected values.', () => {
-    const sgf = fs.readFileSync('test/t-sabaki-1.sgf');
+    const sgf = fs.readFileSync('test/examples/t-sabaki-1.sgf');
     assert.equal(
       sgfconv.removeTails(sgf.toString()),
       '(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.51.1]KM[6.5]SZ[19]DT[2021-01-25]' +
@@ -189,20 +189,20 @@ describe('katagomovesFromSequence', () => {
       ['B', 'H13'],
     ]);
   });
-  it('should be expected values for "test/t-*".', () => {
+  it('should be expected values for "test/examples/t-*".', () => {
     const movesfromsequence = (len, path) => {
       const sgf = fs.readFileSync(path).toString();
       const moves = sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
       assert.equal(len, moves.length);
     };
 
-    movesfromsequence(12, 'test/t-complex.sgf');
-    movesfromsequence(18, 'test/t-encoding-cp949.sgf');
-    movesfromsequence(180, 'test/t-lee-vs-alphago.sgf');
-    movesfromsequence(294, 'test/t-oro-1.sgf');
-    movesfromsequence(226, 'test/t-oro-2.sgf');
-    movesfromsequence(207, 'test/t-ren-vs-shin.sgf');
-    movesfromsequence(3, 'test/t-sabaki-1.sgf');
-    movesfromsequence(4, 'test/t-sabaki-2.sgf');
+    movesfromsequence(12, 'test/examples/t-complex.sgf');
+    movesfromsequence(18, 'test/examples/t-encoding-cp949.sgf');
+    movesfromsequence(180, 'test/examples/t-lee-vs-alphago.sgf');
+    movesfromsequence(294, 'test/examples/t-oro-1.sgf');
+    movesfromsequence(226, 'test/examples/t-oro-2.sgf');
+    movesfromsequence(207, 'test/examples/t-lian-vs-shin.sgf');
+    movesfromsequence(3, 'test/examples/t-sabaki-1.sgf');
+    movesfromsequence(4, 'test/examples/t-sabaki-2.sgf');
   });
 });

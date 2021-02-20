@@ -13,6 +13,7 @@ class Node {
     //
     // 'B[aa]' or 'W[cc]' or ';B[dp];W[po];B[hm]' or ...
     this.sequence = sequence;
+    this.comment = '';
     const index = sequence.search(/\b[BW]\[/);
 
     if (index === -1) {
@@ -21,6 +22,20 @@ class Node {
 
     // 'B' or 'W'
     this.pl = sequence.substring(index, index + 1);
+  }
+
+  get() {
+    if (this.comment !== '')
+      return sgfconv.addComment(this.sequence, this.comment);
+    return this.sequence;
+  }
+
+  setComment(comment) {
+    this.comment = comment;
+  }
+
+  getComment() {
+    return this.comment;
   }
 
   // Calculates scoreDrop, winrateDrop, ..., from KataGo response, and sets
@@ -69,7 +84,7 @@ function setProperties(node, sgfOpts) {
 
   if (node.winrate != null) {
     // Comment.
-    properties = sgfconv.addComment(properties, getWinratesReport(node));
+    node.comment = getWinratesReport(node);
 
     // RSGF winrate.
     properties = sgfconv.addProperty(

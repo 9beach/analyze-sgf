@@ -9,8 +9,8 @@ cd $REPO_PATH
 # Setup test fixtures.
 ######################
 temp=$(mktemp)
-cp test/t-sabaki-1.sgf $temp-1.sgf
-cp test/t-sabaki-2.sgf $temp-2.sgf
+cp test/examples/t-sabaki-1.sgf $temp-1.sgf
+cp test/examples/t-sabaki-2.sgf $temp-2.sgf
 
 echo -e "\033[1;32mKataGo testing\033[0m"
 

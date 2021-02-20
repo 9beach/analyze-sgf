@@ -72,7 +72,7 @@ function getopts() {
 
   // paths given.
   if (parser.optind() >= process.argv.length) {
-    log('Please specify SGF files.');
+    log('Please specify SGF/GIB files.');
     process.stderr.write(help);
     process.exit(1);
   }

@@ -92,8 +92,8 @@ function makeResult(grlt, zipsu) {
 const handicapStones = [
   null,
   null,
-  'dp][pd',
-  'dp][dd][pp',
+  'pd][dp',
+  'pd][dd][dp',
   'dp][dd][pd][pp',
   'dp][dd][pd][pp][jj',
   'dp][dd][pd][pp][dj][pj',

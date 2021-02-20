@@ -4,8 +4,8 @@
  */
 
 const sgfconv = require('./sgfconv');
-const reportGame = require('./report-game');
 const Node = require('./node');
+const { reportGame, reportBadsLeft } = require('./report-game');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
@@ -14,7 +14,7 @@ class GameTree {
 
     this.root = rootsequence.root;
     this.opts = opts;
-    this.rootComment = '';
+    this.comment = '';
 
     // Makes long option names short.
     this.goodmovewinrate = opts.maxWinrateDropForGoodMove / 100;
@@ -32,15 +32,15 @@ class GameTree {
     fromKataGoResponses(this, katagoresponses, sgfconv.getPLs(rootsequence));
   }
 
-  getRootComment() {
-    return this.rootComment;
+  getComment() {
+    return this.comment;
   }
 
   // Makes SGF GameTree, and returns it.
   //
   // To understand the logic below, you need to read
   // <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
-  getSGF() {
+  get() {
     if (this.sgf) {
       return this.sgf;
     }
@@ -59,19 +59,18 @@ class GameTree {
         ) {
           last = false;
           tail += node.variations.reduce(
-            (sum, variation) => sum + variation.sequence,
+            (sum, variation) => sum + variation.get(),
             '',
           );
         }
       }
 
       if (tail !== '') {
-        return `\n(;${node.sequence}${acc})${tail}`;
+        return `\n(;${node.get()}${acc})${tail}`;
       }
-      return `\n;${node.sequence}${acc}`;
+      return `\n;${node.get()}${acc}`;
     }, '');
 
-    setRootComment(this);
     this.sgf = `(${this.root}${this.sgf})`;
 
     return this.sgf;
@@ -80,12 +79,12 @@ class GameTree {
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
-// Sets players info, total good moves, bad moves, ... to target.rootComment
-// and target.root.
-function setRootComment(gametree) {
+// Sets players info, total good moves, bad moves, ... to gametree.comment,
+// gametree.root, and gametree.node.comment.
+function updateComment(gametree) {
   if (
     !gametree.responsesgiven ||
-    gametree.rootComment !== '' ||
+    gametree.comment !== '' ||
     gametree.opts.analyzeTurns
   ) {
     return;
@@ -106,7 +105,6 @@ function setRootComment(gametree) {
 
   gametree.nodes.forEach((node, num) => {
     const { pl } = node;
-
     if (node.winrateDrop < gametree.goodmovewinrate) {
       addToBlackOrWhite(pl, 0, num);
     } else if (node.winrateDrop > gametree.badmovewinrate) {
@@ -119,12 +117,12 @@ function setRootComment(gametree) {
 
   // Makes report, i.e. root comment.
   stat.blacksTotal = gametree.nodes.reduce(
-    (acc, cur) => acc + (cur.sequence[0] === 'B' ? 1 : 0),
+    (acc, cur) => acc + (cur.get()[0] === 'B' ? 1 : 0),
     0,
   );
   stat.whitesTotal = gametree.nodes.length - stat.blacksTotal;
 
-  gametree.rootComment = reportGame(
+  gametree.comment = reportGame(
     stat,
     gametree.goodmovewinrate,
     gametree.badmovewinrate,
@@ -134,7 +132,17 @@ function setRootComment(gametree) {
     gametree.maxvisits,
   );
 
-  gametree.root = sgfconv.addComment(gametree.root, gametree.rootComment);
+  gametree.root = sgfconv.addComment(gametree.root, gametree.comment);
+
+  gametree.nodes.forEach((node, num) => {
+    const report = reportBadsLeft(stat, num);
+    const comment = node.getComment();
+    if (comment !== '') {
+      node.setComment(`${comment}\n\n${report}`);
+    } else {
+      node.setComment(comment + report);
+    }
+  });
 }
 
 // From KataGo responses, fills win rates and variations of this.nodes.
@@ -161,8 +169,8 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
   // * responses.length === nodes.length + 1
   // * Adds responses[0].moveInfos to nodes[0].variations.
   // * To use moveInfos (preview variations) of the last response, we need
-  //   to add the node of passing move (B[] or W[]) to gametree.nodes, and then
-  //   we can add moveInfos to the node.
+  //   to add the node of passing move (B[] or W[]) to gametree.nodes, and
+  //   then we can add moveInfos to the node.
   // * Sets win rates info (responses[1].rootInfo) to nodes[0].
   // * responses[0].rootInfo is useless.
   //
@@ -234,6 +242,8 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
     prevjson = curjson;
   });
 
+  // Updates comment mostly related to winrates.
+  updateComment(gametree);
   // FIXME: Remove last move if have no variations.
 }
 

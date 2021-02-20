@@ -14,7 +14,7 @@ katago:
 analysis:
   # e.g. "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
-  # If input SGF has no komi field (KM), then uses below.
+  # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
   boardXSize: 19
   boardYSize: 19
@@ -24,7 +24,7 @@ analysis:
 # Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
-  # When you open output SGF in applications like Sabaki, you can check them.
+  # When you open reviewed SGF in applications like Sabaki, you can check them.
   # Please visit <https://sabaki.yichuanshen.de/>.
   #
   # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
