@@ -85,9 +85,9 @@ two values "KataGo path here" and "KataGo arguments here" to suit your
 installed KataGo. Please refer to the example.
 
 ```yml
-# Path and arguments of KataGo Parallel Analysis Engine.
-#
 # Please visit <https://github.com/9beach/analyze-sgf>.
+#
+# Options for path and arguments of KataGo.
 katago:
   # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
@@ -95,9 +95,9 @@ katago:
   # "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
-# Analysis query options for KataGo Parallel Analysis Engine.
+# Options for KataGo Parallel Analysis Engine query.
 #
-# Please see <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
+# <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
   # e.g. "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
