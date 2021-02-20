@@ -13,11 +13,11 @@ const chalk = require('chalk');
 
 const parseBadJSON = require('./bad-json');
 
+const log = (message) => console.error(chalk.grey(message));
+const config = `${homedir}${path.sep}.analyze-sgf.yml`;
+
 // Parses process arguments and config, and return JSON object.
 function getopts() {
-  const log = (message) => console.error(chalk.grey(message));
-  const config = `${homedir}${path.sep}.analyze-sgf.yml`;
-
   // Generates config file.
   try {
     afs.accessSync(config);
