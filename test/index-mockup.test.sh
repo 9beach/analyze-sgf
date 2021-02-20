@@ -57,7 +57,7 @@ echo -e "\033[1;32m Ok \033[0m"
 ### New testing.
 echo -n Tests src/index.js with option -k and \"tail\".
 
-src/index.js -k 'path:"tail",arguments:"-n +2 test/t-ren-vs-shin.json"' \
+src/index.js -k 'path:"test/tail.sh",arguments:"test/t-ren-vs-shin.json"' \
 	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	$temp-1.sgf &> /dev/null
 
@@ -71,7 +71,7 @@ echo -e "\033[1;32m Ok \033[0m"
 ### New testing.
 echo -n Tests src/index.js with option -k,  -a analyzeTurns, -g showVariatiosAfterLastMove, and \"tail\".
 
-src/index.js -k 'path:"tail",arguments:"-n +2 test/t-sabaki-1.json"' \
+src/index.js -k 'path:"test/tail.sh",arguments:"test/t-sabaki-1.json"' \
 	-a 'analyzeTurns:[0,1,2,3,4,5]' \
 	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:true,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	$temp-2.sgf &> /dev/null
@@ -86,7 +86,7 @@ echo -e "\033[1;32m Ok \033[0m"
 ### New testing.
 echo -n Tests src/index.js with option -k,  -a analyzeTurns, and \"tail\".
 
-src/index.js -k 'path:"tail",arguments:"-n +2 test/t-sabaki-1.json"' \
+src/index.js -k 'path:"test/tail.sh",arguments:"test/t-sabaki-1.json"' \
 	-a 'analyzeTurns:[0,1,2,3,4,5]' \
 	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	$temp-2.sgf &> /dev/null
