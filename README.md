@@ -240,7 +240,3 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
 ```
 
-## 남은 일
-
-* 타이젬 기보 파일(`.gib`) 인식
-* 국제화

@@ -269,8 +269,3 @@ data, do the following:
 ```console
 analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
 ```
-
-## TODOs
-
-* Support Tygem file (`.gib`)
-* Internationalization
