@@ -1,19 +1,19 @@
-Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f=FILE] [FILE ...]
+Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
 Option:
   -a, --analysis=OPTS     Options for KataGo Parallel Analysis Engine query
-  -g, --sgf=OPTS          Options for making reviewed SGF file
+  -g, --sgf=OPTS          Options for making reviewed SGF files
   -k, --katago=OPTS       Options for path and arguments of KataGo
-  -s                      Save KataGo analysis as JSON file
-  -f FILE                 Analyze by KataGo JSON file
+  -s                      Save KataGo analysis as JSON files
+  -f                      Analyze by KataGo JSON files
   -h, --help              Display this help and exit
 
 Examples:
   analyze-sgf baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -s baduk.sgf
-  analyze-sgf -f baduk.json
+  analyze-sgf -s baduk-1.sgf baduk-2.sgf
+  analyze-sgf -f baduk-1.json baduk-2.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 

@@ -43,23 +43,23 @@ C:\Users\hcho> npm install -g analyze-sgf
 ```console
 $ analyze-sgf
 /Users/hcho/.analyze-sgf.yml generated.
-Please specify SGF files or `-f` option.
-Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f=FILE] [FILE ...]
+Please specify SGF files.
+Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
 Option:
   -a, --analysis=OPTS     Options for KataGo Parallel Analysis Engine query
   -g, --sgf=OPTS          Options for making reviewed SGF file
   -k, --katago=OPTS       Options for path and arguments of KataGo
   -s                      Save KataGo analysis as JSON file
-  -f FILE                 Analyze by KataGo JSON file
+  -f                      Analyze by KataGo JSON file
   -h, --help              Display this help and exit
 
 Examples:
   analyze-sgf baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -s baduk.sgf
-  analyze-sgf -f baduk.json
+  analyze-sgf -s baduk-1.sgf baduk-2.sgf
+  analyze-sgf -f baduk-1.json baduk-2.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
@@ -96,7 +96,7 @@ analysis:
   # Maximum number of root visits.
   maxVisits: 1600
 
-# Options for making reviewed SGF file.
+# Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
   # When you open output SGF in applications like Sabaki, you can check them.
@@ -235,7 +235,7 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 카타고 분석 데이터에 존재하는 모든 변화도를 보고 싶다면 다음을 실행합니다.
 
 ```console
-analyze-sgf -f baduk.json -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
+analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
 ```
 
 ## 남은 일

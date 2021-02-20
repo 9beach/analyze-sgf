@@ -49,23 +49,23 @@ in your home directory and prints out the usage as follows:
 ```console
 $ analyze-sgf
 /Users/hcho/.analyze-sgf.yml generated.
-Please specify SGF files or `-f` option.
-Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f=FILE] [FILE ...]
+Please specify SGF files.
+Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
 Option:
   -a, --analysis=OPTS     Options for KataGo Parallel Analysis Engine query
-  -g, --sgf=OPTS          Options for making reviewed SGF file
+  -g, --sgf=OPTS          Options for making reviewed SGF files
   -k, --katago=OPTS       Options for path and arguments of KataGo
-  -s                      Save KataGo analysis as JSON file
-  -f FILE                 Analyze by KataGo JSON file
+  -s                      Save KataGo analysis as JSON files
+  -f                      Analyze by KataGo JSON files
   -h, --help              Display this help and exit
 
 Examples:
   analyze-sgf baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -s baduk.sgf
-  analyze-sgf -f baduk.json
+  analyze-sgf -s baduk-1.sgf baduk-2.sgf
+  analyze-sgf -f baduk-1.json baduk-2.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
@@ -108,7 +108,7 @@ analysis:
   # Maximum number of root visits.
   maxVisits: 1600
 
-# Options for making reviewed SGF file.
+# Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
   # When you open output SGF in applications like Sabaki, you can check them.
@@ -265,7 +265,7 @@ If you want to see all the variations that exist in your KataGo analysis
 data, do the following:
 
 ```console
-analyze-sgf -f baduk.json -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100'
+analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
 ```
 
 ## TODOs

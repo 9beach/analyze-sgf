@@ -28,7 +28,7 @@ function getopts() {
 
   const help = afs.readFileSync(require.resolve('./help')).toString();
 
-  let responsesPath;
+  let jsonGiven = false;
   let saveGiven = false;
   let analysis = {};
   let sgf = {};
@@ -36,7 +36,7 @@ function getopts() {
 
   // Parses args.
   const parser = new pgetopt.BasicParser(
-    'k:(katago)a:(analysis)g:(sgf)sf:h',
+    'k:(katago)a:(analysis)g:(sgf)sfh',
     process.argv,
   );
 
@@ -61,7 +61,7 @@ function getopts() {
         saveGiven = true;
         break;
       case 'f':
-        responsesPath = opt.optarg;
+        jsonGiven = true;
         break;
       case 'h':
       default:
@@ -70,22 +70,16 @@ function getopts() {
     }
   }
 
-  let sgfPaths;
-
-  // sgfPaths given.
-  if (parser.optind() < process.argv.length) {
-    sgfPaths = process.argv.slice(parser.optind());
-    if (responsesPath) {
-      log(`\`-f\` option can't be used with SGF files: ${sgfPaths}`);
-      process.exit(1);
-    }
-  } else if (!responsesPath) {
-    log('Please specify SGF files or `-f` option.');
+  // paths given.
+  if (parser.optind() >= process.argv.length) {
+    log('Please specify SGF files.');
     process.stderr.write(help);
     process.exit(1);
   }
 
-  if (responsesPath && saveGiven) {
+  const paths = process.argv.slice(parser.optind());
+
+  if (jsonGiven && saveGiven) {
     log('neglected `-s` with `-f`.');
   }
 
@@ -112,7 +106,7 @@ function getopts() {
     sgf.minWinrateDropForVariations = sgf.minWinrateLossForVariations;
   }
 
-  return { katago, analysis, sgf, sgfPaths, responsesPath, saveGiven };
+  return { katago, analysis, sgf, paths, jsonGiven, saveGiven };
 }
 
 module.exports = getopts;

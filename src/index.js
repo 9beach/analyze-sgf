@@ -49,6 +49,7 @@ function sgfToKataGoAnalysisQuery(id, sgf, opts) {
   return query;
 }
 
+// Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, opts) {
   try {
     if (responses === '') {
@@ -123,21 +124,23 @@ const opts = getopts();
 // Starts async communication with kataGoAnalyze().
 (async () => {
   try {
-    if (opts.responsesPath) {
-      // Analyzes by KataGo Analysis JSON.
-      const sgfresponses = afs.readFileSync(opts.responsesPath).toString();
-      // JSON file format: tailless SGF + '\n' + KataGo responses.
-      const index = sgfresponses.indexOf('\n');
-      const sgf = sgfresponses.substring(0, index);
-      const responses = sgfresponses.substring(index + 1);
+    // Analyzes by KataGo Analysis JSON, not by KataGO engine.
+    if (opts.jsonGiven) {
+      opts.paths.forEach((path) => {
+        const sgfresponses = afs.readFileSync(path).toString();
+        // JSON file format: tailless SGF + '\n' + KataGo responses.
+        const index = sgfresponses.indexOf('\n');
+        const sgf = sgfresponses.substring(0, index);
+        const responses = sgfresponses.substring(index + 1);
 
-      saveAnalyzed(opts.responsesPath, sgf, responses, false, opts.sgf);
+        saveAnalyzed(path, sgf, responses, false, opts.sgf);
+      });
     } else {
       // Analyzes by KataGo Analysis Engine.
       //
       // Reads SGF and makes KagaGo queries.
-      opts.sgfPaths.map(async (sgfPath, i) => {
-        const content = afs.readFileSync(sgfPath);
+      opts.paths.map(async (path, i) => {
+        const content = afs.readFileSync(path);
         const detected = jschardet.detect(content);
         const sgf = iconv.decode(content, detected.encoding).toString();
         const query = sgfToKataGoAnalysisQuery(
@@ -153,7 +156,7 @@ const opts = getopts();
         );
 
         if (responses !== '') {
-          saveAnalyzed(sgfPath, sgf, responses, opts.saveGiven, opts.sgf);
+          saveAnalyzed(path, sgf, responses, opts.saveGiven, opts.sgf);
         }
       });
     }

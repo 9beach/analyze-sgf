@@ -20,7 +20,7 @@ analysis:
   # Maximum number of root visits.
   maxVisits: 1600
 
-# Options for making reviewed SGF file.
+# Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
   # When you open output SGF in applications like Sabaki, you can check them.
