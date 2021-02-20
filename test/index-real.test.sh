@@ -12,6 +12,8 @@ temp=$(mktemp)
 cp test/t-sabaki-1.sgf $temp-1.sgf
 cp test/t-sabaki-2.sgf $temp-2.sgf
 
+echo -e "\033[1;32mKataGo testing\033[0m"
+
 #########
 # Test 1.
 #########

@@ -12,6 +12,6 @@ parserOptions:
 rules:
   max-lines: ["error", {"max": 200, "skipComments": true, "skipBlankLines": true}]
   max-lines-per-function: ["error", {"max": 80, "skipComments": true, "skipBlankLines": true}]
-  max-len: ["error", {"code": 80, "ignoreUrls": true}]
+  no-use-before-define: ["error", { "functions": false }]
   prettier/prettier: "error"
   no-console: "off"

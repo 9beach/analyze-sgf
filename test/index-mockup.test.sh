@@ -12,6 +12,7 @@ cp test/t-ren-vs-shin.json $temp-1.json
 cp test/t-sabaki-1.sgf $temp-2.sgf
 cp test/t-sabaki-1.json $temp-2.json
 
+echo -e "\033[1;32mMockup testing\033[0m"
 ### New testing.
 echo -n Tests src/index.js with option -f and multiple files.
 

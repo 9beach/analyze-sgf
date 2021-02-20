@@ -49,72 +49,72 @@ class Node {
     this.visits = currentinfo.visits;
 
     if (sgfOpts) {
-      this.setProperties(sgfOpts);
+      setProperties(this, sgfOpts);
     }
   }
+}
 
-  // Add properties (comment, god move, bad move, ...) to this.sequence.
-  //
-  // Private. `setWinrate` automatically calls this.
-  //
-  // sgfOpts => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
-  // sgfOpts => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
-  setProperties(sgfOpts) {
-    if (this.propertiesGot === true) {
-      return;
-    }
+/* eslint no-param-reassign: ["error", { "props": false }] */
 
-    let properties = this.sequence;
-
-    if (this.winrate != null) {
-      // Comment.
-      properties = sgfconv.addComment(properties, this.getWinratesReport());
-
-      // RSGF winrate.
-      properties = sgfconv.addProperty(
-        properties,
-        `SBKV[${(parseFloat(this.winrate) * 100).toFixed(2)}]`,
-        0,
-      );
-    }
-
-    if (this.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100) {
-      properties = sgfconv.toGoodNode(properties, 0);
-    } else if (this.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100) {
-      properties = sgfconv.toBadHotSpot(properties, 0);
-    } else if (this.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100) {
-      properties = sgfconv.toBadNode(properties, 0);
-    }
-
-    this.propertiesGot = true;
-    this.sequence = properties;
+// Add properties (comment, god move, bad move, ...) to this.sequence.
+//
+// node, sgfOpts => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
+// node, sgfOpts => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
+function setProperties(node, sgfOpts) {
+  if (node.propertiesGot === true) {
+    return;
   }
 
-  // () => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
-  getWinratesReport() {
-    const pl = this.pl === 'W' ? 'As White:\n' : 'As Black:\n';
-    const visits = `* Visits: ${this.visits}`;
-    let winrate;
-    let scoreLead;
-    let winrateDrop;
-    let scoreDrop;
+  let properties = node.sequence;
 
-    winrate = (parseFloat(this.myWinrate) * 100).toFixed(2);
-    winrate = `* Win rate: ${winrate}%\n`;
-    scoreLead = parseFloat(this.myScoreLead).toFixed(2);
-    scoreLead = `* Score lead: ${scoreLead}\n`;
+  if (node.winrate != null) {
+    // Comment.
+    properties = sgfconv.addComment(properties, getWinratesReport(node));
 
-    if (this.winrateDrop !== undefined) {
-      winrateDrop = (parseFloat(this.winrateDrop) * 100).toFixed(2);
-      winrateDrop = `* Win rate drop: ${winrateDrop}%\n`;
-      scoreDrop = `* Score drop: ${parseFloat(this.scoreDrop).toFixed(2)}\n`;
-    } else {
-      winrateDrop = '';
-      scoreDrop = '';
-    }
-
-    return pl + winrate + winrateDrop + scoreLead + scoreDrop + visits;
+    // RSGF winrate.
+    properties = sgfconv.addProperty(
+      properties,
+      `SBKV[${(parseFloat(node.winrate) * 100).toFixed(2)}]`,
+      0,
+    );
   }
+
+  if (node.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100) {
+    properties = sgfconv.toGoodNode(properties, 0);
+  } else if (node.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100) {
+    properties = sgfconv.toBadHotSpot(properties, 0);
+  } else if (node.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100) {
+    properties = sgfconv.toBadNode(properties, 0);
+  }
+
+  node.propertiesGot = true;
+  node.sequence = properties;
+}
+
+// (node) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
+function getWinratesReport(node) {
+  const pl = node.pl === 'W' ? 'As White:\n' : 'As Black:\n';
+  const visits = `* Visits: ${node.visits}`;
+  let winrate;
+  let scoreLead;
+  let winrateDrop;
+  let scoreDrop;
+
+  winrate = (parseFloat(node.myWinrate) * 100).toFixed(2);
+  winrate = `* Win rate: ${winrate}%\n`;
+  scoreLead = parseFloat(node.myScoreLead).toFixed(2);
+  scoreLead = `* Score lead: ${scoreLead}\n`;
+
+  if (node.winrateDrop !== undefined) {
+    winrateDrop = (parseFloat(node.winrateDrop) * 100).toFixed(2);
+    winrateDrop = `* Win rate drop: ${winrateDrop}%\n`;
+    scoreDrop = `* Score drop: ${parseFloat(node.scoreDrop).toFixed(2)}\n`;
+  } else {
+    winrateDrop = '';
+    scoreDrop = '';
+  }
+
+  return pl + winrate + winrateDrop + scoreLead + scoreDrop + visits;
 }
 
 module.exports = Node;
