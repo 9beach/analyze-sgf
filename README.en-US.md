@@ -33,7 +33,7 @@ First install  [Node.js](https://nodejs.org/) and
 In Mac or Linux, run the following from the terminal.
 
 ```console
-sudo npm install -g analyze-sgf
+npm install -g analyze-sgf
 ```
 
 In Microsoft Windows, run the following from the `Command Prompt`
@@ -41,6 +41,8 @@ or `PowerShell`.
 ```console
 C:\Users\hcho> npm install -g analyze-sgf
 ```
+
+Notice that upgrade command is same as install command.
 
 ## Usage
 

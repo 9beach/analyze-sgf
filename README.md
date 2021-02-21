@@ -25,7 +25,7 @@
 맥이나 리눅스 환경에서는 터미널에서 다음을 실행합니다.
 
 ```console
-sudo npm install -g analyze-sgf
+npm install -g analyze-sgf
 ```
 
 마이크로소프트 윈도우 환경에서는 명령 프롬프트나 PowerShell에서 다음을 실행합니다.
@@ -33,6 +33,8 @@ sudo npm install -g analyze-sgf
 ```console
 C:\Users\hcho> npm install -g analyze-sgf
 ```
+
+업데이트 명령어는 설치 명령어와 동일합니다.
 
 ## 사용법
 

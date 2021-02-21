@@ -117,18 +117,17 @@ function setProperties(node, sgfOpts) {
 function formatWinrate(winrate) {
   const v = (parseFloat(winrate) * 100).toFixed(2);
   if (v > 50) return `B ${v}%`;
-  return `W ${100 - v}%`;
+  return `W ${(100 - v).toFixed(2)}%`;
 }
 
 function formatScoreLead(scoreLead) {
   const v = parseFloat(scoreLead).toFixed(2);
   if (v > 0) return `B ${v}`;
-  return `W ${-v}`;
+  return `W ${(-v).toFixed(2)}`;
 }
 
 // (node) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
 function getWinratesReport(node) {
-  const visits = `* Visits: ${node.visits}`;
   let winrateDrop;
   let scoreDrop;
 
@@ -137,14 +136,16 @@ function getWinratesReport(node) {
 
   if (node.winrateDrop !== undefined) {
     winrateDrop = (parseFloat(node.winrateDrop) * 100).toFixed(2);
-    winrateDrop = `* Win rate drop: ${winrateDrop}%\n`;
-    scoreDrop = `* Score drop: ${parseFloat(node.scoreDrop).toFixed(2)}\n`;
+    winrateDrop = `* Win rate drop: ${node.pl} ${winrateDrop}%\n`;
+    scoreDrop = `* Score drop: ${node.pl} ${parseFloat(node.scoreDrop).toFixed(
+      2,
+    )}\n`;
   } else {
     winrateDrop = '';
     scoreDrop = '';
   }
 
-  return winrate + winrateDrop + scoreLead + scoreDrop + visits;
+  return winrate + winrateDrop + scoreLead + scoreDrop;
 }
 
 module.exports = Node;
