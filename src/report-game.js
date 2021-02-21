@@ -7,7 +7,7 @@ const sgfconv = require('./sgfconv');
 
 // [1, 2, 5] => 'move 1, move 2, move 5'
 function joinmoves(moves) {
-  return moves.map((x) => `move ${x + 1}`).join(', ');
+  return moves.map((x) => `#${x + 1}`).join(', ');
 }
 
 // ('Bad moves', [39, 69, 105, 109, ...], 104) =>
@@ -17,7 +17,7 @@ function movesstat(goodorbad, moves, total, listmoves = true) {
     return '';
   }
 
-  const ratio = ((moves.length / total) * 100).toFixed(2);
+  const ratio = ((moves.length / total) * 100).toFixed(1);
   let format = `* ${goodorbad} (${ratio}%, ${moves.length}/${total})`;
 
   if (listmoves) {
@@ -35,15 +35,15 @@ function reportGoodAndBad(total, moves) {
   );
 }
 
-// (' 신진서  ', 'Black') => '신진서 (Black):'
-// ('', 'Black') => 'Black:'
+// (' 신진서  ', 'Black') => '신진서 (Black)'
+// ('', 'Black') => 'Black'
 function colorPL(player, color) {
   let pl = player.replace(/ *$/, '').replace(/^ */, '');
 
   if (pl !== '') {
-    pl += ` (${color}):`;
+    pl += ` (${color})`;
   } else {
-    pl = `${color}:`;
+    pl = `${color}`;
   }
 
   return pl;
@@ -104,11 +104,11 @@ function nextBads(stat, pl, turnNumber) {
   const color = pl === 'B' ? 'Black' : 'White';
   const bads = goodbads[1]
     .filter((m) => m > turnNumber)
-    .map((x) => `move ${x + 1}`)
+    .map((x) => `#${x + 1}`)
     .join(', ');
   const badhotspots = goodbads[2]
     .filter((m) => m > turnNumber)
-    .map((x) => `move ${x + 1}`)
+    .map((x) => `#${x + 1}`)
     .join(', ');
 
   const report = [];
@@ -130,7 +130,7 @@ function reportBadsLeft(stat, turnNumber) {
     ...nextBads(stat, 'W', turnNumber),
   ];
   if (report.length !== 0) {
-    return `Bad moves left:\n\n${report.join('\n')}`;
+    return `Bad moves left\n\n${report.join('\n')}`;
   }
   return '';
 }

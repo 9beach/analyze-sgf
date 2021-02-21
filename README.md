@@ -137,15 +137,15 @@ $ analyze-sgf 신진서-렌샤오.sgf
 
 제13회 춘란배 4강, Komi 7.5, 207수 흑불계승, 2021-01-20
 
-신진서 (Black):
-* Good moves (75.00%, 78/104)
-* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
-* Bad hot spots (0.96%, 1/104): move 141
+신진서 (Black)
+* Good moves (75.0%, 78/104)
+* Bad moves (11.5%, 12/104): #39, #69, #105, #109, #121, #133, #141, #161, #165, #173, #179, #183
+* Bad hot spots (1.0%, 1/104): #141
 
-롄샤오 (White):
-* Good moves (74.76%, 77/103)
-* Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* Bad hot spots (1.94%, 2/103): move 174, move 176
+롄샤오 (White)
+* Good moves (74.8%, 77/103)
+* Bad moves (18.4%, 19/103): #64, #96, #102, #104, #106, #108, #114, #116, #120, #138, #146, #150, #166, #172, #174, #176, #180, #184, #190
+* Bad hot spots (1.9%, 2/103): #174, #176
 
 Good move: less than 2% win rate drop
 Bad move: more than 5% win rate drop
@@ -157,10 +157,7 @@ The maximum variation number for each move is 10.
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
 
-아래의 두 스크린숏은 `신진서-렌샤오-analyzed.sgf` 파일을 사바키로 연 모습입니다.
-
-**사바키로 분석 파일을 연 모습**
-![Sabaki Root Screenshot](./sabaki-root.png?raw=true "Sabaki Root Screenshot")
+아래의 스크린숏은 `신진서-렌샤오-analyzed.sgf` 파일을 사바키로 연 모습입니다.
 
 **사바키로 변화도를 탐색하는 모습**
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
@@ -169,7 +166,7 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
 `maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다.
 
-매 수마다 승률 및 집 변동에 관한 정보와 승률 하락이 큰 수에 대한 링크를 포함하고 있어서 빠르게 승부처를 분석할 수 있습니다.
+매 수마다 승률 및 집 변동에 관한 정보와 승률 하락이 큰 수에 대한 링크를 포함하고 있어서 빠르게 승부처를 분석할 수 있습니다. 사바키에서 색깔이 반전된 변화도 수순 위에 마우스를 올리면 위의 스크린숏에서와 같이 자동으로 수순이 진행됩니다. 
 
 ## 설정
 
@@ -191,9 +188,9 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 ```
 
 `-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 변화도가 아닌 예상도라는 개념으로 분석하기 때문에
-174번째 수를 분석하기 위해서는 173을 요청해야 합니다. `analyzeTurns`을 지정하면, 지정된 수의 변화도만 보여 주며
-분석 결과를 요약해서 화면에 출력하지는 않습니다. `analyzeTurns`을 지정하지 않으면 승률 하락이
-`minWinrateDropForVariations`보다 큰 모든 수의 변화도를 보여 주며 분석 결과를 요약해서 화면에 출력합니다.
+174번째 수를 분석하기 위해서는 173을 요청해야 합니다. `analyzeTurns`을 지정하면 지정된 수의 변화도만 보여 줍니다.
+그러나 `analyzeTurns`을 지정하지 않으면 승률 하락이 `minWinrateDropForVariations`보다 큰 모든 수의 변화도를
+보여 줍니니다.
 
 이와 같이 `.analyze-sgf.yml` 파일의 모든 설정은 직접 수정할 수도, 실행할 때 지정할 수도 있습니다.
 

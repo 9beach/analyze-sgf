@@ -72,6 +72,20 @@ function iaToJ1(value) {
   return v[0] + (v.charCodeAt(1) - 64).toString();
 }
 
+// For real Goban display.
+//
+// 'aa' => 'A19'
+// 'bd' => 'B16'
+function iaToJ19(value) {
+  const v = value.toUpperCase();
+
+  if (v[0] >= 'I') {
+    return nextChar(v[0]) + (84 - v.charCodeAt(1)).toString();
+  }
+
+  return v[0] + (84 - v.charCodeAt(1)).toString();
+}
+
 // 'A1' => 'aa'
 function iaFromJ1(v) {
   if (v[0] >= 'J') {
@@ -221,6 +235,24 @@ function katagomovesFromSequence(sequence) {
     .map((move) => [move[0], iaToJ1(move.substring(2, 4))]);
 }
 
+// For SABAKI animated PVs.
+// '(;W[po];B[hm];W[ae]...)' => 'WQ15 H13 A5'
+// '(;W[po])' => 'Q15'
+// 'W[po]' => 'Q15'
+function sequenceToPV(sequence) {
+  const pl = sequence[0] === '(' ? sequence[2] : sequence[0];
+  let len = 0;
+  const pv = sequence
+    .split(';')
+    .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
+    .map((move, index) => {
+      len = index;
+      return iaToJ19(move.substring(2, 4));
+    })
+    .join(' ');
+  return len > 0 ? pl + pv : pv;
+}
+
 // ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'
 function katagomoveinfoToSequence(pl, moveInfo) {
   const sequence = moveInfo.pv.reduce(
@@ -249,6 +281,7 @@ module.exports = {
   removeTails,
   rootsequenceFromSGF,
   initialstonesFromSequence,
+  sequenceToPV,
   katagomovesFromSequence,
   katagomoveinfoToSequence,
 };

@@ -151,15 +151,15 @@ shin-vs-lian-analyzed.sgf generated.
 
 13th Chunlan Cup, semi-final, Komi 7.5, B+R, 2021-01-20
 
-Shin Jinseo (Black):
-* Good moves (75.00%, 78/104)
-* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
-* Bad hot spots (0.96%, 1/104): move 141
+Shin Jinseo (Black)
+* Good moves (75.0%, 78/104)
+* Bad moves (11.5%, 12/104): #39, #69, #105, #109, #121, #133, #141, #161, #165, #173, #179, #183
+* Bad hot spots (1.0%, 1/104): #141
 
-Lian Xiao (White):
-* Good moves (74.76%, 77/103)
-* Bad moves (18.45%, 19/103): move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* Bad hot spots (1.94%, 2/103): move 174, move 176
+Lian Xiao (White)
+* Good moves (74.8%, 77/103)
+* Bad moves (18.4%, 19/103): #64, #96, #102, #104, #106, #108, #114, #116, #120, #138, #146, #150, #166, #172, #174, #176, #180, #184, #190
+* Bad hot spots (1.9%, 2/103): #174, #176
 
 Good move: less than 2% win rate drop
 Bad move: more than 5% win rate drop
@@ -171,10 +171,7 @@ The maximum variation number for each move is 10.
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
 
-The two screenshots below show the file opened in Sabaki.
-
-**Opening the result file with Sabaki**
-![Sabaki Root Screenshot](./sabaki-root.png?raw=true "Sabaki Root Screenshot")
+The screenshot below shows the file opened in Sabaki.
 
 **Navigating the variations with Sabaki**
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
@@ -185,7 +182,10 @@ turns to a green dot. This criterion can be changed by specifying the
 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and
 `maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
 
-The comment of each move contains information about win rate and score, as well as links to moves with huge win rate drop, so you can quickly analyze your game.
+The comment of each move contains information about win rate and score, as well as links to the moves with huge win rate drop, so you can quickly analyze your game.
+
+If you hover your mouse over a proposed variation in Sabaki, the sequence of the variation
+automatically played as shown in the screenshot above.
 
 ## Options
 
@@ -215,10 +215,8 @@ Because KataGo analyzes with the concept of the proposed variations, in
 order to analyze the 174th move, we need to request 173.
 
 If `analyzeTurns` is specified, only the variations of specified moves are
-saved. The analysis results are not summarized on the terminal. If `analyzeTurns`
-is not specified, all the variations of the moves with a win rate drop greater
-than `minWinrateDropForVariations` are saved, and the analysis results are
-summarized on the terminal.
+saved. If `analyzeTurns` is not specified, all the variations of the moves
+whose win rates drop greater than `minWinrateDropForVariations` are saved.
 
 Komi is automatically set using the information in the SGF/GIB file even if the
 `-a 'komi:6.5'` option is not specified.

@@ -26,7 +26,9 @@ class GameTree {
     this.nodes = rootsequence.sequence
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
-      .map((node) => new Node(node.substring(0, 5)));
+      .map(
+        (node, index) => new Node(node.substring(0, 5), `Move #${index + 1}`),
+      );
 
     // Fills win rates and variations of this.nodes.
     fromKataGoResponses(this, katagoresponses, sgfconv.getPLs(rootsequence));
@@ -82,13 +84,11 @@ class GameTree {
 // Sets players info, total good moves, bad moves, ... to gametree.comment,
 // gametree.root, and gametree.node.comment.
 function updateComment(gametree) {
-  if (
-    !gametree.responsesgiven ||
-    gametree.comment !== '' ||
-    gametree.opts.analyzeTurns
-  ) {
-    return;
-  }
+  if (!gametree.responsesgiven || gametree.comment !== '') return;
+
+  // FIXME: Refactor me.
+  //
+  // 1. Makes game report (root comment).
 
   // Counts good moves, bad moves, and bad hotspots.
   // 0: Good, 1: bad, and 2: bad hotspots.
@@ -115,7 +115,6 @@ function updateComment(gametree) {
     }
   });
 
-  // Makes report, i.e. root comment.
   stat.blacksTotal = gametree.nodes.reduce(
     (acc, cur) => acc + (cur.get()[0] === 'B' ? 1 : 0),
     0,
@@ -139,8 +138,23 @@ function updateComment(gametree) {
   );
 
   gametree.nodes.forEach((node, num) => {
+    // 2. Adds PVs info to the comments of each nodes and variations.
+    let comment = node.getComment();
+    if (node.variations) {
+      // PVs for each node.
+      if (comment !== '') comment += '\n\n';
+      comment += 'Proposed variations\n';
+      node.variations.forEach((v, index) => {
+        comment += `\n${index + 1}. ${v.pv()}`;
+        // Sequence for each variation.
+        let vcomment = v.getComment();
+        vcomment += `\n* Sequence: ${v.pv()}`;
+        v.setComment(vcomment);
+      });
+    }
+
+    // 3. Adds 'Bad moves left' comment to each node.
     const report = reportBadsLeft(stat, num);
-    const comment = node.getComment();
     if (comment !== '') {
       node.setComment(`${comment}\n\n${report}`);
     } else {
@@ -218,7 +232,7 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
       gametree.opts.showVariationsAfterLastMove &&
       gametree.nodes.length === nextturn
     ) {
-      gametree.nodes.push(new Node(`${nextpl}[]`));
+      gametree.nodes.push(new Node(`${nextpl}[]`, `Move #${curturn + 1}`));
     }
 
     // Adds variations to gametree.nodes[nextturn].
@@ -231,6 +245,7 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
         .map((moveinfo) => {
           const variation = new Node(
             sgfconv.katagomoveinfoToSequence(nextpl, moveinfo),
+            `A variation of move #${nextturn + 1}`,
           );
 
           variation.setWinrate(curjson.rootInfo, moveinfo, gametree.opts);

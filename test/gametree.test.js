@@ -45,7 +45,7 @@ function compare(original, json, expected) {
 describe('GameTree', () => {
   it('should be expected values.', () => {
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
-    compareButLines(gametree.get(), '(PL[];B[aa];W[bb])');
+    compareButLines(gametree.get(), '(PL[];B[aa]C[Move #1];W[bb]C[Move #2])');
   });
 
   it('should be expected values for "test/examples/t-*".', () => {
