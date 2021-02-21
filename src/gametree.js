@@ -132,7 +132,11 @@ function updateComment(gametree) {
     gametree.maxvisits,
   );
 
-  gametree.root = sgfconv.addComment(gametree.root, gametree.comment);
+  gametree.root = sgfconv.addComment(
+    gametree.root,
+    gametree.comment,
+    gametree.root.length - 2,
+  );
 
   gametree.nodes.forEach((node, num) => {
     const report = reportBadsLeft(stat, num);

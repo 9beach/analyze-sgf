@@ -1,4 +1,4 @@
-(;TE[제13회 춘란배 4강]C[# Analyze-SGF Report
+(;TE[제13회 춘란배 4강]RD[2021-01-20 ]PC[온라인]TM[2시간]LT[60]LC[5]KM[7.5]RE[207수 흑불계승]PB[신진서]BR[9단]PW[롄샤오]HD[0]WR[9단]GK[1]TC[]AP[Sabaki:0.51.1]CA[UTF-8]C[# Analyze-SGF Report
 
 제13회 춘란배 4강, Komi 7.5, 207수 흑불계승, 2021-01-20
 
@@ -19,8 +19,8 @@ Bad hot spot: more than 20% win rate drop
 Variations added for the moves having more than 5% win rate drop.
 The maximum variation number for each move is 10.
 
-Analyzed by KataGo Parallel Analysis Engine (6415 max visits).]RD[2021-01-20 ]PC[온라인]TM[2시간]LT[60]LC[5]KM[7.5]RE[207수 흑불계승]PB[신진서]BR[9단]PW[롄샤오]HD[0]WR[9단]GK[1]TC[]AP[Sabaki:0.51.1]CA[UTF-8]
-;B[pd]C[As Black:
+Analyzed by KataGo Parallel Analysis Engine (6415 max visits).]
+;B[pd]TE[1]SBKV[39.23]C[As Black:
 * Win rate: 39.23%
 * Win rate drop: 0.12%
 * Score lead: -0.91
@@ -32,8 +32,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.23]
-;W[dp]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[dp]TE[1]SBKV[39.14]C[As White:
 * Win rate: 60.86%
 * Win rate drop: -0.09%
 * Score lead: 0.92
@@ -45,8 +45,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.14]
-;B[pp]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[pp]TE[1]SBKV[39.19]C[As Black:
 * Win rate: 39.19%
 * Win rate drop: -0.06%
 * Score lead: -0.89
@@ -58,8 +58,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.19]
-;W[dc]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[dc]TE[1]SBKV[41.02]C[As White:
 * Win rate: 58.98%
 * Win rate drop: 1.82%
 * Score lead: 0.70
@@ -71,8 +71,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[41.02]
-;B[cq]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[cq]TE[1]SBKV[41.16]C[As Black:
 * Win rate: 41.16%
 * Win rate drop: -0.15%
 * Score lead: -0.68
@@ -84,8 +84,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[41.16]
-;W[cp]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cp]TE[1]SBKV[41.01]C[As White:
 * Win rate: 58.99%
 * Win rate drop: -0.15%
 * Score lead: 0.70
@@ -97,8 +97,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[41.01]
-;B[dq]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dq]TE[1]SBKV[41.04]C[As Black:
 * Win rate: 41.04%
 * Win rate drop: -0.03%
 * Score lead: -0.69
@@ -110,8 +110,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[41.04]
-;W[ep]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ep]TE[1]SBKV[40.97]C[As White:
 * Win rate: 59.03%
 * Win rate drop: -0.07%
 * Score lead: 0.70
@@ -123,8 +123,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.97]
-;B[fq]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[fq]TE[1]SBKV[41.08]C[As Black:
 * Win rate: 41.08%
 * Win rate drop: -0.12%
 * Score lead: -0.69
@@ -136,8 +136,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[41.08]
-;W[qc]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[qc]TE[1]SBKV[40.68]C[As White:
 * Win rate: 59.32%
 * Win rate drop: -0.40%
 * Score lead: 0.74
@@ -149,8 +149,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.68]
-;B[qd]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[qd]TE[1]SBKV[40.48]C[As Black:
 * Win rate: 40.48%
 * Win rate drop: 0.20%
 * Score lead: -0.78
@@ -162,8 +162,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.48]
-;W[pc]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[pc]TE[1]SBKV[40.52]C[As White:
 * Win rate: 59.48%
 * Win rate drop: 0.04%
 * Score lead: 0.78
@@ -175,8 +175,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.52]
-;B[od]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[od]TE[1]SBKV[40.40]C[As Black:
 * Win rate: 40.40%
 * Win rate drop: 0.12%
 * Score lead: -0.77
@@ -188,8 +188,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.40]
-;W[nb]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[nb]TE[1]SBKV[40.26]C[As White:
 * Win rate: 59.74%
 * Win rate drop: -0.14%
 * Score lead: 0.78
@@ -201,8 +201,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.26]
-;B[gr]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[gr]TE[1]SBKV[39.86]C[As Black:
 * Win rate: 39.86%
 * Win rate drop: 0.40%
 * Score lead: -0.81
@@ -214,8 +214,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.86]
-;W[cf]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cf]TE[1]SBKV[39.49]C[As White:
 * Win rate: 60.51%
 * Win rate drop: -0.37%
 * Score lead: 0.85
@@ -227,8 +227,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.49]
-;B[dl]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dl]TE[1]SBKV[39.37]C[As Black:
 * Win rate: 39.37%
 * Win rate drop: 0.12%
 * Score lead: -0.86
@@ -240,8 +240,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.37]
-;W[go]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[go]TE[1]SBKV[39.13]C[As White:
 * Win rate: 60.87%
 * Win rate drop: -0.24%
 * Score lead: 0.88
@@ -253,8 +253,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.13]
-;B[ch]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ch]TE[1]SBKV[39.45]C[As Black:
 * Win rate: 39.45%
 * Win rate drop: -0.32%
 * Score lead: -0.84
@@ -266,8 +266,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.45]
-;W[qq]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[qq]TE[1]SBKV[39.33]C[As White:
 * Win rate: 60.67%
 * Win rate drop: -0.12%
 * Score lead: 0.83
@@ -279,8 +279,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.33]
-;B[pq]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[pq]TE[1]SBKV[39.45]C[As Black:
 * Win rate: 39.45%
 * Win rate drop: -0.12%
 * Score lead: -0.81
@@ -292,8 +292,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.45]
-;W[qp]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[qp]TE[1]SBKV[39.39]C[As White:
 * Win rate: 60.61%
 * Win rate drop: -0.06%
 * Score lead: 0.82
@@ -305,8 +305,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.39]
-;B[qn]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[qn]TE[1]SBKV[39.57]C[As Black:
 * Win rate: 39.57%
 * Win rate drop: -0.18%
 * Score lead: -0.80
@@ -318,8 +318,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.57]
-;W[qo]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[qo]TE[1]SBKV[39.34]C[As White:
 * Win rate: 60.66%
 * Win rate drop: -0.22%
 * Score lead: 0.82
@@ -331,8 +331,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.34]
-;B[po]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[po]TE[1]SBKV[39.38]C[As Black:
 * Win rate: 39.38%
 * Win rate drop: -0.03%
 * Score lead: -0.81
@@ -344,8 +344,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.38]
-;W[rn]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[rn]TE[1]SBKV[39.32]C[As White:
 * Win rate: 60.68%
 * Win rate drop: -0.06%
 * Score lead: 0.82
@@ -357,8 +357,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.32]
-;B[qr]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[qr]TE[1]SBKV[38.71]C[As Black:
 * Win rate: 38.71%
 * Win rate drop: 0.61%
 * Score lead: -0.88
@@ -370,8 +370,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[38.71]
-;W[rr]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[rr]TE[1]SBKV[38.64]C[As White:
 * Win rate: 61.36%
 * Win rate drop: -0.06%
 * Score lead: 0.89
@@ -383,8 +383,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[38.64]
-;B[ro]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ro]TE[1]SBKV[38.85]C[As Black:
 * Win rate: 38.85%
 * Win rate drop: -0.20%
 * Score lead: -0.87
@@ -396,8 +396,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[38.85]
-;W[rp]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[rp]TE[1]SBKV[40.03]C[As White:
 * Win rate: 59.97%
 * Win rate drop: 1.19%
 * Score lead: 0.80
@@ -409,8 +409,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.03]
-;B[rm]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[rm]TE[1]SBKV[40.06]C[As Black:
 * Win rate: 40.06%
 * Win rate drop: -0.03%
 * Score lead: -0.80
@@ -422,8 +422,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[40.06]
-;W[pn]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[pn]TE[1]SBKV[41.28]C[As White:
 * Win rate: 58.72%
 * Win rate drop: 1.21%
 * Score lead: 0.65
@@ -435,8 +435,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[41.28]
-;B[qm]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[qm]SBKV[38.33]C[As Black:
 * Win rate: 38.33%
 * Win rate drop: 2.94%
 * Score lead: -0.91
@@ -448,8 +448,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[38.33]
-;W[on]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[on]TE[1]SBKV[39.10]C[As White:
 * Win rate: 60.90%
 * Win rate drop: 0.77%
 * Score lead: 0.90
@@ -461,8 +461,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.10]
-;B[ol]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ol]TE[1]SBKV[39.04]C[As Black:
 * Win rate: 39.04%
 * Win rate drop: 0.06%
 * Score lead: -0.92
@@ -474,8 +474,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.04]
-;W[mn]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[mn]TE[1]SBKV[38.90]C[As White:
 * Win rate: 61.10%
 * Win rate drop: -0.14%
 * Score lead: 0.94
@@ -487,8 +487,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[38.90]
-;B[lp]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[lp]TE[1]SBKV[39.27]C[As Black:
 * Win rate: 39.27%
 * Win rate drop: -0.37%
 * Score lead: -0.90
@@ -500,8 +500,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[39.27]
-;W[ko]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ko]TE[1]SBKV[38.88]C[As White:
 * Win rate: 61.12%
 * Win rate drop: -0.39%
 * Score lead: 0.93
@@ -513,8 +513,8 @@ Bad moves left:
 * Black bad moves: move 39, move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[38.88]
-(;B[kp]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[kp]BM[1]SBKV[32.56]C[As Black:
 * Win rate: 32.56%
 * Win rate drop: 6.32%
 * Score lead: -1.72
@@ -526,8 +526,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[32.56]
-;W[jo]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[jo]TE[1]SBKV[32.34]C[As White:
 * Win rate: 67.66%
 * Win rate drop: -0.22%
 * Score lead: 1.75
@@ -539,8 +539,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[32.34]
-;B[jp]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[jp]TE[1]SBKV[30.92]C[As Black:
 * Win rate: 30.92%
 * Win rate drop: 1.42%
 * Score lead: -1.77
@@ -552,8 +552,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[30.92]
-;W[io]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[io]TE[1]SBKV[30.60]C[As White:
 * Win rate: 69.40%
 * Win rate drop: -0.32%
 * Score lead: 1.81
@@ -565,8 +565,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[30.60]
-;B[no]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[no]TE[1]SBKV[30.93]C[As Black:
 * Win rate: 30.93%
 * Win rate drop: -0.33%
 * Score lead: -1.76
@@ -578,8 +578,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[30.93]
-;W[nn]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[nn]TE[1]SBKV[30.74]C[As White:
 * Win rate: 69.26%
 * Win rate drop: -0.18%
 * Score lead: 1.78
@@ -591,8 +591,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[30.74]
-;B[pj]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[pj]TE[1]SBKV[31.82]C[As Black:
 * Win rate: 31.82%
 * Win rate drop: -1.07%
 * Score lead: -1.57
@@ -604,8 +604,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.82]
-;W[mc]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[mc]TE[1]SBKV[31.20]C[As White:
 * Win rate: 68.80%
 * Win rate drop: -0.62%
 * Score lead: 1.70
@@ -617,8 +617,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.20]
-;B[hp]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[hp]TE[1]SBKV[31.77]C[As Black:
 * Win rate: 31.77%
 * Win rate drop: -0.57%
 * Score lead: -1.60
@@ -630,8 +630,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.77]
-;W[ip]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ip]TE[1]SBKV[31.24]C[As White:
 * Win rate: 68.76%
 * Win rate drop: -0.52%
 * Score lead: 1.77
@@ -643,8 +643,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.24]
-;B[lo]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[lo]TE[1]SBKV[32.54]C[As Black:
 * Win rate: 32.54%
 * Win rate drop: -1.30%
 * Score lead: -1.62
@@ -656,8 +656,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[32.54]
-;W[ln]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ln]TE[1]SBKV[32.46]C[As White:
 * Win rate: 67.54%
 * Win rate drop: -0.08%
 * Score lead: 1.64
@@ -669,8 +669,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[32.46]
-;B[iq]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[iq]TE[1]SBKV[31.49]C[As Black:
 * Win rate: 31.49%
 * Win rate drop: 0.97%
 * Score lead: -1.63
@@ -682,8 +682,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.49]
-;W[ho]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ho]TE[1]SBKV[31.13]C[As White:
 * Win rate: 68.87%
 * Win rate drop: -0.36%
 * Score lead: 1.66
@@ -695,8 +695,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.13]
-;B[eh]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[eh]SBKV[28.69]C[As Black:
 * Win rate: 28.69%
 * Win rate drop: 2.44%
 * Score lead: -1.98
@@ -708,8 +708,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[28.69]
-;W[cj]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cj]SBKV[31.24]C[As White:
 * Win rate: 68.76%
 * Win rate drop: 2.55%
 * Score lead: 1.62
@@ -721,8 +721,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[31.24]
-;B[dj]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dj]TE[1]SBKV[31.81]C[As Black:
 * Win rate: 31.81%
 * Win rate drop: -0.57%
 * Score lead: -1.57
@@ -734,8 +734,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.81]
-;W[ci]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ci]TE[1]SBKV[31.36]C[As White:
 * Win rate: 68.64%
 * Win rate drop: -0.45%
 * Score lead: 1.63
@@ -747,8 +747,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.36]
-;B[dh]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dh]TE[1]SBKV[31.43]C[As Black:
 * Win rate: 31.43%
 * Win rate drop: -0.07%
 * Score lead: -1.61
@@ -760,8 +760,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[31.43]
-;W[bl]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[bl]TE[1]SBKV[30.75]C[As White:
 * Win rate: 69.25%
 * Win rate drop: -0.68%
 * Score lead: 1.70
@@ -773,8 +773,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[30.75]
-;B[dd]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dd]TE[1]SBKV[29.71]C[As Black:
 * Win rate: 29.71%
 * Win rate drop: 1.05%
 * Score lead: -1.84
@@ -786,8 +786,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.71]
-;W[ed]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ed]TE[1]SBKV[29.21]C[As White:
 * Win rate: 70.79%
 * Win rate drop: -0.49%
 * Score lead: 1.89
@@ -799,8 +799,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.21]
-;B[cc]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[cc]TE[1]SBKV[29.27]C[As Black:
 * Win rate: 29.27%
 * Win rate drop: -0.06%
 * Score lead: -1.88
@@ -812,8 +812,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.27]
-;W[cd]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cd]TE[1]SBKV[28.80]C[As White:
 * Win rate: 71.20%
 * Win rate drop: -0.48%
 * Score lead: 1.90
@@ -825,8 +825,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[28.80]
-;B[de]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[de]TE[1]SBKV[28.71]C[As Black:
 * Win rate: 28.71%
 * Win rate drop: 0.08%
 * Score lead: -1.90
@@ -838,8 +838,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 64, move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[28.71]
-(;W[ce]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[ce]BM[1]SBKV[40.15]C[As White:
 * Win rate: 59.85%
 * Win rate drop: 11.43%
 * Score lead: 0.65
@@ -851,8 +851,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[40.15]
-;B[ec]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ec]SBKV[35.33]C[As Black:
 * Win rate: 35.33%
 * Win rate drop: 4.82%
 * Score lead: -1.16
@@ -864,8 +864,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[35.33]
-;W[db]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[db]TE[1]SBKV[35.22]C[As White:
 * Win rate: 64.78%
 * Win rate drop: -0.10%
 * Score lead: 1.18
@@ -877,8 +877,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[35.22]
-;B[df]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[df]TE[1]SBKV[35.55]C[As Black:
 * Win rate: 35.55%
 * Win rate drop: -0.33%
 * Score lead: -1.14
@@ -890,8 +890,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[35.55]
-;W[fc]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[fc]TE[1]SBKV[35.13]C[As White:
 * Win rate: 64.87%
 * Win rate drop: -0.42%
 * Score lead: 1.18
@@ -903,8 +903,8 @@ Bad moves left:
 * Black bad moves: move 69, move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[35.13]
-(;B[ck]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[ck]BM[1]SBKV[28.10]C[As Black:
 * Win rate: 28.10%
 * Win rate drop: 7.03%
 * Score lead: -2.06
@@ -916,8 +916,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[28.10]
-;W[bk]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[bk]SBKV[31.82]C[As White:
 * Win rate: 68.18%
 * Win rate drop: 3.72%
 * Score lead: 1.65
@@ -929,8 +929,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[31.82]
-;B[cb]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[cb]TE[1]SBKV[32.19]C[As Black:
 * Win rate: 32.19%
 * Win rate drop: -0.37%
 * Score lead: -1.59
@@ -942,8 +942,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[32.19]
-;W[eb]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[eb]TE[1]SBKV[32.16]C[As White:
 * Win rate: 67.84%
 * Win rate drop: -0.03%
 * Score lead: 1.60
@@ -955,8 +955,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[32.16]
-;B[bd]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bd]TE[1]SBKV[32.37]C[As Black:
 * Win rate: 32.37%
 * Win rate drop: -0.21%
 * Score lead: -1.57
@@ -968,8 +968,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[32.37]
-;W[be]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[be]TE[1]SBKV[30.67]C[As White:
 * Win rate: 69.33%
 * Win rate drop: -1.71%
 * Score lead: 1.59
@@ -981,8 +981,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[30.67]
-;B[ac]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ac]SBKV[28.24]C[As Black:
 * Win rate: 28.24%
 * Win rate drop: 2.42%
 * Score lead: -2.08
@@ -994,8 +994,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[28.24]
-;W[di]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[di]TE[1]SBKV[25.29]C[As White:
 * Win rate: 74.71%
 * Win rate drop: -2.95%
 * Score lead: 2.12
@@ -1007,8 +1007,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[25.29]
-;B[ei]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ei]TE[1]SBKV[25.09]C[As Black:
 * Win rate: 25.09%
 * Win rate drop: 0.19%
 * Score lead: -2.17
@@ -1020,8 +1020,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[25.09]
-;W[ej]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ej]TE[1]SBKV[24.85]C[As White:
 * Win rate: 75.15%
 * Win rate drop: -0.24%
 * Score lead: 2.18
@@ -1033,8 +1033,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[24.85]
-;B[fj]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[fj]TE[1]SBKV[25.02]C[As Black:
 * Win rate: 25.02%
 * Win rate drop: -0.17%
 * Score lead: -2.11
@@ -1046,8 +1046,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[25.02]
-;W[dk]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[dk]TE[1]SBKV[24.82]C[As White:
 * Win rate: 75.18%
 * Win rate drop: -0.20%
 * Score lead: 2.13
@@ -1059,8 +1059,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[24.82]
-;B[ek]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ek]TE[1]SBKV[24.88]C[As Black:
 * Win rate: 24.88%
 * Win rate drop: -0.06%
 * Score lead: -2.11
@@ -1072,8 +1072,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[24.88]
-;W[cg]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cg]TE[1]SBKV[24.20]C[As White:
 * Win rate: 75.80%
 * Win rate drop: -0.69%
 * Score lead: 2.19
@@ -1085,8 +1085,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[24.20]
-;B[dj]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dj]SBKV[21.13]C[As Black:
 * Win rate: 21.13%
 * Win rate drop: 3.06%
 * Score lead: -2.93
@@ -1098,8 +1098,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[21.13]
-;W[dg]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[dg]TE[1]SBKV[21.08]C[As White:
 * Win rate: 78.92%
 * Win rate drop: -0.05%
 * Score lead: 2.94
@@ -1111,8 +1111,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[21.08]
-;B[bi]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bi]TE[1]SBKV[19.84]C[As Black:
 * Win rate: 19.84%
 * Win rate drop: 1.25%
 * Score lead: -2.56
@@ -1124,8 +1124,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[19.84]
-;W[bj]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[bj]TE[1]SBKV[19.09]C[As White:
 * Win rate: 80.91%
 * Win rate drop: -0.74%
 * Score lead: 2.61
@@ -1137,8 +1137,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[19.09]
-;B[bg]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bg]TE[1]SBKV[19.35]C[As Black:
 * Win rate: 19.35%
 * Win rate drop: -0.26%
 * Score lead: -2.54
@@ -1150,8 +1150,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[19.35]
-;W[cn]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cn]TE[1]SBKV[18.48]C[As White:
 * Win rate: 81.52%
 * Win rate drop: -0.87%
 * Score lead: 2.60
@@ -1163,8 +1163,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.48]
-;B[ae]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ae]TE[1]SBKV[18.78]C[As Black:
 * Win rate: 18.78%
 * Win rate drop: -0.30%
 * Score lead: -2.47
@@ -1176,8 +1176,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.78]
-;W[eg]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[eg]TE[1]SBKV[18.40]C[As White:
 * Win rate: 81.60%
 * Win rate drop: -0.38%
 * Score lead: 2.53
@@ -1189,8 +1189,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.40]
-;B[fg]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[fg]TE[1]SBKV[18.50]C[As Black:
 * Win rate: 18.50%
 * Win rate drop: -0.09%
 * Score lead: -2.50
@@ -1202,8 +1202,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.50]
-;W[ff]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ff]TE[1]SBKV[17.75]C[As White:
 * Win rate: 82.25%
 * Win rate drop: -0.75%
 * Score lead: 2.60
@@ -1215,8 +1215,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[17.75]
-;B[bf]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bf]TE[1]SBKV[17.78]C[As Black:
 * Win rate: 17.78%
 * Win rate drop: -0.03%
 * Score lead: -2.59
@@ -1228,8 +1228,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[17.78]
-;W[ef]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ef]TE[1]SBKV[17.72]C[As White:
 * Win rate: 82.28%
 * Win rate drop: -0.06%
 * Score lead: 2.60
@@ -1241,8 +1241,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[17.72]
-;B[md]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[md]TE[1]SBKV[16.11]C[As Black:
 * Win rate: 16.11%
 * Win rate drop: 1.61%
 * Score lead: -2.55
@@ -1254,8 +1254,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 96, move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[16.11]
-(;W[ld]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[ld]BM[1]SBKV[21.31]C[As White:
 * Win rate: 78.69%
 * Win rate drop: 5.20%
 * Score lead: 2.14
@@ -1267,8 +1267,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[21.31]
-;B[nc]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[nc]SBKV[16.98]C[As Black:
 * Win rate: 16.98%
 * Win rate drop: 4.34%
 * Score lead: -2.94
@@ -1280,8 +1280,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[16.98]
-;W[lb]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[lb]SBKV[20.71]C[As White:
 * Win rate: 79.29%
 * Win rate drop: 3.73%
 * Score lead: 2.23
@@ -1293,8 +1293,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[20.71]
-;B[le]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[le]TE[1]SBKV[21.40]C[As Black:
 * Win rate: 21.40%
 * Win rate drop: -0.69%
 * Score lead: -2.18
@@ -1306,8 +1306,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[21.40]
-;W[kd]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[kd]TE[1]SBKV[21.96]C[As White:
 * Win rate: 78.04%
 * Win rate drop: 0.56%
 * Score lead: 2.07
@@ -1319,8 +1319,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[21.96]
-;B[mf]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[mf]SBKV[19.91]C[As Black:
 * Win rate: 19.91%
 * Win rate drop: 2.04%
 * Score lead: -2.30
@@ -1332,8 +1332,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 102, move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[19.91]
-(;W[lj]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[lj]BM[1]SBKV[27.79]C[As White:
 * Win rate: 72.21%
 * Win rate drop: 7.88%
 * Score lead: 1.30
@@ -1345,8 +1345,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[27.79]
-;B[ml]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ml]TE[1]SBKV[29.07]C[As Black:
 * Win rate: 29.07%
 * Win rate drop: -1.28%
 * Score lead: -1.33
@@ -1358,8 +1358,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 104, move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.07]
-(;W[ll]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[ll]BM[1]SBKV[37.78]C[As White:
 * Win rate: 62.22%
 * Win rate drop: 8.71%
 * Score lead: 0.36
@@ -1371,8 +1371,8 @@ Bad moves left:
 * Black bad moves: move 105, move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[37.78]
-(;B[mj]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[mj]BM[1]SBKV[19.44]C[As Black:
 * Win rate: 19.44%
 * Win rate drop: 18.34%
 * Score lead: -1.80
@@ -1384,8 +1384,8 @@ Bad moves left:
 * Black bad moves: move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 106, move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[19.44]
-(;W[oc]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[oc]BM[1]SBKV[28.95]C[As White:
 * Win rate: 71.05%
 * Win rate drop: 9.51%
 * Score lead: 0.96
@@ -1397,8 +1397,8 @@ Bad moves left:
 * Black bad moves: move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[28.95]
-;B[nd]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[nd]SBKV[24.72]C[As Black:
 * Win rate: 24.72%
 * Win rate drop: 4.23%
 * Score lead: -1.13
@@ -1410,8 +1410,8 @@ Bad moves left:
 * Black bad moves: move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 108, move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[24.72]
-(;W[rc]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[rc]BM[1]SBKV[31.65]C[As White:
 * Win rate: 68.35%
 * Win rate drop: 6.93%
 * Score lead: 0.95
@@ -1423,8 +1423,8 @@ Bad moves left:
 * Black bad moves: move 109, move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[31.65]
-(;B[rd]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[rd]BM[1]SBKV[13.23]C[As Black:
 * Win rate: 13.23%
 * Win rate drop: 18.41%
 * Score lead: -2.15
@@ -1436,8 +1436,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[13.23]
-;W[pr]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[pr]TE[1]SBKV[13.04]C[As White:
 * Win rate: 86.96%
 * Win rate drop: -0.20%
 * Score lead: 2.14
@@ -1449,8 +1449,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[13.04]
-;B[or]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[or]TE[1]SBKV[13.13]C[As Black:
 * Win rate: 13.13%
 * Win rate drop: -0.09%
 * Score lead: -2.13
@@ -1462,8 +1462,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[13.13]
-;W[qs]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[qs]TE[1]SBKV[13.11]C[As White:
 * Win rate: 86.89%
 * Win rate drop: -0.02%
 * Score lead: 2.12
@@ -1475,8 +1475,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[13.11]
-;B[nq]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[nq]TE[1]SBKV[11.82]C[As Black:
 * Win rate: 11.82%
 * Win rate drop: 1.29%
 * Score lead: -2.31
@@ -1488,8 +1488,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 114, move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[11.82]
-(;W[gg]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[gg]BM[1]SBKV[20.87]C[As White:
 * Win rate: 79.13%
 * Win rate drop: 9.05%
 * Score lead: 1.49
@@ -1501,8 +1501,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[20.87]
-;B[jf]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[jf]SBKV[17.67]C[As Black:
 * Win rate: 17.67%
 * Win rate drop: 3.20%
 * Score lead: -2.13
@@ -1514,8 +1514,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 116, move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[17.67]
-(;W[ke]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[ke]BM[1]SBKV[29.12]C[As White:
 * Win rate: 70.88%
 * Win rate drop: 11.45%
 * Score lead: 0.75
@@ -1527,8 +1527,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[29.12]
-;B[kf]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[kf]TE[1]SBKV[28.53]C[As Black:
 * Win rate: 28.53%
 * Win rate drop: 0.59%
 * Score lead: -0.78
@@ -1540,8 +1540,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[28.53]
-;W[lg]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[lg]TE[1]SBKV[28.86]C[As White:
 * Win rate: 71.14%
 * Win rate drop: 0.33%
 * Score lead: 0.78
@@ -1553,8 +1553,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[28.86]
-;B[lf]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[lf]TE[1]SBKV[28.10]C[As Black:
 * Win rate: 28.10%
 * Win rate drop: 0.76%
 * Score lead: -0.79
@@ -1566,8 +1566,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 120, move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[28.10]
-(;W[bq]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[bq]BM[1]SBKV[37.07]C[As White:
 * Win rate: 62.93%
 * Win rate drop: 8.97%
 * Score lead: 0.19
@@ -1579,8 +1579,8 @@ Bad moves left:
 * Black bad moves: move 121, move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[37.07]
-(;B[br]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[br]BM[1]SBKV[30.39]C[As Black:
 * Win rate: 30.39%
 * Win rate drop: 6.67%
 * Score lead: -0.62
@@ -1592,8 +1592,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[30.39]
-;W[mk]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[mk]SBKV[35.00]C[As White:
 * Win rate: 65.00%
 * Win rate drop: 4.60%
 * Score lead: 0.27
@@ -1605,8 +1605,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[35.00]
-;B[nk]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[nk]TE[1]SBKV[34.94]C[As Black:
 * Win rate: 34.94%
 * Win rate drop: 0.06%
 * Score lead: -0.27
@@ -1618,8 +1618,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[34.94]
-;W[lk]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[lk]TE[1]SBKV[34.04]C[As White:
 * Win rate: 65.96%
 * Win rate drop: -0.89%
 * Score lead: 0.32
@@ -1631,8 +1631,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[34.04]
-;B[mi]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[mi]TE[1]SBKV[34.01]C[As Black:
 * Win rate: 34.01%
 * Win rate drop: 0.03%
 * Score lead: -0.32
@@ -1644,8 +1644,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[34.01]
-;W[li]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[li]TE[1]SBKV[33.47]C[As White:
 * Win rate: 66.53%
 * Win rate drop: -0.54%
 * Score lead: 0.36
@@ -1657,8 +1657,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[33.47]
-;B[mh]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[mh]SBKV[29.12]C[As Black:
 * Win rate: 29.12%
 * Win rate drop: 4.35%
 * Score lead: -0.61
@@ -1670,8 +1670,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[29.12]
-;W[sd]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[sd]TE[1]SBKV[29.72]C[As White:
 * Win rate: 70.28%
 * Win rate drop: 0.60%
 * Score lead: 0.57
@@ -1683,8 +1683,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.72]
-;B[se]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[se]TE[1]SBKV[29.69]C[As Black:
 * Win rate: 29.69%
 * Win rate drop: 0.02%
 * Score lead: -0.57
@@ -1696,8 +1696,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.69]
-;W[sc]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[sc]TE[1]SBKV[29.51]C[As White:
 * Win rate: 70.49%
 * Win rate drop: -0.18%
 * Score lead: 0.58
@@ -1709,8 +1709,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.51]
-;B[re]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[re]TE[1]SBKV[29.41]C[As Black:
 * Win rate: 29.41%
 * Win rate drop: 0.10%
 * Score lead: -0.58
@@ -1722,8 +1722,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.41]
-;W[gk]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[gk]SBKV[32.11]C[As White:
 * Win rate: 67.89%
 * Win rate drop: 2.70%
 * Score lead: 0.43
@@ -1735,8 +1735,8 @@ Bad moves left:
 * Black bad moves: move 133, move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[32.11]
-(;B[gj]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[gj]BM[1]SBKV[26.19]C[As Black:
 * Win rate: 26.19%
 * Win rate drop: 5.92%
 * Score lead: -0.66
@@ -1748,8 +1748,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[26.19]
-;W[hj]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[hj]TE[1]SBKV[25.81]C[As White:
 * Win rate: 74.19%
 * Win rate drop: -0.38%
 * Score lead: 0.63
@@ -1761,8 +1761,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[25.81]
-;B[hi]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[hi]TE[1]SBKV[26.44]C[As Black:
 * Win rate: 26.44%
 * Win rate drop: -0.63%
 * Score lead: -0.60
@@ -1774,8 +1774,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[26.44]
-;W[hk]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[hk]TE[1]SBKV[26.06]C[As White:
 * Win rate: 73.94%
 * Win rate drop: -0.38%
 * Score lead: 0.61
@@ -1787,8 +1787,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[26.06]
-;B[id]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[id]TE[1]SBKV[26.36]C[As Black:
 * Win rate: 26.36%
 * Win rate drop: -0.30%
 * Score lead: -0.62
@@ -1800,8 +1800,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 138, move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[26.36]
-(;W[hh]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[hh]BM[1]SBKV[34.25]C[As White:
 * Win rate: 65.75%
 * Win rate drop: 7.90%
 * Score lead: 4.22
@@ -1813,8 +1813,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[34.25]
-;B[hf]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[hf]TE[1]SBKV[35.07]C[As Black:
 * Win rate: 35.07%
 * Win rate drop: -0.82%
 * Score lead: -3.67
@@ -1826,8 +1826,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[35.07]
-;W[ba]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ba]TE[1]SBKV[35.22]C[As White:
 * Win rate: 64.78%
 * Win rate drop: 0.15%
 * Score lead: 2.46
@@ -1839,8 +1839,8 @@ Bad moves left:
 * Black bad moves: move 141, move 161, move 165, move 173, move 179, move 183
 * Black bad hot spots: move 141
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[35.22]
-(;B[ca]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[ca]BM[1]HO[1]SBKV[15.12]C[As Black:
 * Win rate: 15.12%
 * Win rate drop: 20.10%
 * Score lead: -38.29
@@ -1851,8 +1851,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]HO[1]SBKV[15.12]
-;W[bb]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[bb]TE[1]SBKV[13.43]C[As White:
 * Win rate: 86.57%
 * Win rate drop: -1.69%
 * Score lead: 40.72
@@ -1863,8 +1863,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[13.43]
-;B[bc]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bc]TE[1]SBKV[11.58]C[As Black:
 * Win rate: 11.58%
 * Win rate drop: 1.85%
 * Score lead: -50.77
@@ -1875,8 +1875,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[11.58]
-;W[ai]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ai]TE[1]SBKV[10.98]C[As White:
 * Win rate: 89.02%
 * Win rate drop: -0.60%
 * Score lead: 52.75
@@ -1887,8 +1887,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[10.98]
-;B[bh]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bh]TE[1]SBKV[10.03]C[As Black:
 * Win rate: 10.03%
 * Win rate drop: 0.95%
 * Score lead: -54.24
@@ -1899,8 +1899,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 146, move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[10.03]
-(;W[je]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[je]BM[1]SBKV[25.76]C[As White:
 * Win rate: 74.24%
 * Win rate drop: 15.73%
 * Score lead: 1.52
@@ -1911,8 +1911,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[25.76]
-;B[ii]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ii]SBKV[21.10]C[As Black:
 * Win rate: 21.10%
 * Win rate drop: 4.66%
 * Score lead: -0.87
@@ -1923,8 +1923,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[21.10]
-;W[ie]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ie]TE[1]SBKV[20.15]C[As White:
 * Win rate: 79.85%
 * Win rate drop: -0.94%
 * Score lead: 0.93
@@ -1935,8 +1935,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[20.15]
-;B[ih]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[ih]SBKV[15.73]C[As Black:
 * Win rate: 15.73%
 * Win rate drop: 4.42%
 * Score lead: -1.49
@@ -1947,8 +1947,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 150, move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[15.73]
-(;W[he]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[he]BM[1]SBKV[25.07]C[As White:
 * Win rate: 74.93%
 * Win rate drop: 9.34%
 * Score lead: 0.60
@@ -1959,8 +1959,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[25.07]
-;B[sn]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[sn]TE[1]SBKV[25.87]C[As Black:
 * Win rate: 25.87%
 * Win rate drop: -0.79%
 * Score lead: -0.56
@@ -1971,8 +1971,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[25.87]
-;W[eq]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[eq]TE[1]SBKV[27.73]C[As White:
 * Win rate: 72.27%
 * Win rate drop: 1.86%
 * Score lead: 0.37
@@ -1983,8 +1983,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[27.73]
-;B[er]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[er]TE[1]SBKV[27.55]C[As Black:
 * Win rate: 27.55%
 * Win rate drop: 0.18%
 * Score lead: -0.39
@@ -1995,8 +1995,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[27.55]
-;W[cr]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[cr]TE[1]SBKV[28.99]C[As White:
 * Win rate: 71.01%
 * Win rate drop: 1.44%
 * Score lead: 0.25
@@ -2007,8 +2007,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[28.99]
-;B[dr]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[dr]TE[1]SBKV[29.50]C[As Black:
 * Win rate: 29.50%
 * Win rate drop: -0.51%
 * Score lead: -0.25
@@ -2019,8 +2019,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.50]
-;W[ar]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ar]TE[1]SBKV[29.75]C[As White:
 * Win rate: 70.25%
 * Win rate drop: 0.25%
 * Score lead: 0.24
@@ -2031,8 +2031,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.75]
-;B[bs]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bs]TE[1]SBKV[29.64]C[As Black:
 * Win rate: 29.64%
 * Win rate drop: 0.11%
 * Score lead: -0.24
@@ -2043,8 +2043,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[29.64]
-;W[fl]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[fl]SBKV[33.46]C[As White:
 * Win rate: 66.54%
 * Win rate drop: 3.82%
 * Score lead: 0.17
@@ -2055,8 +2055,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[33.46]
-;B[bp]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[bp]TE[1]SBKV[34.12]C[As Black:
 * Win rate: 34.12%
 * Win rate drop: -0.66%
 * Score lead: -0.09
@@ -2067,8 +2067,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[34.12]
-;W[bo]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[bo]TE[1]SBKV[34.98]C[As White:
 * Win rate: 65.02%
 * Win rate drop: 0.86%
 * Score lead: 0.74
@@ -2079,8 +2079,8 @@ Bad moves left:
 
 * Black bad moves: move 161, move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[34.98]
-(;B[gf]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[gf]BM[1]SBKV[19.81]C[As Black:
 * Win rate: 19.81%
 * Win rate drop: 15.17%
 * Score lead: -0.99
@@ -2091,8 +2091,8 @@ Bad moves left:
 
 * Black bad moves: move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[19.81]
-;W[hg]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[hg]TE[1]SBKV[18.16]C[As White:
 * Win rate: 81.84%
 * Win rate drop: -1.66%
 * Score lead: 1.68
@@ -2103,8 +2103,8 @@ Bad moves left:
 
 * Black bad moves: move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.16]
-;B[if]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[if]TE[1]SBKV[18.58]C[As Black:
 * Win rate: 18.58%
 * Win rate drop: -0.43%
 * Score lead: -1.68
@@ -2115,8 +2115,8 @@ Bad moves left:
 
 * Black bad moves: move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.58]
-;W[fh]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[fh]TE[1]SBKV[18.58]C[As White:
 * Win rate: 81.42%
 * Win rate drop: -0.00%
 * Score lead: 1.70
@@ -2127,8 +2127,8 @@ Bad moves left:
 
 * Black bad moves: move 165, move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[18.58]
-(;B[ge]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[ge]BM[1]SBKV[12.81]C[As Black:
 * Win rate: 12.81%
 * Win rate drop: 5.78%
 * Score lead: -2.85
@@ -2139,8 +2139,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 166, move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[12.81]
-(;W[gd]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[gd]BM[1]SBKV[18.43]C[As White:
 * Win rate: 81.57%
 * Win rate drop: 5.62%
 * Score lead: 1.72
@@ -2151,8 +2151,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[18.43]
-;B[jj]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[jj]TE[1]SBKV[19.03]C[As Black:
 * Win rate: 19.03%
 * Win rate drop: -0.61%
 * Score lead: -1.63
@@ -2163,8 +2163,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[19.03]
-;W[ij]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[ij]SBKV[21.24]C[As White:
 * Win rate: 78.76%
 * Win rate drop: 2.21%
 * Score lead: 5.06
@@ -2175,8 +2175,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[21.24]
-;B[cm]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[cm]SBKV[18.93]C[As Black:
 * Win rate: 18.93%
 * Win rate drop: 2.31%
 * Score lead: -1.90
@@ -2187,8 +2187,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]SBKV[18.93]
-;W[bm]C[As White:
+* White bad hot spots: move 174, move 176]
+;W[bm]TE[1]SBKV[15.97]C[As White:
 * Win rate: 84.03%
 * Win rate drop: -2.95%
 * Score lead: 2.19
@@ -2199,8 +2199,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[15.97]
-;B[fm]C[As Black:
+* White bad hot spots: move 174, move 176]
+;B[fm]TE[1]SBKV[14.14]C[As Black:
 * Win rate: 14.14%
 * Win rate drop: 1.83%
 * Score lead: -5.33
@@ -2211,8 +2211,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 172, move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]TE[1]SBKV[14.14]
-(;W[el]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[el]BM[1]SBKV[28.55]C[As White:
 * Win rate: 71.45%
 * Win rate drop: 14.41%
 * Score lead: 0.72
@@ -2223,8 +2223,8 @@ Bad moves left:
 
 * Black bad moves: move 173, move 179, move 183
 * White bad moves: move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[28.55]
-(;B[em]C[As Black:
+* White bad hot spots: move 174, move 176]
+(;B[em]BM[1]SBKV[11.08]C[As Black:
 * Win rate: 11.08%
 * Win rate drop: 17.48%
 * Score lead: -5.65
@@ -2235,8 +2235,8 @@ Bad moves left:
 
 * Black bad moves: move 179, move 183
 * White bad moves: move 174, move 176, move 180, move 184, move 190
-* White bad hot spots: move 174, move 176]BM[1]SBKV[11.08]
-(;W[gl]C[As White:
+* White bad hot spots: move 174, move 176]
+(;W[gl]BM[1]HO[1]SBKV[65.47]C[As White:
 * Win rate: 34.53%
 * Win rate drop: 54.39%
 * Score lead: -1.49
@@ -2247,8 +2247,8 @@ Bad moves left:
 
 * Black bad moves: move 179, move 183
 * White bad moves: move 176, move 180, move 184, move 190
-* White bad hot spots: move 176]BM[1]HO[1]SBKV[65.47]
-;B[dm]C[As Black:
+* White bad hot spots: move 176]
+;B[dm]TE[1]SBKV[64.98]C[As Black:
 * Win rate: 64.98%
 * Win rate drop: 0.49%
 * Score lead: 1.38
@@ -2259,8 +2259,8 @@ Bad moves left:
 
 * Black bad moves: move 179, move 183
 * White bad moves: move 176, move 180, move 184, move 190
-* White bad hot spots: move 176]TE[1]SBKV[64.98]
-(;W[lh]C[As White:
+* White bad hot spots: move 176]
+(;W[lh]BM[1]HO[1]SBKV[85.57]C[As White:
 * Win rate: 14.43%
 * Win rate drop: 20.59%
 * Score lead: -3.31
@@ -2270,8 +2270,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 179, move 183
-* White bad moves: move 180, move 184, move 190]BM[1]HO[1]SBKV[85.57]
-;B[ig]C[As Black:
+* White bad moves: move 180, move 184, move 190]
+;B[ig]TE[1]SBKV[87.15]C[As Black:
 * Win rate: 87.15%
 * Win rate drop: -1.58%
 * Score lead: 3.41
@@ -2281,8 +2281,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 179, move 183
-* White bad moves: move 180, move 184, move 190]TE[1]SBKV[87.15]
-;W[ji]C[As White:
+* White bad moves: move 180, move 184, move 190]
+;W[ji]TE[1]SBKV[87.20]C[As White:
 * Win rate: 12.80%
 * Win rate drop: 0.05%
 * Score lead: -3.43
@@ -2292,8 +2292,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 179, move 183
-* White bad moves: move 180, move 184, move 190]TE[1]SBKV[87.20]
-(;B[gn]C[As Black:
+* White bad moves: move 180, move 184, move 190]
+(;B[gn]BM[1]SBKV[71.45]C[As Black:
 * Win rate: 71.45%
 * Win rate drop: 15.75%
 * Score lead: 2.18
@@ -2303,8 +2303,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 183
-* White bad moves: move 180, move 184, move 190]BM[1]SBKV[71.45]
-(;W[gm]C[As White:
+* White bad moves: move 180, move 184, move 190]
+(;W[gm]BM[1]SBKV[85.85]C[As White:
 * Win rate: 14.15%
 * Win rate drop: 14.40%
 * Score lead: -2.91
@@ -2314,8 +2314,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 183
-* White bad moves: move 184, move 190]BM[1]SBKV[85.85]
-;B[fo]C[As Black:
+* White bad moves: move 184, move 190]
+;B[fo]TE[1]SBKV[85.98]C[As Black:
 * Win rate: 85.98%
 * Win rate drop: -0.13%
 * Score lead: 3.20
@@ -2325,8 +2325,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 183
-* White bad moves: move 184, move 190]TE[1]SBKV[85.98]
-;W[hn]C[As White:
+* White bad moves: move 184, move 190]
+;W[hn]TE[1]SBKV[86.29]C[As White:
 * Win rate: 13.71%
 * Win rate drop: 0.31%
 * Score lead: -3.11
@@ -2336,8 +2336,8 @@ Bad moves left:
 Bad moves left:
 
 * Black bad moves: move 183
-* White bad moves: move 184, move 190]TE[1]SBKV[86.29]
-(;B[ki]C[As Black:
+* White bad moves: move 184, move 190]
+(;B[ki]BM[1]SBKV[72.45]C[As Black:
 * Win rate: 72.45%
 * Win rate drop: 13.84%
 * Score lead: 2.41
@@ -2346,8 +2346,8 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 184, move 190]BM[1]SBKV[72.45]
-(;W[jk]C[As White:
+* White bad moves: move 184, move 190]
+(;W[jk]BM[1]SBKV[92.08]C[As White:
 * Win rate: 7.92%
 * Win rate drop: 19.62%
 * Score lead: -2.95
@@ -2356,8 +2356,8 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 190]BM[1]SBKV[92.08]
-;B[aq]C[As Black:
+* White bad moves: move 190]
+;B[aq]TE[1]SBKV[92.53]C[As Black:
 * Win rate: 92.53%
 * Win rate drop: -0.45%
 * Score lead: 2.92
@@ -2366,8 +2366,8 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 190]TE[1]SBKV[92.53]
-;W[fp]C[As White:
+* White bad moves: move 190]
+;W[fp]TE[1]SBKV[93.99]C[As White:
 * Win rate: 6.01%
 * Win rate drop: 1.46%
 * Score lead: -4.05
@@ -2376,8 +2376,8 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 190]TE[1]SBKV[93.99]
-;B[gp]C[As Black:
+* White bad moves: move 190]
+;B[gp]TE[1]SBKV[93.38]C[As Black:
 * Win rate: 93.38%
 * Win rate drop: 0.62%
 * Score lead: 4.61
@@ -2386,8 +2386,8 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 190]TE[1]SBKV[93.38]
-;W[fn]C[As White:
+* White bad moves: move 190]
+;W[fn]TE[1]SBKV[94.21]C[As White:
 * Win rate: 5.79%
 * Win rate drop: 0.83%
 * Score lead: -4.01
@@ -2396,8 +2396,8 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 190]TE[1]SBKV[94.21]
-;B[fk]C[As Black:
+* White bad moves: move 190]
+;B[fk]SBKV[91.79]C[As Black:
 * Win rate: 91.79%
 * Win rate drop: 2.42%
 * Score lead: 3.48
@@ -2406,438 +2406,438 @@ Bad moves left:
 
 Bad moves left:
 
-* White bad moves: move 190]SBKV[91.79]
-(;W[dn]C[As White:
+* White bad moves: move 190]
+(;W[dn]BM[1]SBKV[98.55]C[As White:
 * Win rate: 1.45%
 * Win rate drop: 6.76%
 * Score lead: -3.48
 * Score drop: -0.01
 * Visits: 6415
 
-]BM[1]SBKV[98.55]
-;B[fe]C[As Black:
+]
+;B[fe]TE[1]SBKV[98.45]C[As Black:
 * Win rate: 98.45%
 * Win rate drop: 0.10%
 * Score lead: 3.68
 * Score drop: -0.20
 * Visits: 6415
 
-]TE[1]SBKV[98.45]
-;W[ee]C[As White:
+]
+;W[ee]TE[1]SBKV[98.48]C[As White:
 * Win rate: 1.52%
 * Win rate drop: 0.03%
 * Score lead: -3.62
 * Score drop: -0.05
 * Visits: 6415
 
-]TE[1]SBKV[98.48]
-;B[oo]C[As Black:
+]
+;B[oo]TE[1]SBKV[99.00]C[As Black:
 * Win rate: 99.00%
 * Win rate drop: -0.53%
 * Score lead: 3.75
 * Score drop: -0.13
 * Visits: 6415
 
-]TE[1]SBKV[99.00]
-;W[jh]C[As White:
+]
+;W[jh]TE[1]SBKV[98.94]C[As White:
 * Win rate: 1.06%
 * Win rate drop: -0.06%
 * Score lead: -3.99
 * Score drop: 0.24
 * Visits: 6415
 
-]TE[1]SBKV[98.94]
-;B[kh]C[As Black:
+]
+;B[kh]TE[1]SBKV[99.13]C[As Black:
 * Win rate: 99.13%
 * Win rate drop: -0.19%
 * Score lead: 4.31
 * Score drop: -0.32
 * Visits: 6415
 
-]TE[1]SBKV[99.13]
-;W[kj]C[As White:
+]
+;W[kj]TE[1]SBKV[99.01]C[As White:
 * Win rate: 0.99%
 * Win rate drop: -0.12%
 * Score lead: -4.00
 * Score drop: -0.32
 * Visits: 6415
 
-]TE[1]SBKV[99.01]
-;B[kg]C[As Black:
+]
+;B[kg]TE[1]SBKV[99.07]C[As Black:
 * Win rate: 99.07%
 * Win rate drop: -0.06%
 * Score lead: 4.09
 * Score drop: -0.09
 * Visits: 6415
 
-]TE[1]SBKV[99.07]
-;W[mg]C[As White:
+]
+;W[mg]TE[1]SBKV[99.15]C[As White:
 * Win rate: 0.85%
 * Win rate drop: 0.09%
 * Score lead: -3.96
 * Score drop: -0.13
 * Visits: 6415
 
-]TE[1]SBKV[99.15]
-;B[ng]C[As Black:
+]
+;B[ng]TE[1]SBKV[99.18]C[As Black:
 * Win rate: 99.18%
 * Win rate drop: -0.03%
 * Score lead: 3.96
 * Score drop: -0.00
 * Visits: 6415
 
-]TE[1]SBKV[99.18]
-;W[sp]C[As White:
+]
+;W[sp]TE[1]SBKV[99.18]C[As White:
 * Win rate: 0.82%
 * Win rate drop: 0.00%
 * Score lead: -3.69
 * Score drop: -0.27
 * Visits: 6415
 
-]TE[1]SBKV[99.18]
-;B[so]C[As Black:
+]
+;B[so]TE[1]SBKV[99.18]C[As Black:
 * Win rate: 99.18%
 * Win rate drop: 0.01%
 * Score lead: 4.03
 * Score drop: -0.34
 * Visits: 6415
 
-]TE[1]SBKV[99.18]
-;W[mo]C[As White:
+]
+;W[mo]TE[1]SBKV[99.15]C[As White:
 * Win rate: 0.85%
 * Win rate drop: -0.03%
 * Score lead: -4.02
 * Score drop: -0.01
 * Visits: 6415
 
-]TE[1]SBKV[99.15]
-;B[mp]C[As Black:
+]
+;B[mp]TE[1]SBKV[99.23]C[As Black:
 * Win rate: 99.23%
 * Win rate drop: -0.08%
 * Score lead: 4.03
 * Score drop: -0.01
 * Visits: 6415
 
-]TE[1]SBKV[99.23]
-;W[mm]C[As White:
+]
+;W[mm]TE[1]SBKV[99.28]C[As White:
 * Win rate: 0.72%
 * Win rate drop: 0.06%
 * Score lead: -3.89
 * Score drop: -0.14
 * Visits: 6415
 
-]TE[1]SBKV[99.28]
-;B[nl]C[As Black:
+]
+;B[nl]TE[1]SBKV[99.32]C[As Black:
 * Win rate: 99.32%
 * Win rate drop: -0.04%
 * Score lead: 3.92
 * Score drop: -0.02
 * Visits: 6415
 
-]TE[1]SBKV[99.32]
-;W[pm]C[As White:
+]
+;W[pm]TE[1]SBKV[99.41]C[As White:
 * Win rate: 0.59%
 * Win rate drop: 0.09%
 * Score lead: -3.80
 * Score drop: -0.12
 * Visits: 6415
 
-]TE[1]SBKV[99.41]
-;B[pl]C[As Black:
+]
+;B[pl]TE[1]SBKV[99.45]C[As Black:
 * Win rate: 99.45%
 * Win rate drop: -0.04%
 * Score lead: 3.79
 * Score drop: 0.01
 * Visits: 6415
 
-]TE[1]SBKV[99.45])(;W[mo]C[As White:
+])(;W[mo]TE[1]SBKV[91.08];B[mp];W[oo];B[eo];W[do];B[en];W[dn];B[mr];W[mg];B[ng];W[np];B[oq];W[jh];B[kh];W[kj];B[kg]C[As White:
 * Win rate: 8.92%
 * Win rate drop: -0.71%
 * Score lead: -3.42
 * Score drop: -0.06
-* Visits: 3782]TE[1]SBKV[91.08];B[mp];W[oo];B[eo];W[do];B[en];W[dn];B[mr];W[mg];B[ng];W[np];B[oq];W[jh];B[kh];W[kj];B[kg])(;W[oo]C[As White:
+* Visits: 3782])(;W[oo]TE[1]SBKV[92.19];B[eo];W[do];B[en];W[dn];B[np];W[mo];B[lq];W[mg];B[ng];W[jh];B[kh];W[kj];B[kg];W[fe];B[os]C[As White:
 * Win rate: 7.81%
 * Win rate drop: 0.40%
 * Score lead: -3.54
 * Score drop: 0.05
-* Visits: 1286]TE[1]SBKV[92.19];B[eo];W[do];B[en];W[dn];B[np];W[mo];B[lq];W[mg];B[ng];W[jh];B[kh];W[kj];B[kg];W[fe];B[os])(;W[jq]C[As White:
+* Visits: 1286])(;W[jq]TE[1]SBKV[91.26];B[ir];W[mo];B[mp];W[oo];B[eo];W[do];B[en];W[dn];B[mr];W[np];B[oq];W[mg];B[ng];W[jh];B[kh]C[As White:
 * Win rate: 8.74%
 * Win rate drop: -0.52%
 * Score lead: -3.62
 * Score drop: 0.13
-* Visits: 747]TE[1]SBKV[91.26];B[ir];W[mo];B[mp];W[oo];B[eo];W[do];B[en];W[dn];B[mr];W[np];B[oq];W[mg];B[ng];W[jh];B[kh])(;W[eo]C[As White:
+* Visits: 747])(;W[eo]TE[1]SBKV[92.22];B[oo]C[As White:
 * Win rate: 7.78%
 * Win rate drop: 0.44%
 * Score lead: -3.30
 * Score drop: -0.19
-* Visits: 2]TE[1]SBKV[92.22];B[oo]))(;W[fp]C[As White:
+* Visits: 2]))(;W[fp]TE[1]SBKV[72.13];B[jk];W[oo];B[fn];W[gq];B[fr];W[jq];B[hq];W[np];B[oq];W[mq];B[mr];W[lq];B[kq]C[As White:
 * Win rate: 27.87%
 * Win rate drop: -0.33%
 * Score lead: -2.40
 * Score drop: -0.01
-* Visits: 6068]TE[1]SBKV[72.13];B[jk];W[oo];B[fn];W[gq];B[fr];W[jq];B[hq];W[np];B[oq];W[mq];B[mr];W[lq];B[kq])(;W[cl]C[As White:
+* Visits: 6068])(;W[cl]TE[1]SBKV[72.83];B[dk];W[fp];B[jk];W[gi];B[fi];W[fk];B[gh];W[mg];B[ng];W[gi];B[fn];W[gq]C[As White:
 * Win rate: 27.17%
 * Win rate drop: 0.37%
 * Score lead: -2.31
 * Score drop: -0.10
-* Visits: 46]TE[1]SBKV[72.83];B[dk];W[fp];B[jk];W[gi];B[fi];W[fk];B[gh];W[mg];B[ng];W[gi];B[fn];W[gq])(;W[kj]C[As White:
+* Visits: 46])(;W[kj]TE[1]SBKV[69.41];B[jh];W[jk]C[As White:
 * Win rate: 30.59%
 * Win rate drop: -3.05%
 * Score lead: -1.98
 * Score drop: -0.43
-* Visits: 3]TE[1]SBKV[69.41];B[jh];W[jk]))(;B[aq]C[As Black:
+* Visits: 3]))(;B[aq]TE[1]SBKV[86.49];W[fp];B[gp];W[dn];B[eo];W[do];B[gi];W[oo];B[np];W[mo];B[mp];W[mr];B[os];W[hq];B[gq];W[jq]C[As Black:
 * Win rate: 86.49%
 * Win rate drop: -0.20%
 * Score lead: 3.13
 * Score drop: -0.01
-* Visits: 6300]TE[1]SBKV[86.49];W[fp];B[gp];W[dn];B[eo];W[do];B[gi];W[oo];B[np];W[mo];B[mp];W[mr];B[os];W[hq];B[gq];W[jq]))(;W[hq]C[As White:
+* Visits: 6300]))(;W[hq]TE[1]SBKV[68.61];B[aq];W[oo];B[np];W[mo];B[mp];W[hr];B[ir];W[gs];B[jk];W[kr];B[lr];W[kj];B[im];W[jl];B[gm]C[As White:
 * Win rate: 31.39%
 * Win rate drop: -2.84%
 * Score lead: -2.17
 * Score drop: -0.01
-* Visits: 1820]TE[1]SBKV[68.61];B[aq];W[oo];B[np];W[mo];B[mp];W[hr];B[ir];W[gs];B[jk];W[kr];B[lr];W[kj];B[im];W[jl];B[gm])(;W[oo]C[As White:
+* Visits: 1820])(;W[oo]TE[1]SBKV[71.79];B[np];W[hq];B[gp];W[gm];B[fn];W[mo];B[mp];W[hn];B[aq];W[fo];B[gi];W[jq];B[ir];W[jr];B[gq]C[As White:
 * Win rate: 28.21%
 * Win rate drop: 0.35%
 * Score lead: -2.17
 * Score drop: -0.01
-* Visits: 3409]TE[1]SBKV[71.79];B[np];W[hq];B[gp];W[gm];B[fn];W[mo];B[mp];W[hn];B[aq];W[fo];B[gi];W[jq];B[ir];W[jr];B[gq]))(;B[aq]C[As Black:
+* Visits: 3409]))(;B[aq]TE[1]SBKV[87.62];W[mo];B[mp];W[oo];B[np];W[hq];B[gp];W[gm];B[gi];W[jq];B[ir];W[jr];B[gq];W[op];B[oq];W[lr]C[As Black:
 * Win rate: 87.62%
 * Win rate drop: -0.42%
 * Score lead: 3.48
 * Score drop: -0.05
-* Visits: 5926]TE[1]SBKV[87.62];W[mo];B[mp];W[oo];B[np];W[hq];B[gp];W[gm];B[gi];W[jq];B[ir];W[jr];B[gq];W[op];B[oq];W[lr]))(;W[oo]C[As White:
+* Visits: 5926]))(;W[oo]TE[1]SBKV[64.39];B[np];W[mo];B[mp];W[hq];B[aq];W[hr];B[ir];W[gp];B[ji];W[is];B[js];W[hs];B[kr];W[jk];B[gm]C[As White:
 * Win rate: 35.61%
 * Win rate drop: -0.59%
 * Score lead: -1.34
 * Score drop: -0.04
-* Visits: 5965]TE[1]SBKV[64.39];B[np];W[mo];B[mp];W[hq];B[aq];W[hr];B[ir];W[gp];B[ji];W[is];B[js];W[hs];B[kr];W[jk];B[gm]))(;W[cl]C[As White:
+* Visits: 5965]))(;W[cl]TE[1]SBKV[10.83];B[mb];W[ma];B[dm];W[dk];B[fk];W[gl];B[ck];W[ig];B[fi];W[ji];B[jh];W[ki];B[aq]C[As White:
 * Win rate: 89.17%
 * Win rate drop: -0.24%
 * Score lead: 5.71
 * Score drop: -0.06
-* Visits: 6261]TE[1]SBKV[10.83];B[mb];W[ma];B[dm];W[dk];B[fk];W[gl];B[ck];W[ig];B[fi];W[ji];B[jh];W[ki];B[aq]))(;B[fk]C[As Black:
+* Visits: 6261]))(;B[fk]TE[1]SBKV[29.03];W[em];B[gl];W[hl];B[en];W[gm];B[dm];W[fn];B[ki];W[ig];B[lh];W[jg];B[kh];W[jk];B[aq];W[oo]C[As Black:
 * Win rate: 29.03%
 * Win rate drop: -0.48%
 * Score lead: -0.62
 * Score drop: -0.10
-* Visits: 5812]TE[1]SBKV[29.03];W[em];B[gl];W[hl];B[en];W[gm];B[dm];W[fn];B[ki];W[ig];B[lh];W[jg];B[kh];W[jk];B[aq];W[oo]))(;W[ji]C[As White:
+* Visits: 5812]))(;W[ji]TE[1]SBKV[13.07];B[el];W[cl];B[jh];W[ki];B[gl];W[fk];B[hl];W[ik];B[jl];W[jk];B[en];W[gm];B[il];W[kj];B[gn]C[As White:
 * Win rate: 86.93%
 * Win rate drop: -1.08%
 * Score lead: 6.04
 * Score drop: -0.71
-* Visits: 4791]TE[1]SBKV[13.07];B[el];W[cl];B[jh];W[ki];B[gl];W[fk];B[hl];W[ik];B[jl];W[jk];B[en];W[gm];B[il];W[kj];B[gn]))(;W[ig]C[As White:
+* Visits: 4791]))(;W[ig]TE[1]SBKV[12.43];B[jh];W[gd];B[aq];W[oo];B[np];W[cl];B[el];W[dk];B[fi];W[fk];B[ej];W[hq];B[hr];W[em];B[dm]C[As White:
 * Win rate: 87.57%
 * Win rate drop: -0.37%
 * Score lead: 2.91
 * Score drop: -0.06
-* Visits: 6068]TE[1]SBKV[12.43];B[jh];W[gd];B[aq];W[oo];B[np];W[cl];B[el];W[dk];B[fi];W[fk];B[ej];W[hq];B[hr];W[em];B[dm]))(;B[jj]C[As Black:
+* Visits: 6068]))(;B[jj]TE[1]SBKV[19.21];W[jk];B[el];W[cl];B[ge];W[gd];B[aq];W[oo];B[fm];W[np];B[mp];W[op];B[oq];W[hq];B[hr];W[os]C[As Black:
 * Win rate: 19.21%
 * Win rate drop: -0.63%
 * Score lead: -1.64
 * Score drop: -0.06
-* Visits: 5684]TE[1]SBKV[19.21];W[jk];B[el];W[cl];B[ge];W[gd];B[aq];W[oo];B[fm];W[np];B[mp];W[op];B[oq];W[hq];B[hr];W[os]))(;B[aq]C[As Black:
+* Visits: 5684]))(;B[aq]TE[1]SBKV[35.41];W[fh];B[el];W[cl];B[fm];W[ig];B[dn];W[fp];B[fn];W[gq];B[fr];W[gi];B[jh];W[dm];B[em];W[cm]C[As Black:
 * Win rate: 35.41%
 * Win rate drop: -0.43%
 * Score lead: -0.74
 * Score drop: 0.01
-* Visits: 6101]TE[1]SBKV[35.41];W[fh];B[el];W[cl];B[fm];W[ig];B[dn];W[fp];B[fn];W[gq];B[fr];W[gi];B[jh];W[dm];B[em];W[cm]))(;W[hq]C[As White:
+* Visits: 6101]))(;W[hq]TE[1]SBKV[15.09];B[gp];W[mr];B[jq];W[so];B[he];W[hd];B[fl];W[os];B[ns];W[nr];B[ps];W[eq];B[er];W[os];B[gd]C[As White:
 * Win rate: 84.91%
 * Win rate drop: -0.64%
 * Score lead: 1.55
 * Score drop: -0.05
-* Visits: 5898]TE[1]SBKV[15.09];B[gp];W[mr];B[jq];W[so];B[he];W[hd];B[fl];W[os];B[ns];W[nr];B[ps];W[eq];B[er];W[os];B[gd]))(;W[gi]C[As White:
+* Visits: 5898]))(;W[gi]TE[1]SBKV[9.52];B[fi];W[fk];B[fl];W[em];B[gh];W[ih];B[ii];W[jh];B[ji];W[kh];B[hg];W[gf];B[il];W[gm];B[gl]C[As White:
 * Win rate: 90.48%
 * Win rate drop: -0.51%
 * Score lead: 54.96
 * Score drop: -0.72
-* Visits: 6008]TE[1]SBKV[9.52];B[fi];W[fk];B[fl];W[em];B[gh];W[ih];B[ii];W[jh];B[ji];W[kh];B[hg];W[gf];B[il];W[gm];B[gl]))(;B[bb]C[As Black:
+* Visits: 6008]))(;B[bb]TE[1]SBKV[35.62];W[ca];B[ii];W[gi];B[ih];W[hq];B[hr];W[gf];B[cl];W[el];B[fi];W[fl];B[dm];W[gh];B[fk];W[ig]C[As Black:
 * Win rate: 35.62%
 * Win rate drop: -0.40%
 * Score lead: -1.46
 * Score drop: -1.00
-* Visits: 5536]TE[1]SBKV[35.62];W[ca];B[ii];W[gi];B[ih];W[hq];B[hr];W[gf];B[cl];W[el];B[fi];W[fl];B[dm];W[gh];B[fk];W[ig])(;B[gi]C[As Black:
+* Visits: 5536])(;B[gi]TE[1]SBKV[33.28];W[af];B[ag];W[bb];B[ii];W[so];B[jc];W[sm];B[rl];W[cr];B[dr];W[ar]C[As Black:
 * Win rate: 33.28%
 * Win rate drop: 1.94%
 * Score lead: -4.41
 * Score drop: 1.95
-* Visits: 241]TE[1]SBKV[33.28];W[af];B[ag];W[bb];B[ii];W[so];B[jc];W[sm];B[rl];W[cr];B[dr];W[ar]))(;W[ie]C[As White:
+* Visits: 241]))(;W[ie]TE[1]SBKV[25.93];B[je];W[jd];B[he];W[if];B[hf];W[ig];B[hg];W[hd];B[gh];W[gf];B[ih];W[jg];B[ge];W[kg];B[gd]C[As White:
 * Win rate: 74.07%
 * Win rate drop: -0.43%
 * Score lead: 0.64
 * Score drop: -0.01
-* Visits: 6149]TE[1]SBKV[25.93];B[je];W[jd];B[he];W[if];B[hf];W[ig];B[hg];W[hd];B[gh];W[gf];B[ih];W[jg];B[ge];W[kg];B[gd]))(;B[ie]C[As Black:
+* Visits: 6149]))(;B[ie]TE[1]SBKV[32.41];W[id];B[ij];W[hq];B[hr];W[hi];B[ii];W[hh];B[jh];W[cl];B[jl];W[hl];B[fh];W[gj];B[dk]C[As Black:
 * Win rate: 32.41%
 * Win rate drop: -0.30%
 * Score lead: -0.47
 * Score drop: 0.03
-* Visits: 4036]TE[1]SBKV[32.41];W[id];B[ij];W[hq];B[hr];W[hi];B[ii];W[hh];B[jh];W[cl];B[jl];W[hl];B[fh];W[gj];B[dk])(;B[bp]C[As Black:
+* Visits: 4036])(;B[bp]TE[1]SBKV[33.37];W[bo];B[ie];W[id];B[he];W[hd];B[ij];W[hq];B[hr];W[mo];B[mp];W[oo];B[np];W[jq];B[ir];W[mr]C[As Black:
 * Win rate: 33.37%
 * Win rate drop: -1.26%
 * Score lead: -0.28
 * Score drop: -0.15
-* Visits: 564]TE[1]SBKV[33.37];W[bo];B[ie];W[id];B[he];W[hd];B[ij];W[hq];B[hr];W[mo];B[mp];W[oo];B[np];W[jq];B[ir];W[mr])(;B[hi]C[As Black:
+* Visits: 564])(;B[hi]TE[1]SBKV[32.60];W[hq];B[gp];W[mr];B[nr];W[jq];B[ir];W[jr];B[gq]C[As Black:
 * Win rate: 32.60%
 * Win rate drop: -0.49%
 * Score lead: -0.34
 * Score drop: -0.09
-* Visits: 542]TE[1]SBKV[32.60];W[hq];B[gp];W[mr];B[nr];W[jq];B[ir];W[jr];B[gq])(;B[he]C[As Black:
+* Visits: 542])(;B[he]TE[1]SBKV[31.35];W[ie];B[hf];W[id];B[hi];W[hj];B[ii];W[ij];B[sn];W[fl];B[ji];W[if];B[hg]C[As Black:
 * Win rate: 31.35%
 * Win rate drop: 0.75%
 * Score lead: -0.33
 * Score drop: -0.10
-* Visits: 342]TE[1]SBKV[31.35];W[ie];B[hf];W[id];B[hi];W[hj];B[ii];W[ij];B[sn];W[fl];B[ji];W[if];B[hg])(;B[hf]C[As Black:
+* Visits: 342])(;B[hf]TE[1]SBKV[30.59];W[ie];B[he];W[id];B[hi];W[hj];B[ii];W[ij];B[sn];W[fl];B[ji];W[if];B[hg];W[fh]C[As Black:
 * Win rate: 30.59%
 * Win rate drop: 1.52%
 * Score lead: -0.36
 * Score drop: -0.08
-* Visits: 251]TE[1]SBKV[30.59];W[ie];B[he];W[id];B[hi];W[hj];B[ii];W[ij];B[sn];W[fl];B[ji];W[if];B[hg];W[fh])(;B[ji]C[As Black:
+* Visits: 251])(;B[ji]TE[1]SBKV[31.85];W[oo];B[ie];W[id];B[np];W[ij];B[he];W[hd];B[sn];W[cl];B[gj]C[As Black:
 * Win rate: 31.85%
 * Win rate drop: 0.26%
 * Score lead: -0.39
 * Score drop: -0.04
-* Visits: 154]TE[1]SBKV[31.85];W[oo];B[ie];W[id];B[np];W[ij];B[he];W[hd];B[sn];W[cl];B[gj])(;B[hj]C[As Black:
+* Visits: 154])(;B[hj]TE[1]SBKV[30.13];W[gj];B[gi];W[hi];B[ie];W[id];B[ii];W[hh];B[ik];W[gh];B[jh];W[fi]C[As Black:
 * Win rate: 30.13%
 * Win rate drop: 1.97%
 * Score lead: -0.56
 * Score drop: 0.13
-* Visits: 114]TE[1]SBKV[30.13];W[gj];B[gi];W[hi];B[ie];W[id];B[ii];W[hh];B[ik];W[gh];B[jh];W[fi])(;B[gl]C[As Black:
+* Visits: 114])(;B[gl]TE[1]SBKV[30.32];W[hl];B[ie];W[id];B[fl];W[so];B[bp];W[bo]C[As Black:
 * Win rate: 30.32%
 * Win rate drop: 1.78%
 * Score lead: -0.39
 * Score drop: -0.05
-* Visits: 29]TE[1]SBKV[30.32];W[hl];B[ie];W[id];B[fl];W[so];B[bp];W[bo]))(;B[lk]C[As Black:
+* Visits: 29]))(;B[lk]TE[1]SBKV[37.83];W[kk];B[mk];W[hq];B[hr];W[kj];B[kl];W[mo];B[mp];W[lm];B[li];W[ki];B[kh];W[jh];B[br];W[kg]C[As Black:
 * Win rate: 37.83%
 * Win rate drop: -0.76%
 * Score lead: -0.14
 * Score drop: -0.05
-* Visits: 4791]TE[1]SBKV[37.83];W[kk];B[mk];W[hq];B[hr];W[kj];B[kl];W[mo];B[mp];W[lm];B[li];W[ki];B[kh];W[jh];B[br];W[kg])(;B[li]C[As Black:
+* Visits: 4791])(;B[li]TE[1]SBKV[35.40];W[mk];B[nk];W[lk];B[ki];W[sd];B[se];W[sc];B[re];W[eq];B[er];W[br];B[he];W[id];B[ie];W[hd]C[As Black:
 * Win rate: 35.40%
 * Win rate drop: 1.67%
 * Score lead: -0.25
 * Score drop: 0.05
-* Visits: 739]TE[1]SBKV[35.40];W[mk];B[nk];W[lk];B[ki];W[sd];B[se];W[sc];B[re];W[eq];B[er];W[br];B[he];W[id];B[ie];W[hd]))(;W[hq]C[As White:
+* Visits: 739]))(;W[hq]TE[1]SBKV[26.96];B[hr];W[mi];B[lk];W[kk];B[mk];W[kj];B[kl];W[lm];B[li];W[kh];B[mh];W[ki];B[lh];W[mg];B[nh]C[As White:
 * Win rate: 73.04%
 * Win rate drop: -1.14%
 * Score lead: 0.87
 * Score drop: -0.08
-* Visits: 5232]TE[1]SBKV[26.96];B[hr];W[mi];B[lk];W[kk];B[mk];W[kj];B[kl];W[lm];B[li];W[kh];B[mh];W[ki];B[lh];W[mg];B[nh]))(;W[hq]C[As White:
+* Visits: 5232]))(;W[hq]TE[1]SBKV[16.89];B[hr];W[li];B[lk];W[kk];B[mk];W[kf];B[ke];W[je];B[kg];W[if];B[lf];W[ig];B[kl];W[sd];B[se]C[As White:
 * Win rate: 83.11%
 * Win rate drop: -0.77%
 * Score lead: 2.22
 * Score drop: -0.09
-* Visits: 5487]TE[1]SBKV[16.89];B[hr];W[li];B[lk];W[kk];B[mk];W[kf];B[ke];W[je];B[kg];W[if];B[lf];W[ig];B[kl];W[sd];B[se]))(;W[hq]C[As White:
+* Visits: 5487]))(;W[hq]TE[1]SBKV[11.07];B[hr];W[ke];B[li];W[lk];B[kf];W[jf];B[kg];W[ki];B[sc];W[sb];B[sd];W[mk];B[mi];W[nk];B[oj]C[As White:
 * Win rate: 88.93%
 * Win rate drop: -0.75%
 * Score lead: 2.42
 * Score drop: -0.10
-* Visits: 5563]TE[1]SBKV[11.07];B[hr];W[ke];B[li];W[lk];B[kf];W[jf];B[kg];W[ki];B[sc];W[sb];B[sd];W[mk];B[mi];W[nk];B[oj]))(;B[pr]C[As Black:
+* Visits: 5563]))(;B[pr]TE[1]SBKV[31.95];W[so];B[rd];W[mi];B[lk];W[pl];B[kj];W[li];B[kl];W[pm];B[qk];W[nj];B[ok];W[ki];B[dn];W[pk]C[As Black:
 * Win rate: 31.95%
 * Win rate drop: -0.30%
 * Score lead: -0.93
 * Score drop: -0.01
-* Visits: 6135]TE[1]SBKV[31.95];W[so];B[rd];W[mi];B[lk];W[pl];B[kj];W[li];B[kl];W[pm];B[qk];W[nj];B[ok];W[ki];B[dn];W[pk]))(;W[pr]C[As White:
+* Visits: 6135]))(;W[pr]TE[1]SBKV[24.25];B[or];W[qs];B[rc];W[rb];B[lk];W[hq];B[ir];W[kk];B[mk];W[ke];B[kf];W[jf];B[kg];W[kl];B[kj]C[As White:
 * Win rate: 75.75%
 * Win rate drop: -0.47%
 * Score lead: 1.16
 * Score drop: -0.03
-* Visits: 6073]TE[1]SBKV[24.25];B[or];W[qs];B[rc];W[rb];B[lk];W[hq];B[ir];W[kk];B[mk];W[ke];B[kf];W[jf];B[kg];W[kl];B[kj]))(;W[pr]C[As White:
+* Visits: 6073]))(;W[pr]TE[1]SBKV[18.94];B[rc];W[hq];B[ir];W[rb];B[or];W[qs];B[li];W[rd];B[re];W[sc];B[lk];W[ke];B[gg];W[ne];B[nd]C[As White:
 * Win rate: 81.06%
 * Win rate drop: -0.50%
 * Score lead: 1.83
 * Score drop: -0.04
-* Visits: 6093]TE[1]SBKV[18.94];B[rc];W[hq];B[ir];W[rb];B[or];W[qs];B[li];W[rd];B[re];W[sc];B[lk];W[ke];B[gg];W[ne];B[nd]))(;B[lk]C[As Black:
+* Visits: 6093]))(;B[lk]TE[1]SBKV[38.44];W[mk];B[kk];W[nl];B[mj];W[nk];B[nj];W[ok];B[oj];W[pk];B[qk];W[jf];B[rc];W[rb];B[jg];W[kg]C[As Black:
 * Win rate: 38.44%
 * Win rate drop: -0.66%
 * Score lead: -0.32
 * Score drop: -0.05
-* Visits: 5635]TE[1]SBKV[38.44];W[mk];B[kk];W[nl];B[mj];W[nk];B[nj];W[ok];B[oj];W[pk];B[qk];W[jf];B[rc];W[rb];B[jg];W[kg]))(;W[lg]C[As White:
+* Visits: 5635]))(;W[lg]TE[1]SBKV[28.46];B[dn];W[ll];B[lk];W[kk];B[mk];W[kj];B[pr];W[so];B[cm];W[bm];B[co];W[bn];B[bp];W[bo];B[bq]C[As White:
 * Win rate: 71.54%
 * Win rate drop: -0.61%
 * Score lead: 1.33
 * Score drop: 0.01
-* Visits: 2606]TE[1]SBKV[28.46];B[dn];W[ll];B[lk];W[kk];B[mk];W[kj];B[pr];W[so];B[cm];W[bm];B[co];W[bn];B[bp];W[bo];B[bq])(;W[pr]C[As White:
+* Visits: 2606])(;W[pr]TE[1]SBKV[28.43];B[or];W[qs];B[kk];W[kj];B[jk];W[lg];B[dn];W[fp];B[cm];W[bm];B[co];W[bn]C[As White:
 * Win rate: 71.57%
 * Win rate drop: -0.64%
 * Score lead: 1.59
 * Score drop: -0.26
-* Visits: 1043]TE[1]SBKV[28.43];B[or];W[qs];B[kk];W[kj];B[jk];W[lg];B[dn];W[fp];B[cm];W[bm];B[co];W[bn])(;W[nj]C[As White:
+* Visits: 1043])(;W[nj]TE[1]SBKV[29.09];B[kk];W[kj];B[dn];W[fp];B[cm];W[bm];B[co];W[bn];B[bp];W[bo];B[bq];W[do];B[pr]C[As White:
 * Win rate: 70.91%
 * Win rate drop: 0.02%
 * Score lead: 1.43
 * Score drop: -0.10
-* Visits: 1087]TE[1]SBKV[29.09];B[kk];W[kj];B[dn];W[fp];B[cm];W[bm];B[co];W[bn];B[bp];W[bo];B[bq];W[do];B[pr])(;W[oc]C[As White:
+* Visits: 1087])(;W[oc]TE[1]SBKV[28.61];B[nd];W[pr];B[or];W[qs];B[kk];W[kj];B[jk];W[lg];B[km];W[oi];B[pi];W[oh];B[mg];W[mh]C[As White:
 * Win rate: 71.39%
 * Win rate drop: -0.46%
 * Score lead: 1.30
 * Score drop: 0.04
-* Visits: 575]TE[1]SBKV[28.61];B[nd];W[pr];B[or];W[qs];B[kk];W[kj];B[jk];W[lg];B[km];W[oi];B[pi];W[oh];B[mg];W[mh])(;W[ni]C[As White:
+* Visits: 575])(;W[ni]TE[1]SBKV[30.65];B[oh];W[pr];B[or];W[qs];B[kl];W[hq];B[nq];W[hr];B[ir]C[As White:
 * Win rate: 69.35%
 * Win rate drop: 1.58%
 * Score lead: 1.13
 * Score drop: 0.20
-* Visits: 209]TE[1]SBKV[30.65];B[oh];W[pr];B[or];W[qs];B[kl];W[hq];B[nq];W[hr];B[ir])(;W[mh]C[As White:
+* Visits: 209])(;W[mh]TE[1]SBKV[30.76];B[oh];W[pr];B[or];W[qs];B[kk];W[kj];B[km];W[jk];B[kn];W[ll]C[As White:
 * Win rate: 69.24%
 * Win rate drop: 1.69%
 * Score lead: 1.05
 * Score drop: 0.28
-* Visits: 139]TE[1]SBKV[30.76];B[oh];W[pr];B[or];W[qs];B[kk];W[kj];B[km];W[jk];B[kn];W[ll])(;W[rc]C[As White:
+* Visits: 139])(;W[rc]TE[1]SBKV[28.62];B[rd];W[nj];B[mk];W[mj];B[kk];W[pi];B[qi];W[oj]C[As White:
 * Win rate: 71.38%
 * Win rate drop: -0.45%
 * Score lead: 1.33
 * Score drop: 0.00
-* Visits: 133]TE[1]SBKV[28.62];B[rd];W[nj];B[mk];W[mj];B[kk];W[pi];B[qi];W[oj])(;W[ai]C[As White:
+* Visits: 133])(;W[ai]TE[1]SBKV[30.49];B[bh];W[lg];B[nh];W[oc];B[nd]C[As White:
 * Win rate: 69.51%
 * Win rate drop: 1.42%
 * Score lead: 1.10
 * Score drop: 0.23
-* Visits: 38]TE[1]SBKV[30.49];B[bh];W[lg];B[nh];W[oc];B[nd])(;W[oj]C[As White:
+* Visits: 38])(;W[oj]TE[1]SBKV[30.46];B[oi];W[nj];B[pk]C[As White:
 * Win rate: 69.54%
 * Win rate drop: 1.39%
 * Score lead: 0.94
 * Score drop: 0.40
-* Visits: 7]TE[1]SBKV[30.46];B[oi];W[nj];B[pk]))(;W[pr]C[As White:
+* Visits: 7]))(;W[pr]TE[1]SBKV[19.31];B[or];W[qs];B[ml];W[hq];B[ir];W[oc];B[nd];W[rc];B[rd];W[jf];B[dn];W[bq];B[km];W[kn];B[br]C[As White:
 * Win rate: 80.69%
 * Win rate drop: -0.60%
 * Score lead: 2.37
 * Score drop: -0.08
-* Visits: 5650]TE[1]SBKV[19.31];B[or];W[qs];B[ml];W[hq];B[ir];W[oc];B[nd];W[rc];B[rd];W[jf];B[dn];W[bq];B[km];W[kn];B[br]))(;W[rd]C[As White:
+* Visits: 5650]))(;W[rd]TE[1]SBKV[15.17];B[re];W[rc];B[qf];W[ld];B[le];W[me];B[nd];W[kd];B[lf];W[mj];B[ml];W[ll];B[mk];W[lk];B[lj]C[As White:
 * Win rate: 84.83%
 * Win rate drop: -0.94%
 * Score lead: 2.65
 * Score drop: -0.09
-* Visits: 5013]TE[1]SBKV[15.17];B[re];W[rc];B[qf];W[ld];B[le];W[me];B[nd];W[kd];B[lf];W[mj];B[ml];W[ll];B[mk];W[lk];B[lj]))(;B[fe]C[As Black:
+* Visits: 5013]))(;B[fe]TE[1]SBKV[35.57];W[bc];B[ml];W[kl];B[md];W[ld];B[nc];W[lb];B[le];W[kd];B[rc];W[rb];B[rd];W[mg];B[ke];W[oh]C[As Black:
 * Win rate: 35.57%
 * Win rate drop: -0.44%
 * Score lead: -1.11
 * Score drop: -0.07
-* Visits: 5997]TE[1]SBKV[35.57];W[bc];B[ml];W[kl];B[md];W[ld];B[nc];W[lb];B[le];W[kd];B[rc];W[rb];B[rd];W[mg];B[ke];W[oh]))(;W[ec]C[As White:
+* Visits: 5997]))(;W[ec]TE[1]SBKV[28.35];B[bn];W[cm];B[df];W[bc];B[ce];W[cb];B[bp];W[fk];B[ml];W[pr];B[or];W[qs];B[md]C[As White:
 * Win rate: 71.65%
 * Win rate drop: -0.36%
 * Score lead: 1.94
 * Score drop: -0.04
-* Visits: 6066]TE[1]SBKV[28.35];B[bn];W[cm];B[df];W[bc];B[ce];W[cb];B[bp];W[fk];B[ml];W[pr];B[or];W[qs];B[md]))(;B[or]C[As Black:
+* Visits: 6066]))(;B[or]TE[1]SBKV[39.11];W[qs];B[lo];W[ln];B[kn];W[np];B[nq];W[pr];B[kq];W[nk];B[pj];W[jo];B[km];W[nl];B[im];W[in]C[As Black:
 * Win rate: 39.11%
 * Win rate drop: -0.24%
 * Score lead: -0.90
 * Score drop: -0.04
-* Visits: 2088]TE[1]SBKV[39.11];W[qs];B[lo];W[ln];B[kn];W[np];B[nq];W[pr];B[kq];W[nk];B[pj];W[jo];B[km];W[nl];B[im];W[in])(;B[lo]C[As Black:
+* Visits: 2088])(;B[lo]TE[1]SBKV[38.95];W[ln];B[or];W[qs];B[kn];W[np];B[nq];W[pr];B[kq];W[nk];B[pj];W[jo];B[km];W[nl];B[im];W[in]C[As Black:
 * Win rate: 38.95%
 * Win rate drop: -0.07%
 * Score lead: -0.93
 * Score drop: -0.00
-* Visits: 3724]TE[1]SBKV[38.95];W[ln];B[or];W[qs];B[kn];W[np];B[nq];W[pr];B[kq];W[nk];B[pj];W[jo];B[km];W[nl];B[im];W[in])(;B[no]C[As Black:
+* Visits: 3724])(;B[no]TE[1]SBKV[37.58];W[nn];B[lo];W[ln];B[kn];W[jo];B[km];W[nk];B[im];W[in];B[hm];W[kq];B[lq];W[kr]C[As Black:
 * Win rate: 37.58%
 * Win rate drop: 1.30%
 * Score lead: -1.10
 * Score drop: 0.16
-* Visits: 391]TE[1]SBKV[37.58];W[nn];B[lo];W[ln];B[kn];W[jo];B[km];W[nk];B[im];W[in];B[hm];W[kq];B[lq];W[kr])(;B[nc]C[As Black:
+* Visits: 391])(;B[nc]TE[1]SBKV[38.49];W[mb];B[lo];W[ln];B[no];W[nn];B[kn];W[jo];B[km];W[nk];B[im];W[in]C[As Black:
 * Win rate: 38.49%
 * Win rate drop: 0.38%
 * Score lead: -0.99
 * Score drop: 0.05
-* Visits: 75]TE[1]SBKV[38.49];W[mb];B[lo];W[ln];B[no];W[nn];B[kn];W[jo];B[km];W[nk];B[im];W[in])(;B[dd]C[As Black:
+* Visits: 75])(;B[dd]TE[1]SBKV[39.27];W[cd];B[ec];W[de];B[ed];W[db];B[lo];W[ln]C[As Black:
 * Win rate: 39.27%
 * Win rate drop: -0.40%
 * Score lead: -0.88
 * Score drop: -0.05
-* Visits: 31]TE[1]SBKV[39.27];W[cd];B[ec];W[de];B[ed];W[db];B[lo];W[ln]))
+* Visits: 31]))

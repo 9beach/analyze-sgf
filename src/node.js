@@ -26,7 +26,11 @@ class Node {
 
   get() {
     if (this.comment !== '')
-      return sgfconv.addComment(this.sequence, this.comment);
+      return sgfconv.addComment(
+        this.sequence,
+        this.comment,
+        this.sequence.length - 2,
+      );
     return this.sequence;
   }
 
