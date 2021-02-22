@@ -175,8 +175,8 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 The screenshot below shows the file opened in Sabaki.
 
-**Navigating the variations with Sabaki**
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
+**Navigating the variations with Sabaki**
 
 If the win rate drops by more than 5%, the node of the game tree turns to a
 red dot, if more than 20%, turns to a red ribbon, and if within 2%,
@@ -186,7 +186,7 @@ turns to a green dot. This criterion can be changed by specifying the
 
 The comment of each move contains information about win rate and score, as well as links to the moves with huge win rate drop, so you can quickly analyze your game.
 
-If you hover your mouse over a proposed variation in Sabaki, the sequence of the variation
+If you hover your mouse over a proposed variation in Sabaki, the sequence of the variation is
 automatically played as shown in the screenshot above.
 
 ## Options

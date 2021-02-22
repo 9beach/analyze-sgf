@@ -161,8 +161,8 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 아래의 스크린숏은 `신진서-렌샤오-analyzed.sgf` 파일을 사바키로 연 모습입니다.
 
-**사바키로 변화도를 탐색하는 모습**
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
+**사바키로 변화도를 탐색하는 모습**
 
 승률이 5% 이상 하락하면 빨간색 점으로, 20% 이상 하락하면 빨간색 리본으로, 2% 이내로 하락하면 초록색 점으로
 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
