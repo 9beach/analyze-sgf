@@ -106,8 +106,9 @@ function removeComment(sgf) {
   return sgf
     .replace(/\r\n/g, '')
     .replace(/\n/g, '')
-    .replace(/\bC\[[^\]]*\\\]/g, 'C[')
-    .replace(/\bC\[[^\]]*\]/g, '');
+    .replace(/\\\]/g, '@$$yy$$@')
+    .replace(/\bC\[[^\]]*\]/g, '')
+    .replace(/@$$yy$$@/g, '\\]');
 }
 
 // '(abc(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
@@ -137,14 +138,19 @@ function removeTails(sgf) {
   return reduced;
 }
 
+function regexIndexOf(string, regex, start) {
+  const indexOf = string.substring(start || 0).search(regex);
+  return indexOf >= 0 ? indexOf + (start || 0) : indexOf;
+}
+
 // ('(;W[aa];B[bb];W[cc])', 'XX', 0) => '(;W[aa]XX;B[bb];W[cc])'
 // ('(;W[aa];B[bb];W[cc])', 'XX', 7) => '(;W[aa];B[bb]XX;W[cc])'
 function addProperty(sequence, mark, index) {
-  const start = sequence.indexOf(']', index);
+  const start = regexIndexOf(sequence, /[^\\]\]/, Math.max(0, index - 1));
 
   if (start !== -1) {
     return (
-      sequence.substring(0, start + 1) + mark + sequence.substring(start + 1)
+      sequence.substring(0, start + 2) + mark + sequence.substring(start + 2)
     );
   }
 
@@ -165,7 +171,7 @@ function rootsequenceFromSGF(sgf) {
   }
 
   // Root node may have ';', so start from 2.
-  let start = tailless.search(/;[BW]\[/, 2);
+  let start = regexIndexOf(tailless, /;[BW]\[/, 2);
 
   if (start === -1) {
     start = tailless.length - 1;

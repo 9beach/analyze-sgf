@@ -48,7 +48,7 @@ describe('GameTree', () => {
     compareButLines(gametree.get(), '(PL[];B[aa]C[Move #1];W[bb]C[Move #2])');
   });
 
-  it('should be expected values for "test/examples/t-*".', () => {
+  it('should be expected values for "examples/t-*".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;
     sgfopts.minWinrateDropForBadMove = 5;
@@ -96,7 +96,7 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be expected values for "test/examples/t-lian-vs-shin.json".', () => {
+  it('should be expected values for "examples/t-lian-vs-shin.json".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;
     sgfopts.minWinrateDropForBadMove = 5;

@@ -41,14 +41,14 @@ describe('valueFromSequence', () => {
     assert.equal(sgfconv.valueFromSequence('ZZ', value), '');
     assert.equal(sgfconv.valueFromSequence('AA', value), '44');
   });
-  it('should be expected values for "test/examples/t-sabaki-1.sgf".', () => {
+  it('should be expected values for "examples/t-sabaki-1.sgf".', () => {
     const result = fs.readFileSync('test/examples/t-sabaki-1.sgf');
     const sequence = sgfconv.removeTails(result.toString());
     assert.equal(sgfconv.valueFromSequence('AP', sequence), 'Sabaki:0.51.1');
     assert.equal(sgfconv.valueFromSequence('KM', sequence), '6.5');
     assert.equal(sgfconv.valueFromSequence('GM', sequence), '1');
   });
-  it('should be expected values for "test/examples/t-encoding-cp949.sgf".', () => {
+  it('should be expected values for "examples/t-encoding-cp949.sgf".', () => {
     const content = fs.readFileSync('test/examples/t-encoding-cp949.sgf');
     const detected = jschardet.detect(content);
     const sgf = iconv.decode(content, detected.encoding).toString();
@@ -82,9 +82,8 @@ describe('toGoodNode/toBadNode/toBadHotSpot', () => {
   const sequence = '(;W[po];B[hm])';
   it('should be expected values.', () => {
     assert.equal(sgfconv.toGoodNode(sequence, 0), '(;W[po]TE[1];B[hm])');
-    assert.equal(sgfconv.toGoodNode(sequence, 6), '(;W[po]TE[1];B[hm])');
-    assert.equal(sgfconv.toBadNode(sequence, 7), '(;W[po];B[hm]BM[1])');
-    assert.equal(sgfconv.toBadNode(sequence, 8), '(;W[po];B[hm]BM[1])');
+    assert.equal(sgfconv.toGoodNode(sequence, 4), '(;W[po]TE[1];B[hm])');
+    assert.equal(sgfconv.toBadNode(sequence, 10), '(;W[po];B[hm]BM[1])');
     assert.equal(sgfconv.toBadHotSpot(sequence), '(;W[po]BM[1]HO[1];B[hm])');
   });
 });
@@ -97,13 +96,21 @@ describe('addComment', () => {
       '(;W[po]C[comm];B[hm])',
     );
     assert.equal(
-      sgfconv.addComment(sequence, 'test[]', 6),
+      sgfconv.addComment(sequence, 'test[]', 5),
       '(;W[po]C[test[\\]];B[hm])',
     );
     assert.equal(
-      sgfconv.addComment(sequence, 'XXyy', 7),
+      sgfconv.addComment(sequence, 'XXyy', 8),
       '(;W[po];B[hm]C[XXyy])',
     );
+  });
+});
+
+describe('removeComment', () => {
+  const values = ['C[testtest]AP[123]', 'C[\nte\\]st\\]: te\nst: ]AP[123]'];
+  it('should be expected values.', () => {
+    assert.equal(sgfconv.removeComment(values[0]), 'AP[123]');
+    assert.equal(sgfconv.removeComment(values[1]), 'AP[123]');
   });
 });
 
@@ -189,7 +196,7 @@ describe('katagomovesFromSequence', () => {
       ['B', 'H13'],
     ]);
   });
-  it('should be expected values for "test/examples/t-*".', () => {
+  it('should be expected values for "examples/t-*".', () => {
     const movesfromsequence = (len, path) => {
       const sgf = fs.readFileSync(path).toString();
       const moves = sgfconv.katagomovesFromSequence(sgfconv.removeTails(sgf));
