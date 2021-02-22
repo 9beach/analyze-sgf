@@ -32,6 +32,9 @@ class GameTree {
 
     // Fills win rates and variations of this.nodes.
     fromKataGoResponses(this, katagoresponses, sgfconv.getPLs(rootsequence));
+
+    // Updates comment mostly related to winrates.
+    updateComment(this);
   }
 
   getComment() {
@@ -61,7 +64,7 @@ class GameTree {
         ) {
           last = false;
           tail += node.variations.reduce(
-            (sum, variation) => sum + variation.get(),
+            (acc, cur) => acc + cur.get(),
             '',
           );
         }
@@ -145,10 +148,10 @@ function updateComment(gametree) {
       if (comment !== '') comment += '\n\n';
       comment += 'Proposed variations\n';
       node.variations.forEach((v, index) => {
-        comment += `\n${index + 1}. ${v.pv()}`;
+        comment += `\n${index + 1}. ${v.formatPV()}`;
         // Sequence for each variation.
         let vcomment = v.getComment();
-        vcomment += `\n* Sequence: ${v.pv()}`;
+        vcomment += `\n* Sequence: ${v.formatPV()}`;
         v.setComment(vcomment);
       });
     }
@@ -260,9 +263,6 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
     }
     prevjson = curjson;
   });
-
-  // Updates comment mostly related to winrates.
-  updateComment(gametree);
   // FIXME: Remove last move if have no variations.
 }
 

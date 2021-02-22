@@ -8,10 +8,10 @@ const sgfconv = require('./sgfconv');
 // Contains Node or tailless NodeSequence of SGF, win rate infomations, and
 // NodeSequence for variations.
 class Node {
-  constructor(sequence, title = '') {
+  constructor(sequence, comment = '') {
     // Node or tailless NodeSequence of SGF.
     //
-    // 'B[aa]' or 'W[cc]' or ';B[dp];W[po];B[hm]' or ...
+    // 'B[aa]' or 'W[cc]' or '(;B[dp];W[po];B[hm])' or ...
     this.sequence = sequence;
 
     const index = sequence.search(/\b[BW]\[/);
@@ -22,7 +22,7 @@ class Node {
     // 'B' or 'W'
     this.pl = sequence.substring(index, index + 1);
 
-    this.comment = title;
+    this.comment = comment;
   }
 
   get() {
@@ -31,7 +31,7 @@ class Node {
     return this.sequence;
   }
 
-  pv() {
+  formatPV() {
     return (
       `${sgfconv.sequenceToPV(this.sequence)} (` +
       `${formatWinrate(this.winrate)}, ${formatScoreLead(this.scoreLead)})`
@@ -46,8 +46,7 @@ class Node {
     return this.comment;
   }
 
-  // Calculates scoreDrop, winrateDrop, ..., from KataGo response, and sets
-  // them to myself.
+  // Calculates scoreDrop, winrateDrop, ..., sets them to myself properties.
   setWinrate(previnfo, currentinfo, sgfOpts) {
     if (previnfo) {
       this.winrateDrop = previnfo.winrate - currentinfo.winrate;
@@ -71,9 +70,7 @@ class Node {
     this.scoreLead = currentinfo.scoreLead;
     this.visits = currentinfo.visits;
 
-    if (sgfOpts) {
-      setProperties(this, sgfOpts);
-    }
+    setProperties(this, sgfOpts);
   }
 }
 
@@ -87,6 +84,7 @@ function setProperties(node, sgfOpts) {
   if (node.propertiesGot === true) {
     return;
   }
+  node.propertiesGot = true;
 
   let properties = node.sequence;
 
@@ -110,7 +108,6 @@ function setProperties(node, sgfOpts) {
     properties = sgfconv.toBadNode(properties);
   }
 
-  node.propertiesGot = true;
   node.sequence = properties;
 }
 
