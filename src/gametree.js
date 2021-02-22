@@ -27,7 +27,7 @@ class GameTree {
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
       .map(
-        (node, index) => new Node(node.substring(0, 5), `Move #${index + 1}`),
+        (node, index) => new Node(node.substring(0, 5), `Move ${index + 1}`),
       );
 
     // Fills win rates and variations of this.nodes.
@@ -235,7 +235,7 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
       gametree.opts.showVariationsAfterLastMove &&
       gametree.nodes.length === nextturn
     ) {
-      gametree.nodes.push(new Node(`${nextpl}[]`, `Move #${curturn + 1}`));
+      gametree.nodes.push(new Node(`${nextpl}[]`, `Move ${curturn + 1}`));
     }
 
     // Adds variations to gametree.nodes[nextturn].
@@ -248,7 +248,7 @@ function fromKataGoResponses(gametree, katagoresponses, pls) {
         .map((moveinfo) => {
           const variation = new Node(
             sgfconv.katagomoveinfoToSequence(nextpl, moveinfo),
-            `A variation of move #${nextturn + 1}`,
+            `A variation of move ${nextturn + 1}`,
           );
 
           variation.setWinrate(curjson.rootInfo, moveinfo, gametree.opts);
