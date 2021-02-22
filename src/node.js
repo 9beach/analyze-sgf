@@ -145,7 +145,7 @@ function getWinratesReport(node) {
     scoreDrop = '';
   }
 
-  return winrate + winrateDrop + scoreLead + scoreDrop;
+  return winrate + scoreLead + winrateDrop + scoreDrop;
 }
 
 module.exports = Node;
