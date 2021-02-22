@@ -63,10 +63,7 @@ class GameTree {
           (last && this.opts.showVariationsAfterLastMove)
         ) {
           last = false;
-          tail += node.variations.reduce(
-            (acc, cur) => acc + cur.get(),
-            '',
-          );
+          tail += node.variations.reduce((sum, cur) => sum + cur.get(), '');
         }
       }
 
