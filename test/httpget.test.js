@@ -17,5 +17,5 @@ describe('httpget', () => {
     sgf = httpget(url);
     assert.equal(sgf.indexOf('(;GM['), 0);
     assert.equal(sgf[sgf.length - 1], ')');
-  }).timeout(10000);;
+  }).timeout(10000);
 });
