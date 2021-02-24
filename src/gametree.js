@@ -30,11 +30,9 @@ class GameTree {
         (node, index) => new Node(node.substring(0, 5), `Move ${index + 1}`),
       );
 
-    // Fills win rates and variations of this.nodes.
-    fromKataGoResponses(this, katagoresponses, sgfconv.getPLs(rootsequence));
-
-    // Updates comment mostly related to winrates.
-    updateComment(this);
+    const pls = sgfconv.getPLs(rootsequence);
+    fillWinratesAndVarations(this, katagoresponses, pls);
+    fillComments(this);
   }
 
   getComment() {
@@ -81,17 +79,17 @@ class GameTree {
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
-// Sets players info, total good moves, bad moves, ... to gametree.comment,
-// gametree.root, and gametree.node.comment.
-function updateComment(gametree) {
+// Fills the report of the game, and the comments of each node and variations.
+function fillComments(gametree) {
   if (!gametree.responsesgiven || gametree.comment !== '') return;
 
   // FIXME: Refactor me.
   //
-  // 1. Makes game report (root comment).
+  // Makes game report (root comment).
 
   // Counts good moves, bad moves, and bad hotspots.
-  // 0: Good, 1: bad, and 2: bad hotspots.
+  //
+  // stat: 0 -> Good, 1 -> bad, and 2 -> bad hotspots.
   const stat = {
     blackGoodBads: [[], [], []],
     whiteGoodBads: [[], [], []],
@@ -126,8 +124,6 @@ function updateComment(gametree) {
     gametree.goodmovewinrate,
     gametree.badmovewinrate,
     gametree.badhotspotwinrate,
-    gametree.variationwinrate,
-    gametree.opts.maxVariationsForEachMove,
     gametree.maxvisits,
   );
 
@@ -163,8 +159,8 @@ function updateComment(gametree) {
   });
 }
 
-// From KataGo responses, fills win rates and variations of this.nodes.
-function fromKataGoResponses(gametree, katagoresponses, pls) {
+// Fills win rates and variations of this.nodes from KataGo responses.
+function fillWinratesAndVarations(gametree, katagoresponses, pls) {
   // Checks KataGo error response.
   if (katagoresponses.search('{"error":"') === 0) {
     throw Error(katagoresponses.replace('\n', ''));

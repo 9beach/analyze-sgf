@@ -14,14 +14,11 @@ function inBraket(value, index = 0) {
     return '';
   }
 
-  return value
-    .substring(start + 1, end)
-    .replace(/^ */, '')
-    .replace(/ *$/, '');
+  return value.substring(start + 1, end).trim();
 }
 
 // ('XX', 'XX[11]YY[22]YY[33]') => 11
-function valueFromSequence(prop, sgf) {
+function valueFromSequence(sgf, prop) {
   const start = sgf.search(new RegExp(`\\b${prop}\\[`));
 
   return start === -1 ? '' : inBraket(sgf, start);
@@ -138,6 +135,15 @@ function removeTails(sgf) {
   return reduced;
 }
 
+function getAnyOfProperties(sgf, props) {
+  let value = '';
+  props.some((p) => {
+    value = valueFromSequence(sgf, p);
+    return value !== '';
+  });
+  return value;
+}
+
 function regexIndexOf(string, regex, start) {
   const indexOf = string.substring(start || 0).search(regex);
   return indexOf >= 0 ? indexOf + (start || 0) : indexOf;
@@ -212,8 +218,8 @@ function getPLs(rootsequence) {
   const index = sequence.search(/\b[BW]\[/);
   if (index !== -1) {
     pls.push(sequence[index]);
-  } else if (valueFromSequence('PL', root) !== '') {
-    pls.push(valueFromSequence('PL', root));
+  } else if (valueFromSequence(root, 'PL') !== '') {
+    pls.push(valueFromSequence(root, 'PL'));
   } else {
     pls.push('B');
   }
@@ -285,6 +291,7 @@ module.exports = {
   addComment,
   removeComment,
   removeTails,
+  getAnyOfProperties,
   rootsequenceFromSGF,
   initialstonesFromSequence,
   sequenceToPV,

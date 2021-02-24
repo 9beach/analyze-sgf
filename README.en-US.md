@@ -94,8 +94,7 @@ installed KataGo. Please refer to the example.
 katago:
   # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
-  # e.g.
-  # "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
+  # e.g. "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
 # Options for KataGo Parallel Analysis Engine query.
@@ -114,32 +113,7 @@ analysis:
 # Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
-  # When you open reviewed SGF in applications like Sabaki, you can check them.
-  # Please visit <https://sabaki.yichuanshen.de/>.
-  #
-  # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
-  # move is good.
-  maxWinrateDropForGoodMove: 2.0
-  # If win rate drops by more than minWinrateDropForBadMove for a move, that
-  # move is bad.
-  minWinrateDropForBadMove: 5.0
-  # If win rate drops by more than minWinrateDropForBadHotSpot for a move, that
-  # move is a bad hotspot.
-  minWinrateDropForBadHotSpot: 20.0
-  # In SGF, the last move can't have variations. So we add a passing move
-  # after the last move, and then add the proposed variations to that move.
-  showVariationsAfterLastMove: false
-  # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
-  # move 1, move 6, and move 11, and then add the variations for those moves.
-  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and
-  # adds the variations for the moves whose win rate drops more than
-  # minWinrateDropForVariations.
-  minWinrateDropForVariations: 5
-  showBadVariations: false
-  maxVariationsForEachMove: 10
-  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes
-  # analysis to "baduk-analyzed.sgf"
-  fileSuffix: "-analyzed"
+  # ......
 ```
 
 Now, run `analyze-sgf` with a SGF/GIB file, for example, `shin-vs-lian.sgf`,
@@ -171,6 +145,23 @@ Variations added for the moves having more than 5% win rate drop.
 The maximum variation number for each move is 10.
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
+```
+
+
+Cyber ORO's [기보 감상](https://www.cyberoro.com/bcast/gibo.oro?Tdiv=B) and Tygem's
+[최신기보](http://news.tygem.com/news/tnews/gibo.asp) provides SGFs of almost all Korean Go professionals.
+`analyze-sgf` automatically downloads and analyzes the SGFs from the URLs of the matches.
+
+```console
+$ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
+제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+# Analyze-SGF Report
+```
+
+```console
+$ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
+제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+# Analyze-SGF Report
 ```
 
 The screenshot below shows the file opened in Sabaki.
@@ -242,7 +233,6 @@ the `-s` option.
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
 baduk.json generated.
 baduk-analyzed.sgf generated.
-...
 ```
 
 If you specify a large number in `maxVisits` as above, it takes a long time

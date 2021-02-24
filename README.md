@@ -81,8 +81,7 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 katago:
   # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
-  # e.g.
-  # "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
+  # e.g. "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
 # Options for KataGo Parallel Analysis Engine query.
@@ -101,32 +100,7 @@ analysis:
 # Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
-  # When you open reviewed SGF in applications like Sabaki, you can check them.
-  # Please visit <https://sabaki.yichuanshen.de/>.
-  #
-  # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
-  # move is good.
-  maxWinrateDropForGoodMove: 2.0
-  # If win rate drops by more than minWinrateDropForBadMove for a move, that
-  # move is bad.
-  minWinrateDropForBadMove: 5.0
-  # If win rate drops by more than minWinrateDropForBadHotSpot for a move, that
-  # move is a bad hotspot.
-  minWinrateDropForBadHotSpot: 20.0
-  # In SGF, the last move can't have variations. So we add a passing move
-  # after the last move, and then add the proposed variations to that move.
-  showVariationsAfterLastMove: false
-  # If `-a 'analyzeTurns:[0,5,10]'` option given, analyze-sgf analyzes the
-  # move 1, move 6, and move 11, and then add the variations for those moves.
-  # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and
-  # adds the variations for the moves whose win rate drops more than
-  # minWinrateDropForVariations.
-  minWinrateDropForVariations: 5
-  showBadVariations: false
-  maxVariationsForEachMove: 10
-  # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes
-  # analysis to "baduk-analyzed.sgf"
-  fileSuffix: "-analyzed"
+  # ......
 ```
 
 이제 기보 파일, 가령 `신진서-렌샤오.sgf`로 `analyze-sgf`를 실행하면 간단한 분석 결과가
@@ -159,6 +133,22 @@ The maximum variation number for each move is 10.
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
 
+사이버오로의 [기보 감상](https://www.cyberoro.com/bcast/gibo.oro?Tdiv=B)과 타이젬 바둑의
+[최신기보](http://news.tygem.com/news/tnews/gibo.asp)에서 원하는 기보를 선택한 뒤 그 인터넷 주소를 입력하면
+자동으로 기보를 받아서 분석합니다.
+
+```console
+$ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
+제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+# Analyze-SGF Report
+```
+
+```console
+$ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
+제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+# Analyze-SGF Report
+```
+
 아래의 스크린숏은 `신진서-렌샤오-analyzed.sgf` 파일을 사바키로 연 모습입니다.
 
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
@@ -168,7 +158,8 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
 `maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다.
 
-매 수마다 승률 및 집 변동에 관한 정보와 승률 하락이 큰 수에 대한 링크를 포함하고 있어서 빠르게 승부처를 분석할 수 있습니다. 사바키에서 색깔이 반전된 변화도 수순 위에 마우스를 올리면 위의 스크린숏에서와 같이 자동으로 수순이 진행됩니다. 
+매 수마다 승률 및 집 변동에 관한 정보와 승률 하락이 큰 수에 대한 링크를 포함하고 있어서 빠르게 승부처를 분석할 수 있습니다.
+사바키에서 색깔이 반전된 변화도 수순 위에 마우스를 올리면 위의 스크린숏에서와 같이 자동으로 수순이 진행됩니다.
 
 ## 설정
 
@@ -216,7 +207,6 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
 baduk.json generated.
 baduk-analyzed.sgf generated.
-...
 ```
 
 위와 같이 `maxVisits`에 큰수를 지정하면 긴 시간을 들여 많은 것을 분석합니다. 그리고 그 결과는 `-s`에 의해

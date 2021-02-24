@@ -11,7 +11,7 @@ class Node {
   constructor(sequence, comment = '') {
     // Node or tailless NodeSequence of SGF.
     //
-    // 'B[aa]' or 'W[cc]' or '(;B[dp];W[po];B[hm])' or ...
+    // e.g. 'B[aa]', 'W[cc]', '(;B[dp];W[po];B[hm])'
     this.sequence = sequence;
 
     const index = sequence.search(/\b[BW]\[/);
@@ -23,6 +23,10 @@ class Node {
     this.pl = sequence.substring(index, index + 1);
 
     this.comment = comment;
+  }
+
+  addProperty(prop) {
+    this.sequence = sgfconv.addProperty(this.sequence, prop);
   }
 
   get() {

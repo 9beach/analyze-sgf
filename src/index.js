@@ -4,7 +4,7 @@
  * @fileOverview Command line interface for analyze-sgf.
  */
 
-const afs = require('fs');
+const fs = require('fs');
 const chalk = require('chalk');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
@@ -14,15 +14,15 @@ const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
 const GameTree = require('./gametree');
 const toSGF = require('./gib2sgf');
+const { prettyPath } = require('./report-game');
+const { httpget, isValidURL } = require('./httpget');
 
 const log = (message) => console.error(chalk.grey(message));
-
-// Starts main routine.
-//
-const opts = getopts();
-
 const getext = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
+
+// Starts main routine.
+const opts = getopts();
 
 // Starts async communication with kataGoAnalyze().
 (async () => {
@@ -36,7 +36,7 @@ const getext = (path) =>
           return;
         }
 
-        const sgfresponses = afs.readFileSync(path).toString();
+        const sgfresponses = fs.readFileSync(path).toString();
         // JSON file format: tailless SGF + '\n' + KataGo responses.
         const index = sgfresponses.indexOf('\n');
         const sgf = sgfresponses.substring(0, index);
@@ -50,15 +50,28 @@ const getext = (path) =>
       // Reads SGF and makes KagaGo queries.
       opts.paths.map(async (path, i) => {
         const ext = getext(path);
-        if (ext !== 'sgf' && ext !== 'gib') {
+        const isURL = isValidURL(path);
+        if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
           log(`skip ${path}.`);
           return;
         }
 
-        const content = afs.readFileSync(path);
-        const detected = jschardet.detect(content);
-        let sgf = iconv.decode(content, detected.encoding).toString();
-        if (ext === 'gib') sgf = toSGF(sgf);
+        let sgf;
+        let newpath;
+
+        if (!isURL) {
+          const content = fs.readFileSync(path);
+          const detected = jschardet.detect(content);
+          sgf = iconv.decode(content, detected.encoding).toString();
+          if (ext === 'gib') sgf = toSGF(sgf);
+          newpath = path;
+        } else {
+          sgf = httpget(path);
+          newpath = prettyPath(sgf);
+          fs.writeFileSync(newpath, sgf);
+          log(`${newpath} generated.`);
+        }
+
         const query = sgfToKataGoAnalysisQuery(
           `9beach-${i.toString().padStart(3, '0')}`,
           sgf,
@@ -72,7 +85,7 @@ const getext = (path) =>
         );
 
         if (responses !== '') {
-          saveAnalyzed(path, sgf, responses, opts.saveGiven, opts.sgf);
+          saveAnalyzed(newpath, sgf, responses, opts.saveGiven, opts.sgf);
         }
       });
     }
@@ -86,19 +99,19 @@ const getext = (path) =>
 function sgfToKataGoAnalysisQuery(id, sgf, analysisOpts) {
   const query = { ...analysisOpts };
   const sequence = sgfconv.removeTails(sgf);
-  const komi = sgfconv.valueFromSequence('KM', sequence);
+  const komi = sgfconv.valueFromSequence(sequence, 'KM');
 
   if (komi !== '') {
     query.komi = parseFloat(komi);
   } else {
     // Handles SGF dialect.
-    const ko = sgfconv.valueFromSequence('KO', sequence);
+    const ko = sgfconv.valueFromSequence(sequence, 'KO');
     if (ko !== '') {
       query.komi = parseFloat(ko);
     }
   }
 
-  const initialPlayer = sgfconv.valueFromSequence('PL', sequence);
+  const initialPlayer = sgfconv.valueFromSequence(sequence, 'PL');
 
   if (initialPlayer !== '') {
     query.initialPlayer = initialPlayer;
@@ -132,7 +145,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
       const jsonPath = `${targetName}.json`;
 
       // JSON file format: tailless SGF + '\n' + KataGo responses.
-      afs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
+      fs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
       log(`${jsonPath} generated.`);
     }
 
@@ -140,7 +153,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
     const gametree = new GameTree(sgf, responses, sgfOpts);
     const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
 
-    afs.writeFileSync(sgfPath, gametree.get());
+    fs.writeFileSync(sgfPath, gametree.get());
     log(`${sgfPath} generated.`);
 
     const report = gametree.getComment();

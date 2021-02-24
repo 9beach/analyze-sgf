@@ -4,8 +4,7 @@
 katago:
   # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
-  # e.g.
-  # "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
+  # e.g. "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
 # Options for KataGo Parallel Analysis Engine query.
@@ -33,8 +32,8 @@ sgf:
   # If win rate drops by more than minWinrateDropForBadMove for a move, that
   # move is bad.
   minWinrateDropForBadMove: 5.0
-  # If win rate drops by more than minWinrateDropForBadHotSpot for a move, that
-  # move is a bad hotspot.
+  # If win rate drops by more than minWinrateDropForBadHotSpot for a move,
+  # that move is a bad hotspot.
   minWinrateDropForBadHotSpot: 20.0
   # In SGF, the last move can't have variations. So we add a pass move after
   # the last move, and then add the proposed variations to that pass move.

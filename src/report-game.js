@@ -1,5 +1,5 @@
 /**
- * @fileOverview Generate the game report on players info, good moves,
+ * @fileOverview Generates the game report on players info, good moves,
  *               bad moves, and bad hot spots.
  */
 
@@ -38,8 +38,7 @@ function reportGoodAndBad(total, moves) {
 // (' 신진서  ', 'Black') => '신진서 (Black)'
 // ('', 'Black') => 'Black'
 function colorPL(player, color) {
-  let pl = player.replace(/ *$/, '').replace(/^ */, '');
-
+  let pl = player;
   if (pl !== '') {
     pl += ` (${color})`;
   } else {
@@ -49,41 +48,39 @@ function colorPL(player, color) {
   return pl;
 }
 
+function prettyPath(sgf) {
+  const ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
+  const dt = sgfconv.getAnyOfProperties(sgf, ['DT', 'RD']);
+
+  let players = '';
+  const pw = sgfconv.valueFromSequence(sgf, 'PW').replace(/:.*/, '');
+  const pb = sgfconv.valueFromSequence(sgf, 'PB').replace(/:.*/, '');
+  if (pw !== '' && pb !== '') players = `${pw}-${pb}`;
+
+  const re = sgfconv.valueFromSequence(sgf, 'RE').replace(/:.*/, '');
+
+  return `${[ev, players, re, dt].filter((v) => v !== '').join(', ')}.sgf`;
+}
+
 // Generates report.
 function reportGame(
   stat,
   goodmovewinrate,
   badmovewinrate,
   badhotspotwinrate,
-  variationwinrate,
-  maxvariations,
   visits,
 ) {
-  // Handles SGF dialect.
-  let km;
-  km = sgfconv.valueFromSequence('KM', stat.root);
-  if (km === '') {
-    km = sgfconv.valueFromSequence('KO', stat.root);
-  }
+  // Handles SGF dialect (KO/TE/RE).
+  let km = sgfconv.getAnyOfProperties(stat.root, ['KM', 'KO']);
   km = km !== '' ? `Komi ${km}` : km;
+  const ev = sgfconv.getAnyOfProperties(stat.root, ['EV', 'TE', 'GN']);
+  const dt = sgfconv.getAnyOfProperties(stat.root, ['DT', 'RD']);
 
-  let ev;
-  ev = sgfconv.valueFromSequence('EV', stat.root);
-  if (ev === '') {
-    ev = sgfconv.valueFromSequence('TE', stat.root);
-  }
-
-  let dt;
-  dt = sgfconv.valueFromSequence('DT', stat.root);
-  if (dt === '') {
-    dt = sgfconv.valueFromSequence('RD', stat.root);
-  }
-
-  const re = sgfconv.valueFromSequence('RE', stat.root);
+  const re = sgfconv.valueFromSequence(stat.root, 'RE');
   const title = [ev, km, re, dt].filter((v) => v !== '').join(', ');
 
-  const pb = colorPL(sgfconv.valueFromSequence('PB', stat.root), 'Black');
-  const pw = colorPL(sgfconv.valueFromSequence('PW', stat.root), 'White');
+  const pb = colorPL(sgfconv.valueFromSequence(stat.root, 'PB'), 'Black');
+  const pw = colorPL(sgfconv.valueFromSequence(stat.root, 'PW'), 'White');
 
   return (
     `# Analyze-SGF Report\n\n${title}` +
@@ -92,9 +89,6 @@ function reportGame(
     `\nGood move: less than ${goodmovewinrate * 100}% win rate drop` +
     `\nBad move: more than ${badmovewinrate * 100}% win rate drop` +
     `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate drop` +
-    `\n\nVariations added for the moves having more than ` +
-    `${variationwinrate * 100}% win rate drop.` +
-    `\nThe maximum variation number for each move is ${maxvariations}.` +
     `\n\nAnalyzed by KataGo Parallel Analysis Engine (${visits} max visits).`
   );
 }
@@ -135,4 +129,4 @@ function reportBadsLeft(stat, turnNumber) {
   return '';
 }
 
-module.exports = { reportGame, reportBadsLeft };
+module.exports = { reportGame, reportBadsLeft, prettyPath };

@@ -1,5 +1,5 @@
 /**
- * @fileOverview Convert SGF to GIB (Tygem format).
+ * @fileOverview Converts SGF to GIB (Tygem format).
  *
  *               Based on <https://github.com/SabakiHQ/Sabaki/blob/master/src/modules/fileformats/gib.js>.
  */

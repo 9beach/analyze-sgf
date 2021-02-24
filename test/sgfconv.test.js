@@ -36,25 +36,25 @@ describe('rootsequenceFromSGF', () => {
 describe('valueFromSequence', () => {
   it('should be expected values.', () => {
     const value = 'XX[11]YY[22]YY[33]AA[ 44 ]';
-    assert.equal(sgfconv.valueFromSequence('XX', value), '11');
-    assert.equal(sgfconv.valueFromSequence('YY', value), '22');
-    assert.equal(sgfconv.valueFromSequence('ZZ', value), '');
-    assert.equal(sgfconv.valueFromSequence('AA', value), '44');
+    assert.equal(sgfconv.valueFromSequence(value, 'XX'), '11');
+    assert.equal(sgfconv.valueFromSequence(value, 'YY'), '22');
+    assert.equal(sgfconv.valueFromSequence(value, 'ZZ'), '');
+    assert.equal(sgfconv.valueFromSequence(value, 'AA'), '44');
   });
   it('should be expected values for "examples/t-sabaki-1.sgf".', () => {
     const result = fs.readFileSync('test/examples/t-sabaki-1.sgf');
     const sequence = sgfconv.removeTails(result.toString());
-    assert.equal(sgfconv.valueFromSequence('AP', sequence), 'Sabaki:0.51.1');
-    assert.equal(sgfconv.valueFromSequence('KM', sequence), '6.5');
-    assert.equal(sgfconv.valueFromSequence('GM', sequence), '1');
+    assert.equal(sgfconv.valueFromSequence(sequence, 'AP'), 'Sabaki:0.51.1');
+    assert.equal(sgfconv.valueFromSequence(sequence, 'KM'), '6.5');
+    assert.equal(sgfconv.valueFromSequence(sequence, 'GM'), '1');
   });
   it('should be expected values for "examples/t-encoding-cp949.sgf".', () => {
     const content = fs.readFileSync('test/examples/t-encoding-cp949.sgf');
     const detected = jschardet.detect(content);
     const sgf = iconv.decode(content, detected.encoding).toString();
 
-    assert.equal('커제', sgfconv.valueFromSequence('PB', sgf));
-    assert.equal('탕웨이싱', sgfconv.valueFromSequence('PW', sgf));
+    assert.equal('커제', sgfconv.valueFromSequence(sgf, 'PB'));
+    assert.equal('탕웨이싱', sgfconv.valueFromSequence(sgf, 'PW'));
   });
 });
 

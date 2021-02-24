@@ -1,7 +1,5 @@
-#!/usr/bin/env node
-
 /**
- * @fileOverview A interface for parsing process arguments and config.
+ * @fileOverview Parses process arguments and config.
  */
 
 const afs = require('fs');
