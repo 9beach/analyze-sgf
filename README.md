@@ -134,7 +134,7 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
 
 사이버오로의 [기보 감상](https://www.cyberoro.com/bcast/gibo.oro?Tdiv=B)과 타이젬 바둑의
-[최신기보](http://news.tygem.com/news/tnews/gibo.asp)에서 원하는 기보를 선택한 뒤 그 인터넷 주소를 입력하면
+[최신기보](http://news.tygem.com/news/tnews/gibo.asp)에서 원하는 기보를 선택한 뒤, 해당 인터넷 주소를 입력하면
 자동으로 기보를 받아서 분석합니다.
 
 ```console
