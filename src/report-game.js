@@ -70,7 +70,7 @@ function reportGame(
   badhotspotwinrate,
   visits,
 ) {
-  // Handles SGF dialect (KO/TE/RE).
+  // Handles SGF dialect (KO/TE/RD).
   let km = sgfconv.getAnyOfProperties(stat.root, ['KM', 'KO']);
   km = km !== '' ? `Komi ${km}` : km;
   const ev = sgfconv.getAnyOfProperties(stat.root, ['EV', 'TE', 'GN']);

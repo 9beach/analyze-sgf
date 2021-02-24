@@ -4,6 +4,8 @@
 
 const { XMLHttpRequest } = require('xmlhttprequest');
 
+const sgfconv = require('./sgfconv');
+
 function httpgetraw(url) {
   const http = new XMLHttpRequest();
   http.open('GET', url, false);
@@ -43,6 +45,15 @@ function httpget(url) {
     (sgf.indexOf('(TE[') !== 0 && sgf.indexOf('(;GM[') !== 0)
   )
     throw Error('Invalid response from URL');
+
+  // Fixs SGF dialect (KO/TE/RD) for other SGF editors.
+  sgf = sgf.replace(/\bTE\[/, ';GM[1]FF[4]EV[').replace(/\bRD\[/, 'DT[');
+  if (
+    sgfconv.valueFromSequence(sgf, 'KO') !== '' &&
+    sgfconv.valueFromSequence(sgf, 'KM') === ''
+  ) {
+    sgf = sgf.replace(/\bKM\[\]/, '').replace(/\bKO\[/, 'KM[');
+  }
 
   return sgf;
 }
