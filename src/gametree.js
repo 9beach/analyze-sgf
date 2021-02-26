@@ -122,7 +122,7 @@ function fillComments(gametree) {
     let comment = node.getComment();
     if (node.variations) {
       // PVs for each node.
-      if (comment !== '') comment += '\n\n';
+      if (comment !== '') comment += '\n';
       comment += 'The proposed variations\n';
       node.variations.forEach((v, index) => {
         comment += `\n${index + 1}. ${v.formatPV()}`;

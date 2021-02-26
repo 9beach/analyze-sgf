@@ -10,9 +10,6 @@ const yamlpath = require.resolve('../src/analyze-sgf.yml');
 const opts = yaml.load(fs.readFileSync(yamlpath));
 const sgfopts = opts.sgf;
 
-const compareButLines = (x, y) =>
-  assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
-
 function compareButComments(original, json, expected) {
   const sgf = fs.readFileSync(original).toString();
   let responses = fs.readFileSync(json).toString();
@@ -39,10 +36,13 @@ function compare(original, json, expected) {
   const gametree = new GameTree(sgf, responses, sgfopts);
   const rsgf = gametree.get();
 
-  compareButLines(fs.readFileSync(expected).toString(), rsgf);
+  assert.equal(fs.readFileSync(expected).toString(), rsgf);
 }
 
 describe('GameTree', () => {
+  const compareButLines = (x, y) =>
+    assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
+
   it('should be expected values.', () => {
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
     compareButLines(gametree.get(), '(PL[];B[aa]C[Move 1];W[bb]C[Move 2])');

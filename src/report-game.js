@@ -7,12 +7,57 @@ const sgfconv = require('./sgfconv');
 
 const percents = (f) => (f * 100).toFixed(2);
 
-function movesstat(goodorbad, moves, total, listMoves, isScore) {
+function makeGoodBads(pl, stat) {
+  const moves = [];
+  // 0: Good moves.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop < stat.goodmovewinrate,
+    ),
+  );
+  // 1: Not bad moves.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop < stat.badmovewinrate,
+    ),
+  );
+  // 2: Bad moves.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop >= stat.badmovewinrate,
+    ),
+  );
+  // 3: Bad hot spots.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop >= stat.badhotspotwinrate,
+    ),
+  );
+  // 4: Top 10 win rate drops.
+  moves.push(
+    stat.drops
+      .filter((n) => n.pl === pl && n.winrateDrop)
+      .sort((a, b) => b.winrateDrop - a.winrateDrop)
+      .slice(0, 10),
+  );
+  // 5: Top 10 score drops.
+  moves.push(
+    stat.drops
+      .filter((n) => n.pl === pl && n.scoreDrop)
+      .sort((a, b) => b.scoreDrop - a.scoreDrop)
+      .slice(0, 10),
+  );
+  // 6: Total.
+  moves.push(stat.drops.filter((n) => n.pl === pl));
+  return moves;
+}
+
+function getDropList(title, moves, total, listMoves, isScore) {
   if (!moves.length) {
     return '';
   }
 
-  let format = `* ${goodorbad}`;
+  let format = `* ${title}`;
   if (total) {
     const ratio = percents(moves.length / total);
     format += ` (${ratio}%, ${moves.length}/${total})`;
@@ -42,87 +87,40 @@ function reportGoodAndBad(
 ) {
   const total = moves[6].length;
   return (
-    movesstat(
+    getDropList(
       `Less than ${goodmovewinrate * 100}% win rate drops`,
       moves[0],
       total,
       false,
     ) +
-    movesstat(
+    getDropList(
       `Less than ${badmovewinrate * 100}% win rate drops`,
       moves[1],
       total,
       false,
     ) +
-    movesstat(
+    getDropList(
       `More than ${badmovewinrate * 100}% win rate drops`,
       moves[2],
       total,
       true,
     ) +
-    movesstat(
+    getDropList(
       `More than ${badhotspotwinrate * 100}% win rate drops`,
       moves[3],
       total,
       true,
     ) +
-    movesstat('Top 10 win rate drops', moves[4], null, true) +
-    movesstat('Top 10 score drops', moves[5], null, true, true)
+    getDropList('Top 10 win rate drops', moves[4], null, true) +
+    getDropList('Top 10 score drops', moves[5], null, true, true)
   );
 }
 
-// (' 신진서  ', 'Black') => '신진서 (Black)'
-// ('', 'Black') => 'Black'
 function colorPL(player, color) {
   let pl = player;
   if (pl !== '') pl += ` (${color})`;
   else pl = `${color}`;
   return pl;
-}
-
-function goodBads(pl, stat) {
-  const moves = [];
-  // 0: Good moves.
-  moves.push(
-    stat.drops.filter(
-      (n) => n.pl === pl && n.winrateDrop < stat.goodmovewinrate,
-    ),
-  );
-  // 1: Not bad moves.
-  moves.push(
-    stat.drops.filter(
-      (n) => n.pl === pl && n.winrateDrop < stat.badmovewinrate,
-    ),
-  );
-  // 2: Bad moves.
-  moves.push(
-    stat.drops.filter(
-      (n) => n.pl === pl && n.winrateDrop >= stat.badmovewinrate,
-    ),
-  );
-  // 3: Bad hot spots.
-  moves.push(
-    stat.drops.filter(
-      (n) => n.pl === pl && n.winrateDrop >= stat.badhotspotwinrate,
-    ),
-  );
-  // 4: The biggest win rate drops.
-  moves.push(
-    stat.drops
-      .filter((n) => n.pl === pl && n.winrateDrop)
-      .sort((a, b) => b.winrateDrop - a.winrateDrop)
-      .slice(0, 10),
-  );
-  // 5: The biggest score drops.
-  moves.push(
-    stat.drops
-      .filter((n) => n.pl === pl && n.scoreDrop)
-      .sort((a, b) => b.scoreDrop - a.scoreDrop)
-      .slice(0, 10),
-  );
-  // 6: Total.
-  moves.push(stat.drops.filter((n) => n.pl === pl));
-  return moves;
 }
 
 // Generates report.
@@ -139,67 +137,48 @@ function reportGame(stat) {
   const pb = colorPL(sgfconv.valueFromSequence(stat.root, 'PB'), 'Black');
   const pw = colorPL(sgfconv.valueFromSequence(stat.root, 'PW'), 'White');
 
-  const blackGoodBads = goodBads('B', stat);
-  const whiteGoodBads = goodBads('W', stat);
-
   return (
     `# Analyze-SGF Report\n\n${title}` +
     `\n\n${pb}\n${reportGoodAndBad(
-      blackGoodBads,
+      makeGoodBads('B', stat),
       stat.goodmovewinrate,
       stat.badmovewinrate,
       stat.badhotspotwinrate,
-    )}` +
-    `\n${pw}\n${reportGoodAndBad(
-      whiteGoodBads,
+    )}\n${pw}\n${reportGoodAndBad(
+      makeGoodBads('W', stat),
       stat.goodmovewinrate,
       stat.badmovewinrate,
       stat.badhotspotwinrate,
-    )}` +
-    `\nAnalyzed by KataGo Parallel Analysis Engine (${stat.visits} max visits).`
+    )}\nAnalyzed by KataGo Parallel Analysis Engine ` +
+    `(${stat.visits} max visits).`
   );
 }
 
-function nextBads(stat, pl, turnNumber) {
-  const goodbads = goodBads(pl, stat);
+function badsLeft(stat, pl, turnNumber) {
+  const goodbads = makeGoodBads(pl, stat);
   const color = pl === 'B' ? 'Black' : 'White';
-  const bads = goodbads[2]
-    .filter((m) => m.index > turnNumber)
-    .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
-    .join(', ');
-  const badhotspots = goodbads[3]
-    .filter((m) => m.index > turnNumber)
-    .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}`)
-    .join(', ');
-
-  const report = [];
-
-  if (bads !== '') {
-    report.push(
-      `* ${color} more than ${
-        stat.badmovewinrate * 100
-      }% win rate drop: ${bads}`,
-    );
-  }
-  if (badhotspots !== '') {
-    report.push(
-      `* ${color} more than ${
-        stat.badhotspotwinrate * 100
-      }% win rate drop: ${badhotspots}`,
-    );
-  }
-
-  return report;
+  return (
+    getDropList(
+      `${color}s more than ${stat.badmovewinrate * 100}% win rate drop`,
+      goodbads[2].filter((m) => m.index > turnNumber),
+      null,
+      true,
+    ) +
+    getDropList(
+      `${color}s more than ${stat.badhotspotwinrate * 100}% win rate drop`,
+      goodbads[3].filter((m) => m.index > turnNumber),
+      null,
+      true,
+    )
+  );
 }
 
-// Generates next bad moves report.
+// Generates bad moves left report.
 function reportBadsLeft(stat, turnNumber) {
-  const report = [
-    ...nextBads(stat, 'B', turnNumber),
-    ...nextBads(stat, 'W', turnNumber),
-  ];
+  const report =
+    badsLeft(stat, 'B', turnNumber) + badsLeft(stat, 'W', turnNumber);
   if (report.length !== 0) {
-    return `The moves left\n\n${report.join('\n')}`;
+    return `The moves left\n\n${report}`;
   }
   return '';
 }
