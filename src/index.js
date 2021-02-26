@@ -48,7 +48,7 @@ const opts = getopts();
       // Analyzes by KataGo Analysis Engine.
       //
       // Reads SGF and makes KagaGo queries.
-      opts.paths.map(async (path, i) => {
+      opts.paths.map(async (path) => {
         const ext = getext(path);
         const isURL = isValidURL(path);
         if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
@@ -72,11 +72,7 @@ const opts = getopts();
           log(`${newpath} generated.`);
         }
 
-        const query = sgfToKataGoAnalysisQuery(
-          `9beach-${i.toString().padStart(3, '0')}`,
-          sgf,
-          opts.analysis,
-        );
+        const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
 
         // Sends queries to KataGo
         const responses = await kataGoAnalyze(
@@ -96,7 +92,7 @@ const opts = getopts();
 })();
 
 // Makes JSON data to send KataGo Parallel Analysis Engine.
-function sgfToKataGoAnalysisQuery(id, sgf, analysisOpts) {
+function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const query = { ...analysisOpts };
   const sequence = sgfconv.removeTails(sgf);
   const komi = sgfconv.valueFromSequence(sequence, 'KM');
@@ -117,7 +113,7 @@ function sgfToKataGoAnalysisQuery(id, sgf, analysisOpts) {
     query.initialPlayer = initialPlayer;
   }
 
-  query.id = id;
+  query.id = Math.random().toString();
   query.initialStones = sgfconv.initialstonesFromSequence(sequence);
   query.moves = sgfconv.katagomovesFromSequence(sequence);
 

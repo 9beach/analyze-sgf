@@ -49,17 +49,19 @@ function colorPL(player, color) {
 }
 
 function prettyPath(sgf) {
-  const ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
+  let ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
+  if (ev !== '') ev = `[${ev}]`;
   const dt = sgfconv.getAnyOfProperties(sgf, ['DT', 'RD']);
 
   let players = '';
   const pw = sgfconv.valueFromSequence(sgf, 'PW').replace(/:.*/, '');
   const pb = sgfconv.valueFromSequence(sgf, 'PB').replace(/:.*/, '');
-  if (pw !== '' && pb !== '') players = `${pw}-${pb}`;
+  if (pw !== '' && pb !== '') players = `${pw} vs ${pb}`;
 
-  const re = sgfconv.valueFromSequence(sgf, 'RE').replace(/:.*/, '');
+  let re = sgfconv.valueFromSequence(sgf, 'RE').replace(/:.*/, '');
+  if (re !== '') re = `(${re})`;
 
-  return `${[ev, players, re, dt].filter((v) => v !== '').join(', ')}.sgf`;
+  return `${[ev, players, re, dt].filter((v) => v !== '').join(' ')}.sgf`;
 }
 
 // Generates report.

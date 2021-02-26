@@ -47,12 +47,13 @@ function httpget(url) {
     throw Error('Invalid response from URL');
 
   // Fixs SGF dialect (KO/TE/RD) for other SGF editors.
+  sgf = sgf.replace(/\bKO\[\]/, '').replace(/\bKM\[\]/, '');
   sgf = sgf.replace(/\bTE\[/, ';GM[1]FF[4]EV[').replace(/\bRD\[/, 'DT[');
   if (
     sgfconv.valueFromSequence(sgf, 'KO') !== '' &&
     sgfconv.valueFromSequence(sgf, 'KM') === ''
   ) {
-    sgf = sgf.replace(/\bKM\[\]/, '').replace(/\bKO\[/, 'KM[');
+    sgf = sgf.replace(/\bKO\[/, 'KM[');
   }
 
   return sgf;
