@@ -85,47 +85,31 @@ function fillComments(gametree) {
 
   // FIXME: Refactor me.
   //
-  // Makes game report (root comment).
+  // 1. Makes game report (root comment).
 
-  // Counts good moves, bad moves, and bad hotspots.
-  //
-  // stat: 0 -> Good, 1 -> bad, and 2 -> bad hotspots.
   const stat = {
-    blackGoodBads: [[], [], []],
-    whiteGoodBads: [[], [], []],
     root: gametree.root,
   };
 
-  function addToBlackOrWhite(pl, index, num) {
-    if (pl === 'B') stat.blackGoodBads[index].push(num);
-    else stat.whiteGoodBads[index].push(num);
-  }
-
-  gametree.nodes.forEach((node, num) => {
-    const { pl } = node;
-    if (node.winrateDrop < gametree.goodmovewinrate) {
-      addToBlackOrWhite(pl, 0, num);
-    } else if (node.winrateDrop > gametree.badmovewinrate) {
-      addToBlackOrWhite(pl, 1, num);
-      if (node.winrateDrop > gametree.badhotspotwinrate) {
-        addToBlackOrWhite(pl, 2, num);
-      }
-    }
-  });
-
-  stat.blacksTotal = gametree.nodes.reduce(
-    (acc, cur) => acc + (cur.get()[0] === 'B' ? 1 : 0),
-    0,
+  stat.drops = gametree.nodes.reduce(
+    (acc, cur, index) => [
+      ...acc,
+      {
+        index,
+        winrateDrop: cur.winrateDrop,
+        scoreDrop: cur.scoreDrop,
+        pl: cur.pl,
+      },
+    ],
+    [],
   );
-  stat.whitesTotal = gametree.nodes.length - stat.blacksTotal;
 
-  gametree.comment = reportGame(
-    stat,
-    gametree.goodmovewinrate,
-    gametree.badmovewinrate,
-    gametree.badhotspotwinrate,
-    gametree.maxvisits,
-  );
+  stat.goodmovewinrate = gametree.goodmovewinrate;
+  stat.badmovewinrate = gametree.badmovewinrate;
+  stat.badhotspotwinrate = gametree.badhotspotwinrate;
+  stat.visits = gametree.maxvisits;
+
+  gametree.comment = reportGame(stat);
 
   gametree.root = sgfconv.addComment(
     gametree.root,
@@ -139,12 +123,12 @@ function fillComments(gametree) {
     if (node.variations) {
       // PVs for each node.
       if (comment !== '') comment += '\n\n';
-      comment += 'Proposed variations\n';
+      comment += 'The proposed variations\n';
       node.variations.forEach((v, index) => {
         comment += `\n${index + 1}. ${v.formatPV()}`;
         // Sequence for each variation.
         let vcomment = v.getComment();
-        vcomment += `\n* Sequence: ${v.formatPV()}`;
+        vcomment += `* Sequence: ${v.formatPV().replace(/ \(.*/, '')}`;
         v.setComment(vcomment);
       });
     }

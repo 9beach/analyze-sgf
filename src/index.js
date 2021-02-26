@@ -157,7 +157,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
       console.log(report);
     }
   } catch (error) {
-    log(`KataGo error: ${error.message} while processing ${targetPath}`);
+    log(`${error}, while processing ${targetPath}`);
   }
 }
 

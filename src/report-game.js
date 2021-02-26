@@ -5,33 +5,69 @@
 
 const sgfconv = require('./sgfconv');
 
-// [1, 2, 5] => 'move 1, move 2, move 5'
-function joinmoves(moves) {
-  return moves.map((x) => `#${x + 1}`).join(', ');
-}
+const percents = (f) => (f * 100).toFixed(2);
 
-// ('Bad moves', [39, 69, 105, 109, ...], 104) =>
-// '* Bad moves (11.54%, 12/104): move 39, move 69, move 105, move 109, ...'
-function movesstat(goodorbad, moves, total, listmoves = true) {
+function movesstat(goodorbad, moves, total, listMoves, isScore) {
   if (!moves.length) {
     return '';
   }
 
-  const ratio = ((moves.length / total) * 100).toFixed(1);
-  let format = `* ${goodorbad} (${ratio}%, ${moves.length}/${total})`;
+  let format = `* ${goodorbad}`;
+  if (total) {
+    const ratio = percents(moves.length / total);
+    format += ` (${ratio}%, ${moves.length}/${total})`;
+  }
 
-  if (listmoves) {
-    format += `: ${joinmoves(moves)}`;
+  if (listMoves) {
+    format += ': ';
+    if (isScore) {
+      format += moves
+        .map((m) => `#${m.index + 1} ⇣${m.scoreDrop.toFixed(2)}`)
+        .join(', ');
+    } else {
+      format += moves
+        .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
+        .join(', ');
+    }
   }
 
   return `${format}\n`;
 }
 
-function reportGoodAndBad(total, moves) {
+function reportGoodAndBad(
+  moves,
+  goodmovewinrate,
+  badmovewinrate,
+  badhotspotwinrate,
+) {
+  const total = moves[6].length;
   return (
-    movesstat('Good moves', moves[0], total, false) +
-    movesstat('Bad moves', moves[1], total) +
-    movesstat('Bad hot spots', moves[2], total)
+    movesstat(
+      `Less than ${goodmovewinrate * 100}% win rate drops`,
+      moves[0],
+      total,
+      false,
+    ) +
+    movesstat(
+      `Less than ${badmovewinrate * 100}% win rate drops`,
+      moves[1],
+      total,
+      false,
+    ) +
+    movesstat(
+      `More than ${badmovewinrate * 100}% win rate drops`,
+      moves[2],
+      total,
+      true,
+    ) +
+    movesstat(
+      `More than ${badhotspotwinrate * 100}% win rate drops`,
+      moves[3],
+      total,
+      true,
+    ) +
+    movesstat('Top 10 win rate drops', moves[4], null, true) +
+    movesstat('Top 10 score drops', moves[5], null, true, true)
   );
 }
 
@@ -39,15 +75,136 @@ function reportGoodAndBad(total, moves) {
 // ('', 'Black') => 'Black'
 function colorPL(player, color) {
   let pl = player;
-  if (pl !== '') {
-    pl += ` (${color})`;
-  } else {
-    pl = `${color}`;
-  }
-
+  if (pl !== '') pl += ` (${color})`;
+  else pl = `${color}`;
   return pl;
 }
 
+function goodBads(pl, stat) {
+  const moves = [];
+  // 0: Good moves.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop < stat.goodmovewinrate,
+    ),
+  );
+  // 1: Not bad moves.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop < stat.badmovewinrate,
+    ),
+  );
+  // 2: Bad moves.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop >= stat.badmovewinrate,
+    ),
+  );
+  // 3: Bad hot spots.
+  moves.push(
+    stat.drops.filter(
+      (n) => n.pl === pl && n.winrateDrop >= stat.badhotspotwinrate,
+    ),
+  );
+  // 4: The biggest win rate drops.
+  moves.push(
+    stat.drops
+      .filter((n) => n.pl === pl && n.winrateDrop)
+      .sort((a, b) => b.winrateDrop - a.winrateDrop)
+      .slice(0, 10),
+  );
+  // 5: The biggest score drops.
+  moves.push(
+    stat.drops
+      .filter((n) => n.pl === pl && n.scoreDrop)
+      .sort((a, b) => b.scoreDrop - a.scoreDrop)
+      .slice(0, 10),
+  );
+  // 6: Total.
+  moves.push(stat.drops.filter((n) => n.pl === pl));
+  return moves;
+}
+
+// Generates report.
+function reportGame(stat) {
+  // Handles SGF dialect (KO/TE/RD).
+  let km = sgfconv.getAnyOfProperties(stat.root, ['KM', 'KO']);
+  km = km !== '' ? `Komi ${km}` : km;
+  const ev = sgfconv.getAnyOfProperties(stat.root, ['EV', 'TE', 'GN']);
+  const dt = sgfconv.getAnyOfProperties(stat.root, ['DT', 'RD']);
+
+  const re = sgfconv.valueFromSequence(stat.root, 'RE');
+  const title = [ev, km, re, dt].filter((v) => v !== '').join(', ');
+
+  const pb = colorPL(sgfconv.valueFromSequence(stat.root, 'PB'), 'Black');
+  const pw = colorPL(sgfconv.valueFromSequence(stat.root, 'PW'), 'White');
+
+  const blackGoodBads = goodBads('B', stat);
+  const whiteGoodBads = goodBads('W', stat);
+
+  return (
+    `# Analyze-SGF Report\n\n${title}` +
+    `\n\n${pb}\n${reportGoodAndBad(
+      blackGoodBads,
+      stat.goodmovewinrate,
+      stat.badmovewinrate,
+      stat.badhotspotwinrate,
+    )}` +
+    `\n${pw}\n${reportGoodAndBad(
+      whiteGoodBads,
+      stat.goodmovewinrate,
+      stat.badmovewinrate,
+      stat.badhotspotwinrate,
+    )}` +
+    `\nAnalyzed by KataGo Parallel Analysis Engine (${stat.visits} max visits).`
+  );
+}
+
+function nextBads(stat, pl, turnNumber) {
+  const goodbads = goodBads(pl, stat);
+  const color = pl === 'B' ? 'Black' : 'White';
+  const bads = goodbads[2]
+    .filter((m) => m.index > turnNumber)
+    .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
+    .join(', ');
+  const badhotspots = goodbads[3]
+    .filter((m) => m.index > turnNumber)
+    .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}`)
+    .join(', ');
+
+  const report = [];
+
+  if (bads !== '') {
+    report.push(
+      `* ${color} more than ${
+        stat.badmovewinrate * 100
+      }% win rate drop: ${bads}`,
+    );
+  }
+  if (badhotspots !== '') {
+    report.push(
+      `* ${color} more than ${
+        stat.badhotspotwinrate * 100
+      }% win rate drop: ${badhotspots}`,
+    );
+  }
+
+  return report;
+}
+
+// Generates next bad moves report.
+function reportBadsLeft(stat, turnNumber) {
+  const report = [
+    ...nextBads(stat, 'B', turnNumber),
+    ...nextBads(stat, 'W', turnNumber),
+  ];
+  if (report.length !== 0) {
+    return `The moves left\n\n${report.join('\n')}`;
+  }
+  return '';
+}
+
+// Gets file name from SGF
 function prettyPath(sgf) {
   let ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
   // Repalces it for bad format of Tygem.
@@ -66,73 +223,6 @@ function prettyPath(sgf) {
   if (re !== '') re = `(${re})`;
 
   return `${[ev, players, re].filter((v) => v !== '').join(' ')}.sgf`;
-}
-
-// Generates report.
-function reportGame(
-  stat,
-  goodmovewinrate,
-  badmovewinrate,
-  badhotspotwinrate,
-  visits,
-) {
-  // Handles SGF dialect (KO/TE/RD).
-  let km = sgfconv.getAnyOfProperties(stat.root, ['KM', 'KO']);
-  km = km !== '' ? `Komi ${km}` : km;
-  const ev = sgfconv.getAnyOfProperties(stat.root, ['EV', 'TE', 'GN']);
-  const dt = sgfconv.getAnyOfProperties(stat.root, ['DT', 'RD']);
-
-  const re = sgfconv.valueFromSequence(stat.root, 'RE');
-  const title = [ev, km, re, dt].filter((v) => v !== '').join(', ');
-
-  const pb = colorPL(sgfconv.valueFromSequence(stat.root, 'PB'), 'Black');
-  const pw = colorPL(sgfconv.valueFromSequence(stat.root, 'PW'), 'White');
-
-  return (
-    `# Analyze-SGF Report\n\n${title}` +
-    `\n\n${pb}\n${reportGoodAndBad(stat.blacksTotal, stat.blackGoodBads)}` +
-    `\n${pw}\n${reportGoodAndBad(stat.whitesTotal, stat.whiteGoodBads)}` +
-    `\nGood move: less than ${goodmovewinrate * 100}% win rate drop` +
-    `\nBad move: more than ${badmovewinrate * 100}% win rate drop` +
-    `\nBad hot spot: more than ${badhotspotwinrate * 100}% win rate drop` +
-    `\n\nAnalyzed by KataGo Parallel Analysis Engine (${visits} max visits).`
-  );
-}
-
-function nextBads(stat, pl, turnNumber) {
-  const goodbads = pl === 'B' ? stat.blackGoodBads : stat.whiteGoodBads;
-  const color = pl === 'B' ? 'Black' : 'White';
-  const bads = goodbads[1]
-    .filter((m) => m > turnNumber)
-    .map((x) => `#${x + 1}`)
-    .join(', ');
-  const badhotspots = goodbads[2]
-    .filter((m) => m > turnNumber)
-    .map((x) => `#${x + 1}`)
-    .join(', ');
-
-  const report = [];
-
-  if (bads !== '') {
-    report.push(`* ${color} bad moves: ${bads}`);
-  }
-  if (badhotspots !== '') {
-    report.push(`* ${color} bad hot spots: ${badhotspots}`);
-  }
-
-  return report;
-}
-
-// Generates next bad moves report.
-function reportBadsLeft(stat, turnNumber) {
-  const report = [
-    ...nextBads(stat, 'B', turnNumber),
-    ...nextBads(stat, 'W', turnNumber),
-  ];
-  if (report.length !== 0) {
-    return `Bad moves left\n\n${report.join('\n')}`;
-  }
-  return '';
 }
 
 module.exports = { reportGame, reportBadsLeft, prettyPath };

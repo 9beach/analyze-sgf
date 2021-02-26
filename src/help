@@ -10,12 +10,10 @@ Option:
 
 Examples:
   analyze-sgf baduk-1.sgf baduk-2.gib
-  analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
+  analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -s baduk-1.sgf baduk-2.sgf
-  analyze-sgf -f baduk-1.json baduk-2.json
+  analyze-sgf -f baduk.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
-  analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>

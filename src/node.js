@@ -137,8 +137,8 @@ function getWinratesReport(node) {
 
   if (node.winrateDrop !== undefined) {
     winrateDrop = (parseFloat(node.winrateDrop) * 100).toFixed(2);
-    winrateDrop = `* Win rate drop: ${node.pl} ${winrateDrop}%\n`;
-    scoreDrop = `* Score drop: ${node.pl} ${parseFloat(node.scoreDrop).toFixed(
+    winrateDrop = `* Win rate drop: ${node.pl} ⇣${winrateDrop}%\n`;
+    scoreDrop = `* Score drop: ${node.pl} ⇣${parseFloat(node.scoreDrop).toFixed(
       2,
     )}\n`;
   } else {

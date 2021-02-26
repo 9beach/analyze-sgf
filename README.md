@@ -58,10 +58,9 @@ Option:
 
 Examples:
   analyze-sgf baduk-1.sgf baduk-2.gib
-  analyze-sgf -a 'rules:"korean",komi:6.5' baduk-1.sgf baduk-2.sgf
+  analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
-  analyze-sgf -s baduk-1.sgf baduk-2.sgf
-  analyze-sgf -f baduk-1.json baduk-2.json
+  analyze-sgf -f baduk.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
   analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
@@ -114,21 +113,20 @@ $ analyze-sgf 신진서-렌샤오.sgf
 제13회 춘란배 4강, Komi 7.5, 207수 흑불계승, 2021-01-20
 
 신진서 (Black)
-* Good moves (75.0%, 78/104)
-* Bad moves (11.5%, 12/104): #39, #69, #105, #109, #121, #133, #141, #161, #165, #173, #179, #183
-* Bad hot spots (1.0%, 1/104): #141
+* Less than 2% win rate drops (75.00%, 78/104)
+* Less than 5% win rate drops (88.46%, 92/104)
+* More than 5% win rate drops (11.54%, 12/104): #39 ⇣6.32%, #69 ⇣7.03%, #105 ⇣18.34%, #109 ⇣18.41%, #121 ⇣6.67%, #133 ⇣5.92%, #141 ⇣20.10%, #161 ⇣15.17%, #165 ⇣5.78%, #173 ⇣17.48%, #179 ⇣15.75%, #183 ⇣13.84%
+* More than 20% win rate drops (0.96%, 1/104): #141 ⇣20.10%
+* Top 10 win rate drops: #141 ⇣20.10%, #109 ⇣18.41%, #105 ⇣18.34%, #173 ⇣17.48%, #179 ⇣15.75%, #161 ⇣15.17%, #183 ⇣13.84%, #69 ⇣7.03%, #121 ⇣6.67%, #39 ⇣6.32%
+* Top 10 score drops: #141 ⇣35.84, #143 ⇣10.06, #173 ⇣4.93, #171 ⇣3.14, #145 ⇣1.49, #105 ⇣1.43, #179 ⇣1.25, #109 ⇣1.20, #165 ⇣1.14, #69 ⇣0.88
 
 롄샤오 (White)
-* Good moves (74.8%, 77/103)
-* Bad moves (18.4%, 19/103): #64, #96, #102, #104, #106, #108, #114, #116, #120, #138, #146, #150, #166, #172, #174, #176, #180, #184, #190
-* Bad hot spots (1.9%, 2/103): #174, #176
-
-Good move: less than 2% win rate drop
-Bad move: more than 5% win rate drop
-Bad hot spot: more than 20% win rate drop
-
-Variations added for the moves having more than 5% win rate drop.
-The maximum variation number for each move is 10.
+* Less than 2% win rate drops (74.76%, 77/103)
+* Less than 5% win rate drops (81.55%, 84/103)
+* More than 5% win rate drops (18.45%, 19/103): #64 ⇣11.43%, #96 ⇣5.20%, #102 ⇣7.88%, #104 ⇣8.71%, #106 ⇣9.51%, #108 ⇣6.93%, #114 ⇣9.05%, #116 ⇣11.45%, #120 ⇣8.97%, #138 ⇣7.90%, #146 ⇣15.73%, #150 ⇣9.34%, #166 ⇣5.62%, #172 ⇣14.41%, #174 ⇣54.39%, #176 ⇣20.59%, #180 ⇣14.40%, #184 ⇣19.62%, #190 ⇣6.76%
+* More than 20% win rate drops (1.94%, 2/103): #174 ⇣54.39%, #176 ⇣20.59%
+* Top 10 win rate drops: #174 ⇣54.39%, #176 ⇣20.59%, #184 ⇣19.62%, #146 ⇣15.73%, #172 ⇣14.41%, #180 ⇣14.40%, #116 ⇣11.45%, #64 ⇣11.43%, #106 ⇣9.51%, #150 ⇣9.34%
+* Top 10 score drops: #146 ⇣52.72, #174 ⇣7.14, #172 ⇣4.61, #176 ⇣1.93, #116 ⇣1.38, #64 ⇣1.25, #140 ⇣1.21, #186 ⇣1.13, #166 ⇣1.13, #102 ⇣0.99
 
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
