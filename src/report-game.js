@@ -50,10 +50,14 @@ function colorPL(player, color) {
 
 function prettyPath(sgf) {
   let ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
-  if (ev !== '') ev = `[${ev}]`;
+  // Repalces it for bad format of Tygem.
+  ev = ev.replace(' .', '');
   const dt = sgfconv.getAnyOfProperties(sgf, ['DT', 'RD']);
+  ev = [ev, dt].join(', ');
+  if (ev !== '') ev = `[${ev}]`;
 
   let players = '';
+  // Repalces it for bad format of Tygem.
   const pw = sgfconv.valueFromSequence(sgf, 'PW').replace(/:.*/, '');
   const pb = sgfconv.valueFromSequence(sgf, 'PB').replace(/:.*/, '');
   if (pw !== '' && pb !== '') players = `${pw} vs ${pb}`;
@@ -61,7 +65,7 @@ function prettyPath(sgf) {
   let re = sgfconv.valueFromSequence(sgf, 'RE').replace(/:.*/, '');
   if (re !== '') re = `(${re})`;
 
-  return `${[ev, players, re, dt].filter((v) => v !== '').join(' ')}.sgf`;
+  return `${[ev, players, re].filter((v) => v !== '').join(' ')}.sgf`;
 }
 
 // Generates report.
