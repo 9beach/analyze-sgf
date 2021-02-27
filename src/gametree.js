@@ -157,19 +157,20 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
         that.opts.analyzeTurns.indexOf(nextturn) !== -1)
     ) {
       that.nodes[nextturn].variations = curJSON.moveInfos
-        .map((moveinfo) => {
-          const variation = new Node(
-            sgfconv.katagomoveinfoToSequence(nextPL, moveinfo),
-            `A variation of move ${nextturn + 1}`,
-          );
-
-          variation.setWinrate(curJSON.rootInfo, moveinfo, that.opts);
-          return variation;
-        })
+        .map(
+          (moveinfo) =>
+            new Node(
+              sgfconv.katagomoveinfoToSequence(nextPL, moveinfo),
+              `A variation of move ${nextturn + 1}`,
+              curJSON.rootInfo,
+              moveinfo,
+              that.opts,
+            ),
+        )
         .filter(
-          (variation) =>
+          (v) =>
             that.opts.showBadVariations === true ||
-            that.goodmovewinrate > variation.winrateDrop,
+            that.goodmovewinrate > v.winrateDrop,
         )
         .slice(0, that.opts.maxVariationsForEachMove);
     }
@@ -193,15 +194,13 @@ function fillComments(that) {
       winrateDrop: node.winrateDrop,
       scoreDrop: node.scoreDrop,
     })),
+    goodmovewinrate: that.goodmovewinrate,
+    badmovewinrate: that.badmovewinrate,
+    badhotspotwinrate: that.badhotspotwinrate,
+    visits: that.maxvisits,
   };
 
-  stat.goodmovewinrate = that.goodmovewinrate;
-  stat.badmovewinrate = that.badmovewinrate;
-  stat.badhotspotwinrate = that.badhotspotwinrate;
-  stat.visits = that.maxvisits;
-
   that.comment = reportGame(stat);
-
   that.root = sgfconv.addComment(that.root, that.comment);
 
   that.nodes.forEach((node, num) => {

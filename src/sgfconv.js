@@ -5,7 +5,6 @@
 
 // ('XX[11]YY[22]', 0) => '11'
 // ('XX[11]YY[22]', 8) => '22'
-// ('XX[11]YY[22]', 9) => ''
 function inBraket(value, index = 0) {
   const start = value.indexOf('[', index);
   const end = value.indexOf(']', start);
@@ -13,7 +12,6 @@ function inBraket(value, index = 0) {
   if (start === -1 || end === -1) {
     return '';
   }
-
   return value.substring(start + 1, end).trim();
 }
 
@@ -31,7 +29,6 @@ function rawvaluesFromSequence(prop, sgf) {
     const re = new RegExp(`.*\\b${prop}((\\[[^\\]]*\\])+).*`);
     return sgf.replace(re, '$1');
   }
-
   return '';
 }
 
@@ -57,7 +54,6 @@ function prevChar(c) {
 }
 
 // 'aa' => 'A1'
-// 'bd' => 'B4'
 // 'ia' => 'J1'
 function iaToJ1(value) {
   const v = value.toUpperCase();
@@ -65,7 +61,6 @@ function iaToJ1(value) {
   if (v[0] >= 'I') {
     return nextChar(v[0]) + (v.charCodeAt(1) - 64).toString();
   }
-
   return v[0] + (v.charCodeAt(1) - 64).toString();
 }
 
@@ -79,7 +74,6 @@ function iaToJ19(value) {
   if (v[0] >= 'I') {
     return nextChar(v[0]) + (84 - v.charCodeAt(1)).toString();
   }
-
   return v[0] + (84 - v.charCodeAt(1)).toString();
 }
 
@@ -91,7 +85,6 @@ function iaFromJ1(v) {
       String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96)
     );
   }
-
   return (
     v[0].toLowerCase() +
     String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96)
@@ -159,7 +152,6 @@ function addProperty(sequence, mark, index) {
       sequence.substring(0, start + 2) + mark + sequence.substring(start + 2)
     );
   }
-
   return '';
 }
 
@@ -251,7 +243,6 @@ function katagomovesFromSequence(sequence) {
 
 // For SABAKI animated PVs.
 // '(;W[po];B[hm];W[ae]...)' => 'WQ15 H13 A5'
-// '(;W[po])' => 'Q15'
 // 'W[po]' => 'Q15'
 function sequenceToPV(sequence) {
   const pl = sequence[0] === '(' ? sequence[2] : sequence[0];
@@ -264,6 +255,7 @@ function sequenceToPV(sequence) {
       return iaToJ19(move.substring(2, 4));
     })
     .join(' ');
+
   return len > 0 ? pl + pv : pv;
 }
 

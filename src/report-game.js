@@ -171,7 +171,7 @@ function badsLeft(stat, pl, turnNumber) {
   );
 }
 
-// Generates bad moves left report.
+// Generates 'Bad moves left' report.
 function reportBadsLeft(stat, turnNumber) {
   const report =
     badsLeft(stat, 'B', turnNumber) + badsLeft(stat, 'W', turnNumber);

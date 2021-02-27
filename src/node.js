@@ -8,21 +8,21 @@ const sgfconv = require('./sgfconv');
 // Contains Node or tailless NodeSequence of SGF, win rate infomations, and
 // NodeSequence for variations.
 class Node {
-  constructor(sequence, comment = '') {
+  constructor(sequence, comment, previnfo, currentinfo, sgfOpts) {
     // Node or tailless NodeSequence of SGF.
     //
     // e.g. 'B[aa]', 'W[cc]', '(;B[dp];W[po];B[hm])'
     this.sequence = sequence;
+    this.comment = comment;
 
     const index = sequence.search(/\b[BW]\[/);
     if (index === -1) {
       throw Error(`Invalid NodeSequece: ${sequence}`);
     }
-
     // 'B' or 'W'
     this.pl = sequence.substring(index, index + 1);
 
-    this.comment = comment;
+    if (sgfOpts) this.setWinrate(previnfo, currentinfo, sgfOpts);
   }
 
   addProperty(prop) {
