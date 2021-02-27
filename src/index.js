@@ -21,7 +21,7 @@ const log = (message) => console.error(chalk.grey(message));
 const getext = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
 
-// Starts main routine.
+// Pargses args.
 const opts = getopts();
 
 // Starts async communication with kataGoAnalyze().

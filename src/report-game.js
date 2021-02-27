@@ -8,50 +8,40 @@ const sgfconv = require('./sgfconv');
 const percents = (f) => (f * 100).toFixed(2);
 
 function makeGoodBads(pl, stat) {
-  const moves = [];
-  // 0: Good moves.
-  moves.push(
+  return [
+    // 0: Good moves.
     stat.drops.filter(
       (n) => n.pl === pl && n.winrateDrop < stat.goodmovewinrate,
     ),
-  );
-  // 1: Not bad moves.
-  moves.push(
+    // 1: Not bad moves.
     stat.drops.filter(
       (n) => n.pl === pl && n.winrateDrop < stat.badmovewinrate,
     ),
-  );
-  // 2: Bad moves.
-  moves.push(
+    // 2: Bad moves.
     stat.drops.filter(
       (n) => n.pl === pl && n.winrateDrop >= stat.badmovewinrate,
     ),
-  );
-  // 3: Bad hot spots.
-  moves.push(
+    // 3: Bad hot spots.
     stat.drops.filter(
       (n) => n.pl === pl && n.winrateDrop >= stat.badhotspotwinrate,
     ),
-  );
-  // 4: Top 10 win rate drops.
-  moves.push(
+    // 4: Top 10 win rate drops.
     stat.drops
       .filter((n) => n.pl === pl && n.winrateDrop)
       .sort((a, b) => b.winrateDrop - a.winrateDrop)
       .slice(0, 10),
-  );
-  // 5: Top 10 score drops.
-  moves.push(
+    // 5: Top 10 score drops.
     stat.drops
       .filter((n) => n.pl === pl && n.scoreDrop)
       .sort((a, b) => b.scoreDrop - a.scoreDrop)
       .slice(0, 10),
-  );
-  // 6: Total.
-  moves.push(stat.drops.filter((n) => n.pl === pl));
-  return moves;
+    // 6: Total.
+    stat.drops.filter((n) => n.pl === pl),
+  ];
 }
 
+// ('test', moves, 90, true, false) =>
+//   '* test (2.22%, 2/90): #89 ⇣25.12%, #93 ⇣26.86%'
 function getDropList(title, moves, total, listMoves, isScore) {
   if (!moves.length) {
     return '';
@@ -79,7 +69,14 @@ function getDropList(title, moves, total, listMoves, isScore) {
   return `${format}\n`;
 }
 
-function reportGoodAndBad(
+// e.g.:
+// * Less than 2% win rate drops (83.33%, 75/90)
+// * Less than 5% win rate drops (94.44%, 85/90)
+// * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
+// * More than 20% win rate drops (2.22%, 2/90): #89 ⇣25.12%, #93 ⇣26.86%
+// * Top 10 win rate drops: #93 ⇣26.86%, #89 ⇣25.12%, ...
+// * Top 10 score drops: #89 ⇣6.34, #93 ⇣4.61, #167 ⇣4.40, ...
+function goodAndBads(
   moves,
   goodmovewinrate,
   badmovewinrate,
@@ -116,11 +113,9 @@ function reportGoodAndBad(
   );
 }
 
-function colorPL(player, color) {
-  let pl = player;
-  if (pl !== '') pl += ` (${color})`;
-  else pl = `${color}`;
-  return pl;
+function colorPL(pl, color) {
+  if (pl !== '') return `${pl} (${color})`;
+  return color;
 }
 
 // Generates report.
@@ -139,12 +134,12 @@ function reportGame(stat) {
 
   return (
     `# Analyze-SGF Report\n\n${title}` +
-    `\n\n${pb}\n${reportGoodAndBad(
+    `\n\n${pb}\n${goodAndBads(
       makeGoodBads('B', stat),
       stat.goodmovewinrate,
       stat.badmovewinrate,
       stat.badhotspotwinrate,
-    )}\n${pw}\n${reportGoodAndBad(
+    )}\n${pw}\n${goodAndBads(
       makeGoodBads('W', stat),
       stat.goodmovewinrate,
       stat.badmovewinrate,
@@ -154,6 +149,9 @@ function reportGame(stat) {
   );
 }
 
+// e.g.
+// * Blacks more than 5% win rate drop: #117 ⇣14.99%, #127 ⇣11.81%, ...
+// * Blacks more than 20% win rate drop: #129 ⇣30.29%
 function badsLeft(stat, pl, turnNumber) {
   const goodbads = makeGoodBads(pl, stat);
   const color = pl === 'B' ? 'Black' : 'White';
@@ -184,6 +182,9 @@ function reportBadsLeft(stat, turnNumber) {
 }
 
 // Gets file name from SGF
+//
+// e.g.
+// '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
 function prettyPath(sgf) {
   let ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
   // Repalces it for bad format of Tygem.
