@@ -50,7 +50,7 @@ function httpget(url) {
   sgf = sgf.replace(/\bKO\[\]/, '').replace(/\bKM\[\]/, '');
   sgf = sgf.replace(/\bTE\[/, ';GM[1]FF[4]EV[').replace(/\bRD\[/, 'DT[');
   if (
-    sgfconv.valueFromSequence(sgf, 'KO') !== '' &&
+    sgfconv.valueFromSequence(sgf, 'KO') &&
     sgfconv.valueFromSequence(sgf, 'KM') === ''
   ) {
     sgf = sgf.replace(/\bKO\[/, 'KM[');

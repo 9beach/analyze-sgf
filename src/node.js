@@ -30,8 +30,7 @@ class Node {
   }
 
   get() {
-    if (this.comment !== '')
-      return sgfconv.addComment(this.sequence, this.comment);
+    if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
     return this.sequence;
   }
 
@@ -78,6 +77,8 @@ class Node {
   }
 }
 
+const fixFloat = (f) => parseFloat(f).toFixed(2);
+
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
 // Add properties (comment, god move, bad move, ...) to this.sequence.
@@ -99,7 +100,7 @@ function setProperties(node, sgfOpts) {
     // RSGF winrate.
     properties = sgfconv.addProperty(
       properties,
-      `SBKV[${(parseFloat(node.winrate) * 100).toFixed(2)}]`,
+      `SBKV[${fixFloat(node.winrate * 100)}]`,
       0,
     );
   }
@@ -116,7 +117,7 @@ function setProperties(node, sgfOpts) {
 }
 
 function formatWinrate(winrate) {
-  const v = (parseFloat(winrate) * 100).toFixed(2);
+  const v = fixFloat(winrate * 100);
   if (v > 50) return `B ${v}%`;
   return `W ${(100 - v).toFixed(2)}%`;
 }
@@ -136,11 +137,9 @@ function getWinratesReport(node) {
   const scoreLead = `* Score lead: ${formatScoreLead(node.scoreLead)}\n`;
 
   if (node.winrateDrop !== undefined) {
-    winrateDrop = (parseFloat(node.winrateDrop) * 100).toFixed(2);
+    winrateDrop = fixFloat(node.winrateDrop * 100);
     winrateDrop = `* Win rate drop: ${node.pl} ⇣${winrateDrop}%\n`;
-    scoreDrop = `* Score drop: ${node.pl} ⇣${parseFloat(node.scoreDrop).toFixed(
-      2,
-    )}\n`;
+    scoreDrop = `* Score drop: ${node.pl} ⇣${fixFloat(node.scoreDrop)}\n`;
   } else {
     winrateDrop = '';
     scoreDrop = '';

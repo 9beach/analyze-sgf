@@ -65,7 +65,7 @@ class GameTree {
         }
       }
 
-      if (tail !== '') {
+      if (tail) {
         return `\n(;${node.get()}${acc})${tail}`;
       }
       return `\n;${node.get()}${acc}`;
@@ -182,7 +182,7 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
 
 // Fills the report of the game, and the comments of each node and variations.
 function fillComments(that) {
-  if (!that.responsesgiven || that.comment !== '') return;
+  if (!that.responsesgiven || that.comment) return;
 
   // 1. Makes game report (root comment).
   const stat = {
@@ -202,31 +202,30 @@ function fillComments(that) {
 
   that.comment = reportGame(stat);
 
-  that.root = sgfconv.addComment(that.root, that.comment, that.root.length - 2);
+  that.root = sgfconv.addComment(that.root, that.comment);
 
   that.nodes.forEach((node, num) => {
-    // 2. Adds PVs info to the comments of each nodes and variations.
     let comment = node.getComment();
+    // 2. Adds 'Bad moves left' comment to each node.
+    const report = reportBadsLeft(stat, num);
+    if (report) {
+      if (comment) comment += '\n';
+      comment += report;
+    }
+    // 3. Adds PV comment to each node and variation.
     if (node.variations) {
-      // Adds PVs comment to each node.
-      if (comment !== '') comment += '\n';
-      comment += 'The proposed variations\n';
+      if (comment) comment += '\n';
+      comment += 'The proposed variations\n\n';
       node.variations.forEach((v, index) => {
-        comment += `\n${index + 1}. ${v.formatPV()}`;
-        // Adds sequence comment to each variation.
+        // Adds PVs comment to each node.
+        comment += `${index + 1}. ${v.formatPV()}\n`;
+        // Adds a PV comment to each variation.
         let vcomment = v.getComment();
-        vcomment += `* Sequence: ${v.formatPV().replace(/ \(.*/, '')}`;
+        vcomment += `* Sequence: ${v.formatPV().replace(/ \(.*/, '')}\n`;
         v.setComment(vcomment);
       });
     }
-
-    // 3. Adds 'Bad moves left' comment to each node.
-    const report = reportBadsLeft(stat, num);
-    if (comment !== '') {
-      node.setComment(`${comment}\n\n${report}`);
-    } else {
-      node.setComment(comment + report);
-    }
+    node.setComment(comment);
   });
 }
 

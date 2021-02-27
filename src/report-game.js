@@ -114,7 +114,7 @@ function goodAndBads(
 }
 
 function colorPL(pl, color) {
-  if (pl !== '') return `${pl} (${color})`;
+  if (pl) return `${pl} (${color})`;
   return color;
 }
 
@@ -122,12 +122,12 @@ function colorPL(pl, color) {
 function reportGame(stat) {
   // Handles SGF dialect (KO/TE/RD).
   let km = sgfconv.getAnyOfProperties(stat.root, ['KM', 'KO']);
-  km = km !== '' ? `Komi ${km}` : km;
+  km = km ? `Komi ${km}` : km;
   const ev = sgfconv.getAnyOfProperties(stat.root, ['EV', 'TE', 'GN']);
   const dt = sgfconv.getAnyOfProperties(stat.root, ['DT', 'RD']);
 
   const re = sgfconv.valueFromSequence(stat.root, 'RE');
-  const title = [ev, km, re, dt].filter((v) => v !== '').join(', ');
+  const title = [ev, km, re, dt].filter((v) => v).join(', ');
 
   const pb = colorPL(sgfconv.valueFromSequence(stat.root, 'PB'), 'Black');
   const pw = colorPL(sgfconv.valueFromSequence(stat.root, 'PW'), 'White');
@@ -157,13 +157,13 @@ function badsLeft(stat, pl, turnNumber) {
   const color = pl === 'B' ? 'Black' : 'White';
   return (
     getDropList(
-      `${color}s more than ${stat.badmovewinrate * 100}% win rate drop`,
+      `${color} bad moves`,
       goodbads[2].filter((m) => m.index > turnNumber),
       null,
       true,
     ) +
     getDropList(
-      `${color}s more than ${stat.badhotspotwinrate * 100}% win rate drop`,
+      `${color} bad hot spots`,
       goodbads[3].filter((m) => m.index > turnNumber),
       null,
       true,
@@ -176,7 +176,7 @@ function reportBadsLeft(stat, turnNumber) {
   const report =
     badsLeft(stat, 'B', turnNumber) + badsLeft(stat, 'W', turnNumber);
   if (report.length !== 0) {
-    return `The moves left\n\n${report}`;
+    return `Bad moves left\n\n${report}`;
   }
   return '';
 }
@@ -191,18 +191,18 @@ function prettyPath(sgf) {
   ev = ev.replace(' .', '');
   const dt = sgfconv.getAnyOfProperties(sgf, ['DT', 'RD']);
   ev = [ev, dt].join(', ');
-  if (ev !== '') ev = `[${ev}]`;
+  if (ev) ev = `[${ev}]`;
 
   let players = '';
   // Repalces it for bad format of Tygem.
   const pw = sgfconv.valueFromSequence(sgf, 'PW').replace(/:.*/, '');
   const pb = sgfconv.valueFromSequence(sgf, 'PB').replace(/:.*/, '');
-  if (pw !== '' && pb !== '') players = `${pw} vs ${pb}`;
+  if (pw && pb) players = `${pw} vs ${pb}`;
 
   let re = sgfconv.valueFromSequence(sgf, 'RE').replace(/:.*/, '');
-  if (re !== '') re = `(${re})`;
+  if (re) re = `(${re})`;
 
-  return `${[ev, players, re].filter((v) => v !== '').join(' ')}.sgf`;
+  return `${[ev, players, re].filter((v) => v).join(' ')}.sgf`;
 }
 
 module.exports = { reportGame, reportBadsLeft, prettyPath };

@@ -139,7 +139,7 @@ function getAnyOfProperties(sgf, props) {
   let value = '';
   props.some((p) => {
     value = valueFromSequence(sgf, p);
-    return value !== '';
+    return value;
   });
   return value;
 }
@@ -205,9 +205,11 @@ function toBadHotSpot(sequence, index = 0) {
 }
 
 // ('(;W[aa];B[bb])', 'hey[]', 0) => '(;W[aa]C[hey[\]];B[bb])'
-function addComment(sequence, comment, index = 0) {
+function addComment(sequence, comment, index) {
+  let i = index;
+  if (i === undefined) i = sequence.length - 3;
   const replaced = comment.replace(/\]/g, '\\]');
-  return addProperty(sequence, `C[${replaced}]`, index);
+  return addProperty(sequence, `C[${replaced}]`, i);
 }
 
 // rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]
@@ -218,7 +220,7 @@ function getPLs(rootsequence) {
   const index = sequence.search(/\b[BW]\[/);
   if (index !== -1) {
     pls.push(sequence[index]);
-  } else if (valueFromSequence(root, 'PL') !== '') {
+  } else if (valueFromSequence(root, 'PL')) {
     pls.push(valueFromSequence(root, 'PL'));
   } else {
     pls.push('B');

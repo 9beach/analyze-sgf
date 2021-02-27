@@ -80,7 +80,7 @@ const opts = getopts();
           opts.katago,
         );
 
-        if (responses !== '') {
+        if (responses) {
           saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
         }
       });
@@ -97,19 +97,19 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const sequence = sgfconv.removeTails(sgf);
   const komi = sgfconv.valueFromSequence(sequence, 'KM');
 
-  if (komi !== '') {
+  if (komi) {
     query.komi = parseFloat(komi);
   } else {
     // Handles SGF dialect.
     const ko = sgfconv.valueFromSequence(sequence, 'KO');
-    if (ko !== '') {
+    if (ko) {
       query.komi = parseFloat(ko);
     }
   }
 
   const initialPlayer = sgfconv.valueFromSequence(sequence, 'PL');
 
-  if (initialPlayer !== '') {
+  if (initialPlayer) {
     query.initialPlayer = initialPlayer;
   }
 
@@ -153,7 +153,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
     log(`${sgfPath} generated.`);
 
     const report = gametree.getComment();
-    if (report !== '') {
+    if (report) {
       console.log(report);
     }
   } catch (error) {
