@@ -9,7 +9,7 @@ const { reportGame, reportBadsLeft } = require('./report-game');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
-  constructor(sgf, katagoresponses, opts) {
+  constructor(sgf, katagoResponses, opts) {
     const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
 
     this.root = rootsequence.root;
@@ -22,7 +22,7 @@ class GameTree {
     this.badhotspotwinrate = opts.minWinrateDropForBadHotSpot / 100;
     this.variationwinrate = opts.minWinrateDropForVariations / 100;
 
-    // Gets root node and tailless main sequence from sgf.
+    // Gets root node and tailless main sequence from SGF.
     this.nodes = rootsequence.sequence
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
@@ -31,7 +31,7 @@ class GameTree {
       );
 
     const pls = sgfconv.getPLs(rootsequence);
-    fillWinratesAndVarations(this, katagoresponses, pls);
+    fillWinratesAndVarations(this, katagoResponses, pls);
     fillComments(this);
   }
 
@@ -77,16 +77,16 @@ class GameTree {
   }
 }
 
-// Fills win rates and variations of this.nodes from KataGo responses.
-function fillWinratesAndVarations(that, katagoresponses, pls) {
+// Fills win rates and variations of that.nodes from KataGo responses.
+function fillWinratesAndVarations(that, katagoResponses, pls) {
   // FIXME: Refactor me.
   //
   // Checks KataGo error response.
-  if (katagoresponses.search('{"error":"') === 0) {
-    throw Error(katagoresponses.replace('\n', ''));
+  if (katagoResponses.search('{"error":"') === 0) {
+    throw Error(katagoResponses.replace('\n', ''));
   }
 
-  let responses = katagoresponses.split('\n');
+  let responses = katagoResponses.split('\n');
   if (responses[responses.length - 1] === '')
     responses = responses.slice(0, responses.length - 1);
 

@@ -57,19 +57,19 @@ const opts = getopts();
         }
 
         let sgf;
-        let newpath;
+        let newPath;
 
         if (!isURL) {
           const content = fs.readFileSync(path);
           const detected = jschardet.detect(content);
           sgf = iconv.decode(content, detected.encoding).toString();
           if (ext === 'gib') sgf = toSGF(sgf);
-          newpath = path;
+          newPath = path;
         } else {
           sgf = httpget(path);
-          newpath = prettyPath(sgf);
-          fs.writeFileSync(newpath, sgf);
-          log(`${newpath} generated.`);
+          newPath = prettyPath(sgf);
+          fs.writeFileSync(newPath, sgf);
+          log(`${newPath} generated.`);
         }
 
         const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
@@ -81,7 +81,7 @@ const opts = getopts();
         );
 
         if (responses !== '') {
-          saveAnalyzed(newpath, sgf, responses, opts.saveGiven, opts.sgf);
+          saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
         }
       });
     }

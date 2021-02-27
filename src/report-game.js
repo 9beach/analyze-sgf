@@ -40,8 +40,8 @@ function makeGoodBads(pl, stat) {
   ];
 }
 
-// ('test', moves, 90, true, false) =>
-//   '* test (2.22%, 2/90): #89 ⇣25.12%, #93 ⇣26.86%'
+// e.g.:
+// * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
 function getDropList(title, moves, total, listMoves, isScore) {
   if (!moves.length) {
     return '';
@@ -184,7 +184,7 @@ function reportBadsLeft(stat, turnNumber) {
 // Gets file name from SGF
 //
 // e.g.
-// '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
+// [제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf
 function prettyPath(sgf) {
   let ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
   // Repalces it for bad format of Tygem.
