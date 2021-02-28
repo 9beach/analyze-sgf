@@ -14,10 +14,10 @@ variations, and save them as new SGF files.
 You can analyze an SGF/GIB file one by one in real-time by linking
 [Sabaki](https://sabaki.yichuanshen.de/) or
 [Lizzie](https://github.com/featurecat/lizzie) and KataGo. But with
-`analyze-sgf`, you can analyze many SGF/GIB files all at once, and save the KataGo
-reviewed SGF files automatically. If you open these with Sabaki, you can
-analyze them with the help of the overall win rate, good and bad move labels,
-and proposed variations.
+`analyze-sgf`, you can analyze many SGF/GIB files all at once, and save the
+KataGo reviewed SGF files automatically. If you open these with Sabaki, you
+can analyze them with the help of the overall win rate, good and bad move
+labels, and proposed variations.
 
 `analyze-sgf` also gives you a way to specify a very large number of visits
 and let KataGo analyze several hours, then save and recycle the
@@ -42,7 +42,7 @@ or `PowerShell`.
 C:\Users\hcho> npm install -g analyze-sgf
 ```
 
-Notice that upgrade command is same as install command.
+Notice that the upgrade command is the same as the install command.
 
 ## Usage
 
@@ -77,8 +77,8 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 ```
 
 In Microsoft Windows, it should be run with `analyze-sgf.cmd` rather than
-`analyze-sgf`, but for convenience, we'll term all as `analyze-sgf`. Now let's
-look at how to use them one by one.
+`analyze-sgf`, but for convenience, we'll call it `analyze-sgf`. Now let's look
+at how to use them one by one.
 
 To run `analyze-sgf`, you need to set the KataGo path in the
 `.analyze-sgf.yml` file in your home directory. The contents of the
@@ -115,9 +115,9 @@ sgf:
   # ......
 ```
 
-Now, run `analyze-sgf` with a SGF/GIB file, for example, `shin-vs-lian.sgf`,
-the simple analysis result will be printed out, and a file `shin-vs-lian-analized.sgf`
-is generated.
+Now, run `analyze-sgf` with SGF/GIB files, for example, `shin-vs-lian.sgf`,
+the simple analysis result will be printed out, and a file
+`shin-vs-lian-analized.sgf` is generated.
 
 ```console
 $ analyze-sgf shin-vs-lian.sgf
@@ -167,24 +167,26 @@ The screenshot below shows the file opened in Sabaki.
 **Navigating the variations with Sabaki**
 
 If the win rate drops by more than 5%, the node of the game tree turns to a
-red dot, if more than 20%, turns to a red ribbon, and if within 2%,
-turns to a green dot. This criterion can be changed by specifying the
+red dot, if more than 20%, turns to a red ribbon, and if within 2%, turns to a
+green dot. This criterion can be changed by specifying the
 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and
 `maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
 
-The comment of each move contains information about win rate and score, as well as links to the moves with huge win rate drop, so you can quickly analyze your game.
+The comment of each move contains information about win rate and score, as well
+as links to the moves with huge win rate drop, so you can quickly analyze your
+game.
 
-If you hover your mouse over a proposed variation in Sabaki, the sequence of the variation is
-automatically played as shown in the screenshot above.
+If you hover your mouse over a proposed variation in Sabaki, the sequence of
+the variation is automatically played as shown in the screenshot above.
 
 ## Options
 
 The `.analyze-sgf.yml` file saves all the default settings for `analyze-sgf`.
 You can either modify the `.analyze-sgf.yml` file to modify the default
-settings, or specify it when running `analyze-sgf`. For example, to adjust
+settings or specify it when running `analyze-sgf`. For example, to adjust
 `maxVisits` of KataGo Parallel Analysis Engine, you need to change the
-`maxVisits` value in the analysis section, which can also be specified
-at run time, as follows:
+`maxVisits` value in the analysis section, which can also be specified at run
+time, as follows:
 
 ```console
 C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
@@ -201,8 +203,8 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 ```
 
 The `-a` and `-g` options stand for `analysis` and `sgf`, respectively.
-Because KataGo analyzes with the concept of the proposed variations, in
-order to analyze the 174th move, we need to request 173.
+Because KataGo analyzes with the concept of the proposed variations, to
+analyze the 174th move, we need to request 173.
 
 If `analyzeTurns` is specified, only the variations of specified moves are
 saved. If `analyzeTurns` is not specified, all the variations of the moves
@@ -246,12 +248,12 @@ exist before, including the variations of bad win rates. Saved analysis
 information is used, so values for `-a` options such as `maxVisits`
 other than `analyzeTurns` are ignored.
 
-If you can wait a few hours, give it very large number of visits and save the analysis
-data with `-s -a 'maxVisits:100000'`. This provides a whole new level of depth
-compared to using KataGo in real-time.
+If you can wait a few hours, give it a very large number of visits and save the
+analysis data with `-s -a 'maxVisits:100000'`. This provides a whole new level
+of depth compared to using KataGo in real-time.
 
-If you want to see all the variations that exist in your KataGo analysis
-data, do the following:
+If you want to see all the variations that exist in your KataGo analysis data,
+do the following:
 
 ```console
 analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
