@@ -12,7 +12,7 @@ describe('convert', () => {
     const gib = iconv.decode(content, detected.encoding).toString();
 
     const sgf = fs.readFileSync('test/examples/t-gb2312.sgf').toString();
-    assert.equal(`${convert(gib)}\n`, sgf);
+    assert.equal(convert(gib), sgf);
   });
   it('should be expected values.', () => {
     const content = fs.readFileSync('test/examples/t-euc-kr.gib');
@@ -20,7 +20,7 @@ describe('convert', () => {
     const gib = iconv.decode(content, detected.encoding).toString();
 
     const sgf = fs.readFileSync('test/examples/t-euc-kr.sgf').toString();
-    assert.equal(`${convert(gib)}\n`, sgf);
+    assert.equal(convert(gib), sgf);
   });
   it('should be expected values.', () => {
     const content = fs.readFileSync('test/examples/t-utf-8.gib');
