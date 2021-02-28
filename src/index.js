@@ -127,7 +127,7 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
   try {
-    if (responses === '') {
+    if (!responses) {
       throw Error('no response');
     }
     if (responses.search('{"error":"') === 0) {

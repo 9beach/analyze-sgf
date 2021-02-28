@@ -42,12 +42,12 @@ function makeGoodBads(pl, stat) {
 
 // e.g.:
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
-function getDropList(title, moves, total, listMoves, isScore) {
+function getDropList(text, moves, total, listMoves, isScore) {
   if (!moves.length) {
     return '';
   }
 
-  let format = `* ${title}`;
+  let format = `* ${text}`;
   if (total) {
     const ratio = percents(moves.length / total);
     format += ` (${ratio}%, ${moves.length}/${total})`;
@@ -118,7 +118,16 @@ function colorPL(pl, color) {
   return color;
 }
 
-// Generates report.
+function reportColor(pl, stat) {
+  return goodAndBads(
+    makeGoodBads(pl, stat),
+    stat.goodmovewinrate,
+    stat.badmovewinrate,
+    stat.badhotspotwinrate,
+  );
+}
+
+// Generates game report.
 function reportGame(stat) {
   // Handles SGF dialect (KO/TE/RD).
   let km = sgfconv.getAnyOfProperties(stat.root, ['KM', 'KO']);
@@ -127,31 +136,22 @@ function reportGame(stat) {
   const dt = sgfconv.getAnyOfProperties(stat.root, ['DT', 'RD']);
 
   const re = sgfconv.valueFromSequence(stat.root, 'RE');
-  const title = [ev, km, re, dt].filter((v) => v).join(', ');
+  const game = [ev, km, re, dt].filter((v) => v).join(', ');
 
   const pb = colorPL(sgfconv.valueFromSequence(stat.root, 'PB'), 'Black');
   const pw = colorPL(sgfconv.valueFromSequence(stat.root, 'PW'), 'White');
 
   return (
-    `# Analyze-SGF Report\n\n${title}` +
-    `\n\n${pb}\n${goodAndBads(
-      makeGoodBads('B', stat),
-      stat.goodmovewinrate,
-      stat.badmovewinrate,
-      stat.badhotspotwinrate,
-    )}\n${pw}\n${goodAndBads(
-      makeGoodBads('W', stat),
-      stat.goodmovewinrate,
-      stat.badmovewinrate,
-      stat.badhotspotwinrate,
-    )}\nAnalyzed by KataGo Parallel Analysis Engine ` +
+    `# Analyze-SGF Report\n\n${game}` +
+    `\n\n${pb}\n${reportColor('B', stat)}\n${pw}\n${reportColor('W', stat)}` +
+    `\nAnalyzed by KataGo Parallel Analysis Engine ` +
     `(${stat.visits} max visits).`
   );
 }
 
 // e.g.
-// * Blacks more than 5% win rate drop: #117 ⇣14.99%, #127 ⇣11.81%, ...
-// * Blacks more than 20% win rate drop: #129 ⇣30.29%
+// * Blacks bad moves: #117 ⇣14.99%, #127 ⇣11.81%, ...
+// * Blacks bad hot spots: #129 ⇣30.29%
 function badsLeft(stat, pl, turnNumber) {
   const goodbads = makeGoodBads(pl, stat);
   const color = pl === 'B' ? 'Black' : 'White';
@@ -175,13 +175,11 @@ function badsLeft(stat, pl, turnNumber) {
 function reportBadsLeft(stat, turnNumber) {
   const report =
     badsLeft(stat, 'B', turnNumber) + badsLeft(stat, 'W', turnNumber);
-  if (report.length !== 0) {
-    return `Bad moves left\n\n${report}`;
-  }
+  if (report) return `Bad moves left\n\n${report}`;
   return '';
 }
 
-// Gets file name from SGF
+// Gets file name from SGF.
 //
 // e.g.
 // [제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf

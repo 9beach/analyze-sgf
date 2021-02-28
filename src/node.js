@@ -119,13 +119,13 @@ function setProperties(node, sgfOpts) {
 function formatWinrate(winrate) {
   const v = fixFloat(winrate * 100);
   if (v > 50) return `B ${v}%`;
-  return `W ${(100 - v).toFixed(2)}%`;
+  return `W ${fixFloat(100 - v)}%`;
 }
 
 function formatScoreLead(scoreLead) {
-  const v = parseFloat(scoreLead).toFixed(2);
+  const v = fixFloat(scoreLead);
   if (v > 0) return `B ${v}`;
-  return `W ${(-v).toFixed(2)}`;
+  return `W ${fixFloat(-v)}`;
 }
 
 // (node) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".

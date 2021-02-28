@@ -87,7 +87,7 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
   }
 
   let responses = katagoResponses.split('\n');
-  if (responses[responses.length - 1] === '')
+  if (!responses[responses.length - 1])
     responses = responses.slice(0, responses.length - 1);
 
   if (responses.length) that.responsesgiven = true;
