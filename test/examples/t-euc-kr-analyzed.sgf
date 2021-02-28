@@ -18,7 +18,7 @@ Bad hot spot: more than 20% win rate drop
 Variations added for the moves having more than 5% win rate drop.
 The maximum variation number for each move is 10.
 
-Analyzed by KataGo Parallel Analysis Engine (1615 max visits).]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]PB[dustkd1015]BR[1±Þ]PW[dongjik]WR[1±Þ]RE[B+T]KM[6.5]DT[2015-08-29]
+Analyzed by KataGo Parallel Analysis Engine (1615 max visits).]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]PB[dustkd1015]BR[1±Þ]PW[dongjik]WR[1±Þ]EV[½Â°­±Þ ´ë±¹]RE[B+T]KM[6.5]DT[2015-08-29]
 ;B[qc]C[As Black:
 * Win rate: 54.50%
 * Win rate drop: 0.84%

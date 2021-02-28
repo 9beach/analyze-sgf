@@ -1,5 +1,5 @@
 /**
- * @fileOverview Converts SGF to GIB (Tygem format).
+ * @fileOverview Converts Tygem's GIB format to SGF.
  *
  *               Based on <https://github.com/SabakiHQ/Sabaki/blob/master/src/modules/fileformats/gib.js>.
  */
@@ -36,7 +36,6 @@ function valueOfINI(gib) {
 
 // Gets RE value.
 function makeRE(line, grltRegex, zipsuRegex) {
-  let result = '';
   let match = grltRegex.exec(line);
 
   if (match) {
@@ -44,7 +43,7 @@ function makeRE(line, grltRegex, zipsuRegex) {
     match = zipsuRegex.exec(line);
     if (match) {
       const zipsu = parseFloat(match[1]);
-     return parseRE(grlt, zipsu);
+      return parseRE(grlt, zipsu);
     }
   }
 
