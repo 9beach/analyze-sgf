@@ -10,7 +10,14 @@ const { reportGame, reportBadsLeft } = require('./report-game');
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
-    const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
+    const rootsequence = sgfconv.rootsequenceFromSGF(
+      // Fixs SGF dialect (KO/TE/RD) for other SGF editors.
+      sgf
+        .replace(/\bTE\[/, 'EV[')
+        .replace(/\bRD\[/, 'DT[')
+        .replace(/\bK[OM]\[\]/, '')
+        .replace(/\bKO\[/, 'KM['),
+    );
 
     this.root = rootsequence.root;
     this.opts = opts;
