@@ -31,7 +31,7 @@ class GameTree {
     this.badhotspotwinrate = opts.minWinrateDropForBadHotSpot / 100;
     this.variationwinrate = opts.minWinrateDropForVariations / 100;
 
-    // Gets root node and tailless main sequence from SGF.
+    // Gets root node and main sequence from SGF.
     this.nodes = rootsequence.sequence
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
