@@ -23,13 +23,13 @@ echo -n Tests src/index.js with option -a and \"t-sabaki-?.sgf\".
 src/index.js -a 'maxVisits:100' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3' -s \
 	$temp-?.sgf &> $temp.result
 
-wc0=$(wc < $temp.result | awk '{print $2}')
-wc1=$(wc < $temp-1.json | awk '{print $2}')
-wc2=$(wc < $temp-2.json | awk '{print $2}')
+wc0=$(wc < $temp.result | awk '{print $1}')
+wc1=$(wc < $temp-1.json | awk '{print $1}')
+wc2=$(wc < $temp-2.json | awk '{print $1}')
 wc3=$(cat $temp-1-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)
 wc4=$(cat $temp-2-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)
 
-if [[ $wc0 -gt 110 ]] && [[ $wc1 -eq 5 ]] && [[ $wc2 -eq 8 ]] && [[ $wc3 -eq 12 ]] && [[ $wc4 -eq 16 ]]; then
+if [[ $wc0 -gt 30 ]] && [[ $wc1 -eq 5 ]] && [[ $wc2 -eq 6 ]] && [[ $wc3 -eq 12 ]] && [[ $wc4 -eq 16 ]]; then
 	echo -e "\033[1;32m Ok \033[0m"
 else
 	echo -e "\033[1;31m Failure \033[0m"
