@@ -35,7 +35,7 @@ function valueOfINI(gib) {
 }
 
 // Gets RE value.
-function makeRE(line, grltRegex, zipsuRegex) {
+function getRE(line, grltRegex, zipsuRegex) {
   let match = grltRegex.exec(line);
 
   if (match) {
@@ -68,13 +68,10 @@ function parseRE(grlt, zipsu) {
 
 // 'STO 0 2 2 15 15' => ';W[pp]'
 function sgfnodeFromSTO(line) {
-  const start = line.indexOf(' ');
-  if (start === -1) throw Error(`Invalid STO format (${line})`);
-  const sto = line.substring(start + 1).trim();
-  const move = sto.split(/\s+/);
-  const pl = move[2] === '1' ? 'B' : 'W';
-  const x = parseInt(move[3], 10);
-  const y = parseInt(move[4], 10);
+  const move = line.split(/\s+/);
+  const pl = move[3] === '1' ? 'B' : 'W';
+  const x = parseInt(move[4], 10);
+  const y = parseInt(move[5], 10);
 
   return `;${pl}[${String.fromCharCode(97 + x)}${String.fromCharCode(97 + y)}]`;
 }
@@ -112,6 +109,10 @@ function makeRoot(gib) {
 
   let line;
 
+  // EV
+  line = valueOfGIB(gib, 'GAMENAME');
+  if (line) root += makeProperty('EV', line);
+
   // PB, BR
   line = valueOfGIB(gib, 'GAMEBLACKNAME');
   if (line) {
@@ -128,15 +129,11 @@ function makeRoot(gib) {
     root += makeProperty('WR', pair[1]);
   }
 
-  // EV
-  line = valueOfGIB(gib, 'GAMENAME');
-  if (line) root += makeProperty('EV', line);
-
   // RE, KM
   line = valueOfGIB(gib, 'GAMEINFOMAIN');
   if (line) {
     if (!hasRE) {
-      const result = makeRE(line, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
+      const result = getRE(line, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
       if (result) {
         root += makeProperty('RE', result);
         hasRE = true;
@@ -166,7 +163,7 @@ function makeRoot(gib) {
       }
     }
     if (!hasRE) {
-      const result = makeRE(line, /,W(\d+),/, /,Z(\d+),/);
+      const result = getRE(line, /,W(\d+),/, /,Z(\d+),/);
       if (result) {
         root += makeProperty('RE', result);
         hasRE = true;
