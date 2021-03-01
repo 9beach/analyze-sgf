@@ -110,7 +110,8 @@ class Node {
 
 const fixFloat = (f) => parseFloat(f).toFixed(2);
 
-// Sets win rate to that.comment and the properties of that.sequence.
+// Sets winrate, scoreDrop, winrateDrop, ... to that.comment and the properties
+// of that.sequence.
 function setWinrateToCommentAndProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
@@ -150,8 +151,6 @@ function formatScoreLead(scoreLead) {
   return `W ${fixFloat(-v)}`;
 }
 
-// Returns sequence (by Leela Zero's PV format), win rate, and score lead.
-//
 // e.g. 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
 function formatPV(that) {
   return (
@@ -160,7 +159,11 @@ function formatPV(that) {
   );
 }
 
-// (that) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
+// e.g.
+// * Win rate: B 51.74%
+// * Score lead: W 0.20
+// * Win rate drop: B ⇣30.29%
+// * Score drop: B ⇣4.31
 function getWinratesReport(that) {
   let winrateDrop;
   let scoreDrop;
