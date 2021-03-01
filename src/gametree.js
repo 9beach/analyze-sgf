@@ -3,6 +3,8 @@
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
+/* eslint no-param-reassign: ["error", { "props": false }] */
+
 const sgfconv = require('./sgfconv');
 const Node = require('./node');
 const { reportGame, reportBadsLeft } = require('./report-game');
@@ -185,8 +187,6 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
   });
   // FIXME: Remove last move if have no variations.
 }
-
-/* eslint no-param-reassign: ["error", { "props": false }] */
 
 // Fills the report of the game, and the comments of each node and variations.
 function fillComments(that) {

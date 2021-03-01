@@ -3,6 +3,8 @@
  *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
+/* eslint no-param-reassign: ["error", { "props": false }] */
+
 const sgfconv = require('./sgfconv');
 
 // Contains Node or tailless NodeSequence of SGF, win rate infomations, and
@@ -81,41 +83,39 @@ class Node {
 
 const fixFloat = (f) => parseFloat(f).toFixed(2);
 
-/* eslint no-param-reassign: ["error", { "props": false }] */
-
-// Add properties (comment, god move, bad move, ...) to this.sequence.
+// Add properties (comment, god move, bad move, ...) to that.sequence.
 //
-// node, sgfOpts => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
-// node, sgfOpts => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
-function setProperties(node, sgfOpts) {
-  if (node.propertiesGot === true) {
+// (that, sgfOpts) => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
+// (that, sgfOpts) => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
+function setProperties(that, sgfOpts) {
+  if (that.propertiesGot === true) {
     return;
   }
-  node.propertiesGot = true;
+  that.propertiesGot = true;
 
-  let properties = node.sequence;
+  let properties = that.sequence;
 
-  if (node.winrate != null) {
+  if (that.winrate != null) {
     // Comment.
-    node.comment += `\n\n${getWinratesReport(node)}`;
+    that.comment += `\n\n${getWinratesReport(that)}`;
 
     // RSGF winrate.
     properties = sgfconv.addProperty(
       properties,
-      `SBKV[${fixFloat(node.winrate * 100)}]`,
+      `SBKV[${fixFloat(that.winrate * 100)}]`,
       0,
     );
   }
 
-  if (node.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100) {
+  if (that.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100) {
     properties = sgfconv.toGoodNode(properties);
-  } else if (node.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100) {
+  } else if (that.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100) {
     properties = sgfconv.toBadHotSpot(properties);
-  } else if (node.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100) {
+  } else if (that.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100) {
     properties = sgfconv.toBadNode(properties);
   }
 
-  node.sequence = properties;
+  that.sequence = properties;
 }
 
 function formatWinrate(winrate) {
@@ -130,18 +130,18 @@ function formatScoreLead(scoreLead) {
   return `W ${fixFloat(-v)}`;
 }
 
-// (node) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
-function getWinratesReport(node) {
+// (that) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
+function getWinratesReport(that) {
   let winrateDrop;
   let scoreDrop;
 
-  const winrate = `* Win rate: ${formatWinrate(node.winrate)}\n`;
-  const scoreLead = `* Score lead: ${formatScoreLead(node.scoreLead)}\n`;
+  const winrate = `* Win rate: ${formatWinrate(that.winrate)}\n`;
+  const scoreLead = `* Score lead: ${formatScoreLead(that.scoreLead)}\n`;
 
-  if (node.winrateDrop !== undefined) {
-    winrateDrop = fixFloat(node.winrateDrop * 100);
-    winrateDrop = `* Win rate drop: ${node.pl} ⇣${winrateDrop}%\n`;
-    scoreDrop = `* Score drop: ${node.pl} ⇣${fixFloat(node.scoreDrop)}\n`;
+  if (that.winrateDrop !== undefined) {
+    winrateDrop = fixFloat(that.winrateDrop * 100);
+    winrateDrop = `* Win rate drop: ${that.pl} ⇣${winrateDrop}%\n`;
+    scoreDrop = `* Score drop: ${that.pl} ⇣${fixFloat(that.scoreDrop)}\n`;
   } else {
     winrateDrop = '';
     scoreDrop = '';
