@@ -18,7 +18,7 @@ echo -e "\033[1;32mKataGo testing\033[0m"
 echo -n Tests src/index.js with option -a and \"t-sabaki-?.sgf\".
 
 # Creates $temp-analyzed.sgf.
-src/index.js -a 'maxVisits:100' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3' -s \
+src/index.js -a 'maxVisits:40' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3' -s \
 	$temp-?.sgf &> $temp.result
 
 wc0=$(wc < $temp.result | awk '{print $1}')
@@ -44,7 +44,7 @@ fi
 echo -n Tests src/index.js with option -a \"analyzeTurns\" and \"t-sabaki-?.sgf\".
 
 # Creates $temp-analyzed.sgf.
-src/index.js -a 'maxVisits:100,analyzeTurns:[0,3]' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3,showVariationsAfterLastMove:true' \
+src/index.js -a 'maxVisits:40,analyzeTurns:[0,3]' -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:3,showVariationsAfterLastMove:true' \
 	$temp-?.sgf &> $temp.result
 
 wc0=$(cat $temp-1-analyzed.sgf | sed -e 's:(;[BW]:|__:g' | tr '|' '\n' | grep '__'  | wc -l)

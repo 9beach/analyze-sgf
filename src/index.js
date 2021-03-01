@@ -5,6 +5,8 @@
  */
 
 const fs = require('fs');
+const syspath = require('path');
+const homedir = require('os').homedir();
 const chalk = require('chalk');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
@@ -18,6 +20,7 @@ const { prettyPath } = require('./report-game');
 const { httpget, isValidURL } = require('./httpget');
 
 const log = (message) => console.error(chalk.grey(message));
+const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
 const getext = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
 
@@ -172,7 +175,7 @@ async function kataGoAnalyze(queries, katagoOpts) {
   katago.on('exit', (code) => {
     if (code !== 0) {
       log(
-        'Failed to run KataGo. Please fix ".analyze-sgf.yml".' +
+        `KataGo exec failure. Please fix: ${config}` +
           `\n${JSON.stringify(katagoOpts)}`,
       );
       process.exit(1);
