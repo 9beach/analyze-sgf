@@ -113,7 +113,7 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
     query.initialPlayer = initialPlayer;
   }
 
-  query.id = Math.random().toString();
+  query.id = `9beach-${Math.random().toString().slice(2)}`;
   query.initialStones = sgfconv.initialstonesFromSequence(sequence);
   query.moves = sgfconv.katagomovesFromSequence(sequence);
 
