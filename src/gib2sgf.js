@@ -82,7 +82,7 @@ function parseRE(grlt, zipsu) {
   return '';
 }
 
-// 1 => 'A'
+// 2 => 'B'
 const oneToA = (x) => String.fromCharCode(97 + x);
 
 // 'STO 0 2 2 15 15' => ';W[pp]'

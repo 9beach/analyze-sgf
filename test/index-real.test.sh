@@ -5,7 +5,6 @@ set -e
 REPO_PATH="$(dirname $(cd "$(dirname "$0")" > /dev/null 2>&1; pwd -P))"
 cd $REPO_PATH
 
-######################
 # Setup test fixtures.
 ######################
 temp=$(mktemp)
@@ -14,7 +13,6 @@ cp test/examples/t-sabaki-2.sgf $temp-2.sgf
 
 echo -e "\033[1;32mKataGo testing\033[0m"
 
-#########
 # Test 1.
 #########
 echo -n Tests src/index.js with option -a and \"t-sabaki-?.sgf\".
@@ -41,7 +39,6 @@ else
 	exit 1
 fi
 
-#########
 # Test 2.
 #########
 echo -n Tests src/index.js with option -a \"analyzeTurns\" and \"t-sabaki-?.sgf\".
@@ -59,7 +56,6 @@ else
 	echo -e "\033[1;31m Failure \033[0m"
 fi
 
-#########################
 # Teardown test fixtures.
 #########################
 rm -f $temp-*

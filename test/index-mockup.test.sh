@@ -31,7 +31,7 @@ diff $temp-2-expected $temp-2-result > /dev/null
 echo -e "\033[1;32m Ok \033[0m"
 
 ### New testing.
-echo -n Tests src/index.js with option -f, -a analyzeTurns and -g showVariationsAfterLastMove.
+echo -n Tests src/index.js with option -f, -a analyzeTurns, and -g showVariationsAfterLastMove.
 
 src/index.js -g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:true,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
 	-a 'analyzeTurns:[0,1,2,3,4,5]' \
@@ -57,7 +57,7 @@ diff $temp-2-expected $temp-2-result > /dev/null
 echo -e "\033[1;32m Ok \033[0m"
 
 ### New testing.
-echo -n Tests src/index.js with option -k, \"mockup.sh\" and t-lian-vs-shin.json.
+echo -n Tests src/index.js with option -k \"mockup.sh\" and t-lian-vs-shin.json.
 
 src/index.js -k 'path:"test/mockup.sh",arguments:"test/examples/t-lian-vs-shin.json"' \
 	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
@@ -71,7 +71,7 @@ diff $temp-1-expected $temp-1-result > /dev/null
 echo -e "\033[1;32m Ok \033[0m"
 
 ### New testing.
-echo -n Tests src/index.js with option -k, \"mockup.sh\" and t-euc-kr.json.
+echo -n Tests src/index.js with option -k \"mockup.sh\" and t-euc-kr.json.
 
 src/index.js -k 'path:"test/mockup.sh",arguments:"test/examples/t-euc-kr.json"' \
 	-g 'maxWinrateDropForGoodMove:2,minWinrateDropForBadMove:5,minWinrateDropForBadHotSpot:20,showVariationsAfterLastMove:false,minWinrateDropForVariations:5,showBadVariations:false,maxVariationsForEachMove:10' \
