@@ -4,9 +4,27 @@
  *               Based on <https://github.com/SabakiHQ/Sabaki/blob/master/src/modules/fileformats/gib.js>.
  */
 
+// e.g.
+//
+// \HS
+// \[GAMEBLACKLEVEL=3\]
+// ...
+// \[GAMECOMMENT=\]
+// \[GAMETAG=S1,R3,D5,G0,W255,Z0,T30-3-1200,C2016:03:26:17:29, ...\]
+// \HE
+// \GS
+// 2 1 0
+// 119 0 &4
+// INI 0 1 3 &4
+// STO 0 2 2 15 15
+// STO 0 3 1 13 16
+// ...
+// STO 0 119 1 10 8
+// \GE
+
 // Converts GIB to SGF.
 function convert(gib) {
-  const root = makeRoot(gib);
+  const root = sgfrootFromGIB(gib);
   const sequence = gib
     .substring(gib.indexOf('STO'))
     .split('\n')
@@ -35,12 +53,12 @@ function valueOfINI(gib) {
 }
 
 // Gets RE value.
-function getRE(line, grltRegex, zipsuRegex) {
-  let match = grltRegex.exec(line);
+function getRE(value, grltRegex, zipsuRegex) {
+  let match = grltRegex.exec(value);
 
   if (match) {
     const grlt = parseFloat(match[1]);
-    match = zipsuRegex.exec(line);
+    match = zipsuRegex.exec(value);
     if (match) {
       const zipsu = parseFloat(match[1]);
       return parseRE(grlt, zipsu);
@@ -66,6 +84,9 @@ function parseRE(grlt, zipsu) {
   return '';
 }
 
+// 1 => 'A'
+const oneToA = (x) => String.fromCharCode(97 + x);
+
 // 'STO 0 2 2 15 15' => ';W[pp]'
 function sgfnodeFromSTO(line) {
   const move = line.split(/\s+/);
@@ -73,74 +94,74 @@ function sgfnodeFromSTO(line) {
   const x = parseInt(move[4], 10);
   const y = parseInt(move[5], 10);
 
-  return `;${pl}[${String.fromCharCode(97 + x)}${String.fromCharCode(97 + y)}]`;
+  return `;${pl}[${oneToA(x)}${oneToA(y)}]`;
 }
 
 const handicapStones = [
   null,
   null,
-  'pd][dp',
-  'pd][dd][dp',
-  'dp][dd][pd][pp',
-  'dp][dd][pd][pp][jj',
-  'dp][dd][pd][pp][dj][pj',
-  'dp][dd][pd][pp][dj][pj][jj',
-  'dp][dd][pd][pp][dj][pj][jd][jp',
-  'dp][dd][pd][pp][dj][pj][jd][jp][jj',
+  'dp][pd',
+  'dp][pd][dd',
+  'dp][pd][dd][pp',
+  'dp][pd][dd][pp][jj',
+  'dp][pd][dd][pp][dj][pj',
+  'dp][pd][dd][pp][dj][pj][jj',
+  'dp][pd][dd][pp][dj][pj][jd][jp',
+  'dp][pd][dd][pp][dj][pj][jd][jp][jj',
 ];
 
 // 'hey (there)' => ['hey', 'there']
-function parsePair(line) {
-  const index = line.lastIndexOf('(');
+function parsePair(value) {
+  const index = value.lastIndexOf('(');
   return [
-    line.substring(0, index).trim(),
-    line.substring(index + 1, line.length - 1).trim(),
+    value.substring(0, index).trim(),
+    value.substring(index + 1, value.length - 1).trim(),
   ];
 }
 
 const makeProperty = (p, v) => `${p}[${v}]`;
 
-function makeRoot(gib) {
+function sgfrootFromGIB(gib) {
   let root = ';FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]';
 
   let hasDT;
   let hasRE;
   let hasKM;
 
-  let line;
+  let value;
 
   // PB, BR
-  line = valueOfGIB(gib, 'GAMEBLACKNAME');
-  if (line) {
-    const pair = parsePair(line);
+  value = valueOfGIB(gib, 'GAMEBLACKNAME');
+  if (value) {
+    const pair = parsePair(value);
     root += makeProperty('PB', pair[0]);
     root += makeProperty('BR', pair[1]);
   }
 
   // PW, WR
-  line = valueOfGIB(gib, 'GAMEWHITENAME');
-  if (line) {
-    const pair = parsePair(line);
+  value = valueOfGIB(gib, 'GAMEWHITENAME');
+  if (value) {
+    const pair = parsePair(value);
     root += makeProperty('PW', pair[0]);
     root += makeProperty('WR', pair[1]);
   }
 
   // EV
-  line = valueOfGIB(gib, 'GAMENAME');
-  if (line) root += makeProperty('EV', line);
+  value = valueOfGIB(gib, 'GAMENAME');
+  if (value) root += makeProperty('EV', value);
 
   // RE, KM
-  line = valueOfGIB(gib, 'GAMEINFOMAIN');
-  if (line) {
+  value = valueOfGIB(gib, 'GAMEINFOMAIN');
+  if (value) {
     if (!hasRE) {
-      const result = getRE(line, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
+      const result = getRE(value, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
       if (result) {
         root += makeProperty('RE', result);
         hasRE = true;
       }
     }
     if (!hasKM) {
-      const match = line.match(/GONGJE:(\d+),/);
+      const match = value.match(/GONGJE:(\d+),/);
       if (match) {
         const komi = parseInt(match[1], 10) / 10;
         if (komi) {
@@ -152,10 +173,10 @@ function makeRoot(gib) {
   }
 
   // DT, RE, KM
-  line = valueOfGIB(gib, 'GAMETAG');
-  if (line) {
+  value = valueOfGIB(gib, 'GAMETAG');
+  if (value) {
     if (!hasDT) {
-      const match = line.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
+      const match = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
       if (match) {
         const date = match.slice(1).join('-');
         root += makeProperty('DT', date);
@@ -163,14 +184,14 @@ function makeRoot(gib) {
       }
     }
     if (!hasRE) {
-      const result = getRE(line, /,W(\d+),/, /,Z(\d+),/);
+      const result = getRE(value, /,W(\d+),/, /,Z(\d+),/);
       if (result) {
         root += makeProperty('RE', result);
         hasRE = true;
       }
     }
     if (!hasKM) {
-      const match = line.match(/,G(\d+),/);
+      const match = value.match(/,G(\d+),/);
       if (match) {
         const komi = parseInt(match[1], 10) / 10;
         root += makeProperty('KM', komi);
@@ -180,9 +201,9 @@ function makeRoot(gib) {
   }
 
   // HA, AB
-  line = valueOfINI(gib);
-  if (line) {
-    const setup = line.split(/\s+/);
+  value = valueOfINI(gib);
+  if (value) {
+    const setup = value.split(/\s+/);
     if (setup[3]) {
       const handicap = parseInt(setup[2], 10);
       if (handicap >= 2) {

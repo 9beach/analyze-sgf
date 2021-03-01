@@ -29,11 +29,13 @@ class Node {
     this.sequence = sgfconv.addProperty(this.sequence, prop);
   }
 
+  // Returns the sequence with comment.
   get() {
     if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
     return this.sequence;
   }
 
+  // Returns the sequence (PV format of Leela Zero), win rate, and score lead.
   formatPV() {
     return (
       `${sgfconv.sequenceToPV(this.sequence)} (` +
