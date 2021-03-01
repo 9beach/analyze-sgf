@@ -2,8 +2,8 @@
  * @fileOverview Parses process arguments and config.
  */
 
-const afs = require('fs');
-const path = require('path');
+const fs = require('fs');
+const syspath = require('path');
 const yaml = require('js-yaml');
 const pgetopt = require('posix-getopt');
 const homedir = require('os').homedir();
@@ -12,19 +12,19 @@ const chalk = require('chalk');
 const parseBadJSON = require('./bad-json');
 
 const log = (message) => console.error(chalk.grey(message));
-const config = `${homedir}${path.sep}.analyze-sgf.yml`;
+const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
 
 // Parses process arguments and config, and return JSON object.
 function getopts() {
   // Generates config file.
   try {
-    afs.accessSync(config);
+    fs.accessSync(config);
   } catch (error) {
-    afs.copyFileSync(require.resolve('./analyze-sgf.yml'), config);
+    fs.copyFileSync(require.resolve('./analyze-sgf.yml'), config);
     log(`generated: ${config}`);
   }
 
-  const help = afs.readFileSync(require.resolve('./help')).toString();
+  const help = fs.readFileSync(require.resolve('./help')).toString();
 
   let jsonGiven = false;
   let saveGiven = false;
@@ -82,7 +82,7 @@ function getopts() {
   }
 
   // Reads config file.
-  const opts = yaml.load(afs.readFileSync(config));
+  const opts = yaml.load(fs.readFileSync(config));
 
   katago = { ...opts.katago, ...katago };
   analysis = { ...opts.analysis, ...analysis };

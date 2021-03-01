@@ -24,7 +24,7 @@ const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
 const getext = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
 
-// Pargses args.
+// Parses args.
 const opts = getopts();
 
 // Starts async communication with kataGoAnalyze().
