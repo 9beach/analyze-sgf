@@ -58,25 +58,9 @@ class GameTree {
     }
 
     // Accumulates nodes and tails (variations).
-    let last = true;
     this.sgf = this.nodes.reduceRight((acc, node) => {
-      let tail = '';
-
-      if (node.variations) {
-        if (
-          this.opts.analyzeTurns ||
-          this.opts.showVariationsOnlyForBadMove === false ||
-          node.winrateDrop > this.variationwinrate ||
-          (last && this.opts.showVariationsAfterLastMove)
-        ) {
-          last = false;
-          tail += node.variations.reduce((sum, cur) => sum + cur.get(), '');
-        }
-      }
-
-      if (tail) {
-        return `\n(;${node.get()}${acc})${tail}`;
-      }
+      const tails = node.getTails(this.opts);
+      if (tails) return `\n(;${node.get()}${acc})${tails}`;
       return `\n;${node.get()}${acc}`;
     }, '');
 
@@ -159,29 +143,31 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
       that.nodes.push(new Node(`${nextPL}[]`, `Move ${curturn + 1}`));
     }
 
-    // Adds variations to that.nodes[nextturn].
+    // Sets variations to that.nodes[nextturn].
     if (
       nextturn < that.nodes.length &&
       (!that.opts.analyzeTurns ||
         that.opts.analyzeTurns.indexOf(nextturn) !== -1)
     ) {
-      that.nodes[nextturn].variations = curJSON.moveInfos
-        .map(
-          (moveinfo) =>
-            new Node(
-              sgfconv.katagomoveinfoToSequence(nextPL, moveinfo),
-              `A variation of move ${nextturn + 1}`,
-              curJSON.rootInfo,
-              moveinfo,
-              that.opts,
-            ),
-        )
-        .filter(
-          (v) =>
-            that.opts.showBadVariations === true ||
-            that.goodmovewinrate > v.winrateDrop,
-        )
-        .slice(0, that.opts.maxVariationsForEachMove);
+      that.nodes[nextturn].setVariations(
+        curJSON.moveInfos
+          .map(
+            (moveinfo) =>
+              new Node(
+                sgfconv.katagomoveinfoToSequence(nextPL, moveinfo),
+                `A variation of move ${nextturn + 1}`,
+                curJSON.rootInfo,
+                moveinfo,
+                that.opts,
+              ),
+          )
+          .filter(
+            (v) =>
+              that.opts.showBadVariations === true ||
+              that.goodmovewinrate > v.winrateDrop,
+          )
+          .slice(0, that.opts.maxVariationsForEachMove),
+      );
     }
     prevJSON = curJSON;
   });
@@ -215,21 +201,13 @@ function fillComments(that) {
     // 2. Adds 'Bad moves left' comment to each node.
     const report = reportBadsLeft(stat, num);
     if (report) {
-      if (comment) comment += '\n';
+      comment += '\n';
       comment += report;
     }
-    // 3. Adds PV comment to each node and variation.
-    if (node.variations) {
-      if (comment) comment += '\n';
-      comment += 'The proposed variations\n\n';
-      node.variations.forEach((v, index) => {
-        // Adds PVs comment to each node.
-        comment += `${index + 1}. ${v.formatPV()}\n`;
-        // Adds a PV comment to each variation.
-        let vcomment = v.getComment();
-        vcomment += `* Sequence: ${v.formatPV().replace(/ \(.*/, '')}\n`;
-        v.setComment(vcomment);
-      });
+    // 3. Adds PVs comment to each node.
+    if (node.hasVariations()) {
+      comment += '\nThe proposed variations\n\n';
+      comment += node.getPVs();
     }
     node.setComment(comment);
   });

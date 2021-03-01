@@ -7,7 +7,7 @@
 
 const sgfconv = require('./sgfconv');
 
-// Contains Node or tailless NodeSequence of SGF, win rate infomations, and
+// Contains Node or tailless NodeSequence of SGF, win rate information, and
 // NodeSequence for variations.
 class Node {
   constructor(sequence, comment, previnfo, currentinfo, sgfOpts) {
@@ -24,27 +24,50 @@ class Node {
     // 'B' or 'W'
     this.pl = sequence.substring(index, index + 1);
 
-    if (sgfOpts) this.setWinrate(previnfo, currentinfo, sgfOpts);
+    // As a variation.
+    if (sgfOpts) {
+      this.setWinrate(previnfo, currentinfo, sgfOpts);
+      this.comment += `* Sequence: ${formatPV(this).replace(/ \(.*/, '')}\n`;
+    }
   }
 
-  addProperty(prop) {
-    this.sequence = sgfconv.addProperty(this.sequence, prop);
+  hasVariations() {
+    return Boolean(this.variations);
   }
 
-  // Returns the sequence with comment.
+  setVariations(variations) {
+    this.variations = variations;
+  }
+
+  // Gets the sequence with comment.
   get() {
     if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
     return this.sequence;
   }
 
-  // Returns sequence (by Leela Zero's PV format), win rate, and score lead.
-  //
-  // Usually called when `Node` is a variation.
-  // e.g. 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
-  formatPV() {
-    return (
-      `${sgfconv.sequenceToPV(this.sequence)} (` +
-      `${formatWinrate(this.winrate)}, ${formatScoreLead(this.scoreLead)})`
+  // Gets tails of variations.
+  getTails(sgfOpts) {
+    if (this.hasVariations()) {
+      if (
+        sgfOpts.analyzeTurns ||
+        sgfOpts.showVariationsOnlyForBadMove === false ||
+        this.winrateDrop > sgfOpts.minWinrateDropForVariations / 100 ||
+        (sgfOpts.showVariationsAfterLastMove && this.sequence[2] === ']')
+      ) {
+        return this.variations.reduce((acc, cur) => acc + cur.get(), '');
+      }
+    }
+    return '';
+  }
+
+  // e.g.
+  // 1. BH11 K5 L6 L5 M5 M6 M7 N6 L7 N7 L10 K2 K1 H2 H7 N5 (B 82.79%, B 6.33)
+  // 2. BJ13 K5 K13 L11 H11 M6 L10 L9 M10 P2 N2 K2 K1 O1 M9 (B 81.76%, B 2.88)
+  getPVs() {
+    if (!this.hasVariations()) return '';
+    return this.variations.reduce(
+      (acc, cur, index) => `${acc}${index + 1}. ${formatPV(cur)}\n`,
+      '',
     );
   }
 
@@ -56,7 +79,8 @@ class Node {
     return this.comment;
   }
 
-  // Calculates scoreDrop, winrateDrop, ..., sets them to myself properties.
+  // Calculates scoreDrop, winrateDrop, ... and sets them to this.comment and
+  // the properties of this.sequence.
   setWinrate(previnfo, currentinfo, sgfOpts) {
     if (previnfo) {
       this.winrateDrop = previnfo.winrate - currentinfo.winrate;
@@ -80,45 +104,38 @@ class Node {
     this.scoreLead = currentinfo.scoreLead;
     this.visits = currentinfo.visits;
 
-    setProperties(this, sgfOpts);
+    setWinrateToCommentAndProperties(this, sgfOpts);
   }
 }
 
 const fixFloat = (f) => parseFloat(f).toFixed(2);
 
-// Add properties (comment, god move, bad move, ...) to that.sequence.
-//
-// (that, sgfOpts) => "B[po]BM[1]HO[1]SBKV[5500.00]C[...]"
-// (that, sgfOpts) => "(;B[po]BM[1]HO[1]SBKV[55.00]C[...];W[os];...)"
-function setProperties(that, sgfOpts) {
+// Sets win rate to that.comment and the properties of that.sequence.
+function setWinrateToCommentAndProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
   }
   that.propertiesGot = true;
 
-  let properties = that.sequence;
-
   if (that.winrate != null) {
-    // Comment.
+    // Does not add winrate report to comment property. Adds it when this.get()
+    // is called.
     that.comment += `\n\n${getWinratesReport(that)}`;
 
     // RSGF winrate.
-    properties = sgfconv.addProperty(
-      properties,
+    that.sequence = sgfconv.addProperty(
+      that.sequence,
       `SBKV[${fixFloat(that.winrate * 100)}]`,
       0,
     );
   }
 
-  if (that.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100) {
-    properties = sgfconv.toGoodNode(properties);
-  } else if (that.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100) {
-    properties = sgfconv.toBadHotSpot(properties);
-  } else if (that.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100) {
-    properties = sgfconv.toBadNode(properties);
-  }
-
-  that.sequence = properties;
+  if (that.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100)
+    that.sequence = sgfconv.toGoodNode(that.sequence);
+  else if (that.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100)
+    that.sequence = sgfconv.toBadHotSpot(that.sequence);
+  else if (that.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100)
+    that.sequence = sgfconv.toBadNode(that.sequence);
 }
 
 function formatWinrate(winrate) {
@@ -131,6 +148,16 @@ function formatScoreLead(scoreLead) {
   const v = fixFloat(scoreLead);
   if (v > 0) return `B ${v}`;
   return `W ${fixFloat(-v)}`;
+}
+
+// Returns sequence (by Leela Zero's PV format), win rate, and score lead.
+//
+// e.g. 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
+function formatPV(that) {
+  return (
+    `${sgfconv.sequenceToPV(that.sequence)} (` +
+    `${formatWinrate(that.winrate)}, ${formatScoreLead(that.scoreLead)})`
+  );
 }
 
 // (that) => "As Black:\n* Win rate: 55.00%\n* Win rate drop: ...".
