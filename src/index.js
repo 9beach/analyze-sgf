@@ -32,7 +32,7 @@ const opts = getopts();
       opts.paths.forEach((path) => {
         const ext = getext(path);
         if (ext !== 'json') {
-          log(`skip ${path}.`);
+          log(`skipped: ${path}`);
           return;
         }
 
@@ -52,7 +52,7 @@ const opts = getopts();
         const ext = getext(path);
         const isURL = isValidURL(path);
         if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
-          log(`skip ${path}.`);
+          log(`skipped: ${path}`);
           return;
         }
 
@@ -69,7 +69,7 @@ const opts = getopts();
           sgf = httpget(path);
           newPath = prettyPath(sgf);
           fs.writeFileSync(newPath, sgf);
-          log(`${newPath} generated.`);
+          log(`generated: ${newPath}`);
         }
 
         const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
@@ -142,7 +142,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
 
       // JSON file format: tailless SGF + '\n' + KataGo responses.
       fs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
-      log(`${jsonPath} generated.`);
+      log(`generated: ${jsonPath}`);
     }
 
     // Saves analyzed SGF.
@@ -150,14 +150,14 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
     const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
 
     fs.writeFileSync(sgfPath, gametree.get());
-    log(`${sgfPath} generated.`);
+    log(`generated: ${sgfPath}`);
 
     const report = gametree.getComment();
     if (report) {
       console.log(report);
     }
   } catch (error) {
-    log(`${error}, while processing ${targetPath}`);
+    log(`${error}, while processing: ${targetPath}`);
   }
 }
 

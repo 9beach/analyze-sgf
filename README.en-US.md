@@ -51,7 +51,7 @@ in your home directory and prints out the usage as follows:
 
 ```console
 $ analyze-sgf
-/Users/hcho/.analyze-sgf.yml generated.
+generated: /Users/hcho/.analyze-sgf.yml
 Please specify SGF/GIB files.
 Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
@@ -69,7 +69,6 @@ Examples:
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -f baduk.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
-  analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
@@ -121,7 +120,7 @@ the simple analysis result will be printed out, and a file
 
 ```console
 $ analyze-sgf shin-vs-lian.sgf
-shin-vs-lian-analyzed.sgf generated.
+generated: shin-vs-lian-analyzed.sgf
 # Analyze-SGF Report
 
 13th Chunlan Cup, semi-final, Komi 7.5, B+R, 2021-01-20
@@ -151,13 +150,13 @@ Cyber ORO's [기보 감상](https://www.cyberoro.com/bcast/gibo.oro?Tdiv=B) and 
 
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
-제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+generated: 제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf
 # Analyze-SGF Report
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
-제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+generated: 제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf
 # Analyze-SGF Report
 ```
 
@@ -230,8 +229,8 @@ the `-s` option.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-baduk.json generated.
-baduk-analyzed.sgf generated.
+generated: baduk.json
+generated: baduk-analyzed.sgf
 ```
 
 If you specify a large number in `maxVisits` as above, it takes a long time

@@ -21,7 +21,7 @@ function getopts() {
     afs.accessSync(config);
   } catch (error) {
     afs.copyFileSync(require.resolve('./analyze-sgf.yml'), config);
-    log(`${config} generated.`);
+    log(`generated: ${config}`);
   }
 
   const help = afs.readFileSync(require.resolve('./help')).toString();

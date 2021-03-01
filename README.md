@@ -44,7 +44,7 @@ C:\Users\hcho> npm install -g analyze-sgf
 
 ```console
 $ analyze-sgf
-/Users/hcho/.analyze-sgf.yml generated.
+generated: /Users/hcho/.analyze-sgf.yml
 Please specify SGF/GIB files.
 Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
@@ -62,7 +62,6 @@ Examples:
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -f baduk.json
   analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
-  analyze-sgf -k 'path:"C:\\katago.exe"' baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
@@ -107,7 +106,7 @@ sgf:
 
 ```console
 $ analyze-sgf 신진서-렌샤오.sgf
-신진서-렌샤오-analyzed.sgf generated.
+generated: 신진서-렌샤오-analyzed.sgf
 # Analyze-SGF Report
 
 제13회 춘란배 4강, Komi 7.5, 207수 흑불계승, 2021-01-20
@@ -137,13 +136,13 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
-제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+generated: 제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf
 # Analyze-SGF Report
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
-제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf generated.
+generated: 제22회 농심배 12국, 이치리키 료-신진서, 2021-02-24.sgf
 # Analyze-SGF Report
 ```
 
@@ -203,8 +202,8 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-baduk.json generated.
-baduk-analyzed.sgf generated.
+generated: baduk.json
+generated: baduk-analyzed.sgf
 ```
 
 위와 같이 `maxVisits`에 큰수를 지정하면 긴 시간을 들여 많은 것을 분석합니다. 그리고 그 결과는 `-s`에 의해
