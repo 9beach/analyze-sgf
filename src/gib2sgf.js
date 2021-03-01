@@ -109,10 +109,6 @@ function makeRoot(gib) {
 
   let line;
 
-  // EV
-  line = valueOfGIB(gib, 'GAMENAME');
-  if (line) root += makeProperty('EV', line);
-
   // PB, BR
   line = valueOfGIB(gib, 'GAMEBLACKNAME');
   if (line) {
@@ -128,6 +124,10 @@ function makeRoot(gib) {
     root += makeProperty('PW', pair[0]);
     root += makeProperty('WR', pair[1]);
   }
+
+  // EV
+  line = valueOfGIB(gib, 'GAMENAME');
+  if (line) root += makeProperty('EV', line);
 
   // RE, KM
   line = valueOfGIB(gib, 'GAMEINFOMAIN');
