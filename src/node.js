@@ -37,7 +37,10 @@ class Node {
     return this.sequence;
   }
 
-  // Returns the sequence (PV format of Leela Zero), win rate, and score lead.
+  // Returns sequence by Leela Zero's PV format, win rate, and score lead.
+  //
+  // Usually called when `Node` is a variation.
+  // e.g. 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
   formatPV() {
     return (
       `${sgfconv.sequenceToPV(this.sequence)} (` +
