@@ -15,7 +15,7 @@ class Node {
     //
     // e.g. 'B[aa]', 'W[cc]', '(;B[dp];W[po];B[hm])'
     this.sequence = sequence;
-    this.comment = comment;
+    this.comment = comment || '';
 
     const index = sequence.search(/\b[BW]\[/);
     if (index === -1) {
@@ -41,7 +41,7 @@ class Node {
 
   // Gets the sequence SGF with comment.
   get() {
-    if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
+    if (this.comment) return sgfconv.addComment(this.sequence, this.comment, 0);
     return this.sequence;
   }
 

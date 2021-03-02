@@ -72,9 +72,6 @@ class GameTree {
 
 // Fills win rates and variations of that.nodes from KataGo responses.
 function fillWinratesAndVarations(that, katagoResponses, pls) {
-  // FIXME: Refactor me.
-  //
-  // Checks KataGo error response.
   if (katagoResponses.search('{"error":"') === 0) {
     throw Error(katagoResponses.replace('\n', ''));
   }
@@ -93,21 +90,20 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
 
   // Notice that:
   // * responses.length === nodes.length + 1
-  // * Adds responses[0].moveInfos to nodes[0].variations.
+  // * Sets responses[0].moveInfos (variations) to nodes[0].variations.
+  // * Sets responses[1].rootInfo (win rates info) to nodes[0].
+  // * responses[0].rootInfo is useless.
   // * To add moveInfos (proposed variations) of the last response, we need
   //   to add the node of passing move (B[] or W[]) to that.nodes, and
   //   then we can add moveInfos to the node.
-  // * Sets win rates info (responses[1].rootInfo) to nodes[0].
-  // * responses[0].rootInfo is useless.
   //
   // KataGo's moveInfos (variations) of turnNumber is for the variations of
   // node[turnNumber], but KataGo's rootInfo (win rates info) of turnNumber
-  // is for node[turnNumber - 1]. So we call (turnNumber - 1) curturn, and
-  // call turnNumber nextturn.
+  // is for node[turnNumber - 1]. So we refer to (turnNumber - 1) as curTurn,
+  // and refert to turnNumber as nextTurn.
   let prevJSON;
-  that.maxvisits = 0;
+  that.maxVisits = 0;
 
-  // Sets win rates and add moveInfos (variations) to that.nodes.
   responses.forEach((response) => {
     const curJSON = JSON.parse(response);
     // Skips warning.
@@ -115,17 +111,17 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
       return;
     }
     const { turnNumber } = curJSON;
-    const curturn = turnNumber - 1;
-    const nextturn = curturn + 1;
-    const prevturn = prevJSON ? prevJSON.turnNumber - 1 : undefined;
-    const nextPL = pls[nextturn % 2];
+    const curTurn = turnNumber - 1;
+    const nextTurn = turnNumber;
+    const prevTurn = prevJSON ? prevJSON.turnNumber - 1 : undefined;
+    const nextPL = pls[nextTurn % 2];
 
-    that.maxvisits = Math.max(curJSON.rootInfo.visits, that.maxvisits);
+    that.maxVisits = Math.max(curJSON.rootInfo.visits, that.maxVisits);
 
-    // Sets win rates to that.nodes[curturn].
-    if (curturn >= 0) {
-      const node = that.nodes[curturn];
-      if (curturn === prevturn + 1) {
+    // 1. Sets win rates.
+    if (curTurn >= 0) {
+      const node = that.nodes[curTurn];
+      if (curTurn === prevTurn + 1) {
         // To calculate node.winrateDrop, we need both of
         // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
         node.setWinrate(prevJSON.rootInfo, curJSON.rootInfo, that.opts);
@@ -134,47 +130,50 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
       }
     }
 
-    // Adds the node of passing move (B[] or W[]) to that.nodes, and then we
-    // can add proposed variations of last response.
+    // 2. Adds the node of passing move if necessary.
     if (
       that.opts.showVariationsAfterLastMove &&
-      that.nodes.length === nextturn
+      that.nodes.length === nextTurn
     ) {
-      that.nodes.push(new Node(`${nextPL}[]`, `Move ${curturn + 1}`));
+      that.nodes.push(new Node(`${nextPL}[]`));
     }
 
-    // Sets variations to that.nodes[nextturn].
+    // 3. Adds variations.
     if (
-      nextturn < that.nodes.length &&
+      nextTurn < that.nodes.length &&
       (!that.opts.analyzeTurns ||
-        that.opts.analyzeTurns.indexOf(nextturn) !== -1)
+        that.opts.analyzeTurns.indexOf(nextTurn) !== -1)
     ) {
-      that.nodes[nextturn].setVariations(
-        curJSON.moveInfos
-          .map(
-            (moveinfo) =>
-              new Node(
-                sgfconv.katagomoveinfoToSequence(nextPL, moveinfo),
-                `A variation of move ${nextturn + 1}`,
-                curJSON.rootInfo,
-                moveinfo,
-                that.opts,
-              ),
-          )
-          .filter(
-            (v) =>
-              that.opts.showBadVariations === true ||
-              that.goodmovewinrate > v.winrateDrop,
-          )
-          .slice(0, that.opts.maxVariationsForEachMove),
+      that.nodes[nextTurn].setVariations(
+        variationsFromResponse(that, curJSON, nextPL, nextTurn),
       );
     }
     prevJSON = curJSON;
   });
-  // FIXME: Remove last move if have no variations.
+  // FIXME: Remove passing move if has no variation.
 }
 
-// Fills the report of the game, and the comments of each node and variations.
+function variationsFromResponse(that, response, pl, turn) {
+  return response.moveInfos
+    .map(
+      (moveInfo) =>
+        new Node(
+          sgfconv.katagomoveinfoToSequence(pl, moveInfo),
+          `A variation of move ${turn + 1}`,
+          response.rootInfo,
+          moveInfo,
+          that.opts,
+        ),
+    )
+    .filter(
+      (v) =>
+        that.opts.showBadVariations === true ||
+        that.goodmovewinrate > v.winrateDrop,
+    )
+    .slice(0, that.opts.maxVariationsForEachMove);
+}
+
+// Fills the report of the game, and the comments of each node.
 function fillComments(that) {
   if (!that.responsesgiven || that.comment) return;
 
@@ -190,7 +189,7 @@ function fillComments(that) {
     goodmovewinrate: that.goodmovewinrate,
     badmovewinrate: that.badmovewinrate,
     badhotspotwinrate: that.badhotspotwinrate,
-    visits: that.maxvisits,
+    visits: that.maxVisits,
   };
 
   that.comment = reportGame(stat);
