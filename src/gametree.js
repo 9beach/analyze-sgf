@@ -94,7 +94,7 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
   // Notice that:
   // * responses.length === nodes.length + 1
   // * Adds responses[0].moveInfos to nodes[0].variations.
-  // * To use moveInfos (preview variations) of the last response, we need
+  // * To add moveInfos (proposed variations) of the last response, we need
   //   to add the node of passing move (B[] or W[]) to that.nodes, and
   //   then we can add moveInfos to the node.
   // * Sets win rates info (responses[1].rootInfo) to nodes[0].
@@ -134,8 +134,8 @@ function fillWinratesAndVarations(that, katagoResponses, pls) {
       }
     }
 
-    // For preview variations of last response, adds the node of passing
-    // move (B[] or W[]) to that.nodes.
+    // Adds the node of passing move (B[] or W[]) to that.nodes, and then we
+    // can add proposed variations of last response.
     if (
       that.opts.showVariationsAfterLastMove &&
       that.nodes.length === nextturn

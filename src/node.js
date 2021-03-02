@@ -10,7 +10,7 @@ const sgfconv = require('./sgfconv');
 // Contains Node or tailless NodeSequence of SGF, win rate information, and
 // NodeSequence for variations.
 class Node {
-  constructor(sequence, comment, previnfo, currentinfo, sgfOpts) {
+  constructor(sequence, comment, prevInfo, curInfo, sgfOpts) {
     // Node or tailless NodeSequence of SGF.
     //
     // e.g. 'B[aa]', 'W[cc]', '(;B[dp];W[po];B[hm])'
@@ -26,7 +26,7 @@ class Node {
 
     // As a variation.
     if (sgfOpts) {
-      this.setWinrate(previnfo, currentinfo, sgfOpts);
+      this.setWinrate(prevInfo, curInfo, sgfOpts);
       this.comment += `* Sequence: ${formatPV(this).replace(/ \(.*/, '')}\n`;
     }
   }
@@ -39,13 +39,13 @@ class Node {
     this.variations = variations;
   }
 
-  // Gets the sequence with comment.
+  // Gets the sequence SGF with comment.
   get() {
     if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
     return this.sequence;
   }
 
-  // Gets tails of variations.
+  // Gets the tails (variations) SGF.
   getTails(sgfOpts) {
     if (this.hasVariations()) {
       if (
@@ -81,34 +81,38 @@ class Node {
 
   // Calculates scoreDrop, winrateDrop, ... and sets them to this.comment and
   // the properties of this.sequence.
-  setWinrate(previnfo, currentinfo, sgfOpts) {
-    if (previnfo) {
-      this.winrateDrop = previnfo.winrate - currentinfo.winrate;
-      this.scoreDrop = previnfo.scoreLead - currentinfo.scoreLead;
-
-      if (this.pl === 'W') {
-        this.winrateDrop = -this.winrateDrop;
-        this.scoreDrop = -this.scoreDrop;
-      }
-    }
-
-    if (this.pl === 'W') {
-      this.myWinrate = 1 - currentinfo.winrate;
-      this.myScoreLead = -currentinfo.scoreLead;
-    } else {
-      this.myWinrate = currentinfo.winrate;
-      this.myScoreLead = currentinfo.scoreLead;
-    }
-
-    this.winrate = currentinfo.winrate;
-    this.scoreLead = currentinfo.scoreLead;
-    this.visits = currentinfo.visits;
-
+  setWinrate(prevInfo, curInfo, sgfOpts) {
+    calcWinrate(this, prevInfo, curInfo);
     setWinrateToCommentAndProperties(this, sgfOpts);
   }
 }
 
-const fixFloat = (f) => parseFloat(f).toFixed(2);
+// Calculates scoreDrop, winrateDrop, winrate, ...
+function calcWinrate(that, prevInfo, curInfo) {
+  if (prevInfo) {
+    that.winrateDrop = prevInfo.winrate - curInfo.winrate;
+    that.scoreDrop = prevInfo.scoreLead - curInfo.scoreLead;
+
+    if (that.pl === 'W') {
+      that.winrateDrop = -that.winrateDrop;
+      that.scoreDrop = -that.scoreDrop;
+    }
+  }
+
+  if (that.pl === 'W') {
+    that.myWinrate = 1 - curInfo.winrate;
+    that.myScoreLead = -curInfo.scoreLead;
+  } else {
+    that.myWinrate = curInfo.winrate;
+    that.myScoreLead = curInfo.scoreLead;
+  }
+
+  that.winrate = curInfo.winrate;
+  that.scoreLead = curInfo.scoreLead;
+  that.visits = curInfo.visits;
+}
+
+const fixFloat = (float) => parseFloat(float).toFixed(2);
 
 // Sets winrate, scoreDrop, winrateDrop, ... to that.comment and the properties
 // of that.sequence.
