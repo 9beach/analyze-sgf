@@ -36,7 +36,7 @@ class GameTree {
     // Gets variations and comments from KataGo responses.
     const pls = sgfconv.getPLs(rootsequence);
     getWinratesAndVariations(this, katagoResponses, pls);
-    fillComments(this);
+    addComments(this);
   }
 
   getComment() {
@@ -168,8 +168,8 @@ function variationsFromResponse(that, response, pl, turn) {
     .slice(0, that.opts.maxVariationsForEachMove);
 }
 
-// Fills the report of the game, and the comments of each node.
-function fillComments(that) {
+// Makes the report of the game, and the comments of each node.
+function addComments(that) {
   if (!that.responsesgiven || that.comment) return;
 
   // 1. Makes game report (root comment).
