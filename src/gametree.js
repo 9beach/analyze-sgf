@@ -188,7 +188,11 @@ function fillComments(that) {
   };
 
   that.comment = reportGame(stat);
-  that.root = sgfconv.addComment(that.root, that.comment);
+  that.root = sgfconv.addComment(
+    that.root,
+    that.comment,
+    that.root.length - 1,
+  );
 
   that.nodes.forEach((node, num) => {
     let comment = node.getComment();

@@ -197,11 +197,9 @@ function toBadHotSpot(sequence, index = 0) {
 }
 
 // ('(;W[aa];B[bb])', 'hey[]', 0) => '(;W[aa]C[hey[\]];B[bb])'
-function addComment(sequence, comment, index) {
-  let i = index;
-  if (i === undefined) i = sequence.length - 3;
+function addComment(sequence, comment, index = 0) {
   const replaced = comment.replace(/\]/g, '\\]');
-  return addProperty(sequence, `C[${replaced}]`, i);
+  return addProperty(sequence, `C[${replaced}]`, index);
 }
 
 // rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]

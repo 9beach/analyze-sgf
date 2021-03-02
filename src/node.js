@@ -41,7 +41,7 @@ class Node {
 
   // Gets the sequence SGF with comment.
   get() {
-    if (this.comment) return sgfconv.addComment(this.sequence, this.comment, 0);
+    if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
     return this.sequence;
   }
 
