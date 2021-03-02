@@ -181,8 +181,7 @@ function reportBadsLeft(stat, turnNumber) {
 
 // Gets file name from SGF.
 //
-// e.g.
-// [제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf
+// e.g. '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
 function prettyPath(sgf) {
   let ev = sgfconv.getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
   // Repalces it for bad format of Tygem.
