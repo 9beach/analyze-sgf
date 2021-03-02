@@ -25,12 +25,6 @@ class GameTree {
     this.opts = opts;
     this.comment = '';
 
-    // Makes long option names short.
-    this.goodmovewinrate = opts.maxWinrateDropForGoodMove / 100;
-    this.badmovewinrate = opts.minWinrateDropForBadMove / 100;
-    this.badhotspotwinrate = opts.minWinrateDropForBadHotSpot / 100;
-    this.variationwinrate = opts.minWinrateDropForVariations / 100;
-
     // Gets root node and main sequence from SGF.
     this.nodes = rootsequence.sequence
       .split(';')
@@ -39,8 +33,9 @@ class GameTree {
         (node, index) => new Node(node.substring(0, 5), `Move ${index + 1}`),
       );
 
+    // Gets variations and comments from KataGo responses.
     const pls = sgfconv.getPLs(rootsequence);
-    fillWinratesAndVarations(this, katagoResponses, pls);
+    getWinratesAndVarations(this, katagoResponses, pls);
     fillComments(this);
   }
 
@@ -70,8 +65,8 @@ class GameTree {
   }
 }
 
-// Fills win rates and variations of that.nodes from KataGo responses.
-function fillWinratesAndVarations(that, katagoResponses, pls) {
+// Gets win rates and variations from KataGo responses.
+function getWinratesAndVarations(that, katagoResponses, pls) {
   if (katagoResponses.search('{"error":"') === 0) {
     throw Error(katagoResponses.replace('\n', ''));
   }
@@ -168,7 +163,7 @@ function variationsFromResponse(that, response, pl, turn) {
     .filter(
       (v) =>
         that.opts.showBadVariations === true ||
-        that.goodmovewinrate > v.winrateDrop,
+        that.opts.maxWinrateDropForGoodMove / 100 > v.winrateDrop,
     )
     .slice(0, that.opts.maxVariationsForEachMove);
 }
@@ -186,9 +181,9 @@ function fillComments(that) {
       winrateDrop: node.winrateDrop,
       scoreDrop: node.scoreDrop,
     })),
-    goodmovewinrate: that.goodmovewinrate,
-    badmovewinrate: that.badmovewinrate,
-    badhotspotwinrate: that.badhotspotwinrate,
+    goodmovewinrate: that.opts.maxWinrateDropForGoodMove / 100,
+    badmovewinrate: that.opts.minWinrateDropForBadMove / 100,
+    badhotspotwinrate: that.opts.minWinrateDropForBadHotSpot / 100,
     visits: that.maxVisits,
   };
 
