@@ -35,7 +35,7 @@ class GameTree {
 
     // Gets variations and comments from KataGo responses.
     const pls = sgfconv.getPLs(rootsequence);
-    getWinratesAndVarations(this, katagoResponses, pls);
+    getWinratesAndVariations(this, katagoResponses, pls);
     fillComments(this);
   }
 
@@ -66,7 +66,7 @@ class GameTree {
 }
 
 // Gets win rates and variations from KataGo responses.
-function getWinratesAndVarations(that, katagoResponses, pls) {
+function getWinratesAndVariations(that, katagoResponses, pls) {
   if (katagoResponses.search('{"error":"') === 0) {
     throw Error(katagoResponses.replace('\n', ''));
   }
