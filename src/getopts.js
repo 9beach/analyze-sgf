@@ -14,7 +14,7 @@ const parseBadJSON = require('./bad-json');
 const log = (message) => console.error(chalk.grey(message));
 const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
 
-// Parses process arguments and config, and return JSON object.
+// Parses process arguments, reads config, and returns JSON object.
 function getopts() {
   // Generates config file.
   try {
@@ -89,7 +89,7 @@ function parseArgs() {
   return { kopts, aopts, sopts, paths, jsonGiven, saveGiven };
 }
 
-// Reads config file and merges options.
+// Reads config and merges options.
 function readConfig(kopts, aopts, sopts) {
   const opts = yaml.load(fs.readFileSync(config));
 
