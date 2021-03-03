@@ -100,8 +100,7 @@ const opts = getopts();
               JSON.stringify(query),
               opts.katago,
             );
-            if (!responsesRe)
-              log('revisit error');
+            if (!responsesRe) log('revisit error');
             else
               responses = joinResponses(
                 responses,
