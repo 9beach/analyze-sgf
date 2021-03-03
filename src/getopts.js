@@ -74,17 +74,16 @@ function parseArgs() {
     }
   }
 
+  if (jsonGiven && saveGiven) {
+    log('neglected `-s` with `-f`.');
+  }
+
   // paths given.
   if (parser.optind() >= process.argv.length) {
     log('Please specify SGF/GIB files.');
     process.stderr.write(help);
     process.exit(1);
   }
-
-  if (jsonGiven && saveGiven) {
-    log('neglected `-s` with `-f`.');
-  }
-
   const paths = process.argv.slice(parser.optind());
 
   return { kopts, aopts, sopts, paths, jsonGiven, saveGiven };
