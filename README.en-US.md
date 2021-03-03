@@ -59,6 +59,7 @@ Option:
   -a, --analysis=OPTS     Options for KataGo Parallel Analysis Engine query
   -g, --sgf=OPTS          Options for making reviewed SGF files
   -k, --katago=OPTS       Options for path and arguments of KataGo
+  -r, --revisit=N         For variation cases, Analyze again with maxVisits N
   -s                      Save KataGo analysis as JSON files
   -f                      Analyze by KataGo JSON files
   -h, --help              Display this help and exit
@@ -68,11 +69,12 @@ Examples:
   analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -f baduk.json
-  analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
+  analyze-sgf -g 'maxVariationsForEachMove:15' -r 20000 baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
 analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
+
 ```
 
 In Microsoft Windows, it should be run with `analyze-sgf.cmd` rather than
@@ -207,7 +209,7 @@ analyze the 174th move, we need to request 173.
 
 If `analyzeTurns` is specified, only the variations of specified moves are
 saved. If `analyzeTurns` is not specified, all the variations of the moves
-whose win rates drop greater than `minWinrateDropForVariations` are saved.
+whose win rate drops greater than `minWinrateDropForVariations` are saved.
 
 Komi is automatically set using the information in the SGF/GIB file even if the
 `-a 'komi:6.5'` option is not specified.
@@ -220,6 +222,8 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 ```
 
 ## Advanced Options
+
+### Saving analysis data with `-s`
 
 It takes quite a long time to analyze with KataGo. However, in the reviewed
 SGF, not all pieces of information of KataGo analysis are stored. It would be
@@ -257,3 +261,21 @@ do the following:
 ```console
 analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
 ```
+
+### Revisiting with `--revisit`
+
+While specifying a large number in `maxVisits` can increase the accuracy of
+your analysis, it also takes a lot of time to get finished even when a small
+number of moves are interesting. `--revisit` option allows you to analyze a
+game with two different visits based on win rates drops of the moves.
+`minWinrateDropForVariations` is the criterion. For example, if you run the
+following, you can analyze the moves whose win rate drops greater than
+5% up to 50000 visits, and the moves whose win rate drops less than 5% up to
+1000 visits.
+
+```console
+analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
+```
+
+Of course, when you run `analyze-sgf --revisit 50000 baduk.sgf`, `analyze-sgf`
+refers to `maxVisits` and `minWinrateDropForVariations` in `.analyze-sgf.yml`.

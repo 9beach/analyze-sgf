@@ -50,10 +50,11 @@ Usage: analyze-sgf [-a=OPTS] [-g=OPTS] [-k=OPTS] [-s] [-f] FILE ...
 
 Option:
   -a, --analysis=OPTS     Options for KataGo Parallel Analysis Engine query
-  -g, --sgf=OPTS          Options for making reviewed SGF file
+  -g, --sgf=OPTS          Options for making reviewed SGF files
   -k, --katago=OPTS       Options for path and arguments of KataGo
-  -s                      Save KataGo analysis as JSON file
-  -f                      Analyze by KataGo JSON file
+  -r, --revisit=N         For variation cases, Analyze again with maxVisits N
+  -s                      Save KataGo analysis as JSON files
+  -f                      Analyze by KataGo JSON files
   -h, --help              Display this help and exit
 
 Examples:
@@ -61,7 +62,7 @@ Examples:
   analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -f baduk.json
-  analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
+  analyze-sgf -g 'maxVariationsForEachMove:15' -r 20000 baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>
@@ -195,6 +196,8 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ## 고급 설정
 
+### 분석 데이터 저장
+
 카타고로 분석하는 데는 꽤 긴 시간이 걸립니다. 그런데 분석된 기보에는 승률 하락이 `minWinrateDropForVariations`보다
 큰 수의 변화도만 수록되며, 좋은 수, 나쁜 수의 기준 또한 분석 이후에는 바꿀 수 없습니다. 이런 설정을 바꾸려고
 시간을 들여 새로 분석해야 한다면 많이 실망스러울 것입니다. 그래서 `analyze-sgf`에는 `-s` 옵션으로 카타고
@@ -226,3 +229,15 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVariationsForEachMove:100 -f baduk.json'
 ```
 
+### 가변 방문수
+
+`maxVisits`에 큰 수를 지정하면 분석의 정확도를 높일 수 있지만, 중요하지 않은 착수에도 많은 시간을 들인다는 단점이
+있습니다. 이때 가변 방문수를 이용하면 승률 변동이 `minWinrateDropForVariations`보다 작은 수순은 낮게 설정된
+`maxVisits`에 맞춰 분석하고, 승률 변동이 큰 수순은 별도로 지정한 높은 방문수에 맞춰 분석할 수 있습니다. 즉, 다음을
+실행하면, 승률 변동 5%를 기준으로 그 이상은 50000 방문수로, 그 이하는 1000 방문수로 분석합니다.
+
+```console
+analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
+```
+
+물론 `analyze-sgf --revisit 50000 baduk.sgf`로 실행하면 `.analyze-sgf.yml`에 설정된 `maxVisits`, `minWinrateDropForVariations` 값을 이용합니다.

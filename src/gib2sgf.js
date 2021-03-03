@@ -108,7 +108,7 @@ const handicapStones = [
   'dp][pd][dd][pp][dj][pj][jd][jp][jj',
 ];
 
-// 'hey (there)' => ['hey', 'there']
+// 'hey(there)' => ['hey', 'there']
 function parsePair(value) {
   const index = value.lastIndexOf('(');
   return [

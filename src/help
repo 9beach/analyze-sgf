@@ -4,6 +4,7 @@ Option:
   -a, --analysis=OPTS     Options for KataGo Parallel Analysis Engine query
   -g, --sgf=OPTS          Options for making reviewed SGF files
   -k, --katago=OPTS       Options for path and arguments of KataGo
+  -r, --revisit=N         For variation cases, Analyze again with maxVisits N
   -s                      Save KataGo analysis as JSON files
   -f                      Analyze by KataGo JSON files
   -h, --help              Display this help and exit
@@ -13,7 +14,7 @@ Examples:
   analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
   analyze-sgf -a 'maxVisits:16400,analyzeTurns:[197,198]' baduk.sgf
   analyze-sgf -f baduk.json
-  analyze-sgf -g 'maxVariationsForEachMove:15' baduk.sgf
+  analyze-sgf -g 'maxVariationsForEachMove:15' -r 20000 baduk.sgf
 
 Edit ~/.analyze-sgf.yml for default options
 Report analyze-sgf bugs to <https://github.com/9beach/analyze-sgf/issues>

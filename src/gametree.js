@@ -80,8 +80,8 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
   // Sorts responses by turnNumber.
   //
   // Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
-  const getNumberFromJSON = (a) => parseInt(a.replace(/.*:/, ''), 10);
-  responses.sort((a, b) => getNumberFromJSON(a) - getNumberFromJSON(b));
+  const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
+  responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
 
   // Notice that:
   // * responses.length === nodes.length + 1

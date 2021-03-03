@@ -5,14 +5,20 @@
 const fs = require('fs');
 const syspath = require('path');
 const yaml = require('js-yaml');
-const pgetopt = require('posix-getopt');
+const posixgetopt = require('posix-getopt');
 const homedir = require('os').homedir();
 const chalk = require('chalk');
 
 const parseBadJSON = require('./bad-json');
 
 const log = (message) => console.error(chalk.grey(message));
+const help = fs.readFileSync(require.resolve('./help')).toString();
 const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
+
+function helpexit() {
+  process.stderr.write(help);
+  process.exit(1);
+}
 
 // Parses process arguments, reads config, and returns JSON object.
 function getopts() {
@@ -24,23 +30,34 @@ function getopts() {
     log(`generated: ${config}`);
   }
 
+  // Reads 7 keys.
   const args = parseArgs();
-  const conf = readConfig(args.katago, args.analysis, args.sgf);
-  return { ...args, ...conf };
+  // Merges each of 3 keys.
+  const yml = readConfig(args.katago, args.analysis, args.sgf);
+
+  if (args.revisit && args.revisit < yml.analysis.maxVisits) {
+    log(
+      `revisit argument (${args.revisit}) is less than maxVisits ` +
+        `(${yml.analysis.maxVisits})`,
+    );
+    process.exit(1);
+  }
+
+  // Merge them.
+  return { ...args, ...yml };
 }
 
+// Parses args.
 function parseArgs() {
-  const help = fs.readFileSync(require.resolve('./help')).toString();
-
   let jsonGiven = false;
   let saveGiven = false;
+  let revisit;
   let analysis = {};
   let sgf = {};
   let katago = {};
 
-  // Parses args.
-  const parser = new pgetopt.BasicParser(
-    'k:(katago)a:(analysis)g:(sgf)sfh',
+  const parser = new posixgetopt.BasicParser(
+    'k:(katago)a:(analysis)g:(sgf)r:(revisit)sfh',
     process.argv,
   );
 
@@ -61,6 +78,9 @@ function parseArgs() {
       case 'g':
         sgf = parseBadJSON(opt.optarg);
         break;
+      case 'r':
+        revisit = parseInt(opt.optarg, 10);
+        break;
       case 's':
         saveGiven = true;
         break;
@@ -69,27 +89,23 @@ function parseArgs() {
         break;
       case 'h':
       default:
-        process.stderr.write(help);
-        process.exit(1);
+        helpexit();
     }
   }
 
-  if (jsonGiven && saveGiven) {
-    log('neglected `-s` with `-f`.');
-  }
+  if (jsonGiven && saveGiven) log('neglected `-s` with `-f`.');
+  if (jsonGiven && revisit) log('neglected `--revisit` with `-f`.');
 
-  // paths given.
   if (parser.optind() >= process.argv.length) {
     log('Please specify SGF/GIB files.');
-    process.stderr.write(help);
-    process.exit(1);
+    helpexit();
   }
   const paths = process.argv.slice(parser.optind());
 
-  return { katago, analysis, sgf, paths, jsonGiven, saveGiven };
+  return { katago, analysis, sgf, revisit, saveGiven, jsonGiven, paths };
 }
 
-// Reads config and merges options.
+// Reads config and merges each key of it with args.
 function readConfig(kopts, aopts, sopts) {
   const opts = yaml.load(fs.readFileSync(config));
 

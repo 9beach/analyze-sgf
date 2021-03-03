@@ -43,7 +43,7 @@ sgf:
   # But 'analyzeTurns' is not given, analyze-sgf analyzes all the moves, and
   # adds the variations for the moves whose win rate drop more than
   # minWinrateDropForVariations.
-  minWinrateDropForVariations: 5
+  minWinrateDropForVariations: 5.0
   showBadVariations: false
   maxVariationsForEachMove: 10
   # If input file is "baduk.sgf" and fileSuffix is "-analyzed", then writes

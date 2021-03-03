@@ -24,10 +24,10 @@ const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
 const getext = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
 
-// Parses args.
+// Parses args and merges them with yaml config.
 const opts = getopts();
 
-// Starts async communication with kataGoAnalyze().
+// Starts async communication with KataGo
 (async () => {
   try {
     // Analyzes by KataGo Analysis JSON, not by KataGO engine.
@@ -62,6 +62,7 @@ const opts = getopts();
         let sgf;
         let newPath;
 
+        // Gets SGF from web server.
         if (!isURL) {
           const content = fs.readFileSync(path);
           const detected = jschardet.detect(content);
@@ -78,14 +79,40 @@ const opts = getopts();
         const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
 
         // Sends queries to KataGo
-        const responses = await kataGoAnalyze(
+        let responses = await kataGoAnalyze(
           JSON.stringify(query),
           opts.katago,
         );
+        // KataGoAnalyze already has printed error message.
+        if (!responses) return;
 
-        if (responses) {
-          saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
+        // If revisit given, try again.
+        if (opts.revisit) {
+          query.maxVisits = opts.revisit;
+          query.analyzeTurns = responsesToWinrateDropTurns(
+            responses,
+            opts.sgf.minWinrateDropForVariations / 100,
+          );
+
+          let responsesRe = '';
+          if (query.analyzeTurns) {
+            responsesRe = await kataGoAnalyze(
+              JSON.stringify(query),
+              opts.katago,
+            );
+            if (!responsesRe)
+              log('revisit error');
+            else
+              responses = joinResponses(
+                responses,
+                responsesRe,
+                query.analyzeTurns,
+              );
+          }
         }
+
+        // Finally, saves them.
+        saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
       });
     }
   } catch (error) {
@@ -93,6 +120,40 @@ const opts = getopts();
     process.exit(1);
   }
 })();
+
+const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
+
+function joinResponses(original, revisited, turns) {
+  return (
+    original
+      .split('\n')
+      .filter((l) => turns.indexOf(getTurnNumber(l)) === -1)
+      .join('\n') + revisited
+  );
+}
+
+function responsesToWinrateDropTurns(responses, winrateDrop) {
+  return responses
+    .replace(/.*"rootInfo"/g, '{"rootInfo"')
+    .split('\n')
+    .filter((l) => Boolean(l))
+    .map((l) => JSON.parse(l))
+    .sort((a, b) => a.turnNumber - b.turnNumber)
+    .reduce(
+      (acc, cur) => {
+        if (
+          acc.turnNumber === cur.turnNumber - 1 &&
+          Math.abs(acc.winrate - cur.rootInfo.winrate) > winrateDrop
+        ) {
+          acc.analyzeTurns.push(cur.turnNumber);
+        }
+        acc.winrate = cur.rootInfo.winrate;
+        acc.turnNumber = cur.turnNumber;
+        return acc;
+      },
+      { analyzeTurns: [] },
+    ).analyzeTurns;
+}
 
 // Makes JSON data to send KataGo Parallel Analysis Engine.
 function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
@@ -116,7 +177,7 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
     query.initialPlayer = initialPlayer;
   }
 
-  query.id = `9beach-${Math.random().toString().slice(2)}`;
+  query.id = `9beach-${Date.now()}`;
   query.initialStones = sgfconv.initialstonesFromSequence(sequence);
   query.moves = sgfconv.katagomovesFromSequence(sequence);
 

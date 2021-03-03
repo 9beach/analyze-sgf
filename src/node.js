@@ -82,6 +82,7 @@ class Node {
   // Calculates scoreDrop, winrateDrop, ... and sets them to this.comment and
   // the properties of this.sequence.
   setWinrate(prevInfo, curInfo, sgfOpts) {
+    if (this.comment) this.comment += ` (${curInfo.visits} visits)`;
     calcWinrate(this, prevInfo, curInfo);
     setWinrateToCommentAndProperties(this, sgfOpts);
   }
