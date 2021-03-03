@@ -25,7 +25,7 @@ function getopts() {
   }
 
   const args = parseArgs();
-  const conf = readConfig(args.kopts, args.aopts, args.sopts);
+  const conf = readConfig(args.katago, args.analysis, args.sgf);
   return { ...args, ...conf };
 }
 
@@ -34,13 +34,13 @@ function parseArgs() {
 
   let jsonGiven = false;
   let saveGiven = false;
-  let aopts = {};
-  let sopts = {};
-  let kopts = {};
+  let analysis = {};
+  let sgf = {};
+  let katago = {};
 
   // Parses args.
   const parser = new pgetopt.BasicParser(
-    'k:(kopts)a:(aopts)g:(sopts)sfh',
+    'k:(katago)a:(analysis)g:(sgf)sfh',
     process.argv,
   );
 
@@ -53,13 +53,13 @@ function parseArgs() {
     }
     switch (opt.option) {
       case 'a':
-        aopts = parseBadJSON(opt.optarg);
+        analysis = parseBadJSON(opt.optarg);
         break;
       case 'k':
-        kopts = parseBadJSON(opt.optarg);
+        katago = parseBadJSON(opt.optarg);
         break;
       case 'g':
-        sopts = parseBadJSON(opt.optarg);
+        sgf = parseBadJSON(opt.optarg);
         break;
       case 's':
         saveGiven = true;
@@ -86,7 +86,7 @@ function parseArgs() {
   }
   const paths = process.argv.slice(parser.optind());
 
-  return { kopts, aopts, sopts, paths, jsonGiven, saveGiven };
+  return { katago, analysis, sgf, paths, jsonGiven, saveGiven };
 }
 
 // Reads config and merges options.
