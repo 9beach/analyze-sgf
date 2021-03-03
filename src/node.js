@@ -114,8 +114,8 @@ function calcWinrate(that, prevInfo, curInfo) {
 
 const fixFloat = (float) => parseFloat(float).toFixed(2);
 
-// Sets winrate, scoreDrop, winrateDrop, ... to that.comment and the properties
-// of that.sequence.
+// Sets winrate, scoreDrop, winrateDrop, ... to that.comment and the
+// properties of that.sequence.
 function setWinrateToCommentAndProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
@@ -123,8 +123,8 @@ function setWinrateToCommentAndProperties(that, sgfOpts) {
   that.propertiesGot = true;
 
   if (that.winrate != null) {
-    // Does not add winrate report to comment property. Adds it when this.get()
-    // is called.
+    // Does not add winrate report to comment property. Adds it when
+    // this.get() is called.
     that.comment += `\n\n${getWinratesReport(that)}`;
 
     // RSGF winrate.

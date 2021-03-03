@@ -21,11 +21,11 @@ class GameTree {
         .replace(/\bKO\[/, 'KM['),
     );
 
-    this.root = rootsequence.root;
     this.opts = opts;
     this.comment = '';
 
     // Gets root node and main sequence from SGF.
+    this.root = rootsequence.root;
     this.nodes = rootsequence.sequence
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)

@@ -121,11 +121,6 @@ const makeProperty = (p, v) => `${p}[${v}]`;
 
 function sgfrootFromGIB(gib) {
   let root = ';FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]';
-
-  let hasDT;
-  let hasRE;
-  let hasKM;
-
   let value;
 
   // PB, BR
@@ -147,6 +142,32 @@ function sgfrootFromGIB(gib) {
   // EV
   value = valueOfGIB(gib, 'GAMENAME');
   if (value) root += makeProperty('EV', value);
+
+  // DT, RE, KM
+  root += propertiesFromGIB(gib);
+
+  // HA, AB
+  value = valueOfINI(gib);
+  if (value) {
+    const setup = value.split(/\s+/);
+    if (setup[3]) {
+      const handicap = parseInt(setup[2], 10);
+      if (handicap >= 2) {
+        root += makeProperty('HA', handicap);
+        root += makeProperty('AB', handicapStones[handicap]);
+      }
+    }
+  }
+
+  return root;
+}
+
+// DT, RE, KM
+function propertiesFromGIB(gib) {
+  let root = '';
+  let hasRE;
+  let hasKM;
+  let value;
 
   // RE, KM
   value = valueOfGIB(gib, 'GAMEINFOMAIN');
@@ -173,13 +194,10 @@ function sgfrootFromGIB(gib) {
   // DT, RE, KM
   value = valueOfGIB(gib, 'GAMETAG');
   if (value) {
-    if (!hasDT) {
-      const match = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
-      if (match) {
-        const date = match.slice(1).join('-');
-        root += makeProperty('DT', date);
-        hasDT = true;
-      }
+    let match = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
+    if (match) {
+      const date = match.slice(1).join('-');
+      root += makeProperty('DT', date);
     }
     if (!hasRE) {
       const result = getRE(value, /,W(\d+),/, /,Z(\d+),/);
@@ -189,24 +207,11 @@ function sgfrootFromGIB(gib) {
       }
     }
     if (!hasKM) {
-      const match = value.match(/,G(\d+),/);
+      match = value.match(/,G(\d+),/);
       if (match) {
         const komi = parseInt(match[1], 10) / 10;
         root += makeProperty('KM', komi);
         hasKM = true;
-      }
-    }
-  }
-
-  // HA, AB
-  value = valueOfINI(gib);
-  if (value) {
-    const setup = value.split(/\s+/);
-    if (setup[3]) {
-      const handicap = parseInt(setup[2], 10);
-      if (handicap >= 2) {
-        root += makeProperty('HA', handicap);
-        root += makeProperty('AB', handicapStones[handicap]);
       }
     }
   }

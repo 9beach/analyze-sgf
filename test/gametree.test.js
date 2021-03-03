@@ -39,11 +39,10 @@ function compare(original, json, expected) {
   assert.equal(fs.readFileSync(expected).toString(), rsgf);
 }
 
-describe('GameTree', () => {
-  const compareButLines = (x, y) =>
-    assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
-
+describe('GameTree 1', () => {
   it('should be expected values.', () => {
+    const compareButLines = (x, y) =>
+      assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
     compareButLines(gametree.get(), '(PL[];B[aa]C[Move 1];W[bb]C[Move 2])');
   });
@@ -95,7 +94,9 @@ describe('GameTree', () => {
       'test/examples/t-sabaki-1-turns.sgf',
     );
   });
+});
 
+describe('GameTree 2', () => {
   it('should be expected values for "examples/t-lian-vs-shin.json".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;

@@ -24,17 +24,23 @@ function getopts() {
     log(`generated: ${config}`);
   }
 
+  const args = parseArgs();
+  const conf = readConfig(args.kopts, args.aopts, args.sopts);
+  return { ...args, ...conf };
+}
+
+function parseArgs() {
   const help = fs.readFileSync(require.resolve('./help')).toString();
 
   let jsonGiven = false;
   let saveGiven = false;
-  let analysis = {};
-  let sgf = {};
-  let katago = {};
+  let aopts = {};
+  let sopts = {};
+  let kopts = {};
 
   // Parses args.
   const parser = new pgetopt.BasicParser(
-    'k:(katago)a:(analysis)g:(sgf)sfh',
+    'k:(kopts)a:(aopts)g:(sopts)sfh',
     process.argv,
   );
 
@@ -47,13 +53,13 @@ function getopts() {
     }
     switch (opt.option) {
       case 'a':
-        analysis = parseBadJSON(opt.optarg);
+        aopts = parseBadJSON(opt.optarg);
         break;
       case 'k':
-        katago = parseBadJSON(opt.optarg);
+        kopts = parseBadJSON(opt.optarg);
         break;
       case 'g':
-        sgf = parseBadJSON(opt.optarg);
+        sopts = parseBadJSON(opt.optarg);
         break;
       case 's':
         saveGiven = true;
@@ -75,18 +81,22 @@ function getopts() {
     process.exit(1);
   }
 
-  const paths = process.argv.slice(parser.optind());
-
   if (jsonGiven && saveGiven) {
     log('neglected `-s` with `-f`.');
   }
 
-  // Reads config file.
+  const paths = process.argv.slice(parser.optind());
+
+  return { kopts, aopts, sopts, paths, jsonGiven, saveGiven };
+}
+
+// Reads config file and merges options.
+function readConfig(kopts, aopts, sopts) {
   const opts = yaml.load(fs.readFileSync(config));
 
-  katago = { ...opts.katago, ...katago };
-  analysis = { ...opts.analysis, ...analysis };
-  sgf = { ...opts.sgf, ...sgf };
+  const katago = { ...opts.katago, ...kopts };
+  const analysis = { ...opts.analysis, ...aopts };
+  const sgf = { ...opts.sgf, ...sopts };
 
   sgf.analyzeTurns = analysis.analyzeTurns;
 
@@ -104,7 +114,7 @@ function getopts() {
     sgf.minWinrateDropForVariations = sgf.minWinrateLossForVariations;
   }
 
-  return { katago, analysis, sgf, paths, jsonGiven, saveGiven };
+  return { katago, analysis, sgf };
 }
 
 module.exports = getopts;
