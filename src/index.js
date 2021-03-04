@@ -27,7 +27,7 @@ const getext = (path) =>
 // Parses args and merges them with yaml config.
 const opts = getopts();
 
-// Starts async communication with KataGo
+// Starts async communication with KataGo.
 (async () => {
   try {
     // Analyzes by KataGo Analysis JSON, not by KataGO engine.
@@ -50,7 +50,7 @@ const opts = getopts();
     } else {
       // Analyzes by KataGo Analysis Engine.
       //
-      // Reads SGF and makes KagaGo queries.
+      // Reads SGF and makes KagaGo query.
       opts.paths.map(async (path) => {
         const ext = getext(path);
         const isURL = isValidURL(path);
@@ -78,11 +78,8 @@ const opts = getopts();
 
         const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
 
-        // Sends queries to KataGo
-        let responses = await kataGoAnalyze(
-          JSON.stringify(query),
-          opts.katago,
-        );
+        // Sends query to KataGo.
+        let responses = await kataGoAnalyze(query, opts.katago);
         // KataGoAnalyze already has printed error message.
         if (!responses) return;
 
@@ -96,10 +93,7 @@ const opts = getopts();
 
           let responsesRe = '';
           if (query.analyzeTurns) {
-            responsesRe = await kataGoAnalyze(
-              JSON.stringify(query),
-              opts.katago,
-            );
+            responsesRe = await kataGoAnalyze(query, opts.katago);
             if (!responsesRe) log('revisit error');
             else
               responses = joinResponses(
@@ -144,7 +138,8 @@ function responsesToWinrateDropTurns(responses, winrateDrop) {
           acc.turnNumber === cur.turnNumber - 1 &&
           Math.abs(acc.winrate - cur.rootInfo.winrate) > winrateDrop
         ) {
-          acc.analyzeTurns.push(cur.turnNumber);
+          // Adds previous turn number for PVs.
+          acc.analyzeTurns.push(acc.turnNumber);
         }
         acc.winrate = cur.rootInfo.winrate;
         acc.turnNumber = cur.turnNumber;
@@ -225,12 +220,10 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
 }
 
 // Requests analysis to KataGo, and reads responses.
-async function kataGoAnalyze(queries, katagoOpts) {
+async function kataGoAnalyze(query, katagoOpts) {
   const katago = spawn(`${katagoOpts.path} ${katagoOpts.arguments}`, [], {
     shell: true,
   });
-
-  let responses = '';
 
   katago.on('exit', (code) => {
     if (code !== 0) {
@@ -243,10 +236,11 @@ async function kataGoAnalyze(queries, katagoOpts) {
   });
 
   // Sends query to KataGo.
-  await katago.stdin.write(queries);
+  await katago.stdin.write(JSON.stringify(query));
   katago.stdin.end();
 
   // Reads analysis from KataGo.
+  let responses = '';
   // eslint-disable-next-line no-restricted-syntax
   for await (const data of katago.stdout) {
     responses += data;

@@ -115,7 +115,7 @@ function readConfig(kopts, aopts, sopts) {
 
   sgf.analyzeTurns = analysis.analyzeTurns;
 
-  // Backward compatibility to v0.0.8
+  // Backward compatibility to v0.0.8.
   if (sgf.maxWinrateLossForGoodMove && !sgf.maxWinrateDropForGoodMove) {
     sgf.maxWinrateDropForGoodMove = sgf.maxWinrateLossForGoodMove;
   }

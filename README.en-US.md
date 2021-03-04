@@ -42,7 +42,7 @@ or `PowerShell`.
 C:\Users\hcho> npm install -g analyze-sgf
 ```
 
-Notice that the upgrade command is the same as the install command.
+The upgrade command is the same as the install command.
 
 ## Usage
 
@@ -78,14 +78,14 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 ```
 
 In Microsoft Windows, it should be run with `analyze-sgf.cmd` rather than
-`analyze-sgf`, but for convenience, we'll call it `analyze-sgf`. Now let's look
-at how to use them one by one.
+`analyze-sgf`, but for convenience, we'll call it `analyze-sgf`. Now let's
+look at how to use them one by one.
 
 To run `analyze-sgf`, you need to set the KataGo path in the
 `.analyze-sgf.yml` file in your home directory. The contents of the
-`.analyze-sgf.yml` file is as follows. Among these, you need to modify the
-two values "KataGo path here" and "KataGo arguments here" to suit your
-installed KataGo. Please refer to the example.
+`.analyze-sgf.yml` file is as follows. Among these, you need to modify the two
+values "KataGo path here" and "KataGo arguments here" to suit your installed
+KataGo. Please refer to the example.
 
 ```yml
 # Please visit <https://github.com/9beach/analyze-sgf>.
@@ -146,9 +146,10 @@ Lian Xiao (White)
 Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```
 
-Cyber ORO's [기보 감상](https://www.cyberoro.com/bcast/gibo.oro?Tdiv=B) and Tygem's
-[최신기보](http://news.tygem.com/news/tnews/gibo.asp) provides SGFs of almost all Korean Go professionals.
-`analyze-sgf` automatically downloads and analyzes the SGFs from the URLs of the matches.
+Cyber ORO's [기보 감상](https://www.cyberoro.com/bcast/gibo.oro?Tdiv=B) and
+Tygem's [최신기보](http://news.tygem.com/news/tnews/gibo.asp) provides SGFs of
+almost all Korean Go professionals. `analyze-sgf` automatically downloads and
+analyzes the SGFs from the URLs of the matches.
 
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
@@ -170,12 +171,11 @@ The screenshot below shows the file opened in Sabaki.
 If the win rate drops by more than 5%, the node of the game tree turns to a
 red dot, if more than 20%, turns to a red ribbon, and if within 2%, turns to a
 green dot. This criterion can be changed by specifying the
-`minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and
-`maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
+`minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`, and `maxWinrateDropForGoodMove` settings in `.analyze-sgf.yml` file.
 
-The comment of each move contains information about win rate and score, as well
-as links to the moves with huge win rate drop, so you can quickly analyze your
-game.
+The comment of each move contains information about win rate and score, as
+well as links to the moves with huge win rate drop, so you can quickly analyze
+your game.
 
 If you hover your mouse over a proposed variation in Sabaki, the sequence of
 the variation is automatically played as shown in the screenshot above.
@@ -211,8 +211,8 @@ If `analyzeTurns` is specified, only the variations of specified moves are
 saved. If `analyzeTurns` is not specified, all the variations of the moves
 whose win rate drops greater than `minWinrateDropForVariations` are saved.
 
-Komi is automatically set using the information in the SGF/GIB file even if the
-`-a 'komi:6.5'` option is not specified.
+Komi is automatically set using the information in the SGF/GIB file even if
+the `-a 'komi:6.5'` option is not specified.
 
 Anything with quotes in the `.analyze-sgf.yml` setting must be quoted at
 runtime. That is, you should run it like this:
@@ -227,9 +227,10 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 It takes quite a long time to analyze with KataGo. However, in the reviewed
 SGF, not all pieces of information of KataGo analysis are stored. It would be
-very frustrating if you had to take the time to analyze it again with different
-settings. So `analyze-sgf` can save and recycle the KataGo analysis data with
-the `-s` option.
+very frustrating if you had to take the time to analyze it again with
+different settings (e.g. `minWinrateDropForVariations`,
+`minWinrateDropForBadMove`). So `analyze-sgf` can save and recycle the KataGo
+analysis data with the `-s` option.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
@@ -243,17 +244,16 @@ If you run it as below, the analysis is finished at the same time as it is
 executed using `baduk.json`, not KataGo.
 
 ```console
-analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' -f baduk.json
+analyze-sgf -a 'analyzeTurns:[170,171]' -g 'maxVariationsForEachMove:20,showBadVariations:true' -f baduk.json
 ```
 
-Now you can see up to 20 variations of the 169th and 170th moves that did not
-exist before, including the variations of bad win rates. Saved analysis
-information is used, so values for `-a` options such as `maxVisits`
-other than `analyzeTurns` are ignored.
+Now you can see up to 20 variations of the 171th and 172th moves including
+the variations of bad win rates. Please note that `-a` option values such
+as `maxVisits`, `komi` other than `analyzeTurns` are ignored with `-f` option.
 
-If you can wait a few hours, give it a very large number of visits and save the
-analysis data with `-s -a 'maxVisits:100000'`. This provides a whole new level
-of depth compared to using KataGo in real-time.
+If you can wait a few hours, give it a very large number of visits and save
+the analysis data with `-s -a 'maxVisits:100000'`. This provides a whole new
+level of depth compared to using KataGo in real-time.
 
 If you want to see all the variations that exist in your KataGo analysis data,
 do the following:
@@ -269,13 +269,17 @@ your analysis, it also takes a lot of time to get finished even when a small
 number of moves are interesting. `--revisit` option allows you to analyze a
 game with two different visits based on win rates drops of the moves.
 `minWinrateDropForVariations` is the criterion. For example, if you run the
-following, you can analyze the moves whose win rate drops greater than
-5% up to 50000 visits, and the moves whose win rate drops less than 5% up to
-1000 visits.
+following, you can analyze the variations of the moves whose win rate drops
+greater than 5% with 50000 visits and the variations of the moves whose win
+rate drops less than 5% with 1000 visits.
 
 ```console
 analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
 ```
 
-Of course, when you run `analyze-sgf --revisit 50000 baduk.sgf`, `analyze-sgf`
-refers to `maxVisits` and `minWinrateDropForVariations` in `.analyze-sgf.yml`.
+Please note that if the win rate of the 60th move drops by 6%, then the
+number of the visits to the 59th move is changed to 50000 because that way
+we can explore the variations of the 60th move more broadly.
+
+When you run `analyze-sgf --revisit 50000 baduk.sgf`, `analyze-sgf` refers to
+`maxVisits` and `minWinrateDropForVariations` in `.analyze-sgf.yml`.

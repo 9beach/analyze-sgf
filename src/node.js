@@ -82,7 +82,6 @@ class Node {
   // Calculates scoreDrop, winrateDrop, ... and sets them to this.comment and
   // the properties of this.sequence.
   setWinrate(prevInfo, curInfo, sgfOpts) {
-    if (this.comment) this.comment += ` (${curInfo.visits} visits)`;
     calcWinrate(this, prevInfo, curInfo);
     setWinrateToCommentAndProperties(this, sgfOpts);
   }
@@ -160,7 +159,8 @@ function formatScoreLead(scoreLead) {
 function formatPV(that) {
   return (
     `${sgfconv.sequenceToPV(that.sequence)} (` +
-    `${formatWinrate(that.winrate)}, ${formatScoreLead(that.scoreLead)})`
+    `${formatWinrate(that.winrate)}, ${formatScoreLead(that.scoreLead)}, ` +
+    `${that.visits} visits)`
   );
 }
 
@@ -169,13 +169,14 @@ function formatPV(that) {
 // * Score lead: W 0.20
 // * Win rate drop: B ⇣30.29%
 // * Score drop: B ⇣4.31
+// * Visits: 1015
 function getWinratesReport(that) {
   let winrateDrop;
   let scoreDrop;
 
   const winrate = `* Win rate: ${formatWinrate(that.winrate)}\n`;
   const scoreLead = `* Score lead: ${formatScoreLead(that.scoreLead)}\n`;
-
+  const visits = `* Visits: ${that.visits}\n`;
   if (that.winrateDrop !== undefined) {
     winrateDrop = fixFloat(that.winrateDrop * 100);
     winrateDrop = `* Win rate drop: ${that.pl} ⇣${winrateDrop}%\n`;
@@ -185,7 +186,7 @@ function getWinratesReport(that) {
     scoreDrop = '';
   }
 
-  return winrate + scoreLead + winrateDrop + scoreDrop;
+  return winrate + scoreLead + winrateDrop + scoreDrop + visits;
 }
 
 module.exports = Node;

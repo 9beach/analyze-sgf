@@ -23,8 +23,8 @@ analysis:
 # Options for making reviewed SGF files.
 sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
-  # When you open reviewed SGF in applications like Sabaki, you can check them.
-  # Please visit <https://sabaki.yichuanshen.de/>.
+  # When you open reviewed SGF in applications like Sabaki, you can check
+  # them. Please visit <https://sabaki.yichuanshen.de/>.
   #
   # If win rate drops by less than maxWinrateDropForGoodMove for a move, that
   # move is good.
