@@ -168,7 +168,7 @@ generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 
 The screenshot below shows the file opened in Sabaki.
 
 ![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
-**Navigating the variations with Sabaki**
+**Exploring a variation with Sabaki**
 
 If the win rate drops by more than 5%, the node of the game tree turns to a
 red dot, if more than 20%, turns to a red ribbon, and if within 2%, turns to a
