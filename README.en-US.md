@@ -204,8 +204,8 @@ analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEach
 ```
 
 The `-a` and `-g` options stand for `analysis` and `sgf`, respectively.
-Because KataGo analyzes with the concept of the proposed variations, to
-analyze the 174th move, we need to request 173.
+Due to zero-based numbering of KataGo, we need to request 173 to analyze the
+174th move.
 
 If `analyzeTurns` is specified, only the variations of specified moves are
 saved. If `analyzeTurns` is not specified, all the variations of the moves
