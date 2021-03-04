@@ -30,20 +30,20 @@ function getopts() {
     log(`generated: ${config}`);
   }
 
-  // Reads 7 keys.
+  // Reads 7 keys from args.
   const args = parseArgs();
-  // Merges each of 3 keys.
+  // Merges 3 keys with YAML conf.
   const yml = readConfig(args.katago, args.analysis, args.sgf);
 
   if (args.revisit && args.revisit < yml.analysis.maxVisits) {
     log(
-      `revisit argument (${args.revisit}) is less than maxVisits ` +
+      `Error: revisit argument (${args.revisit}) is less than maxVisits ` +
         `(${yml.analysis.maxVisits})`,
     );
     process.exit(1);
   }
 
-  // Merge them.
+  // Merges all.
   return { ...args, ...yml };
 }
 

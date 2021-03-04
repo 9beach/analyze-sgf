@@ -113,7 +113,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
 
     that.maxVisits = Math.max(curJSON.rootInfo.visits, that.maxVisits);
 
-    // 1. Sets win rates.
+    // Sets win rates.
     if (curTurn >= 0) {
       const node = that.nodes[curTurn];
       if (curTurn === prevTurn + 1) {
@@ -125,7 +125,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
       }
     }
 
-    // 2. Adds the node of passing move if necessary.
+    // Adds the node of passing move if necessary.
     if (
       that.opts.showVariationsAfterLastMove &&
       that.nodes.length === nextTurn
@@ -133,7 +133,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
       that.nodes.push(new Node(`${nextPL}[]`));
     }
 
-    // 3. Adds variations.
+    // Adds variations.
     if (
       nextTurn < that.nodes.length &&
       (!that.opts.analyzeTurns ||
