@@ -189,7 +189,7 @@ C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
 analyze-sgf -a 'maxVisits:10000,analyzeTurns:[173,175]' -g 'maxVariationsForEachMove:20,showBadVariations:true' baduk.sgf
 ```
 
-`-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 0부터 수순을 세기 때문에
+`-a`, `-g` 옵션은 각각 `analysis`, `sgf`를 뜻합니다. 카타고는 0부터 순서를 세기 때문에
 174번째 수를 분석하기 위해서는 173을 요청해야 합니다.
 
 `analyzeTurns`을 지정하면 지정된 수의 변화도만 보여 줍니다. 그러나 `analyzeTurns`을

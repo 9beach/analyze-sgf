@@ -36,8 +36,9 @@ In Mac or Linux, run the following from the terminal.
 npm install -g analyze-sgf
 ```
 
-In Microsoft Windows, run the following from the `Command Prompt`
-or `PowerShell`.
+In Microsoft Windows, run the following from the `Command Prompt` or
+`PowerShell`.
+
 ```console
 C:\Users\hcho> npm install -g analyze-sgf
 ```
