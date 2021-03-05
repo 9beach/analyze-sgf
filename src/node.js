@@ -1,36 +1,28 @@
 /**
- * @fileOverview Node data structure. Please see
- *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
+ * @fileOverview Node data structure.
+ *
+ *               Please see <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
 const sgfconv = require('./sgfconv');
 
-// Contains Node or tailless NodeSequence of SGF, win rate information, and
-// NodeSequence for variations.
+// Carries SGF Node, win rate information.
 class Node {
-  constructor(sequence, title, prevInfo, curInfo, sgfOpts) {
-    // Node or tailless NodeSequence of SGF.
-    //
-    // e.g. 'B[aa]', 'W[cc]', '(;B[dp];W[po];B[hm])'
-    this.sequence = sequence;
+  constructor(property, title) {
+    // e.g., 'B[aa]', 'W[cc]'.
+    this.property = property;
     this.info = title || '';
     this.report = '';
     this.pvs = '';
 
-    const index = sequence.search(/\b[BW]\[/);
+    const index = property.search(/\b[BW]\[/);
     if (index === -1) {
-      throw Error(`Invalid NodeSequece: ${sequence}`);
+      throw Error(`Invalid NodeSequece: ${property}`);
     }
     // 'B' or 'W'
-    this.pl = sequence.substring(index, index + 1);
-
-    if (sgfOpts) {
-      this.setWinrate(prevInfo, curInfo, sgfOpts);
-      // As a variation.
-      this.info += `* Sequence: ${formatPV(this).replace(/ \(.*/, '')}\n`;
-    }
+    this.pl = property.substring(index, index + 1);
   }
 
   setReport(report) {
@@ -46,32 +38,25 @@ class Node {
     this.pvs = getPVs(this);
   }
 
-  // Gets the sequence SGF with comments.
+  // Gets the SGF property with comments.
   get() {
-    const comments = [];
-
     // SGF comment of Node class contains info, report, and pvs.
-    //
-    // winrate related info.
-    if (this.info) comments.push(this.info);
-    // A user of Node class can set report.
-    if (this.report) comments.push(this.report);
-    // proposed variations.
-    if (this.pvs) comments.push(this.pvs);
+    const comment = [this.info, this.report, this.pvs]
+      .filter((v) => v)
+      .join('\n');
 
-    if (comments.length)
-      return sgfconv.addComment(this.sequence, comments.join('\n'));
-    return this.sequence;
+    if (comment) return sgfconv.addComment(this.property, comment);
+    return this.property;
   }
 
-  // Gets the tails (variations) SGF.
+  // Gets SGF of tails (variations).
   getTails(sgfOpts) {
     if (this.hasVariations()) {
       if (
         sgfOpts.analyzeTurns ||
         sgfOpts.showVariationsOnlyForBadMove === false ||
         this.winrateDrop > sgfOpts.minWinrateDropForVariations / 100 ||
-        (sgfOpts.showVariationsAfterLastMove && this.sequence[2] === ']')
+        (sgfOpts.showVariationsAfterLastMove && this.property[2] === ']')
       ) {
         return this.variations.reduce((acc, cur) => acc + cur.get(), '');
       }
@@ -80,20 +65,29 @@ class Node {
   }
 
   // Calculates scoreDrop, winrateDrop, ... and sets them to this.info and
-  // the properties of this.sequence.
+  // the properties of this.property.
   setWinrate(prevInfo, curInfo, sgfOpts) {
     calcWinrate(this, prevInfo, curInfo);
     setProperties(this, sgfOpts);
   }
+
+  // e.g., 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
+  formatPV() {
+    return (
+      `${sgfconv.sequenceToPV(this.property)} (` +
+      `${formatWinrate(this.winrate)}, ${formatScoreLead(this.scoreLead)}, ` +
+      `${this.visits} visits)`
+    );
+  }
 }
 
-// e.g.
+// e.g.,
 // 1. BH11 K5 L6 L5 M5 M6 M7 N6 L7 N7 L10 K2 K1 H2 H7 N5 (B 82.79%, B 6.33)
 // 2. BJ13 K5 K13 L11 H11 M6 L10 L9 M10 P2 N2 K2 K1 O1 M9 (B 81.76%, B 2.88)
 function getPVs(that) {
   if (!that.hasVariations()) return '';
   return `The proposed variations\n\n${that.variations.reduce(
-    (acc, cur, index) => `${acc}${index + 1}. ${formatPV(cur)}\n`,
+    (acc, cur, index) => `${acc}${index + 1}. ${cur.formatPV()}\n`,
     '',
   )}`;
 }
@@ -126,7 +120,7 @@ function calcWinrate(that, prevInfo, curInfo) {
 const fixFloat = (float) => parseFloat(float).toFixed(2);
 
 // Sets winrate, scoreDrop, winrateDrop, ... to that.info and the
-// properties of that.sequence.
+// properties of that.property.
 function setProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
@@ -139,19 +133,19 @@ function setProperties(that, sgfOpts) {
     that.info += `\n\n${getWinratesInfo(that)}`;
 
     // RSGF winrate.
-    that.sequence = sgfconv.addProperty(
-      that.sequence,
+    that.property = sgfconv.addProperty(
+      that.property,
       `SBKV[${fixFloat(that.winrate * 100)}]`,
       0,
     );
   }
 
   if (that.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100)
-    that.sequence = sgfconv.toGoodNode(that.sequence);
+    that.property = sgfconv.toGoodNode(that.property);
   else if (that.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100)
-    that.sequence = sgfconv.toBadHotSpot(that.sequence);
+    that.property = sgfconv.toBadHotSpot(that.property);
   else if (that.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100)
-    that.sequence = sgfconv.toBadNode(that.sequence);
+    that.property = sgfconv.toBadNode(that.property);
 }
 
 function formatWinrate(winrate) {
@@ -166,16 +160,7 @@ function formatScoreLead(scoreLead) {
   return `W ${fixFloat(-v)}`;
 }
 
-// e.g. 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
-function formatPV(that) {
-  return (
-    `${sgfconv.sequenceToPV(that.sequence)} (` +
-    `${formatWinrate(that.winrate)}, ${formatScoreLead(that.scoreLead)}, ` +
-    `${that.visits} visits)`
-  );
-}
-
-// e.g.
+// e.g.,
 // * Win rate: B 51.74%
 // * Score lead: W 0.20
 // * Win rate drop: B ⇣30.29%

@@ -2,7 +2,7 @@
  * @fileOverview Converts Tygem's GIB format to SGF.
  */
 
-// e.g.
+// e.g.,
 //
 // \HS
 // \[GAMEBLACKLEVEL=3\]

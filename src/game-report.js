@@ -5,7 +5,7 @@
 
 const sgfconv = require('./sgfconv');
 
-// FIXME: access to private members of GameTree.
+// FIXME: Accesses private members of GameTree.
 class GameReport {
   constructor(gametree) {
     this.root = gametree.root;
@@ -40,8 +40,16 @@ class GameReport {
     const re = sgfconv.valueFromSequence(this.root, 'RE');
     const game = [ev, km, re, dt].filter((v) => v).join(', ');
 
-    const pb = colorPL(sgfconv.valueFromSequence(this.root, 'PB'), 'Black');
-    const pw = colorPL(sgfconv.valueFromSequence(this.root, 'PW'), 'White');
+    const pb = plColor(sgfconv.valueFromSequence(this.root, 'PB'), 'Black');
+    const pw = plColor(sgfconv.valueFromSequence(this.root, 'PW'), 'White');
+
+    const reportPlayer = (goodBads, that) =>
+      reportGoodAndBads(
+        goodBads,
+        that.goodmovewinrate,
+        that.badmovewinrate,
+        that.badhotspotwinrate,
+      );
 
     this.report =
       `# Analyze-SGF Report\n\n${game}` +
@@ -92,7 +100,7 @@ function makeGoodBads(pl, drops, stat) {
 
 const percents = (f) => (f * 100).toFixed(2);
 
-// e.g.:
+// e.g.,:
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
 function getDropList(text, moves, total, listMoves, isScore) {
   if (!moves.length) {
@@ -121,7 +129,7 @@ function getDropList(text, moves, total, listMoves, isScore) {
   return `${format}\n`;
 }
 
-// e.g.:
+// e.g.,:
 // * Less than 2% win rate drops (83.33%, 75/90)
 // * Less than 5% win rate drops (94.44%, 85/90)
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
@@ -165,21 +173,12 @@ function reportGoodAndBads(
   );
 }
 
-function colorPL(pl, color) {
+function plColor(pl, color) {
   if (pl) return `${pl} (${color})`;
   return color;
 }
 
-function reportPlayer(goodBads, stat) {
-  return reportGoodAndBads(
-    goodBads,
-    stat.goodmovewinrate,
-    stat.badmovewinrate,
-    stat.badhotspotwinrate,
-  );
-}
-
-// e.g.
+// e.g.,
 // * Blacks bad moves: #117 ⇣14.99%, #127 ⇣11.81%, ...
 // * Blacks bad hot spots: #129 ⇣30.29%
 function getBadsLeft(pl, goodBads, turnNumber) {

@@ -7,6 +7,7 @@
 
 const sgfconv = require('./sgfconv');
 const Node = require('./node');
+const NodeSequence = require('./node-sequence');
 const GameReport = require('./game-report');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
@@ -154,7 +155,7 @@ function variationsFromResponse(that, response, pl, turn) {
   return response.moveInfos
     .map(
       (moveInfo) =>
-        new Node(
+        new NodeSequence(
           sgfconv.katagomoveinfoToSequence(pl, moveInfo),
           `A variation of move ${turn + 1}`,
           response.rootInfo,

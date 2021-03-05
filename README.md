@@ -77,23 +77,23 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 `analyze-sgf`를 사용하려면 홈 디렉터리에 있는 `.analyze-sgf.yml` 파일에 카타고 경로를
 설정해야 합니다. `.analyze-sgf.yml` 파일의 내용은 아래와 같습니다. 이 중에서
 `"KataGo path here"`, `"KataGo arguments here"` 두 값을 설치된 카타고에 맞게
-수정해야 합니다. 예시(e.g.)를 참고하세요.
+수정해야 합니다. 예시(e.g.,)를 참고하세요.
 
 ```yml
 # Please visit <https://github.com/9beach/analyze-sgf>.
 #
 # Options for path and arguments of KataGo.
 katago:
-  # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
+  # e.g., "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
-  # e.g. "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
+  # e.g., "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
 # Options for KataGo Parallel Analysis Engine query.
 #
 # <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
-  # e.g. "korean", "tromp-taylor", "chinese", ...
+  # e.g., "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
   # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5

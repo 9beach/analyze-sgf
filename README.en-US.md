@@ -93,16 +93,16 @@ KataGo. Please refer to the example.
 #
 # Options for path and arguments of KataGo.
 katago:
-  # e.g. "C:\\Users\\hcho\\KataGo\\katago.exe"
+  # e.g., "C:\\Users\\hcho\\KataGo\\katago.exe"
   path: "KataGo path here"
-  # e.g. "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
+  # e.g., "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
   arguments: "KataGo arguments here"
 
 # Options for KataGo Parallel Analysis Engine query.
 #
 # <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
-  # e.g. "korean", "tromp-taylor", "chinese", ...
+  # e.g., "korean", "tromp-taylor", "chinese", ...
   rules: "tromp-taylor"
   # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
@@ -231,7 +231,7 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 It takes quite a long time to analyze with KataGo. However, in the reviewed
 SGF, not all pieces of information of KataGo analysis are stored. It would be
 very frustrating if you had to take the time to analyze it again with
-different settings (e.g. `minWinrateDropForVariations`,
+different settings (e.g., `minWinrateDropForVariations`,
 `minWinrateDropForBadMove`). So `analyze-sgf` can save and recycle the KataGo
 analysis data with the `-s` option.
 

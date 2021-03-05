@@ -249,29 +249,27 @@ function katagomoveinfoToSequence(pl, moveInfo) {
 
 // Makes file name from SGF.
 //
-// e.g. '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
+// e.g., '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
 function prettyPathFromSGF(sgf) {
-  let header = [];
-  let ev = getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
-
-  // For bad Tygem SGF.
-  ev = ev.replace(' .', '');
-  if (ev) header.push(ev);
-  const dt = getAnyOfProperties(sgf, ['DT', 'RD']);
-  if (dt) header.push(dt);
-  header = header.join(', ');
-  if (header) header = `[${header}]`;
+  let evDT = [
+    // For bad Tygem SGF. e.g., '대주배 16강 .'
+    getAnyOfProperties(sgf, ['EV', 'TE', 'GN']).replace(' .', ''),
+    getAnyOfProperties(sgf, ['DT', 'RD']),
+  ]
+    .filter((v) => v)
+    .join(', ');
+  if (evDT) evDT = `[${evDT}]`;
 
   let players = '';
-  // For bad Tygem SGF.
+  // For bad Tygem SGF. e.g., '김미리:김미리:4단'
   const pw = valueFromSequence(sgf, 'PW').replace(/:.*/, '');
   const pb = valueFromSequence(sgf, 'PB').replace(/:.*/, '');
   if (pw && pb) players = `${pw} vs ${pb}`;
 
-  let re = valueFromSequence(sgf, 'RE').replace(/:.*/, '');
+  let re = valueFromSequence(sgf, 'RE');
   if (re) re = `(${re})`;
 
-  return `${[header, players, re].filter((v) => v).join(' ')}.sgf`;
+  return `${[evDT, players, re].filter((v) => v).join(' ')}.sgf`;
 }
 
 module.exports = {
