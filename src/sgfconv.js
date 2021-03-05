@@ -170,10 +170,7 @@ function rootsequenceFromSGF(sgf) {
 
   // Root node may have ';', so start from 2.
   let start = regexIndexOf(tailless, /;[BW]\[/, 2);
-
-  if (start === -1) {
-    start = tailless.length - 1;
-  }
+  if (start === -1) start = tailless.length - 1;
 
   return {
     root: tailless.substring(1, start),
@@ -200,26 +197,6 @@ function toBadHotSpot(sequence, index = 0) {
 function addComment(sequence, comment, index = 0) {
   const replaced = comment.replace(/\]/g, '\\]');
   return addProperty(sequence, `C[${replaced}]`, index);
-}
-
-// rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]
-function getPLs(rootsequence) {
-  const { root, sequence } = rootsequence;
-  const pls = [];
-
-  const index = sequence.search(/\b[BW]\[/);
-  if (index !== -1) {
-    pls.push(sequence[index]);
-  } else if (valueFromSequence(root, 'PL')) {
-    pls.push(valueFromSequence(root, 'PL'));
-  } else {
-    pls.push('B');
-  }
-
-  if (pls[0] === 'W') pls.push('B');
-  else pls.push('W');
-
-  return pls;
 }
 
 // '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
@@ -270,10 +247,36 @@ function katagomoveinfoToSequence(pl, moveInfo) {
   return `(${sequence[0]})`;
 }
 
+// Makes file name from SGF.
+//
+// e.g. '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
+function prettyPathFromSGF(sgf) {
+  let header = [];
+  let ev = getAnyOfProperties(sgf, ['EV', 'TE', 'GN']);
+
+  // For bad Tygem SGF.
+  ev = ev.replace(' .', '');
+  if (ev) header.push(ev);
+  const dt = getAnyOfProperties(sgf, ['DT', 'RD']);
+  if (dt) header.push(dt);
+  header = header.join(', ');
+  if (header) header = `[${header}]`;
+
+  let players = '';
+  // For bad Tygem SGF.
+  const pw = valueFromSequence(sgf, 'PW').replace(/:.*/, '');
+  const pb = valueFromSequence(sgf, 'PB').replace(/:.*/, '');
+  if (pw && pb) players = `${pw} vs ${pb}`;
+
+  let re = valueFromSequence(sgf, 'RE').replace(/:.*/, '');
+  if (re) re = `(${re})`;
+
+  return `${[header, players, re].filter((v) => v).join(' ')}.sgf`;
+}
+
 module.exports = {
   iaFromJ1,
   iaToJ1,
-  getPLs,
   valueFromSequence,
   valuesFromSequence,
   addProperty,
@@ -285,6 +288,7 @@ module.exports = {
   removeTails,
   getAnyOfProperties,
   rootsequenceFromSGF,
+  prettyPathFromSGF,
   initialstonesFromSequence,
   sequenceToPV,
   katagomovesFromSequence,

@@ -16,7 +16,6 @@ const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
 const GameTree = require('./gametree');
 const toSGF = require('./gib2sgf');
-const { prettyPath } = require('./report-game');
 const { httpget, isValidURL } = require('./httpget');
 
 const log = (message) => console.error(chalk.grey(message));
@@ -71,7 +70,7 @@ const opts = getopts();
           newPath = path;
         } else {
           sgf = httpget(path);
-          newPath = prettyPath(sgf);
+          newPath = sgfconv.prettyPathFromSGF(sgf);
           fs.writeFileSync(newPath, sgf);
           log(`generated: ${newPath}`);
         }
@@ -210,7 +209,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
     fs.writeFileSync(sgfPath, gametree.get());
     log(`generated: ${sgfPath}`);
 
-    const report = gametree.getComment();
+    const report = gametree.getReport();
     if (report) {
       console.log(report);
     }

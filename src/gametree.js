@@ -7,7 +7,7 @@
 
 const sgfconv = require('./sgfconv');
 const Node = require('./node');
-const { reportGame, reportBadsLeft } = require('./report-game');
+const GameReport = require('./game-report');
 
 // Contains RootNode (this.root) and NodeSequnce (this.nodes).
 class GameTree {
@@ -34,13 +34,13 @@ class GameTree {
       );
 
     // Gets variations and comments from KataGo responses.
-    const pls = sgfconv.getPLs(rootsequence);
+    const pls = getPLs(rootsequence);
     getWinratesAndVariations(this, katagoResponses, pls);
-    addComments(this);
+    setReports(this);
   }
 
-  getComment() {
-    return this.comment;
+  getReport() {
+    return this.report;
   }
 
   // Makes SGF GameTree, and returns it.
@@ -148,6 +148,8 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
   // FIXME: Remove passing move if has no variation.
 }
 
+// Does not care about winrateDrop of the turn. Only cares winrateDrops of the
+// variations.
 function variationsFromResponse(that, response, pl, turn) {
   return response.moveInfos
     .map(
@@ -168,47 +170,44 @@ function variationsFromResponse(that, response, pl, turn) {
     .slice(0, that.opts.maxVariationsForEachMove);
 }
 
-// Makes the report of the game, and the comments of each node.
-function addComments(that) {
-  if (!that.responsesgiven || that.comment) return;
+// Makes the report of the game, and the report of each node.
+function setReports(that) {
+  if (!that.responsesgiven || that.report) return;
 
-  // 1. Makes game report (root comment).
-  const stat = {
-    root: that.root,
-    drops: that.nodes.map((node, index) => ({
-      index,
-      pl: node.pl,
-      winrateDrop: node.winrateDrop,
-      scoreDrop: node.scoreDrop,
-    })),
-    goodmovewinrate: that.opts.maxWinrateDropForGoodMove / 100,
-    badmovewinrate: that.opts.minWinrateDropForBadMove / 100,
-    badhotspotwinrate: that.opts.minWinrateDropForBadHotSpot / 100,
-    visits: that.maxVisits,
-  };
+  // Makes game report (root comment).
+  const r = new GameReport(that);
 
-  that.comment = reportGame(stat);
+  that.report = r.reportGame();
   that.root = sgfconv.addComment(
     that.root,
-    that.comment,
+    that.report,
     that.root.length - 1,
   );
 
-  that.nodes.forEach((node, num) => {
-    let comment = node.getComment();
-    // 2. Adds 'Bad moves left' comment to each node.
-    const report = reportBadsLeft(stat, num);
-    if (report) {
-      comment += '\n';
-      comment += report;
-    }
-    // 3. Adds PVs comment to each node.
-    if (node.hasVariations()) {
-      comment += '\nThe proposed variations\n\n';
-      comment += node.getPVs();
-    }
-    node.setComment(comment);
+  // Adds 'Bad moves left' report to each node.
+  that.nodes.forEach((node, index) => {
+    node.setReport(r.reportBadsLeft(index));
   });
+}
+
+// rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]
+function getPLs(rootsequence) {
+  const { root, sequence } = rootsequence;
+  const pls = [];
+
+  const index = sequence.search(/\b[BW]\[/);
+  if (index !== -1) {
+    pls.push(sequence[index]);
+  } else if (sgfconv.valueFromSequence(root, 'PL')) {
+    pls.push(sgfconv.valueFromSequence(root, 'PL'));
+  } else {
+    pls.push('B');
+  }
+
+  if (pls[0] === 'W') pls.push('B');
+  else pls.push('W');
+
+  return pls;
 }
 
 module.exports = GameTree;

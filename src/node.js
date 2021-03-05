@@ -10,12 +10,14 @@ const sgfconv = require('./sgfconv');
 // Contains Node or tailless NodeSequence of SGF, win rate information, and
 // NodeSequence for variations.
 class Node {
-  constructor(sequence, comment, prevInfo, curInfo, sgfOpts) {
+  constructor(sequence, title, prevInfo, curInfo, sgfOpts) {
     // Node or tailless NodeSequence of SGF.
     //
     // e.g. 'B[aa]', 'W[cc]', '(;B[dp];W[po];B[hm])'
     this.sequence = sequence;
-    this.comment = comment || '';
+    this.info = title || '';
+    this.report = '';
+    this.pvs = '';
 
     const index = sequence.search(/\b[BW]\[/);
     if (index === -1) {
@@ -24,24 +26,41 @@ class Node {
     // 'B' or 'W'
     this.pl = sequence.substring(index, index + 1);
 
-    // As a variation.
     if (sgfOpts) {
       this.setWinrate(prevInfo, curInfo, sgfOpts);
-      this.comment += `* Sequence: ${formatPV(this).replace(/ \(.*/, '')}\n`;
+      // As a variation.
+      this.info += `* Sequence: ${formatPV(this).replace(/ \(.*/, '')}\n`;
     }
   }
 
+  setReport(report) {
+    this.report = report;
+  }
+
   hasVariations() {
-    return Boolean(this.variations);
+    return this.variations && this.variations.length;
   }
 
   setVariations(variations) {
     this.variations = variations;
+    this.pvs = getPVs(this);
   }
 
-  // Gets the sequence SGF with comment.
+  // Gets the sequence SGF with comments.
   get() {
-    if (this.comment) return sgfconv.addComment(this.sequence, this.comment);
+    const comments = [];
+
+    // SGF comment of Node class contains info, report, and pvs.
+    //
+    // winrate related info.
+    if (this.info) comments.push(this.info);
+    // A user of Node class can set report.
+    if (this.report) comments.push(this.report);
+    // proposed variations.
+    if (this.pvs) comments.push(this.pvs);
+
+    if (comments.length)
+      return sgfconv.addComment(this.sequence, comments.join('\n'));
     return this.sequence;
   }
 
@@ -60,31 +79,23 @@ class Node {
     return '';
   }
 
-  // e.g.
-  // 1. BH11 K5 L6 L5 M5 M6 M7 N6 L7 N7 L10 K2 K1 H2 H7 N5 (B 82.79%, B 6.33)
-  // 2. BJ13 K5 K13 L11 H11 M6 L10 L9 M10 P2 N2 K2 K1 O1 M9 (B 81.76%, B 2.88)
-  getPVs() {
-    if (!this.hasVariations()) return '';
-    return this.variations.reduce(
-      (acc, cur, index) => `${acc}${index + 1}. ${formatPV(cur)}\n`,
-      '',
-    );
-  }
-
-  setComment(comment) {
-    this.comment = comment;
-  }
-
-  getComment() {
-    return this.comment;
-  }
-
-  // Calculates scoreDrop, winrateDrop, ... and sets them to this.comment and
+  // Calculates scoreDrop, winrateDrop, ... and sets them to this.info and
   // the properties of this.sequence.
   setWinrate(prevInfo, curInfo, sgfOpts) {
     calcWinrate(this, prevInfo, curInfo);
-    setWinrateToCommentAndProperties(this, sgfOpts);
+    setProperties(this, sgfOpts);
   }
+}
+
+// e.g.
+// 1. BH11 K5 L6 L5 M5 M6 M7 N6 L7 N7 L10 K2 K1 H2 H7 N5 (B 82.79%, B 6.33)
+// 2. BJ13 K5 K13 L11 H11 M6 L10 L9 M10 P2 N2 K2 K1 O1 M9 (B 81.76%, B 2.88)
+function getPVs(that) {
+  if (!that.hasVariations()) return '';
+  return `The proposed variations\n\n${that.variations.reduce(
+    (acc, cur, index) => `${acc}${index + 1}. ${formatPV(cur)}\n`,
+    '',
+  )}`;
 }
 
 // Calculates scoreDrop, winrateDrop, winrate, ...
@@ -114,18 +125,18 @@ function calcWinrate(that, prevInfo, curInfo) {
 
 const fixFloat = (float) => parseFloat(float).toFixed(2);
 
-// Sets winrate, scoreDrop, winrateDrop, ... to that.comment and the
+// Sets winrate, scoreDrop, winrateDrop, ... to that.info and the
 // properties of that.sequence.
-function setWinrateToCommentAndProperties(that, sgfOpts) {
+function setProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
   }
   that.propertiesGot = true;
 
   if (that.winrate != null) {
-    // Does not add winrate report to comment property. Adds it when
+    // Does not add winrate report to SGF comment property. Adds it when
     // this.get() is called.
-    that.comment += `\n\n${getWinratesReport(that)}`;
+    that.info += `\n\n${getWinratesInfo(that)}`;
 
     // RSGF winrate.
     that.sequence = sgfconv.addProperty(
@@ -170,7 +181,7 @@ function formatPV(that) {
 // * Win rate drop: B ⇣30.29%
 // * Score drop: B ⇣4.31
 // * Visits: 1015
-function getWinratesReport(that) {
+function getWinratesInfo(that) {
   let winrateDrop;
   let scoreDrop;
 

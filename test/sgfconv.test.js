@@ -1,3 +1,5 @@
+/* eslint max-lines: ["error", 300] */
+
 const fs = require('fs');
 const assert = require('assert');
 const jschardet = require('jschardet');
@@ -146,6 +148,31 @@ describe('removeTails', () => {
       '(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.51.1]KM[6.5]SZ[19]DT[2021-01-25]' +
         'HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[ae]IT[])',
     );
+  });
+});
+
+describe('prettyPathFromSGF', () => {
+  it('should be expected values.', () => {
+    let sgf;
+    let path;
+
+    sgf = 'RE[W+R]PW[white]';
+    assert.equal(sgfconv.prettyPathFromSGF(sgf), '(W+R).sgf');
+
+    sgf = 'RE[W+R]PW[white]PB[black]';
+    assert.equal(sgfconv.prettyPathFromSGF(sgf), 'white vs black (W+R).sgf');
+
+    sgf = 'DT[2010]PW[white]PB[black]';
+    path = sgfconv.prettyPathFromSGF(sgf);
+    assert.equal(path, '[2010] white vs black.sgf');
+
+    sgf = 'DT[2010]EV[worldcup]PW[white]PB[black]';
+    path = sgfconv.prettyPathFromSGF(sgf);
+    assert.equal(path, '[worldcup, 2010] white vs black.sgf');
+
+    sgf = 'EV[worldcup]PW[white]PB[black]';
+    path = sgfconv.prettyPathFromSGF(sgf);
+    assert.equal(path, '[worldcup] white vs black.sgf');
   });
 });
 
