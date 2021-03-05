@@ -10,19 +10,19 @@ const sgfconv = require('./sgfconv');
 
 // Carries SGF Node, win rate information.
 class Node {
-  constructor(property, title) {
-    // e.g., 'B[aa]', 'W[cc]'.
-    this.property = property;
+  constructor(node, title) {
+    // e.g., ';B[aa]', ';W[cc]'.
+    this.node = node;
     this.info = title || '';
     this.report = '';
     this.pvs = '';
 
-    const index = property.search(/\b[BW]\[/);
+    const index = node.search(/\b[BW]\[/);
     if (index === -1) {
-      throw Error(`Invalid NodeSequece: ${property}`);
+      throw Error(`Invalid NodeSequece: ${node}`);
     }
     // 'B' or 'W'
-    this.pl = property.substring(index, index + 1);
+    this.pl = node.substring(index, index + 1);
   }
 
   setReport(report) {
@@ -38,25 +38,26 @@ class Node {
     this.pvs = getPVs(this);
   }
 
-  // Gets the SGF property with comments.
+  // Gets the SGF node with comments.
   get() {
     // SGF comment of Node class contains info, report, and pvs.
     const comment = [this.info, this.report, this.pvs]
       .filter((v) => v)
       .join('\n');
 
-    if (comment) return sgfconv.addComment(this.property, comment);
-    return this.property;
+    if (comment) return sgfconv.addComment(this.node, comment);
+    return this.node;
   }
 
   // Gets SGF of tails (variations).
   getTails(sgfOpts) {
     if (this.hasVariations()) {
+      // `this.node[3] === ']'` means passing move, i.e. last move.
       if (
         sgfOpts.analyzeTurns ||
         sgfOpts.showVariationsOnlyForBadMove === false ||
         this.winrateDrop > sgfOpts.minWinrateDropForVariations / 100 ||
-        (sgfOpts.showVariationsAfterLastMove && this.property[2] === ']')
+        (sgfOpts.showVariationsAfterLastMove && this.node[3] === ']')
       ) {
         return this.variations.reduce((acc, cur) => acc + cur.get(), '');
       }
@@ -65,7 +66,7 @@ class Node {
   }
 
   // Calculates scoreDrop, winrateDrop, ... and sets them to this.info and
-  // the properties of this.property.
+  // the properties of this.node.
   setWinrate(prevInfo, curInfo, sgfOpts) {
     calcWinrate(this, prevInfo, curInfo);
     setProperties(this, sgfOpts);
@@ -74,7 +75,7 @@ class Node {
   // e.g., 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
   formatPV() {
     return (
-      `${sgfconv.sequenceToPV(this.property)} (` +
+      `${sgfconv.sequenceToPV(this.node)} (` +
       `${formatWinrate(this.winrate)}, ${formatScoreLead(this.scoreLead)}, ` +
       `${this.visits} visits)`
     );
@@ -120,7 +121,7 @@ function calcWinrate(that, prevInfo, curInfo) {
 const fixFloat = (float) => parseFloat(float).toFixed(2);
 
 // Sets winrate, scoreDrop, winrateDrop, ... to that.info and the
-// properties of that.property.
+// properties of that.node.
 function setProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
@@ -128,24 +129,24 @@ function setProperties(that, sgfOpts) {
   that.propertiesGot = true;
 
   if (that.winrate != null) {
-    // Does not add winrate report to SGF comment property. Adds it when
+    // Does not add winrate report to SGF comment node. Adds it when
     // this.get() is called.
     that.info += `\n\n${getWinratesInfo(that)}`;
 
     // RSGF winrate.
-    that.property = sgfconv.addProperty(
-      that.property,
+    that.node = sgfconv.addProperty(
+      that.node,
       `SBKV[${fixFloat(that.winrate * 100)}]`,
       0,
     );
   }
 
   if (that.winrateDrop < sgfOpts.maxWinrateDropForGoodMove / 100)
-    that.property = sgfconv.toGoodNode(that.property);
+    that.node = sgfconv.toGoodNode(that.node);
   else if (that.winrateDrop > sgfOpts.minWinrateDropForBadHotSpot / 100)
-    that.property = sgfconv.toBadHotSpot(that.property);
+    that.node = sgfconv.toBadHotSpot(that.node);
   else if (that.winrateDrop > sgfOpts.minWinrateDropForBadMove / 100)
-    that.property = sgfconv.toBadNode(that.property);
+    that.node = sgfconv.toBadNode(that.node);
 }
 
 function formatWinrate(winrate) {

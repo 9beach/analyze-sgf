@@ -31,7 +31,8 @@ class GameTree {
       .split(';')
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
       .map(
-        (node, index) => new Node(node.substring(0, 5), `Move ${index + 1}`),
+        (node, index) =>
+          new Node(`;${node.substring(0, 5)}`, `Move ${index + 1}`),
       );
 
     // Gets variations and comments from KataGo responses.
@@ -46,7 +47,7 @@ class GameTree {
 
   // Makes SGF GameTree, and returns it.
   //
-  // To understand the logic below, you need to read
+  // To understand the logic below, please read
   // <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
   get() {
     if (this.sgf) {
@@ -56,8 +57,8 @@ class GameTree {
     // Accumulates nodes and tails (variations).
     this.sgf = this.nodes.reduceRight((acc, node) => {
       const tails = node.getTails(this.opts);
-      if (tails) return `\n(;${node.get()}${acc})${tails}`;
-      return `\n;${node.get()}${acc}`;
+      if (tails) return `\n(${node.get()}${acc})${tails}`;
+      return `\n${node.get()}${acc}`;
     }, '');
 
     this.sgf = `(${this.root}${this.sgf})`;
@@ -131,7 +132,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       that.opts.showVariationsAfterLastMove &&
       that.nodes.length === nextTurn
     ) {
-      that.nodes.push(new Node(`${nextPL}[]`));
+      that.nodes.push(new Node(`;${nextPL}[]`));
     }
 
     // Sets variations.

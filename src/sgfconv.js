@@ -168,8 +168,7 @@ function rootsequenceFromSGF(sgf) {
     throw Error(`SGF parse error: "${sgf}"`);
   }
 
-  // Root node may have ';', so start from 2.
-  let start = regexIndexOf(tailless, /;[BW]\[/, 2);
+  let start = regexIndexOf(tailless, /;[BW]\[/);
   if (start === -1) start = tailless.length - 1;
 
   return {
@@ -218,7 +217,7 @@ function katagomovesFromSequence(sequence) {
 
 // For SABAKI animated PVs.
 // '(;W[po];B[hm];W[ae]...)' => 'WQ15 H13 A5'
-// 'W[po]' => 'Q15'
+// ';W[po]' => 'Q15'
 function sequenceToPV(sequence) {
   const pl = sequence[0] === '(' ? sequence[2] : sequence[0];
   let len = 0;

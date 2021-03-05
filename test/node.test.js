@@ -12,7 +12,7 @@ describe('Node', () => {
   it('should be expected values.', () => {
     let node;
 
-    node = new Node(';B[aa];W[bb]');
+    node = new Node('(;B[aa];W[bb])');
 
     assert.equal(node.pl, 'B');
 
@@ -30,13 +30,13 @@ describe('Node', () => {
     assert.equal(node.myWinrate, currinfo.winrate);
     assert.equal(node.myScoreLead, currinfo.scoreLead);
 
-    node = new Node(';B[aa];W[bb]');
+    node = new Node('(;B[aa];W[bb])');
     node.setWinrate(null, currinfo, sgfopts);
 
     assert.equal(node.winrateDrop, undefined);
     assert.equal(node.scoreDrop, undefined);
 
-    node = new Node(';W[aa];B[bb]');
+    node = new Node('(;W[aa];B[bb])');
     node.setWinrate(previnfo, currinfo, sgfopts);
 
     assert.equal(node.winrateDrop.toFixed(2), 0.04);

@@ -176,6 +176,7 @@ describe('prettyPathFromSGF', () => {
   });
 });
 
+// FIXME: ToPVs
 describe('katagomoveinfoToSequence', () => {
   it('should be expected values.', () => {
     const moveInfo = { pv: ['A1', 'B2', 'C3'] };

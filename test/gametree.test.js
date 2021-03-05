@@ -1,3 +1,5 @@
+/* eslint max-lines-per-function: ["error", 100] */
+
 const fs = require('fs');
 const assert = require('assert');
 const yaml = require('js-yaml');
@@ -39,7 +41,7 @@ function compare(original, json, expected) {
   assert.equal(fs.readFileSync(expected).toString(), rsgf);
 }
 
-describe('GameTree 1', () => {
+describe('GameTree', () => {
   it('should be expected values.', () => {
     const compareButLines = (x, y) =>
       assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
@@ -47,7 +49,7 @@ describe('GameTree 1', () => {
     compareButLines(gametree.get(), '(PL[];B[aa]C[Move 1];W[bb]C[Move 2])');
   });
 
-  it('should be expected values for "examples/t-*".', () => {
+  it('should be expected values for "t-lian-vs-shin.sgf".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;
     sgfopts.minWinrateDropForBadMove = 5;
@@ -61,13 +63,17 @@ describe('GameTree 1', () => {
       'test/examples/t-lian-vs-shin.json',
       'test/examples/t-lian-vs-shin-analyzed.sgf',
     );
+  });
 
+  it('should be expected values for "t-sabaki-1-default.sgf".', () => {
     compareButComments(
       'test/examples/t-sabaki-1.sgf',
       'test/examples/t-sabaki-1.json',
       'test/examples/t-sabaki-1-default.sgf',
     );
+  });
 
+  it('should be expected values for "t-sabaki-1-lastmove.sgf".', () => {
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = undefined;
 
@@ -76,7 +82,9 @@ describe('GameTree 1', () => {
       'test/examples/t-sabaki-1.json',
       'test/examples/t-sabaki-1-lastmove.sgf',
     );
+  });
 
+  it('should be expected values for "t-sabaki-1-turns-lastmove.sgf".', () => {
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
 
@@ -85,7 +93,9 @@ describe('GameTree 1', () => {
       'test/examples/t-sabaki-1.json',
       'test/examples/t-sabaki-1-turns-lastmove.sgf',
     );
+  });
 
+  it('should be expected values for "t-sabaki-1-turns.sgf".', () => {
     sgfopts.showVariationsAfterLastMove = false;
 
     compareButComments(
@@ -94,10 +104,8 @@ describe('GameTree 1', () => {
       'test/examples/t-sabaki-1-turns.sgf',
     );
   });
-});
 
-describe('GameTree 2', () => {
-  it('should be expected values for "examples/t-lian-vs-shin.json".', () => {
+  it('should be expected values for "t-lian-vs-shin.sgf".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;
     sgfopts.minWinrateDropForBadMove = 5;
