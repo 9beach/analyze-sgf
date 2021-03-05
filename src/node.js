@@ -51,7 +51,7 @@ class Node {
   // Gets SGF of tails (variations).
   getTails(sgfOpts) {
     if (this.hasVariations()) {
-      // `this.node[3] === ']'` means passing move (';B[]').
+      // `this.node[3] === ']'` means this.node is passing move (';B[]').
       if (
         sgfOpts.analyzeTurns ||
         sgfOpts.showVariationsOnlyForBadMove === false ||
@@ -128,11 +128,11 @@ function setProperties(that, sgfOpts) {
   that.propertiesGot = true;
 
   if (that.winrate != null) {
-    // Does not add winrate report to SGF comment node. Adds it when
-    // this.get() is called.
+    // Does not add winrate report to SGF comment property. Adds it when
+    // Node.get() is called.
     that.info += `\n\n${getWinratesInfo(that)}`;
 
-    // RSGF winrate.
+    // RSGF win rate.
     that.node = sgfconv.addProperty(
       that.node,
       `SBKV[${fixFloat(that.winrate * 100)}]`,

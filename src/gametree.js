@@ -172,11 +172,11 @@ function variationsFromResponse(that, response, pl, turn) {
     .slice(0, that.opts.maxVariationsForEachMove);
 }
 
-// Makes the report of the game, and the report of each node.
+// Sets the report of the game and each node.
 function setReports(that) {
   if (!that.responsesGiven || that.report) return;
 
-  // Makes game report (root comment).
+  // Game report for root comment.
   const r = new GameReport(that);
 
   that.report = r.reportGame();
@@ -186,7 +186,7 @@ function setReports(that) {
     that.root.length - 1,
   );
 
-  // Adds 'Bad moves left' report to each node.
+  // 'Bad moves left' report for each node.
   that.nodes.forEach((node, index) => {
     node.setReport(r.reportBadsLeft(index));
   });
