@@ -143,14 +143,14 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
-generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
+downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
 # Analyze-SGF Report
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
-generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
+downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
 # Analyze-SGF Report
 ```

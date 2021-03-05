@@ -12,7 +12,7 @@ class Node {
   constructor(node, title) {
     // e.g., ';B[aa]', ';W[cc]'.
     this.node = node;
-    this.info = title || '';
+    this.info = title ? `${title}\n` : '';
     this.report = '';
     this.pvs = '';
 
@@ -119,8 +119,8 @@ function calcWinrate(that, prevInfo, curInfo) {
 
 const fixFloat = (float) => parseFloat(float).toFixed(2);
 
-// Sets winrate, scoreDrop, winrateDrop, ... to that.info and the
-// properties of that.node.
+// Sets winrate, scoreDrop, winrateDrop, ... to that.info and the properties
+// of that.node.
 function setProperties(that, sgfOpts) {
   if (that.propertiesGot === true) {
     return;
@@ -130,7 +130,7 @@ function setProperties(that, sgfOpts) {
   if (that.winrate != null) {
     // Does not add winrate report to SGF comment property. Adds it when
     // Node.get() is called.
-    that.info += `\n\n${getWinratesInfo(that)}`;
+    that.info += `\n${getWinratesInfo(that)}`;
 
     // RSGF win rate.
     that.node = sgfconv.addProperty(

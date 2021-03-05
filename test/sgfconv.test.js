@@ -176,7 +176,19 @@ describe('prettyPathFromSGF', () => {
   });
 });
 
-// FIXME: ToPVs
+describe('sequenceToPV', () => {
+  it('should be expected values.', () => {
+    assert.equal(sgfconv.sequenceToPV('(;W[po];B[hm];W[ae])'), 'WQ5 H7 A15');
+    assert.equal(
+      sgfconv.sequenceToPV('(;W[poxxxx;B[hmxxxx];W[ae]xxxx)'),
+      'WQ5 H7 A15',
+    );
+    assert.equal(sgfconv.sequenceToPV(';W[po]'), 'Q5');
+    assert.equal(sgfconv.sequenceToPV(';W[po'), 'Q5');
+    assert.equal(sgfconv.sequenceToPV(';W[po12323'), 'Q5');
+  });
+});
+
 describe('katagomoveinfoToSequence', () => {
   it('should be expected values.', () => {
     const moveInfo = { pv: ['A1', 'B2', 'C3'] };

@@ -44,9 +44,15 @@ function httpget(url) {
   )
     throw Error('Invalid response from URL');
 
-  // Fixs SGF dialect (KO/TE/RD) for other SGF editors.
-  sgf = sgf.replace(/\bTE\[/, ';GM[1]FF[4]EV[').replace(/\bRD\[/, 'DT[');
-  sgf = sgf.replace(/\bK[OM]\[\]/, '').replace(/\bKO\[/, 'KM[');
+  // Fixes SGF dialect (KO/TE/RD) for other SGF editors.
+  // Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
+  sgf = sgf
+    .replace(/\bTE\[/, ';GM[1]FF[4]EV[')
+    .replace(/\bRD\[/, 'DT[')
+    .replace(/\bK[OM]\[\]/, '')
+    .replace(/\bKO\[/, 'KM[')
+    .replace(/(PW\[[^\]:]*):[^\]]*\]/, '$1]')
+    .replace(/(PB\[[^\]:]*):[^\]]*\]/, '$1]');
 
   return sgf;
 }

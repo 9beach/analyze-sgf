@@ -215,9 +215,9 @@ function katagomovesFromSequence(sequence) {
     .map((move) => [move[0], iaToJ1(move.substring(2, 4))]);
 }
 
-// For SABAKI animated PVs.
-// '(;W[po];B[hm];W[ae]...)' => 'WQ15 H13 A5'
-// ';W[po]' => 'Q15'
+// For SABAKI autoplaying PVs.
+// '(;W[po];B[hm];W[ae]...)' => 'WQ5 H7 A15'
+// ';W[po]' => 'Q5'
 function sequenceToPV(sequence) {
   const pl = sequence[0] === '(' ? sequence[2] : sequence[0];
   let len = 0;
@@ -260,7 +260,7 @@ function prettyPathFromSGF(sgf) {
   if (evDT) evDT = `[${evDT}]`;
 
   let players = '';
-  // For bad Tygem SGF. e.g., '김미리:김미리:4단'
+  // Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
   const pw = valueFromSequence(sgf, 'PW').replace(/:.*/, '');
   const pb = valueFromSequence(sgf, 'PB').replace(/:.*/, '');
   if (pw && pb) players = `${pw} vs ${pb}`;

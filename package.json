@@ -1,6 +1,6 @@
 {
   "name": "analyze-sgf",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Analyze SGF file by KataGo Parallel Analysis Engine to produce Reviewed SGF file",
   "homepage": "https://github.com/9beach/analyze-sgf",
   "author": {
@@ -40,6 +40,7 @@
   ],
   "dependencies": {
     "chalk": "^4.1.0",
+    "cli-progress": "^3.9.0",
     "iconv-lite": "^0.6.2",
     "js-yaml": "^3.13.1",
     "jschardet": "^2.2.0",

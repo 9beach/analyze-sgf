@@ -11,6 +11,7 @@ const chalk = require('chalk');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
 const { spawn } = require('child_process');
+const progress = require('cli-progress');
 
 const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
@@ -72,7 +73,7 @@ const opts = getopts();
           sgf = httpget(path);
           newPath = sgfconv.prettyPathFromSGF(sgf);
           fs.writeFileSync(newPath, sgf);
-          log(`generated: ${newPath}`);
+          log(`downloaded: ${newPath}`);
         }
 
         const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
@@ -224,6 +225,17 @@ async function kataGoAnalyze(query, katagoOpts) {
     shell: true,
   });
 
+  const opt = {
+    format:
+      '{bar} {percentage}% | {value}/{total} | ETA: {eta_formatted} | ' +
+      '{duration_formatted}',
+    barCompleteChar: '■',
+    barIncompleteChar: ' ',
+  };
+  const bar = new progress.SingleBar(opt, progress.Presets.rect);
+  bar.start(query.analyzeTurns.length, 0);
+  let count = 0;
+
   katago.on('exit', (code) => {
     if (code !== 0) {
       log(
@@ -243,7 +255,10 @@ async function kataGoAnalyze(query, katagoOpts) {
   // eslint-disable-next-line no-restricted-syntax
   for await (const data of katago.stdout) {
     responses += data;
+    count += (data.toString().match(/\n/g) || []).length;
+    bar.update(count);
   }
 
+  bar.stop();
   return responses;
 }
