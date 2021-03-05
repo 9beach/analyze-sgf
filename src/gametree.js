@@ -36,7 +36,7 @@ class GameTree {
 
     // Gets variations and comments from KataGo responses.
     const pls = getPLs(rootsequence);
-    getWinratesAndVariations(this, katagoResponses, pls);
+    setWinrateAndVariatons(this, katagoResponses, pls);
     setReports(this);
   }
 
@@ -66,8 +66,8 @@ class GameTree {
   }
 }
 
-// Gets win rates and variations from KataGo responses.
-function getWinratesAndVariations(that, katagoResponses, pls) {
+// Sets win rate and variations from KataGo responses.
+function setWinrateAndVariatons(that, katagoResponses, pls) {
   if (katagoResponses.search('{"error":"') === 0) {
     throw Error(katagoResponses.replace('\n', ''));
   }
@@ -76,7 +76,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
   if (!responses[responses.length - 1])
     responses = responses.slice(0, responses.length - 1);
 
-  if (responses.length) that.responsesgiven = true;
+  if (responses.length) that.responsesGiven = true;
 
   // Sorts responses by turnNumber.
   //
@@ -87,14 +87,14 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
   // Notice that:
   // * responses.length === nodes.length + 1
   // * Sets responses[0].moveInfos (variations) to nodes[0].variations.
-  // * Sets responses[1].rootInfo (win rates info) to nodes[0].
+  // * Sets responses[1].rootInfo (win rate info) to nodes[0].
   // * responses[0].rootInfo is useless.
   // * To add moveInfos (proposed variations) of the last response, we need
   //   to add the node of passing move (B[] or W[]) to that.nodes, and
   //   then we can add moveInfos to the node.
   //
   // KataGo's moveInfos (variations) of turnNumber is for the variations of
-  // node[turnNumber], but KataGo's rootInfo (win rates info) of turnNumber
+  // node[turnNumber], but KataGo's rootInfo (win rate info) of turnNumber
   // is for node[turnNumber - 1]. So we refer to (turnNumber - 1) as curTurn,
   // and refert to turnNumber as nextTurn.
   let prevJSON;
@@ -114,7 +114,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
 
     that.maxVisits = Math.max(curJSON.rootInfo.visits, that.maxVisits);
 
-    // Sets win rates.
+    // Sets win rate.
     if (curTurn >= 0) {
       const node = that.nodes[curTurn];
       if (curTurn === prevTurn + 1) {
@@ -126,7 +126,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
       }
     }
 
-    // Adds the node of passing move if necessary.
+    // Adds passing move if necessary.
     if (
       that.opts.showVariationsAfterLastMove &&
       that.nodes.length === nextTurn
@@ -134,7 +134,7 @@ function getWinratesAndVariations(that, katagoResponses, pls) {
       that.nodes.push(new Node(`${nextPL}[]`));
     }
 
-    // Adds variations.
+    // Sets variations.
     if (
       nextTurn < that.nodes.length &&
       (!that.opts.analyzeTurns ||
@@ -173,7 +173,7 @@ function variationsFromResponse(that, response, pl, turn) {
 
 // Makes the report of the game, and the report of each node.
 function setReports(that) {
-  if (!that.responsesgiven || that.report) return;
+  if (!that.responsesGiven || that.report) return;
 
   // Makes game report (root comment).
   const r = new GameReport(that);
