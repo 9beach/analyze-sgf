@@ -1,6 +1,5 @@
 /**
  * @fileOverview Node data structure.
- *
  *               Please see <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
@@ -8,7 +7,7 @@
 
 const sgfconv = require('./sgfconv');
 
-// Carries SGF Node, win rate information.
+// Carries a SGF Node, win rate, and the variations of the node.
 class Node {
   constructor(node, title) {
     // e.g., ';B[aa]', ';W[cc]'.
@@ -52,7 +51,7 @@ class Node {
   // Gets SGF of tails (variations).
   getTails(sgfOpts) {
     if (this.hasVariations()) {
-      // `this.node[3] === ']'` means passing move, i.e. last move.
+      // `this.node[3] === ']'` means passing move (';B[]').
       if (
         sgfOpts.analyzeTurns ||
         sgfOpts.showVariationsOnlyForBadMove === false ||

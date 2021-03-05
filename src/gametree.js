@@ -1,6 +1,6 @@
 /**
- * @fileOverview GameTree data structure. Please see
- *               <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
+ * @fileOverview GameTree data structure.
+ *               Please see <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
@@ -10,7 +10,7 @@ const Node = require('./node');
 const NodeSequence = require('./node-sequence');
 const GameReport = require('./game-report');
 
-// Contains RootNode (this.root) and NodeSequnce (this.nodes).
+// Carries a SGF RootNode (this.root) and Node array (this.nodes).
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
     const rootsequence = sgfconv.rootsequenceFromSGF(
