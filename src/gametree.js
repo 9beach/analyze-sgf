@@ -6,11 +6,11 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
 const sgfconv = require('./sgfconv');
-const Node = require('./node');
+const Tail = require('./tail');
 const NodeSequence = require('./node-sequence');
 const GameReport = require('./game-report');
 
-// Carries a SGF RootNode (this.root) and Node array (this.nodes).
+// Carries a SGF RootNode (this.root) and Tail array (this.nodes).
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
     const rootsequence = sgfconv.rootsequenceFromSGF(
@@ -32,7 +32,7 @@ class GameTree {
       .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
       .map(
         (node, index) =>
-          new Node(`;${node.substring(0, 5)}`, `Move ${index + 1}`),
+          new Tail(`;${node.substring(0, 5)}`, `Move ${index + 1}`),
       );
 
     // Gets variations and comments from KataGo responses.
@@ -49,16 +49,16 @@ class GameTree {
   //
   // To understand the logic below, please read
   // <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
-  get() {
+  getSGF() {
     if (this.sgf) {
       return this.sgf;
     }
 
-    // Accumulates nodes and tails (variations).
-    this.sgf = this.nodes.reduceRight((acc, node) => {
-      const tails = node.getTails(this.opts);
-      if (tails) return `\n(${node.get()}${acc})${tails}`;
-      return `\n${node.get()}${acc}`;
+    // Accumulates node and tail (variations).
+    this.sgf = this.nodes.reduceRight((acc, cur) => {
+      const tail = cur.getTailSGF(this.opts);
+      if (tail) return `\n(${cur.getSGF()}${acc})${tail}`;
+      return `\n${cur.getSGF()}${acc}`;
     }, '');
 
     this.sgf = `(${this.root}${this.sgf})`;
@@ -132,7 +132,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       that.opts.showVariationsAfterLastMove &&
       that.nodes.length === nextTurn
     ) {
-      that.nodes.push(new Node(`;${nextPL}[]`));
+      that.nodes.push(new Tail(`;${nextPL}[]`));
     }
 
     // Sets variations.

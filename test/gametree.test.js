@@ -19,7 +19,7 @@ function compareButComments(original, json, expected) {
   responses = responses.substring(index + 1);
 
   const gametree = new GameTree(sgf, responses, sgfopts);
-  let rsgf = gametree.get();
+  let rsgf = gametree.getSGF();
   rsgf = sgfconv.removeComment(rsgf);
 
   let esgf = fs.readFileSync(expected).toString();
@@ -36,7 +36,7 @@ function compare(original, json, expected) {
   responses = responses.substring(index + 1);
 
   const gametree = new GameTree(sgf, responses, sgfopts);
-  const rsgf = gametree.get();
+  const rsgf = gametree.getSGF();
 
   assert.equal(fs.readFileSync(expected).toString(), rsgf);
 }
@@ -46,7 +46,10 @@ describe('GameTree', () => {
     const compareButLines = (x, y) =>
       assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
-    compareButLines(gametree.get(), '(PL[];B[aa]C[Move 1];W[bb]C[Move 2])');
+    compareButLines(
+      gametree.getSGF(),
+      '(PL[];B[aa]C[Move 1];W[bb]C[Move 2])',
+    );
   });
 
   it('should be expected values for "t-lian-vs-shin.sgf".', () => {

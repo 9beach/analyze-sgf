@@ -207,7 +207,7 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
     const gametree = new GameTree(sgf, responses, sgfOpts);
     const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
 
-    fs.writeFileSync(sgfPath, gametree.get());
+    fs.writeFileSync(sgfPath, gametree.getSGF());
     log(`generated: ${sgfPath}`);
 
     const report = gametree.getReport();
@@ -225,6 +225,16 @@ async function kataGoAnalyze(query, katagoOpts) {
     shell: true,
   });
 
+  katago.on('exit', (code) => {
+    if (code !== 0) {
+      log(
+        `KataGo exec failure. Please fix: ${config}` +
+          `\n${JSON.stringify(katagoOpts)}`,
+      );
+      process.exit(1);
+    }
+  });
+
   const opt = {
     format:
       '{bar} {percentage}% | {value}/{total} | ETA: {eta_formatted} | ' +
@@ -236,18 +246,8 @@ async function kataGoAnalyze(query, katagoOpts) {
   bar.start(query.analyzeTurns.length, 0);
   let count = 0;
 
-  katago.on('exit', (code) => {
-    if (code !== 0) {
-      log(
-        `KataGo exec failure. Please fix: ${config}` +
-          `\n${JSON.stringify(katagoOpts)}`,
-      );
-      process.exit(1);
-    }
-  });
-
   // Sends query to KataGo.
-  await katago.stdin.write(JSON.stringify(query));
+  await katago.stdin.write(`${JSON.stringify(query)}\n`);
   katago.stdin.end();
 
   // Reads analysis from KataGo.
