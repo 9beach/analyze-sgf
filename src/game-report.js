@@ -31,11 +31,11 @@ class GameReport {
   reportGame() {
     if (this.report) return this.report;
 
-    // Handles SGF dialect (KO/TE/RD).
-    let km = sgfconv.getAnyOfProperties(this.root, ['KM', 'KO']);
+    let km = sgfconv.valueFromSequence(this.root, 'KM');
     km = km ? `Komi ${km}` : km;
-    const ev = sgfconv.getAnyOfProperties(this.root, ['EV', 'TE', 'GN']);
-    const dt = sgfconv.getAnyOfProperties(this.root, ['DT', 'RD']);
+
+    const ev = sgfconv.anyValueFromSequence(this.root, ['EV', 'GN']);
+    const dt = sgfconv.valueFromSequence(this.root, 'DT');
 
     const re = sgfconv.valueFromSequence(this.root, 'RE');
     const game = [ev, km, re, dt].filter((v) => v).join(', ');

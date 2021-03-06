@@ -44,17 +44,16 @@ function httpget(url) {
   )
     throw Error('Invalid response from URL');
 
-  // Fixes SGF dialect (KO/TE/RD) for other SGF editors.
+  // Fixes SGF dialects (KO/TE/RD) for other SGF editors.
+  // Fixes bad Tygem SGF. e.g., '대주배 16강 .'
   // Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
-  sgf = sgf
-    .replace(/\bTE\[/, ';GM[1]FF[4]EV[')
+  return sgf
+    .replace(/\([;]*TE\[/, '(;GM[1]FF[4]EV[')
     .replace(/\bRD\[/, 'DT[')
     .replace(/\bK[OM]\[\]/, '')
     .replace(/\bKO\[/, 'KM[')
-    .replace(/(PW\[[^\]:]*):[^\]]*\]/, '$1]')
-    .replace(/(PB\[[^\]:]*):[^\]]*\]/, '$1]');
-
-  return sgf;
+    .replace(/ \.\]/, ']')
+    .replace(/(P[BW]\[[^\]:]*):[^\]]*\]/g, '$1]');
 }
 
 module.exports = { isValidURL, httpget };

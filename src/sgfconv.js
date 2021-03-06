@@ -127,7 +127,7 @@ function removeTails(sgf) {
   return reduced;
 }
 
-function getAnyOfProperties(sgf, props) {
+function anyValueFromSequence(sgf, props) {
   let value = '';
   props.some((p) => {
     value = valueFromSequence(sgf, p);
@@ -215,26 +215,39 @@ function sequenceToPV(sequence) {
   return len > 0 ? pl + pv : pv;
 }
 
+// Fixes SGF dialects (KO/TE/RD) for other SGF editors.
+// Fixes bad Tygem SGF. e.g., '대주배 16강 .'
+// Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
+function correctSGFDialects(sgf) {
+  return sgf
+    .replace(/\([;]*TE\[/, '(;GM[1]FF[4]EV[')
+    .replace(/\bRD\[/, 'DT[')
+    .replace(/\bK[OM]\[\]/, '')
+    .replace(/\bKO\[/, 'KM[')
+    .replace(/ \.\]/, ']')
+    .replace(/(P[BW]\[[^\]:]*):[^\]]*\]/g, '$1]');
+}
+
 // Makes file name from SGF.
 //
 // e.g., '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
 function prettyPathFromSGF(sgf) {
+  const nsgf = correctSGFDialects(sgf);
   let evDT = [
     // For bad Tygem SGF. e.g., '대주배 16강 .'
-    getAnyOfProperties(sgf, ['EV', 'TE', 'GN']).replace(' .', ''),
-    getAnyOfProperties(sgf, ['DT', 'RD']),
+    anyValueFromSequence(nsgf, ['EV', 'GN']).replace(' .', ''),
+    valueFromSequence(nsgf, 'DT'),
   ]
     .filter((v) => v)
     .join(', ');
   if (evDT) evDT = `[${evDT}]`;
 
   let players = '';
-  // Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
-  const pw = valueFromSequence(sgf, 'PW').replace(/:.*/, '');
-  const pb = valueFromSequence(sgf, 'PB').replace(/:.*/, '');
+  const pw = valueFromSequence(nsgf, 'PW');
+  const pb = valueFromSequence(nsgf, 'PB');
   if (pw && pb) players = `${pw} vs ${pb}`;
 
-  let re = valueFromSequence(sgf, 'RE');
+  let re = valueFromSequence(nsgf, 'RE');
   if (re) re = `(${re})`;
 
   return `${[evDT, players, re].filter((v) => v).join(' ')}.sgf`;
@@ -259,8 +272,9 @@ module.exports = {
   addComment,
   removeComment,
   removeTails,
-  getAnyOfProperties,
+  anyValueFromSequence,
   rootsequenceFromSGF,
+  correctSGFDialects,
   prettyPathFromSGF,
   formatK,
   sequenceToPV,

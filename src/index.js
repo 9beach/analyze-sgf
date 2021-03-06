@@ -43,7 +43,10 @@ const opts = getopts();
         const sgfresponses = fs.readFileSync(path).toString();
         // JSON file format: tailless SGF + '\n' + KataGo responses.
         const index = sgfresponses.indexOf('\n');
-        const sgf = sgfresponses.substring(0, index);
+        // Backward compatibility for old JSON.
+        const sgf = sgfconv.correctSGFDialects(
+          sgfresponses.substring(0, index),
+        );
         const responses = sgfresponses.substring(index + 1);
 
         saveAnalyzed(path, sgf, responses, false, opts.sgf);
@@ -68,17 +71,18 @@ const opts = getopts();
         let newPath;
 
         // Gets SGF from web server.
-        if (!isURL) {
-          const content = fs.readFileSync(path);
-          const detected = jschardet.detect(content);
-          sgf = iconv.decode(content, detected.encoding).toString();
-          if (ext === 'gib') sgf = toSGF(sgf);
-          newPath = path;
-        } else {
+        if (isURL) {
           sgf = httpget(path);
           newPath = sgfconv.prettyPathFromSGF(sgf);
           fs.writeFileSync(newPath, sgf);
           log(`downloaded: ${newPath}`);
+        } else {
+          const content = fs.readFileSync(path);
+          const detected = jschardet.detect(content);
+          sgf = iconv.decode(content, detected.encoding).toString();
+          if (ext === 'gib') sgf = toSGF(sgf);
+          else sgf = sgfconv.correctSGFDialects(sgf);
+          newPath = path;
         }
 
         const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);

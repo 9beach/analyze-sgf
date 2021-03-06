@@ -35,18 +35,10 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const sequence = sgfconv.removeTails(sgf);
   const komi = sgfconv.valueFromSequence(sequence, 'KM');
 
-  if (komi) {
-    query.komi = parseFloat(komi);
-  } else {
-    // Handles SGF dialect.
-    const ko = sgfconv.valueFromSequence(sequence, 'KO');
-    if (ko) {
-      query.komi = parseFloat(ko);
-    }
-  }
+  // Overrides komi from SGF.
+  if (komi) query.komi = parseFloat(komi);
 
   const initialPlayer = sgfconv.valueFromSequence(sequence, 'PL');
-
   if (initialPlayer) {
     query.initialPlayer = initialPlayer;
   }

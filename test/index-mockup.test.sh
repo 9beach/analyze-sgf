@@ -70,7 +70,7 @@ diff $temp-1-expected $temp-1-result > /dev/null
 echo -e "\033[1;32m Ok \033[0m"
 
 # New testing.
-echo -n Tests src/index.js with option -k,  -a analyzeTurns, -g showVariatiosAfterLastMove, and \"mockup.sh\".
+echo -n Tests src/index.js with option -k,  -a analyzeTurns, -g showVariatiosAfterLastMove, \"mockup.sh\", and t-sabaki-1.json.
 
 src/index.js -k 'path:"test/mockup.sh",arguments:"test/examples/t-sabaki-1.json"' \
 	-a 'analyzeTurns:[0,1,2,3,4,5]' \

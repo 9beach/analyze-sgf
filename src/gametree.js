@@ -14,14 +14,7 @@ const GameReport = require('./game-report');
 // Carries a SGF RootNode (this.root) and Tail array (this.nodes).
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
-    const rootsequence = sgfconv.rootsequenceFromSGF(
-      // Fixs SGF dialect (KO/TE/RD) for other SGF editors.
-      sgf
-        .replace(/\bTE\[/, 'EV[')
-        .replace(/\bRD\[/, 'DT[')
-        .replace(/\bK[OM]\[\]/, '')
-        .replace(/\bKO\[/, 'KM['),
-    );
+    const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
 
     this.opts = opts;
     this.comment = '';
@@ -68,8 +61,10 @@ class GameTree {
   }
 }
 
-// Sets win rate and variations from KataGo responses.
-function setWinrateAndVariatons(that, katagoResponses, pls) {
+// Splits and sorts responses by turnNumber.
+//
+// Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
+function splitResponses(that, katagoResponses) {
   if (katagoResponses.search('{"error":"') === 0) {
     throw Error(katagoResponses.replace('\n', ''));
   }
@@ -80,11 +75,13 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
 
   if (responses.length) that.responsesGiven = true;
 
-  // Sorts responses by turnNumber.
-  //
-  // Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
   const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
-  responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
+  return responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
+}
+
+// Sets win rate and variations from KataGo responses.
+function setWinrateAndVariatons(that, katagoResponses, pls) {
+  const responses = splitResponses(that, katagoResponses);
 
   // Notice that:
   // * responses.length === nodes.length + 1

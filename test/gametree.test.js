@@ -13,7 +13,8 @@ const opts = yaml.load(fs.readFileSync(yamlpath));
 const sgfopts = opts.sgf;
 
 function compareButComments(original, json, expected) {
-  const sgf = fs.readFileSync(original).toString();
+  let sgf = fs.readFileSync(original).toString();
+  sgf = sgfconv.correctSGFDialects(sgf);
   let responses = fs.readFileSync(json).toString();
   const index = responses.indexOf('\n');
   responses = responses.substring(index + 1);
@@ -29,7 +30,8 @@ function compareButComments(original, json, expected) {
 }
 
 function compare(original, json, expected) {
-  const sgf = fs.readFileSync(original).toString();
+  let sgf = fs.readFileSync(original).toString();
+  sgf = sgfconv.correctSGFDialects(sgf);
 
   let responses = fs.readFileSync(json).toString();
   const index = responses.indexOf('\n');
