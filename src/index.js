@@ -15,6 +15,7 @@ const progress = require('cli-progress');
 
 const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
+const katagoconv = require('./katagoconv');
 const GameTree = require('./gametree');
 const toSGF = require('./gib2sgf');
 const { httpget, isValidURL } = require('./httpget');
@@ -29,10 +30,10 @@ const opts = getopts();
 
 // Starts async communication with KataGo.
 (async () => {
-  try {
-    // Analyzes by KataGo Analysis JSON, not by KataGO engine.
-    if (opts.jsonGiven) {
-      opts.paths.forEach((path) => {
+  if (opts.jsonGiven) {
+    // Analyzes by KataGo Analysis JSON, not by KataGO Analysis Engine.
+    opts.paths.forEach((path) => {
+      try {
         const ext = getext(path);
         if (ext !== 'json') {
           log(`skipped: ${path}`);
@@ -46,12 +47,16 @@ const opts = getopts();
         const responses = sgfresponses.substring(index + 1);
 
         saveAnalyzed(path, sgf, responses, false, opts.sgf);
-      });
-    } else {
-      // Analyzes by KataGo Analysis Engine.
-      //
-      // Reads SGF and makes KagaGo query.
-      opts.paths.map(async (path) => {
+      } catch (error) {
+        log(`${error.message}, while processing: ${path}`);
+      }
+    });
+  } else {
+    // Analyzes by KataGo Analysis Engine.
+    //
+    // Reads SGF and makes KagaGo query.
+    opts.paths.map(async (path) => {
+      try {
         const ext = getext(path);
         const isURL = isValidURL(path);
         if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
@@ -76,7 +81,7 @@ const opts = getopts();
           log(`downloaded: ${newPath}`);
         }
 
-        const query = sgfToKataGoAnalysisQuery(sgf, opts.analysis);
+        const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
 
         // Sends query to KataGo.
         let responses = await kataGoAnalyze(query, opts.katago);
@@ -86,7 +91,7 @@ const opts = getopts();
         // If revisit given, try again.
         if (opts.revisit) {
           query.maxVisits = opts.revisit;
-          query.analyzeTurns = responsesToWinrateDropTurns(
+          query.analyzeTurns = katagoconv.winrateDropTurnsFromKatagoResponses(
             responses,
             opts.sgf.minWinrateDropForVariations / 100,
           );
@@ -96,129 +101,56 @@ const opts = getopts();
             responsesRe = await kataGoAnalyze(query, opts.katago);
             if (!responsesRe) log('revisit error');
             else
-              responses = joinResponses(
+              responses = katagoconv.joinKataGoResponses(
                 responses,
                 responsesRe,
                 query.analyzeTurns,
               );
           }
         }
-
         // Finally, saves them.
         saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
-      });
-    }
-  } catch (error) {
-    log(error.message);
-    process.exit(1);
+      } catch (error) {
+        log(`${error.message}, while processing: ${path}`);
+      }
+    });
   }
 })();
 
-const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
-
-function joinResponses(original, revisited, turns) {
-  return (
-    original
-      .split('\n')
-      .filter((l) => turns.indexOf(getTurnNumber(l)) === -1)
-      .join('\n') + revisited
-  );
-}
-
-function responsesToWinrateDropTurns(responses, winrateDrop) {
-  return responses
-    .replace(/.*"rootInfo"/g, '{"rootInfo"')
-    .split('\n')
-    .filter((l) => Boolean(l))
-    .map((l) => JSON.parse(l))
-    .sort((a, b) => a.turnNumber - b.turnNumber)
-    .reduce(
-      (acc, cur) => {
-        if (
-          acc.turnNumber === cur.turnNumber - 1 &&
-          Math.abs(acc.winrate - cur.rootInfo.winrate) > winrateDrop
-        ) {
-          // Adds previous turn number for PVs.
-          acc.analyzeTurns.push(acc.turnNumber);
-        }
-        acc.winrate = cur.rootInfo.winrate;
-        acc.turnNumber = cur.turnNumber;
-        return acc;
-      },
-      { analyzeTurns: [] },
-    ).analyzeTurns;
-}
-
-// Makes JSON data to send KataGo Parallel Analysis Engine.
-function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
-  const query = { ...analysisOpts };
-  const sequence = sgfconv.removeTails(sgf);
-  const komi = sgfconv.valueFromSequence(sequence, 'KM');
-
-  if (komi) {
-    query.komi = parseFloat(komi);
-  } else {
-    // Handles SGF dialect.
-    const ko = sgfconv.valueFromSequence(sequence, 'KO');
-    if (ko) {
-      query.komi = parseFloat(ko);
-    }
-  }
-
-  const initialPlayer = sgfconv.valueFromSequence(sequence, 'PL');
-
-  if (initialPlayer) {
-    query.initialPlayer = initialPlayer;
-  }
-
-  query.id = `9beach-${Date.now()}`;
-  query.initialStones = sgfconv.initialstonesFromSequence(sequence);
-  query.moves = sgfconv.katagomovesFromSequence(sequence);
-
-  if (!query.analyzeTurns) {
-    query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
-  }
-
-  return query;
-}
-
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
-  try {
-    if (!responses) {
-      throw Error('no response');
-    }
-    if (responses.search('{"error":"') === 0) {
-      throw Error(responses.replace('\n', ''));
-    }
+  if (!responses) {
+    throw Error('No response from KataGo');
+  }
+  if (responses.search('{"error":"') === 0) {
+    throw Error(responses.replace('\n', ''));
+  }
 
-    const targetName = targetPath.substring(0, targetPath.lastIndexOf('.'));
+  const targetName = targetPath.substring(0, targetPath.lastIndexOf('.'));
 
-    // Saves analysis responses to JSON.
-    if (saveResponse) {
-      const jsonPath = `${targetName}.json`;
+  // Saves analysis responses to JSON.
+  if (saveResponse) {
+    const jsonPath = `${targetName}.json`;
 
-      // JSON file format: tailless SGF + '\n' + KataGo responses.
-      fs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
-      log(`generated: ${jsonPath}`);
-    }
+    // JSON file format: tailless SGF + '\n' + KataGo responses.
+    fs.writeFileSync(jsonPath, `${sgfconv.removeTails(sgf)}\n${responses}`);
+    log(`generated: ${jsonPath}`);
+  }
 
-    // Saves analyzed SGF.
-    const gametree = new GameTree(sgf, responses, sgfOpts);
-    const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
+  // Saves analyzed SGF.
+  const gametree = new GameTree(sgf, responses, sgfOpts);
+  const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
 
-    fs.writeFileSync(sgfPath, gametree.getSGF());
-    log(`generated: ${sgfPath}`);
+  fs.writeFileSync(sgfPath, gametree.getSGF());
+  log(`generated: ${sgfPath}`);
 
-    const report = gametree.getReport();
-    if (report) {
-      console.log(report);
-    }
-  } catch (error) {
-    log(`${error}, while processing: ${targetPath}`);
+  const report = gametree.getReport();
+  if (report) {
+    console.log(report);
   }
 }
 
+// FIXME: No respawn.
 // Requests analysis to KataGo, and reads responses.
 async function kataGoAnalyze(query, katagoOpts) {
   const katago = spawn(`${katagoOpts.path} ${katagoOpts.arguments}`, [], {
@@ -237,10 +169,12 @@ async function kataGoAnalyze(query, katagoOpts) {
 
   const opt = {
     format:
-      '{bar} {percentage}% | {value}/{total} | ETA: {eta_formatted} | ' +
-      '{duration_formatted}',
+      '{bar} {percentage}% ({value}/{total}, ' +
+      `${sgfconv.formatK(query.maxVisits)} visits) | ` +
+      'ETA: {eta_formatted} ({duration_formatted})',
     barCompleteChar: '■',
     barIncompleteChar: ' ',
+    barsize: 30,
   };
   const bar = new progress.SingleBar(opt, progress.Presets.rect);
   bar.start(query.analyzeTurns.length, 0);

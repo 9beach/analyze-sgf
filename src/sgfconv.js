@@ -1,6 +1,5 @@
 /**
- * @fileOverview Helper functions for parsing SGF and KataGo analysis JSON
- *               formats.
+ * @fileOverview Helper functions to parse SGF format.
  */
 
 // ('XX[11]YY[22]', 0) => '11'
@@ -198,23 +197,6 @@ function addComment(sequence, comment, index = 0) {
   return addProperty(sequence, `C[${replaced}]`, index);
 }
 
-// '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
-function initialstonesFromSequence(sequence) {
-  return [
-    ...valuesFromSequence('AB', sequence).map((pos) => ['B', iaToJ1(pos)]),
-    ...valuesFromSequence('AW', sequence).map((pos) => ['W', iaToJ1(pos)]),
-  ];
-}
-
-// '..AB[dp];W[po];B[hm];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
-// '..AB[dp];W[po];B[hm]TE[1];W[]...' => [["W","Q15"],["B","H13"]]
-function katagomovesFromSequence(sequence) {
-  return sequence
-    .split(';')
-    .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
-    .map((move) => [move[0], iaToJ1(move.substring(2, 4))]);
-}
-
 // For SABAKI autoplaying PVs.
 // '(;W[po];B[hm];W[ae]...)' => 'WQ5 H7 A15'
 // ';W[po]' => 'Q5'
@@ -231,19 +213,6 @@ function sequenceToPV(sequence) {
     .join(' ');
 
   return len > 0 ? pl + pv : pv;
-}
-
-// ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'
-function katagomoveinfoToSequence(pl, moveInfo) {
-  const sequence = moveInfo.pv.reduce(
-    (acc, move) => [
-      `${acc[0]};${acc[1]}[${iaFromJ1(move)}]`,
-      acc[1] === 'W' ? 'B' : 'W',
-    ],
-    ['', pl],
-  );
-
-  return `(${sequence[0]})`;
 }
 
 // Makes file name from SGF.
@@ -271,9 +240,16 @@ function prettyPathFromSGF(sgf) {
   return `${[evDT, players, re].filter((v) => v).join(' ')}.sgf`;
 }
 
+function formatK(num) {
+  return Math.abs(num) > 999
+    ? `${Math.sign(num) * (Math.abs(num) / 1000).toFixed(1)}k`
+    : Math.sign(num) * Math.abs(num);
+}
+
 module.exports = {
   iaFromJ1,
   iaToJ1,
+  iaToJ19,
   valueFromSequence,
   valuesFromSequence,
   addProperty,
@@ -286,8 +262,6 @@ module.exports = {
   getAnyOfProperties,
   rootsequenceFromSGF,
   prettyPathFromSGF,
-  initialstonesFromSequence,
+  formatK,
   sequenceToPV,
-  katagomovesFromSequence,
-  katagomoveinfoToSequence,
 };

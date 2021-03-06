@@ -6,6 +6,7 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
 const sgfconv = require('./sgfconv');
+const katagoconv = require('./katagoconv');
 const Tail = require('./tail');
 const NodeSequence = require('./node-sequence');
 const GameReport = require('./game-report');
@@ -157,7 +158,7 @@ function variationsFromResponse(that, response, pl, turn) {
     .map(
       (moveInfo) =>
         new NodeSequence(
-          sgfconv.katagomoveinfoToSequence(pl, moveInfo),
+          katagoconv.sequenceFromKataGoMoveInfo(pl, moveInfo),
           `A variation of move ${turn + 1}`,
           response.rootInfo,
           moveInfo,
