@@ -123,7 +123,7 @@ the simple analysis result will be printed out, and a file
 
 ```console
 $ analyze-sgf shin-vs-lian.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 2k visits) | ETA: 0s (40m52s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 6.4k visits) | ETA: 0s (1h10m52s)
 generated: shin-vs-lian-analyzed.sgf
 # Analyze-SGF Report
 
@@ -238,7 +238,7 @@ analysis data with the `-s` option.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (1h55m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (3h55m43s)
 generated: baduk.json
 generated: baduk-analyzed.sgf
 ```
