@@ -33,9 +33,9 @@ function sequenceFromKataGoMoveInfo(pl, moveInfo) {
 function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const query = { ...analysisOpts };
   const sequence = sgfconv.removeTails(sgf);
-  const komi = sgfconv.valueFromSequence(sequence, 'KM');
 
-  // Overrides komi from SGF.
+  // Gets komi from SGF.
+  const komi = sgfconv.valueFromSequence(sequence, 'KM');
   if (komi) query.komi = parseFloat(komi);
 
   const initialPlayer = sgfconv.valueFromSequence(sequence, 'PL');
@@ -65,6 +65,7 @@ function sequenceToKataGoMoves(sequence) {
 
 const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
 
+// Overwrites revisited to original.
 function joinKataGoResponses(original, revisited, turns) {
   return (
     original
@@ -76,7 +77,7 @@ function joinKataGoResponses(original, revisited, turns) {
 
 // Returns array of (turnNumber - 1) whose win rate drops by more than given
 // paremeter.
-function winrateDropTurnsFromKatagoResponses(responses, winrateDrop) {
+function winrateDropTurnsFromKataGoResponses(responses, winrateDrop) {
   return responses
     .replace(/.*"rootInfo"/g, '{"rootInfo"')
     .split('\n')
@@ -106,5 +107,5 @@ module.exports = {
   sequenceFromKataGoMoveInfo,
   sgfToKataGoAnalysisQuery,
   joinKataGoResponses,
-  winrateDropTurnsFromKatagoResponses,
+  winrateDropTurnsFromKataGoResponses,
 };

@@ -95,7 +95,7 @@ const opts = getopts();
         // If revisit given, try again.
         if (opts.revisit) {
           query.maxVisits = opts.revisit;
-          query.analyzeTurns = katagoconv.winrateDropTurnsFromKatagoResponses(
+          query.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
             responses,
             opts.sgf.minWinrateDropForVariations / 100,
           );
