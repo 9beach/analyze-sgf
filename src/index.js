@@ -85,11 +85,10 @@ const opts = getopts();
           newPath = path;
         }
 
-        const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
-
         // Sends query to KataGo.
+        const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
         let responses = await kataGoAnalyze(query, opts.katago);
-        // KataGoAnalyze already has printed error message.
+        // KataGoAnalyze has printed error message. So we just returns.
         if (!responses) return;
 
         // If revisit given, try again.

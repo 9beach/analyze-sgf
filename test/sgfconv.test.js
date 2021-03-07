@@ -32,6 +32,10 @@ describe('rootsequenceFromSGF', () => {
     parsed = sgfconv.rootsequenceFromSGF('(abc;)');
     assert.equal(parsed.root, 'abc;');
     assert.equal(parsed.sequence, '');
+
+    parsed = sgfconv.rootsequenceFromSGF('(abc;o[aa]B[bb])');
+    assert.equal(parsed.root, 'abc');
+    assert.equal(parsed.sequence, ';o[aa]B[bb]');
   });
 });
 

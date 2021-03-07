@@ -23,11 +23,11 @@ class GameTree {
     this.root = rootsequence.root;
     this.nodes = rootsequence.sequence
       .split(';')
-      .filter((node) => node.search(/[BW]\[[^\]]/) === 0)
-      .map(
-        (node, index) =>
-          new Tail(`;${node.substring(0, 5)}`, `Move ${index + 1}`),
-      );
+      .filter((node) => node.search(/\b[BW]\[/) !== -1)
+      .map((node, index) => {
+        const i = node.search(/\b[BW]\[/);
+        return new Tail(`;${node.substring(i, i + 5)}`, `Move ${index + 1}`);
+      });
 
     // Gets variations and comments from KataGo responses.
     const pls = getPLs(rootsequence);

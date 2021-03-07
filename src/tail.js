@@ -35,12 +35,12 @@ class Tail extends Node {
   // Gets SGF tail (variations).
   getTailSGF(opts) {
     if (this.hasVariation()) {
-      // `this.node[3] === ']'` means this.node is passing move (';B[]').
       if (
         opts.analyzeTurns ||
         opts.showVariationsOnlyForBadMove === false ||
         this.winrateDrop > opts.minWinrateDropForVariations / 100 ||
-        (opts.showVariationsAfterLastMove && this.node[3] === ']')
+        (opts.showVariationsAfterLastMove &&
+          this.node.search(/[BW]\[\]/) !== -1)
       ) {
         return this.variations.reduce((acc, cur) => acc + cur.getSGF(), '');
       }

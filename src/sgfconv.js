@@ -156,7 +156,7 @@ function addProperty(sequence, mark, index) {
 
 // '(abc;B[aa];B[bb]' => { root: 'abc', sequence: ';B[aa];B[bb]' }
 // '(;o[aa];B[bb]' => { root: ';o[aa]', sequence: ';B[bb]' }
-// '(abc;)' => { root: 'abc;', sequence: '' }
+// '(abc;xx[]B[bb])' => { root: 'abc;', sequence: 'xx[]B[bb]' }
 function rootsequenceFromSGF(sgf) {
   let tailless = removeTails(sgf);
 
@@ -167,7 +167,7 @@ function rootsequenceFromSGF(sgf) {
     throw Error(`SGF parse error: "${sgf}"`);
   }
 
-  let start = regexIndexOf(tailless, /;[BW]\[/);
+  let start = regexIndexOf(tailless, /;[^;]*\b[BW]\[/);
   if (start === -1) start = tailless.length - 1;
 
   return {

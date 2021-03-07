@@ -55,12 +55,15 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
 }
 
 // '..AB[dp];W[po];B[hm];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
-// '..AB[dp];W[po];B[hm]TE[1];W[]...' => [["W","Q15"],["B","H13"]]
+// '..AB[dp];W[po];TE[1]B[hm];W[]...' => [["W","Q15"],["B","H13"]]
 function sequenceToKataGoMoves(sequence) {
   return sequence
     .split(';')
-    .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
-    .map((move) => [move[0], sgfconv.iaToJ1(move.substring(2, 4))]);
+    .filter((move) => move.search(/\b[BW]\[[^\]]/) !== -1)
+    .map((move) => {
+      const i = move.search(/\b[BW]\[[^\]]/);
+      return [move[i], sgfconv.iaToJ1(move.substring(i + 2, i + 4))];
+    });
 }
 
 const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
