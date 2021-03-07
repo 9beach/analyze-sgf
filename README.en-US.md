@@ -279,7 +279,9 @@ greater than 5% with 50000 visits and the variations of the moves whose win
 rate drops less than 5% with 1000 visits.
 
 ```console
-analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
+$ analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 1k visits) | ETA: 0s (18m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (1h25m23s)
 ```
 
 Please note that if the win rate of the 60th move drops by 6%, then the

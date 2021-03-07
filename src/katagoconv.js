@@ -66,7 +66,7 @@ function sequenceToKataGoMoves(sequence) {
 const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
 
 // Overwrites revisited to original.
-function joinKataGoResponses(original, revisited, turns) {
+function mergeKataGoResponses(original, revisited, turns) {
   return (
     original
       .split('\n')
@@ -106,6 +106,6 @@ module.exports = {
   sequenceToKataGoMoves,
   sequenceFromKataGoMoveInfo,
   sgfToKataGoAnalysisQuery,
-  joinKataGoResponses,
+  mergeKataGoResponses,
   winrateDropTurnsFromKataGoResponses,
 };

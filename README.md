@@ -166,8 +166,10 @@ generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 
 `maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다.
 
 매 수마다 승률 및 집 변동에 관한 정보와 승률 하락이 큰 수에 대한 링크를 포함하고 있어서
-빠르게 승부처를 분석할 수 있습니다. 사바키에서 색깔이 반전된 변화도 수순 위에 마우스를
-올리면 위의 스크린숏에서와 같이 자동으로 수순이 진행됩니다.
+빠르게 승부처를 분석할 수 있습니다.
+
+사바키에서 색깔이 반전된 변화도 수순 위에 마우스를 올리면 위의 스크린숏에서와 같이
+자동으로 수순이 진행됩니다.
 
 ## 설정
 
@@ -258,7 +260,9 @@ analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVaria
 탐색수로 분석합니다.
 
 ```console
-analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
+$ analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 1k visits) | ETA: 0s (18m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (1h25m23s)
 ```
 
 주의할 것은 가변 탐색으로 변하는 것은 문제가 된 수의 탐색수가 아니라 그 이전 수의

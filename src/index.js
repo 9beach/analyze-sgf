@@ -94,23 +94,8 @@ const opts = getopts();
 
         // If revisit given, try again.
         if (opts.revisit) {
-          query.maxVisits = opts.revisit;
-          query.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
-            responses,
-            opts.sgf.minWinrateDropForVariations / 100,
-          );
-
-          let responsesRe = '';
-          if (query.analyzeTurns) {
-            responsesRe = await kataGoAnalyze(query, opts.katago);
-            if (!responsesRe) log('revisit error');
-            else
-              responses = katagoconv.joinKataGoResponses(
-                responses,
-                responsesRe,
-                query.analyzeTurns,
-              );
-          }
+          const newResponses = await revisitKataGo(responses, query);
+          if (newResponses) responses = newResponses;
         }
         // Finally, saves them.
         saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
@@ -120,6 +105,35 @@ const opts = getopts();
     });
   }
 })();
+
+// Revisits KataGo and merges responses.
+async function revisitKataGo(responses, query) {
+  const queryRe = { ...query };
+  queryRe.maxVisits = opts.revisit;
+  queryRe.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
+    responses,
+    opts.sgf.minWinrateDropForVariations / 100,
+  );
+
+  if (!queryRe.analyzeTurns.length) {
+    log(
+      'No move found whose win rate drops by more than ' +
+        `${opts.sgf.minWinrateDropForVariations}%.`,
+    );
+    return null;
+  }
+
+  const responsesRe = await kataGoAnalyze(queryRe, opts.katago);
+  if (!responsesRe) {
+    log('revisit error');
+    return null;
+  }
+  return katagoconv.mergeKataGoResponses(
+    responses,
+    responsesRe,
+    queryRe.analyzeTurns,
+  );
+}
 
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
