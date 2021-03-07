@@ -35,6 +35,8 @@ function getopts() {
   // Merges 3 keys with YAML conf.
   const yml = readConfig(args.katago, args.analysis, args.sgf);
 
+  if (args.jsonGiven && args.saveGiven) log('neglected `-s` with `-f`.');
+  if (args.jsonGiven && args.revisit) log('neglected `--revisit` with `-f`.');
   if (args.revisit && args.revisit < yml.analysis.maxVisits) {
     log(
       `Error: revisit argument (${args.revisit}) is less than maxVisits ` +
@@ -49,43 +51,34 @@ function getopts() {
 
 // Parses args.
 function parseArgs() {
-  let jsonGiven = false;
-  let saveGiven = false;
-  let revisit;
-  let analysis = {};
-  let sgf = {};
-  let katago = {};
-
+  const opts = {};
   const parser = new posixgetopt.BasicParser(
     'k:(katago)a:(analysis)g:(sgf)r:(revisit)sfh',
     process.argv,
   );
 
-  let opt = null;
-
   for (;;) {
-    opt = parser.getopt();
-    if (opt === undefined) {
-      break;
-    }
+    const opt = parser.getopt();
+    if (opt === undefined) break;
+
     switch (opt.option) {
       case 'a':
-        analysis = parseBadJSON(opt.optarg);
+        opts.analysis = parseBadJSON(opt.optarg);
         break;
       case 'k':
-        katago = parseBadJSON(opt.optarg);
+        opts.katago = parseBadJSON(opt.optarg);
         break;
       case 'g':
-        sgf = parseBadJSON(opt.optarg);
+        opts.sgf = parseBadJSON(opt.optarg);
         break;
       case 'r':
-        revisit = parseInt(opt.optarg, 10);
+        opts.revisit = parseInt(opt.optarg, 10);
         break;
       case 's':
-        saveGiven = true;
+        opts.saveGiven = true;
         break;
       case 'f':
-        jsonGiven = true;
+        opts.jsonGiven = true;
         break;
       case 'h':
       default:
@@ -93,16 +86,13 @@ function parseArgs() {
     }
   }
 
-  if (jsonGiven && saveGiven) log('neglected `-s` with `-f`.');
-  if (jsonGiven && revisit) log('neglected `--revisit` with `-f`.');
-
   if (parser.optind() >= process.argv.length) {
     log('Please specify SGF/GIB files.');
     helpexit();
   }
-  const paths = process.argv.slice(parser.optind());
+  opts.paths = process.argv.slice(parser.optind());
 
-  return { katago, analysis, sgf, revisit, saveGiven, jsonGiven, paths };
+  return opts;
 }
 
 // Reads config and merges each key of it with args.

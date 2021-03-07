@@ -32,6 +32,157 @@ function convert(gib) {
   return `(${root}${sequence})`;
 }
 
+// 1 => 'A'
+// 2 => 'B'
+const oneToA = (x) => String.fromCharCode(97 + x);
+
+// 'STO 0 2 2 15 15' => ';W[pp]'
+function sgfnodeFromSTO(line) {
+  const move = line.split(/\s+/);
+  const pl = move[3] === '1' ? 'B' : 'W';
+  const x = parseInt(move[4], 10);
+  const y = parseInt(move[5], 10);
+
+  return `;${pl}[${oneToA(x)}${oneToA(y)}]`;
+}
+
+function sgfrootFromGIB(gib) {
+  let root = ';FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]';
+
+  // PB, BR
+  root += pbFromGIB(gib);
+  // PW, WR
+  root += pwFromGIB(gib);
+  // EV
+  root += evFromGIB(gib);
+  // DT, RE, KM
+  root += reFromGIB(gib);
+  root += kmFromGIB(gib);
+  root += dtFromGIB(gib);
+  // HA, AB
+  root += haFromGIB(gib);
+
+  return root;
+}
+
+const makeProperty = (p, v) => `${p}[${v}]`;
+
+// Gets PB, BR.
+function pbFromGIB(gib) {
+  const value = valueOfGIB(gib, 'GAMEBLACKNAME');
+  if (value) {
+    const pair = parsePlRank(value);
+    return makeProperty('PB', pair[0]) + makeProperty('BR', pair[1]);
+  }
+  return '';
+}
+
+// Gets PW, WR.
+function pwFromGIB(gib) {
+  const value = valueOfGIB(gib, 'GAMEWHITENAME');
+  if (value) {
+    const pair = parsePlRank(value);
+    return makeProperty('PW', pair[0]) + makeProperty('WR', pair[1]);
+  }
+  return '';
+}
+
+// Gets EV.
+function evFromGIB(gib) {
+  const value = valueOfGIB(gib, 'GAMENAME');
+  if (value) return makeProperty('EV', value);
+  return '';
+}
+
+// Gets DT.
+function dtFromGIB(gib) {
+  const value = valueOfGIB(gib, 'GAMETAG');
+  if (value) {
+    const v = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
+    if (v) return makeProperty('DT', v.slice(1).join('-'));
+  }
+  return '';
+}
+
+// Gets RE.
+function reFromGIB(gib) {
+  let value = valueOfGIB(gib, 'GAMEINFOMAIN');
+  if (value) {
+    const v = getRE(value, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
+    if (v) return makeProperty('RE', v);
+  }
+
+  value = valueOfGIB(gib, 'GAMETAG');
+  if (value) {
+    const v = getRE(value, /,W(\d+),/, /,Z(\d+),/);
+    if (v) return makeProperty('RE', v);
+  }
+
+  return '';
+}
+
+// Gets KM.
+function kmFromGIB(gib) {
+  let value = valueOfGIB(gib, 'GAMEINFOMAIN');
+  if (value) {
+    const v = value.match(/GONGJE:(\d+),/);
+    if (v) {
+      const komi = parseInt(v[1], 10) / 10;
+      if (!Number.isNaN(komi)) return makeProperty('KM', komi);
+    }
+  }
+
+  value = valueOfGIB(gib, 'GAMETAG');
+  if (value) {
+    const v = value.match(/,G(\d+),/);
+    if (v) {
+      const komi = parseInt(v[1], 10) / 10;
+      if (!Number.isNaN(komi)) return makeProperty('KM', komi);
+    }
+  }
+
+  return '';
+}
+
+const handicapStones = [
+  null,
+  null,
+  'dp][pd',
+  'dp][pd][dd',
+  'dp][pd][dd][pp',
+  'dp][pd][dd][pp][jj',
+  'dp][pd][dd][pp][dj][pj',
+  'dp][pd][dd][pp][dj][pj][jj',
+  'dp][pd][dd][pp][dj][pj][jd][jp',
+  'dp][pd][dd][pp][dj][pj][jd][jp][jj',
+];
+
+// Gets HA, AB.
+function haFromGIB(gib) {
+  const value = valueOfINI(gib);
+  if (value) {
+    const setup = value.split(/\s+/);
+    if (setup[3]) {
+      const handicap = parseInt(setup[2], 10);
+      if (handicap >= 2)
+        return (
+          makeProperty('HA', handicap) +
+          makeProperty('AB', handicapStones[handicap])
+        );
+    }
+  }
+  return '';
+}
+
+// 'lee(8k)' => ['lee', '8k']
+function parsePlRank(value) {
+  const index = value.lastIndexOf('(');
+  return [
+    value.substring(0, index).trim(),
+    value.substring(index + 1, value.length - 1).trim(),
+  ];
+}
+
 // ('...\[GAMEWHITENICK=oro\]...', 'GAMEWHITENICK') => 'oro'
 function valueOfGIB(gib, prop) {
   const start = gib.indexOf(`\\[${prop}=`);
@@ -50,7 +201,7 @@ function valueOfINI(gib) {
   return gib.substring(start + 4, end).trim();
 }
 
-// Gets RE value.
+// Gets RE.
 function getRE(value, grltRegex, zipsuRegex) {
   let match = grltRegex.exec(value);
 
@@ -80,143 +231,6 @@ function parseRE(grlt, zipsu) {
   }
 
   return '';
-}
-
-// 2 => 'B'
-const oneToA = (x) => String.fromCharCode(97 + x);
-
-// 'STO 0 2 2 15 15' => ';W[pp]'
-function sgfnodeFromSTO(line) {
-  const move = line.split(/\s+/);
-  const pl = move[3] === '1' ? 'B' : 'W';
-  const x = parseInt(move[4], 10);
-  const y = parseInt(move[5], 10);
-
-  return `;${pl}[${oneToA(x)}${oneToA(y)}]`;
-}
-
-const handicapStones = [
-  null,
-  null,
-  'dp][pd',
-  'dp][pd][dd',
-  'dp][pd][dd][pp',
-  'dp][pd][dd][pp][jj',
-  'dp][pd][dd][pp][dj][pj',
-  'dp][pd][dd][pp][dj][pj][jj',
-  'dp][pd][dd][pp][dj][pj][jd][jp',
-  'dp][pd][dd][pp][dj][pj][jd][jp][jj',
-];
-
-// 'hey(there)' => ['hey', 'there']
-function parsePair(value) {
-  const index = value.lastIndexOf('(');
-  return [
-    value.substring(0, index).trim(),
-    value.substring(index + 1, value.length - 1).trim(),
-  ];
-}
-
-const makeProperty = (p, v) => `${p}[${v}]`;
-
-function sgfrootFromGIB(gib) {
-  let root = ';FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]';
-  let value;
-
-  // PB, BR
-  value = valueOfGIB(gib, 'GAMEBLACKNAME');
-  if (value) {
-    const pair = parsePair(value);
-    root += makeProperty('PB', pair[0]);
-    root += makeProperty('BR', pair[1]);
-  }
-
-  // PW, WR
-  value = valueOfGIB(gib, 'GAMEWHITENAME');
-  if (value) {
-    const pair = parsePair(value);
-    root += makeProperty('PW', pair[0]);
-    root += makeProperty('WR', pair[1]);
-  }
-
-  // EV
-  value = valueOfGIB(gib, 'GAMENAME');
-  if (value) root += makeProperty('EV', value);
-
-  // DT, RE, KM
-  root += propertiesFromGIB(gib);
-
-  // HA, AB
-  value = valueOfINI(gib);
-  if (value) {
-    const setup = value.split(/\s+/);
-    if (setup[3]) {
-      const handicap = parseInt(setup[2], 10);
-      if (handicap >= 2) {
-        root += makeProperty('HA', handicap);
-        root += makeProperty('AB', handicapStones[handicap]);
-      }
-    }
-  }
-
-  return root;
-}
-
-// DT, RE, KM
-function propertiesFromGIB(gib) {
-  let root = '';
-  let hasRE;
-  let hasKM;
-  let value;
-
-  // RE, KM
-  value = valueOfGIB(gib, 'GAMEINFOMAIN');
-  if (value) {
-    if (!hasRE) {
-      const result = getRE(value, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
-      if (result) {
-        root += makeProperty('RE', result);
-        hasRE = true;
-      }
-    }
-    if (!hasKM) {
-      const match = value.match(/GONGJE:(\d+),/);
-      if (match) {
-        const komi = parseInt(match[1], 10) / 10;
-        if (komi) {
-          root += makeProperty('KM', komi);
-          hasKM = true;
-        }
-      }
-    }
-  }
-
-  // DT, RE, KM
-  value = valueOfGIB(gib, 'GAMETAG');
-  if (value) {
-    let match = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
-    if (match) {
-      const date = match.slice(1).join('-');
-      root += makeProperty('DT', date);
-    }
-    if (!hasRE) {
-      const result = getRE(value, /,W(\d+),/, /,Z(\d+),/);
-      if (result) {
-        root += makeProperty('RE', result);
-        hasRE = true;
-      }
-    }
-    if (!hasKM) {
-      match = value.match(/,G(\d+),/);
-      if (match) {
-        const komi = parseInt(match[1], 10) / 10;
-        root += makeProperty('KM', komi);
-        hasKM = true;
-      }
-    }
-  }
-
-  return root;
 }
 
 module.exports = convert;

@@ -116,33 +116,30 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
     // Sets win rate.
     if (curTurn >= 0) {
       const node = that.nodes[curTurn];
-      if (curTurn === prevTurn + 1) {
-        // To calculate node.winrateDrop, we need both of
-        // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
+      // To calculate node.winrateDrop, we need both of
+      // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
+      if (curTurn === prevTurn + 1)
         node.setWinrate(prevJSON.rootInfo, curJSON.rootInfo, that.opts);
-      } else {
-        node.setWinrate(null, curJSON.rootInfo, that.opts);
-      }
+      else node.setWinrate(null, curJSON.rootInfo, that.opts);
     }
 
     // Adds passing move if necessary.
     if (
       that.opts.showVariationsAfterLastMove &&
       that.nodes.length === nextTurn
-    ) {
+    )
       that.nodes.push(new Tail(`;${nextPL}[]`));
-    }
 
     // Sets variations.
     if (
       nextTurn < that.nodes.length &&
       (!that.opts.analyzeTurns ||
         that.opts.analyzeTurns.indexOf(nextTurn) !== -1)
-    ) {
+    )
       that.nodes[nextTurn].setVariations(
         variationsFromResponse(that, curJSON, nextPL, nextTurn),
       );
-    }
+
     prevJSON = curJSON;
   });
   // FIXME: Remove passing move if has no variation.
