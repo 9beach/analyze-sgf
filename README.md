@@ -113,6 +113,7 @@ sgf:
 
 ```console
 $ analyze-sgf 신진서-렌샤오.sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 2k visits) | ETA: 0s (40m52s)
 generated: 신진서-렌샤오-analyzed.sgf
 # Analyze-SGF Report
 
@@ -144,15 +145,15 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
-# Analyze-SGF Report
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
-# Analyze-SGF Report
 ```
 
 아래의 스크린숏은 `신진서-렌샤오-analyzed.sgf` 파일을 사바키로 연 모습입니다.
@@ -177,7 +178,7 @@ generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 
 있습니다.
 
 ```console
-C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
+analyze-sgf -a 'maxVisits:5000' baduk.sgf
 ```
 
 한 수를 분석할 때 카타고 분석 엔진이 얼마나 많은 탐색을 할지는 `maxVisits` 값으로
@@ -220,6 +221,7 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (1h55m43s)
 generated: baduk.json
 generated: baduk-analyzed.sgf
 ```

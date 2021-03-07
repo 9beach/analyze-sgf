@@ -123,6 +123,7 @@ the simple analysis result will be printed out, and a file
 
 ```console
 $ analyze-sgf shin-vs-lian.sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 2k visits) | ETA: 0s (40m52s)
 generated: shin-vs-lian-analyzed.sgf
 # Analyze-SGF Report
 
@@ -155,15 +156,15 @@ analyzes the SGFs from the URLs of the matches.
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
-# Analyze-SGF Report
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
-# Analyze-SGF Report
 ```
 
 The screenshot below shows the file opened in Sabaki.
@@ -193,7 +194,7 @@ settings or specify it when running `analyze-sgf`. For example, to adjust
 time, as follows:
 
 ```console
-C:\Users\hcho>analyze-sgf.cmd -a 'maxVisits:600' baduk.sgf
+analyze-sgf -a 'maxVisits:5000' baduk.sgf
 ```
 
 The `maxVisits` value determines how many visits the KataGo Parallel
@@ -237,6 +238,7 @@ analysis data with the `-s` option.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (1h55m43s)
 generated: baduk.json
 generated: baduk-analyzed.sgf
 ```
