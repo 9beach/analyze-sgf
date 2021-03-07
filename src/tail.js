@@ -8,7 +8,7 @@ const Node = require('./node');
 
 // Carries a SGF Tail.
 class Tail extends Node {
-  // Sets a array of NodeSequence to carry the variations.
+  // Sets a NodeSequence array to carry a variations.
   setVariations(variations) {
     this.variations = variations;
     if (this.hasVariation())
