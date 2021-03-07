@@ -113,7 +113,7 @@ sgf:
 
 ```console
 $ analyze-sgf 신진서-렌샤오.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 6.4k visits) | ETA: 0s (1h10m52s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 6.4k visits) | ETA: 0s (20m52s)
 generated: 신진서-렌샤오-analyzed.sgf
 # Analyze-SGF Report
 
@@ -145,14 +145,14 @@ Analyzed by KataGo Parallel Analysis Engine (6415 max visits).
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (6m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (6m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
 ```
 
@@ -223,7 +223,7 @@ analyze-sgf -a 'rules:"korean"' baduk.sgf
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (3h55m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (1h15m43s)
 generated: baduk.json
 generated: baduk-analyzed.sgf
 ```
@@ -261,8 +261,8 @@ analyze-sgf -g 'minWinrateDropForVariations:-100,showBadVariations:true,maxVaria
 
 ```console
 $ analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 1k visits) | ETA: 0s (18m43s)
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (1h25m23s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 1k visits) | ETA: 0s (3m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (19m23s)
 ```
 
 주의할 것은 가변 탐색으로 변하는 것은 문제가 된 수의 탐색수가 아니라 그 이전 수의

@@ -123,7 +123,7 @@ the simple analysis result will be printed out, and a file
 
 ```console
 $ analyze-sgf shin-vs-lian.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 6.4k visits) | ETA: 0s (1h10m52s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (208/208, 6.4k visits) | ETA: 0s (20m52s)
 generated: shin-vs-lian-analyzed.sgf
 # Analyze-SGF Report
 
@@ -156,14 +156,14 @@ analyzes the SGFs from the URLs of the matches.
 ```console
 $ analyze-sgf 'https://www.cyberoro.com/gibo_new/giboviewer/......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (6m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
 ```
 
 ```console
 $ analyze-sgf 'http://service.tygem.com/service/gibo2/?seq=......'
 downloaded: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승).sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (25m23s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 2k visits) | ETA: 0s (6m23s)
 generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 (135수 흑불계승)-analyzed.sgf
 ```
 
@@ -238,7 +238,7 @@ analysis data with the `-s` option.
 
 ```console
 $ analyze-sgf -s -a 'maxVisits:30000' baduk.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (3h55m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 30k visits) | ETA: 0s (1h15m43s)
 generated: baduk.json
 generated: baduk-analyzed.sgf
 ```
@@ -280,8 +280,8 @@ rate drops less than 5% with 1000 visits.
 
 ```console
 $ analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 50000 baduk.sgf
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 1k visits) | ETA: 0s (18m43s)
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (1h25m23s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (136/136, 1k visits) | ETA: 0s (3m43s)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (19m23s)
 ```
 
 Please note that if the win rate of the 60th move drops by 6%, then the
