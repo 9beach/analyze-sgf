@@ -22,7 +22,19 @@
 
 // Converts GIB to SGF.
 function convert(gib) {
-  const root = sgfrootFromGIB(gib);
+  // Gets root node from HS~HE and INI.
+  // Properties: FF, GM, SZ, AP, PB, BR, PW, WR, EV, RE, KM, DT, HA, AB.
+  const root = `;FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]${
+    pbFromGIB(gib) +
+    pwFromGIB(gib) +
+    evFromGIB(gib) +
+    reFromGIB(gib) +
+    kmFromGIB(gib) +
+    dtFromGIB(gib) +
+    haFromGIB(gib)
+  }`;
+
+  // Gets sequence from STOs.
   const sequence = gib
     .substring(gib.indexOf('STO'))
     .split('\n')
@@ -32,47 +44,27 @@ function convert(gib) {
   return `(${root}${sequence})`;
 }
 
-// 1 => 'A'
-// 2 => 'B'
-const oneToA = (x) => String.fromCharCode(97 + x);
-
 // 'STO 0 2 2 15 15' => ';W[pp]'
 function sgfnodeFromSTO(line) {
-  const move = line.split(/\s+/);
-  const pl = move[3] === '1' ? 'B' : 'W';
-  const x = parseInt(move[4], 10);
-  const y = parseInt(move[5], 10);
+  const ns = line.split(/\s+/);
+  const pl = ns[3] === '1' ? 'B' : 'W';
+  // '1' => 'A'
+  const oneToA = (x) => String.fromCharCode(97 + parseInt(x, 10));
 
-  return `;${pl}[${oneToA(x)}${oneToA(y)}]`;
+  return `;${pl}[${oneToA(ns[4])}${oneToA(ns[5])}]`;
 }
 
-function sgfrootFromGIB(gib) {
-  let root = ';FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]';
-
-  // PB, BR
-  root += pbFromGIB(gib);
-  // PW, WR
-  root += pwFromGIB(gib);
-  // EV
-  root += evFromGIB(gib);
-  // DT, RE, KM
-  root += reFromGIB(gib);
-  root += kmFromGIB(gib);
-  root += dtFromGIB(gib);
-  // HA, AB
-  root += haFromGIB(gib);
-
-  return root;
+function mkprop(p, v) {
+  if (v || v === 0) return `${p}[${v}]`;
+  return '';
 }
-
-const makeProperty = (p, v) => `${p}[${v}]`;
 
 // Gets PB, BR.
 function pbFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEBLACKNAME');
   if (value) {
     const pair = parsePlRank(value);
-    return makeProperty('PB', pair[0]) + makeProperty('BR', pair[1]);
+    return mkprop('PB', pair[0]) + mkprop('BR', pair[1]);
   }
   return '';
 }
@@ -82,16 +74,14 @@ function pwFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEWHITENAME');
   if (value) {
     const pair = parsePlRank(value);
-    return makeProperty('PW', pair[0]) + makeProperty('WR', pair[1]);
+    return mkprop('PW', pair[0]) + mkprop('WR', pair[1]);
   }
   return '';
 }
 
 // Gets EV.
 function evFromGIB(gib) {
-  const value = valueOfGIB(gib, 'GAMENAME');
-  if (value) return makeProperty('EV', value);
-  return '';
+  return mkprop('EV', valueOfGIB(gib, 'GAMENAME'));
 }
 
 // Gets DT.
@@ -99,7 +89,7 @@ function dtFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMETAG');
   if (value) {
     const v = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
-    if (v) return makeProperty('DT', v.slice(1).join('-'));
+    if (v) return mkprop('DT', v.slice(1).join('-'));
   }
   return '';
 }
@@ -109,15 +99,14 @@ function reFromGIB(gib) {
   let value = valueOfGIB(gib, 'GAMEINFOMAIN');
   if (value) {
     const v = getRE(value, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
-    if (v) return makeProperty('RE', v);
+    return mkprop('RE', v);
   }
 
   value = valueOfGIB(gib, 'GAMETAG');
   if (value) {
     const v = getRE(value, /,W(\d+),/, /,Z(\d+),/);
-    if (v) return makeProperty('RE', v);
+    return mkprop('RE', v);
   }
-
   return '';
 }
 
@@ -128,7 +117,7 @@ function kmFromGIB(gib) {
     const v = value.match(/GONGJE:(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
-      if (!Number.isNaN(komi)) return makeProperty('KM', komi);
+      if (!Number.isNaN(komi)) return mkprop('KM', komi);
     }
   }
 
@@ -137,10 +126,9 @@ function kmFromGIB(gib) {
     const v = value.match(/,G(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
-      if (!Number.isNaN(komi)) return makeProperty('KM', komi);
+      if (!Number.isNaN(komi)) return mkprop('KM', komi);
     }
   }
-
   return '';
 }
 
@@ -166,8 +154,7 @@ function haFromGIB(gib) {
       const handicap = parseInt(setup[2], 10);
       if (handicap >= 2)
         return (
-          makeProperty('HA', handicap) +
-          makeProperty('AB', handicapStones[handicap])
+          mkprop('HA', handicap) + mkprop('AB', handicapStones[handicap])
         );
     }
   }
@@ -213,7 +200,6 @@ function getRE(value, grltRegex, zipsuRegex) {
       return parseRE(grlt, zipsu);
     }
   }
-
   return '';
 }
 
@@ -229,7 +215,6 @@ function parseRE(grlt, zipsu) {
     const margin = (zipsu / 10).toString();
     return `${winner}+${margin}`;
   }
-
   return '';
 }
 

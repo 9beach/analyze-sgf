@@ -39,6 +39,7 @@
     "cli"
   ],
   "dependencies": {
+    "@sabaki/sgf": "^3.4.7",
     "chalk": "^4.1.0",
     "cli-progress": "^3.9.0",
     "iconv-lite": "^0.6.2",

@@ -12,6 +12,16 @@ const yamlpath = require.resolve('../src/analyze-sgf.yml');
 const opts = yaml.load(fs.readFileSync(yamlpath));
 const sgfopts = opts.sgf;
 
+// Removes line feeds and comments.
+function removeComment(sgf) {
+  return sgf
+    .replace(/\r\n/g, '')
+    .replace(/\n/g, '')
+    .replace(/\\\]/g, '@$$yy$$@')
+    .replace(/\bC\[[^\]]*\]/g, '')
+    .replace(/@$$yy$$@/g, '\\]');
+}
+
 function compareButComments(original, json, expected) {
   let sgf = fs.readFileSync(original).toString();
   sgf = sgfconv.correctSGFDialects(sgf);
@@ -21,10 +31,10 @@ function compareButComments(original, json, expected) {
 
   const gametree = new GameTree(sgf, responses, sgfopts);
   let rsgf = gametree.getSGF();
-  rsgf = sgfconv.removeComment(rsgf);
+  rsgf = removeComment(rsgf);
 
   let esgf = fs.readFileSync(expected).toString();
-  esgf = sgfconv.removeComment(esgf);
+  esgf = removeComment(esgf);
 
   assert.equal(esgf, rsgf);
 }
@@ -50,7 +60,7 @@ describe('GameTree', () => {
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
     compareButLines(
       gametree.getSGF(),
-      '(PL[];B[aa]C[Move 1];W[bb]C[Move 2])',
+      '(;PL[];B[aa]C[Move 1];W[bb]C[Move 2])',
     );
   });
 

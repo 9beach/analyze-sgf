@@ -2,6 +2,8 @@
  * @fileOverview Helper functions to parse SGF format.
  */
 
+const sgfparser = require('@sabaki/sgf');
+
 // ('XX[11]YY[22]', 0) => '11'
 // ('XX[11]YY[22]', 8) => '22'
 function inBraket(value, index = 0) {
@@ -90,43 +92,6 @@ function iaFromJ1(v) {
   );
 }
 
-// Removes line feeds and comments.
-function removeComment(sgf) {
-  return sgf
-    .replace(/\r\n/g, '')
-    .replace(/\n/g, '')
-    .replace(/\\\]/g, '@$$yy$$@')
-    .replace(/\bC\[[^\]]*\]/g, '')
-    .replace(/@$$yy$$@/g, '\\]');
-}
-
-// '(abc(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
-// '(abc\n(def(gh)(xy))(123(45)(66)))' => '(abcdefgh)'
-function removeTails(sgf) {
-  let moves = removeComment(sgf);
-  let reduced = moves;
-
-  // FIXME: Very poor logic.
-  for (;;) {
-    moves = reduced;
-    reduced = reduced
-      // ')  )' => '))'
-      // '(  )' => '))'
-      // '(  (' => '(('
-      .replace(/([()]) *([()])/g, '$1$2')
-      // ')(dfg)' => ')'
-      .replace(/\)\([^()]*\)/g, ')')
-      // '((abc))' => '(abc)'
-      // 'x(abc)y' => 'xabcy'
-      // 'x(abc)(' => 'x(abc)('
-      .replace(/([^)])\(([^()]*)\)([^(])/g, '$1$2$3');
-
-    if (moves === reduced) break;
-  }
-
-  return reduced;
-}
-
 function anyValueFromSequence(sgf, props) {
   let value = '';
   props.some((p) => {
@@ -152,28 +117,6 @@ function addProperty(sequence, mark, index) {
     );
   }
   return '';
-}
-
-// '(abc;B[aa];B[bb]' => { root: 'abc', sequence: ';B[aa];B[bb]' }
-// '(;o[aa];B[bb]' => { root: ';o[aa]', sequence: ';B[bb]' }
-// '(abc;xx[]B[bb])' => { root: 'abc;', sequence: 'xx[]B[bb]' }
-function rootsequenceFromSGF(sgf) {
-  let tailless = removeTails(sgf);
-
-  // Skips ORO winrates ')\n// ...\n//...'.
-  tailless = tailless.substring(0, tailless.lastIndexOf(')') + 1);
-
-  if (tailless[0] !== '(' || tailless[tailless.length - 1] !== ')') {
-    throw Error(`SGF parse error: "${sgf}"`);
-  }
-
-  let start = regexIndexOf(tailless, /;[^;]*\b[BW]\[/);
-  if (start === -1) start = tailless.length - 1;
-
-  return {
-    root: tailless.substring(1, start),
-    sequence: tailless.substring(start, tailless.length - 1),
-  };
 }
 
 // ('(;W[aa];B[bb];W[cc])', 0) => '(;W[aa]TE[1];B[bb];W[cc])'
@@ -215,6 +158,7 @@ function sequenceToPV(sequence) {
   return len > 0 ? pl + pv : pv;
 }
 
+// Risky but effective.
 // Fixes SGF dialects (KO/TE/RD) for other SGF editors.
 // Fixes bad Tygem SGF. e.g., '대주배 16강 .'
 // Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
@@ -253,10 +197,54 @@ function prettyPathFromSGF(sgf) {
   return `${[evDT, players, re].filter((v) => v).join(' ')}.sgf`;
 }
 
+// 2000 => '2k'
 function formatK(num) {
   return Math.abs(num) > 999
     ? `${Math.sign(num) * (Math.abs(num) / 1000).toFixed(1)}k`
     : Math.sign(num) * Math.abs(num);
+}
+
+function mknode(data) {
+  if (data.B) return `;B[${data.B[0]}]`;
+  if (data.W) return `;W[${data.W[0]}]`;
+  return '';
+}
+
+function mksequence(node) {
+  if (node.children.length)
+    return mknode(node.data) + mksequence(node.children[0]);
+  return mknode(node.data);
+}
+
+function mkprops(ks, removeComment) {
+  return Object.keys(ks).reduce((acc, k) => {
+    if (removeComment && k === 'C') return acc;
+    let sum = acc;
+    sum += k;
+    sum += ks[k].reduce(
+      (insum, cur) => `${insum}[${cur.replace(/\]/g, '\\]')}]`,
+      '',
+    );
+    return sum;
+  }, ';');
+}
+
+// '(FF[4]GM[1]C[test];B[aa]C[test];(B[bb])(B[cc])'
+//   => { root: ';FF[4]GM[1]', sequence: ';B[aa];B[bb]' }
+// '(;FF[4]GM[1];B[aa];(B[bb]C[test])(B[cc])'
+//   => { root: ';FF[4]GM[1]', sequence: ';B[aa];B[bb]' }
+function rootsequenceFromSGF(sgf, removeComment = true) {
+  const nodes = sgfparser.parse(sgf);
+  return {
+    root: mkprops(nodes[0].data, removeComment),
+    sequence: mksequence(nodes[0]),
+  };
+}
+
+// Strips tail, comments, and line feeds from SGF.
+function removeTails(sgf) {
+  const rs = rootsequenceFromSGF(sgf.replace(/\r\n/g, '').replace(/\n/g, ''));
+  return `(${rs.root + rs.sequence})`;
 }
 
 module.exports = {
@@ -270,7 +258,6 @@ module.exports = {
   toBadNode,
   toBadHotSpot,
   addComment,
-  removeComment,
   removeTails,
   anyValueFromSequence,
   rootsequenceFromSGF,

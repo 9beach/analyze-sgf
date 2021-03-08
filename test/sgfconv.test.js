@@ -8,34 +8,44 @@ const iconv = require('iconv-lite');
 const sgfconv = require('../src/sgfconv');
 
 describe('rootsequenceFromSGF', () => {
-  it('should be expected values.', () => {
-    let parsed = sgfconv.rootsequenceFromSGF('(abc;B[aa];B[bb])');
-    assert.equal(parsed.root, 'abc');
+  it('should remove tails.', () => {
+    const parsed = sgfconv.rootsequenceFromSGF('(a;B[aa];(B[bb])(W[cc])');
+    assert.equal(parsed.root, ';');
     assert.equal(parsed.sequence, ';B[aa];B[bb]');
-
-    parsed = sgfconv.rootsequenceFromSGF('(abc;W[aa];B[bb])');
-    assert.equal(parsed.root, 'abc');
-    assert.equal(parsed.sequence, ';W[aa];B[bb]');
-
-    parsed = sgfconv.rootsequenceFromSGF('(abc;o[aa];B[bb])');
-    assert.equal(parsed.root, 'abc;o[aa]');
+  });
+  it('should remove comments.', () => {
+    const parsed = sgfconv.rootsequenceFromSGF('(GN[xx]C[aaa];W[aa]C[bb])');
+    assert.equal(parsed.root, ';GN[xx]');
+    assert.equal(parsed.sequence, ';W[aa]');
+  });
+  it('should split to root node and sequence.', () => {
+    let parsed = sgfconv.rootsequenceFromSGF('(abc;o[aa];B[bb])');
+    assert.equal(parsed.root, ';');
     assert.equal(parsed.sequence, ';B[bb]');
 
-    parsed = sgfconv.rootsequenceFromSGF('(test)');
-    assert.equal(parsed.root, 'test');
-    assert.equal(parsed.sequence, '');
+    parsed = sgfconv.rootsequenceFromSGF('(abc;;o[aa];B[bb])');
+    assert.equal(parsed.root, ';');
+    assert.equal(parsed.sequence, ';B[bb]');
+  });
+  it('should preserve line feeds.', () => {
+    const parsed = sgfconv.rootsequenceFromSGF('(GN[\n];B[aa];B[bb]');
+    assert.equal(parsed.root, ';GN[\n]');
+    assert.equal(parsed.sequence, ';B[aa];B[bb]');
+  });
+});
 
-    parsed = sgfconv.rootsequenceFromSGF('(;abc)');
-    assert.equal(parsed.root, ';abc');
-    assert.equal(parsed.sequence, '');
-
-    parsed = sgfconv.rootsequenceFromSGF('(abc;)');
-    assert.equal(parsed.root, 'abc;');
-    assert.equal(parsed.sequence, '');
-
-    parsed = sgfconv.rootsequenceFromSGF('(abc;o[aa]B[bb])');
-    assert.equal(parsed.root, 'abc');
-    assert.equal(parsed.sequence, ';o[aa]B[bb]');
+describe('removeTails', () => {
+  it('should remove comments.', () => {
+    const parsed = sgfconv.removeTails('(abc;B[aa];(B[bb]C[xx])(W[cc])');
+    assert.equal(parsed, '(;;B[aa];B[bb])');
+  });
+  it('should remove line feeds.', () => {
+    const parsed = sgfconv.removeTails('(GN[\n\n];B[aa];(B[bb]C[xx])(W[cc])');
+    assert.equal(parsed, '(;GN[];B[aa];B[bb])');
+  });
+  it('should include komi 0.', () => {
+    const parsed = sgfconv.removeTails('(AP[aa]KM[0];B[aa];(B[bb])(W[cc])');
+    assert.equal(parsed, '(;AP[aa]KM[0];B[aa];B[bb])');
   });
 });
 
@@ -108,49 +118,6 @@ describe('addComment', () => {
     assert.equal(
       sgfconv.addComment(sequence, 'XXyy', 8),
       '(;W[po];B[hm]C[XXyy])',
-    );
-  });
-});
-
-describe('removeComment', () => {
-  const values = ['C[testtest]AP[123]', 'C[\nte\\]st\\]: te\nst: ]AP[123]'];
-  it('should be expected values.', () => {
-    assert.equal(sgfconv.removeComment(values[0]), 'AP[123]');
-    assert.equal(sgfconv.removeComment(values[1]), 'AP[123]');
-  });
-});
-
-describe('removeTails', () => {
-  const values = [
-    '(ABC(DEF(GH)\n(\n(\n\nY)(ab)\n(1)))\n\n(1(4\n5)\n(6\n6)\n))',
-    '(ABC(DEF\n(GH)\n(XY))(123\n(45)(66)))',
-    '(a(b((c)(d)(f(g)(h))))(c(d)(e)))',
-    '((abc))',
-    'x(abc)y',
-    'x(abc)(',
-    ')(abc)x',
-    'aa[aa(](11)(abc)x',
-    '(aa[aa)](11)(abc)x)',
-    'aa[(aa) ()]((11)(abc)x',
-  ];
-  it('should be expected values.', () => {
-    assert.equal(sgfconv.removeTails(values[0]), '(ABCDEFGH)');
-    assert.equal(sgfconv.removeTails(values[1]), '(ABCDEFGH)');
-    assert.equal(sgfconv.removeTails(values[2]), '(abc)');
-    assert.equal(sgfconv.removeTails(values[3]), '(abc)');
-    assert.equal(sgfconv.removeTails(values[4]), 'xabcy');
-    assert.equal(sgfconv.removeTails(values[5]), 'x(abc)(');
-    assert.equal(sgfconv.removeTails(values[6]), ')x');
-    assert.equal(sgfconv.removeTails(values[7]), 'aa[aa(]11x');
-    assert.equal(sgfconv.removeTails(values[8]), '(aa[aa)]11x)');
-    assert.equal(sgfconv.removeTails(values[9]), 'aa[aa](11x');
-  });
-  it('should be expected values.', () => {
-    const sgf = fs.readFileSync('test/examples/t-sabaki-1.sgf');
-    assert.equal(
-      sgfconv.removeTails(sgf.toString()),
-      '(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.51.1]KM[6.5]SZ[19]DT[2021-01-25]' +
-        'HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[ae]IT[])',
     );
   });
 });

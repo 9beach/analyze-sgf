@@ -43,10 +43,7 @@ const opts = getopts();
         const sgfresponses = fs.readFileSync(path).toString();
         // JSON file format: tailless SGF + '\n' + KataGo responses.
         const index = sgfresponses.indexOf('\n');
-        // Backward compatibility for old JSON.
-        const sgf = sgfconv.correctSGFDialects(
-          sgfresponses.substring(0, index),
-        );
+        const sgf = sgfresponses.substring(0, index);
         const responses = sgfresponses.substring(index + 1);
 
         saveAnalyzed(path, sgf, responses, false, opts.sgf);

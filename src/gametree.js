@@ -14,14 +14,14 @@ const GameReport = require('./game-report');
 // Carries a SGF RootNode (this.root) and Tail array (this.nodes).
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
-    const rootsequence = sgfconv.rootsequenceFromSGF(sgf);
+    const rs = sgfconv.rootsequenceFromSGF(sgf);
 
     this.opts = opts;
     this.comment = '';
 
     // Gets root node and main sequence from SGF.
-    this.root = rootsequence.root;
-    this.nodes = rootsequence.sequence
+    this.root = rs.root;
+    this.nodes = rs.sequence
       .split(';')
       .filter((node) => node.search(/\b[BW]\[/) !== -1)
       .map((node, index) => {
@@ -30,7 +30,7 @@ class GameTree {
       });
 
     // Gets variations and comments from KataGo responses.
-    const pls = getPLs(rootsequence);
+    const pls = getPLs(rs);
     setWinrateAndVariatons(this, katagoResponses, pls);
     setReports(this);
   }
@@ -49,13 +49,13 @@ class GameTree {
     }
 
     // Accumulates node and tail (variations).
-    this.sgf = this.nodes.reduceRight((acc, cur) => {
+    const sequencetail = this.nodes.reduceRight((acc, cur) => {
       const tail = cur.getTailSGF(this.opts);
       if (tail) return `\n(${cur.getSGF()}${acc})${tail}`;
       return `\n${cur.getSGF()}${acc}`;
     }, '');
 
-    this.sgf = `(${this.root}${this.sgf})`;
+    this.sgf = `(${this.root}${sequencetail})`;
 
     return this.sgf;
   }
@@ -187,9 +187,9 @@ function setReports(that) {
   });
 }
 
-// rootsequence => [ 'B', 'W' ] or [ 'W', 'B' ]
-function getPLs(rootsequence) {
-  const { root, sequence } = rootsequence;
+// rs => [ 'B', 'W' ] or [ 'W', 'B' ]
+function getPLs(rs) {
+  const { root, sequence } = rs;
   const pls = [];
 
   const index = sequence.search(/\b[BW]\[/);
