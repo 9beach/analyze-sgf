@@ -3,8 +3,6 @@
  *               bad moves, and bad hot spots.
  */
 
-const sgfconv = require('./sgfconv');
-
 // FIXME: Accesses private members of GameTree.
 class GameReport {
   constructor(gametree) {
@@ -31,17 +29,19 @@ class GameReport {
   reportGame() {
     if (this.report) return this.report;
 
-    let km = sgfconv.valueFromSequence(this.root, 'KM');
+    const ofRoot = (key) => this.root[key] && this.root[key][0].trim();
+
+    let km = ofRoot('KM');
     km = km ? `Komi ${km}` : km;
 
-    const ev = sgfconv.anyValueFromSequence(this.root, ['EV', 'GN']);
-    const dt = sgfconv.valueFromSequence(this.root, 'DT');
+    const ev = ofRoot('EV') || ofRoot('GN');
+    const dt = ofRoot('DT');
 
-    const re = sgfconv.valueFromSequence(this.root, 'RE');
+    const re = ofRoot('RE');
     const game = [ev, km, re, dt].filter((v) => v).join(', ');
 
-    const pb = plColor(sgfconv.valueFromSequence(this.root, 'PB'), 'Black');
-    const pw = plColor(sgfconv.valueFromSequence(this.root, 'PW'), 'White');
+    const pb = plColor(ofRoot('PB'), 'Black');
+    const pw = plColor(ofRoot('PW'), 'White');
 
     const reportPlayer = (goodBads, that) =>
       reportGoodAndBads(

@@ -54,7 +54,7 @@ function compare(original, json, expected) {
 }
 
 describe('GameTree', () => {
-  it('should be expected values.', () => {
+  it('should remove the comment of root node, and add move comment.', () => {
     const compareButLines = (x, y) =>
       assert.equal(x.replace(/\n/g, ''), y.replace(/\n/g, ''));
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
@@ -88,7 +88,7 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be expected values for "t-sabaki-1-lastmove.sgf".', () => {
+  it('should add passing move for "t-sabaki-1-lastmove.sgf".', () => {
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = undefined;
 
@@ -99,7 +99,7 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be expected values for "t-sabaki-1-turns-lastmove.sgf".', () => {
+  it('should add passing move and all the variations.', () => {
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
 
@@ -110,7 +110,7 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be expected values for "t-sabaki-1-turns.sgf".', () => {
+  it('should add all the variations.', () => {
     sgfopts.showVariationsAfterLastMove = false;
 
     compareButComments(
@@ -120,7 +120,7 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be expected values for "t-lian-vs-shin.sgf".', () => {
+  it('should be same for each comment of "t-lian-vs-shin.sgf".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;
     sgfopts.minWinrateDropForBadMove = 5;

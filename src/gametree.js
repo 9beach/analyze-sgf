@@ -8,20 +8,19 @@
 const sgfconv = require('./sgfconv');
 const katagoconv = require('./katagoconv');
 const Tail = require('./tail');
-const NodeSequence = require('./node-sequence');
+const NodeSeq = require('./nodeseq');
 const GameReport = require('./game-report');
 
 // Carries a SGF RootNode (this.root) and Tail array (this.nodes).
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
-    const rs = sgfconv.rootsequenceFromSGF(sgf);
+    const rs = sgfconv.rootAndSeqFromSGF(sgf);
 
     this.opts = opts;
-    this.comment = '';
 
-    // Gets root node and main sequence from SGF.
+    // Gets root node and sequence from SGF.
     this.root = rs.root;
-    this.nodes = rs.sequence
+    this.nodes = rs.seq
       .split(';')
       .filter((node) => node.search(/\b[BW]\[/) !== -1)
       .map((node, index) => {
@@ -29,14 +28,14 @@ class GameTree {
         return new Tail(`;${node.substring(i, i + 5)}`, `Move ${index + 1}`);
       });
 
-    // Gets variations and comments from KataGo responses.
+    // Gets variations and winrates from KataGo responses.
     const pls = getPLs(rs);
     setWinrateAndVariatons(this, katagoResponses, pls);
     setReports(this);
   }
 
   getReport() {
-    return this.report;
+    return (this.root.C && this.root.C[0]) || '';
   }
 
   // Makes SGF GameTree, and returns it.
@@ -44,19 +43,16 @@ class GameTree {
   // To understand the logic below, please read
   // <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
   getSGF() {
-    if (this.sgf) {
-      return this.sgf;
-    }
+    if (this.sgf) return this.sgf;
 
     // Accumulates node and tail (variations).
-    const sequencetail = this.nodes.reduceRight((acc, cur) => {
+    const seqtail = this.nodes.reduceRight((acc, cur) => {
       const tail = cur.getTailSGF(this.opts);
       if (tail) return `\n(${cur.getSGF()}${acc})${tail}`;
       return `\n${cur.getSGF()}${acc}`;
     }, '');
 
-    this.sgf = `(${this.root}${sequencetail})`;
-
+    this.sgf = `(${sgfconv.propsFromObject(this.root, true)}${seqtail})`;
     return this.sgf;
   }
 }
@@ -151,8 +147,8 @@ function variationsFromResponse(that, response, pl, turn) {
   return response.moveInfos
     .map(
       (moveInfo) =>
-        new NodeSequence(
-          katagoconv.sequenceFromKataGoMoveInfo(pl, moveInfo),
+        new NodeSeq(
+          katagoconv.seqFromKataGoMoveInfo(pl, moveInfo),
           `A variation of move ${turn + 1}`,
           response.rootInfo,
           moveInfo,
@@ -173,13 +169,7 @@ function setReports(that) {
 
   // Game report for root comment.
   const r = new GameReport(that);
-
-  that.report = r.reportGame();
-  that.root = sgfconv.addComment(
-    that.root,
-    that.report,
-    that.root.length - 1,
-  );
+  that.root.C = [r.reportGame()];
 
   // 'Bad moves left' report for each node.
   that.nodes.forEach((node, index) => {
@@ -189,17 +179,13 @@ function setReports(that) {
 
 // rs => [ 'B', 'W' ] or [ 'W', 'B' ]
 function getPLs(rs) {
-  const { root, sequence } = rs;
+  const { root, seq } = rs;
   const pls = [];
 
-  const index = sequence.search(/\b[BW]\[/);
-  if (index !== -1) {
-    pls.push(sequence[index]);
-  } else if (sgfconv.valueFromSequence(root, 'PL')) {
-    pls.push(sgfconv.valueFromSequence(root, 'PL'));
-  } else {
-    pls.push('B');
-  }
+  const index = seq.search(/\b[BW]\[/);
+  if (index !== -1) pls.push(seq[index]);
+  else if (root.PL) pls.push(root.PL[0]);
+  else pls.push('B');
 
   if (pls[0] === 'W') pls.push('B');
   else pls.push('W');

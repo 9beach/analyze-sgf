@@ -4,21 +4,17 @@
 
 const sgfconv = require('./sgfconv');
 
-// '..AB[aa][bb]AW[ab];W[po]...' => [["B","A1"],["B","B2"],["W","A2"]]
-function sequenceToInitialStones(sequence) {
+// root => [["B","A1"],["B","B2"],["W","A2"]]
+function initialStonesFromRoot(root) {
   return [
-    ...sgfconv
-      .valuesFromSequence('AB', sequence)
-      .map((pos) => ['B', sgfconv.iaToJ1(pos)]),
-    ...sgfconv
-      .valuesFromSequence('AW', sequence)
-      .map((pos) => ['W', sgfconv.iaToJ1(pos)]),
+    ...(root.AB || []).map((pos) => ['B', sgfconv.iaToJ1(pos)]),
+    ...(root.AW || []).map((pos) => ['W', sgfconv.iaToJ1(pos)]),
   ];
 }
 
 // ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'
-function sequenceFromKataGoMoveInfo(pl, moveInfo) {
-  const sequence = moveInfo.pv.reduce(
+function seqFromKataGoMoveInfo(pl, moveInfo) {
+  const seq = moveInfo.pv.reduce(
     (acc, move) => [
       `${acc[0]};${acc[1]}[${sgfconv.iaFromJ1(move)}]`,
       acc[1] === 'W' ? 'B' : 'W',
@@ -26,26 +22,23 @@ function sequenceFromKataGoMoveInfo(pl, moveInfo) {
     ['', pl],
   );
 
-  return `(${sequence[0]})`;
+  return `(${seq[0]})`;
 }
 
 // Makes JSON data to send KataGo Parallel Analysis Engine.
 function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const query = { ...analysisOpts };
-  const sequence = sgfconv.removeTails(sgf);
+  const seq = sgfconv.removeTails(sgf);
 
   // Gets komi from SGF.
-  const komi = sgfconv.valueFromSequence(sequence, 'KM');
-  if (komi) query.komi = parseFloat(komi);
+  const rs = sgfconv.rootAndSeqFromSGF(sgf);
 
-  const initialPlayer = sgfconv.valueFromSequence(sequence, 'PL');
-  if (initialPlayer) {
-    query.initialPlayer = initialPlayer;
-  }
+  if (rs.root.KM) query.komi = parseFloat(rs.root.KM[0]);
+  if (rs.root.PL) [query.initialPlayer] = rs.root.PL;
 
   query.id = `9beach-${Date.now()}`;
-  query.initialStones = sequenceToInitialStones(sequence);
-  query.moves = sequenceToKataGoMoves(sequence);
+  query.initialStones = initialStonesFromRoot(rs.root);
+  query.moves = seqToKataGoMoves(seq);
 
   if (!query.analyzeTurns) {
     query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
@@ -56,8 +49,8 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
 
 // '..AB[dp];W[po];B[hm];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
 // '..AB[dp];W[po];TE[1]B[hm];W[]...' => [["W","Q15"],["B","H13"]]
-function sequenceToKataGoMoves(sequence) {
-  return sequence
+function seqToKataGoMoves(seq) {
+  return seq
     .split(';')
     .filter((move) => move.search(/\b[BW]\[[^\]]/) !== -1)
     .map((move) => {
@@ -105,9 +98,9 @@ function winrateDropTurnsFromKataGoResponses(responses, winrateDrop) {
 }
 
 module.exports = {
-  sequenceToInitialStones,
-  sequenceToKataGoMoves,
-  sequenceFromKataGoMoveInfo,
+  initialStonesFromRoot,
+  seqToKataGoMoves,
+  seqFromKataGoMoveInfo,
   sgfToKataGoAnalysisQuery,
   mergeKataGoResponses,
   winrateDropTurnsFromKataGoResponses,

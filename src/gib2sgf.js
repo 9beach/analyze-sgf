@@ -34,14 +34,14 @@ function convert(gib) {
     haFromGIB(gib)
   }`;
 
-  // Gets sequence from STOs.
-  const sequence = gib
+  // Gets seq from STOs.
+  const seq = gib
     .substring(gib.indexOf('STO'))
     .split('\n')
     .filter((line) => line.indexOf('STO ') !== -1)
     .reduce((acc, cur) => acc + sgfnodeFromSTO(cur.trim()), '');
 
-  return `(${root}${sequence})`;
+  return `(${root}${seq})`;
 }
 
 // 'STO 0 2 2 15 15' => ';W[pp]'

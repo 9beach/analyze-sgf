@@ -33,6 +33,8 @@ else
 	echo -e "\033[1;31m Failure \033[0m"
 	echo $wc0 $wc1 $wc2 $wc3 $wc4
 	echo -----------
+	cat $temp.result
+	echo -----------
 	cat $temp-1.json
 	echo -----------
 	cat $temp-2.json
