@@ -94,26 +94,23 @@ describe('addComment', () => {
 
 describe('prettyPathFromSGF', () => {
   it('should be expected values.', () => {
-    let sgf;
-    let path;
-
-    sgf = 'RE[W+R]PW[white]';
-    assert.equal(sgfconv.prettyPathFromSGF(sgf), '(W+R).sgf');
-
-    sgf = 'RE[W+R]PW[white]PB[black]';
-    assert.equal(sgfconv.prettyPathFromSGF(sgf), 'white vs black (W+R).sgf');
-
-    sgf = 'DT[2010]PW[white]PB[black]';
-    path = sgfconv.prettyPathFromSGF(sgf);
-    assert.equal(path, '[2010] white vs black.sgf');
-
-    sgf = 'DT[2010]EV[worldcup]PW[white]PB[black]';
-    path = sgfconv.prettyPathFromSGF(sgf);
-    assert.equal(path, '[worldcup, 2010] white vs black.sgf');
-
-    sgf = 'EV[worldcup]PW[white]PB[black]';
-    path = sgfconv.prettyPathFromSGF(sgf);
-    assert.equal(path, '[worldcup] white vs black.sgf');
+    assert.equal(sgfconv.prettyPathFromSGF('RE[W+R]PW[white]'), '(W+R).sgf');
+    assert.equal(
+      sgfconv.prettyPathFromSGF('RE[W+R]PW[white]PB[black]'),
+      'white vs black (W+R).sgf',
+    );
+    assert.equal(
+      sgfconv.prettyPathFromSGF('DT[2010]PW[white]PB[black]'),
+      '[2010] white vs black.sgf',
+    );
+    assert.equal(
+      sgfconv.prettyPathFromSGF('DT[2010]EV[worldcup]PW[white]PB[black]'),
+      '[worldcup, 2010] white vs black.sgf',
+    );
+    assert.equal(
+      sgfconv.prettyPathFromSGF('EV[worldcup]PW[white]PB[black]'),
+      '[worldcup] white vs black.sgf',
+    );
   });
 });
 

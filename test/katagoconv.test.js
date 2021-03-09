@@ -41,19 +41,25 @@ describe('initialStonesFromRoot', () => {
 
 describe('seqToKataGoMoves', () => {
   it('should be expected values.', () => {
-    let seq;
-
-    seq = '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[ae]IT[])';
-    assert.deepEqual(katagoconv.seqToKataGoMoves(seq), [
-      ['W', 'Q15'],
-      ['B', 'H13'],
-      ['W', 'A5'],
-    ]);
-    seq = '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[]IT[])';
-    assert.deepEqual(katagoconv.seqToKataGoMoves(seq), [
-      ['W', 'Q15'],
-      ['B', 'H13'],
-    ]);
+    assert.deepEqual(
+      katagoconv.seqToKataGoMoves(
+        '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[ae]IT[])',
+      ),
+      [
+        ['W', 'Q15'],
+        ['B', 'H13'],
+        ['W', 'A5'],
+      ],
+    );
+    assert.deepEqual(
+      katagoconv.seqToKataGoMoves(
+        '(...HA[2]AB[dp][pd];W[po];B[hm]TE[1];W[]IT[])',
+      ),
+      [
+        ['W', 'Q15'],
+        ['B', 'H13'],
+      ],
+    );
   });
   it('should return expected move counts for all "examples/t-*".', () => {
     const movesfromseq = (len, path) => {

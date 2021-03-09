@@ -94,17 +94,13 @@ function addComment(seq, comment, index = 0) {
 // ';W[po]' => 'Q5'
 function seqToPV(seq) {
   const pl = seq[0] === '(' ? seq[2] : seq[0];
-  let len = 0;
   const pv = seq
     .split(';')
     .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
-    .map((move, index) => {
-      len = index;
-      return iaToJ19(move.substring(2, 4));
-    })
+    .map((move) => iaToJ19(move.substring(2, 4)))
     .join(' ');
 
-  return len > 0 ? pl + pv : pv;
+  return pv.indexOf(' ') >= 0 ? pl + pv : pv;
 }
 
 // Risky but effective.
@@ -127,21 +123,22 @@ const ofRoot = (root, key) => root[key] && root[key][0];
 //
 // e.g., '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
 function prettyPathFromSGF(sgf) {
-  const rs = rootAndSeqFromSGF(sgf);
-  const ev = ofRoot(rs.root, 'EV') || ofRoot(rs.root, 'GN');
-  let evDT = [ev, ofRoot(rs.root, 'DT')].filter((v) => v).join(', ');
   // Fix bad Tygem SGF. e.g., '대주배 16강 .'
-  if (evDT) evDT = `[${evDT}]`.replace(' .', '');
+  const rs = rootAndSeqFromSGF(sgf.replace(' .', ''));
+  const evgndt = [
+    ofRoot(rs.root, 'EV') || ofRoot(rs.root, 'GN'),
+    ofRoot(rs.root, 'DT'),
+  ]
+    .filter((v) => v)
+    .join(', ');
+  const evdt = evgndt ? `[${evgndt}]` : '';
 
-  let players = '';
+  const re = ofRoot(rs.root, 'RE') ? `(${ofRoot(rs.root, 'RE')})` : '';
   const pw = ofRoot(rs.root, 'PW');
   const pb = ofRoot(rs.root, 'PB');
-  if (pw && pb) players = `${pw} vs ${pb}`;
+  const pls = pw && pb ? `${pw} vs ${pb}` : '';
 
-  let re = ofRoot(rs.root, 'RE');
-  if (re) re = `(${re})`;
-
-  return `${[evDT, players, re].filter((v) => v).join(' ')}.sgf`;
+  return `${[evdt, pls, re].filter((v) => v).join(' ')}.sgf`;
 }
 
 // 2000 => '2k'
@@ -165,16 +162,17 @@ function seqFromObject(node) {
 }
 
 // { A: ['0'], B: ['a', 'b'] } => 'A[0]B[a][b]'
-function propsFromObject(ks, comment) {
-  return Object.keys(ks).reduce((acc, k) => {
-    if (!comment && k === 'C') return acc;
-    let sum = acc;
-    sum += k;
-    sum += ks[k].reduce(
-      (accin, cur) => `${accin}[${cur.replace(/\]/g, '\\]')}]`,
-      '',
+function propsFromObject(obj, comment) {
+  return Object.keys(obj).reduce((acc, cur) => {
+    if (!comment && cur === 'C') return acc;
+    return (
+      acc +
+      cur +
+      obj[cur].reduce(
+        (vs, v) => `${vs}[${v.trim().replace(/\]/g, '\\]')}]`,
+        '',
+      )
     );
-    return sum;
   }, ';');
 }
 

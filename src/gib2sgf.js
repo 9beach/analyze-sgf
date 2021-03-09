@@ -96,15 +96,15 @@ function dtFromGIB(gib) {
 
 // Gets RE.
 function reFromGIB(gib) {
-  let value = valueOfGIB(gib, 'GAMEINFOMAIN');
-  if (value) {
-    const v = getRE(value, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
+  const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
+  if (ginfo) {
+    const v = getRE(ginfo, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
     return mkprop('RE', v);
   }
 
-  value = valueOfGIB(gib, 'GAMETAG');
-  if (value) {
-    const v = getRE(value, /,W(\d+),/, /,Z(\d+),/);
+  const gtag = valueOfGIB(gib, 'GAMETAG');
+  if (gtag) {
+    const v = getRE(gtag, /,W(\d+),/, /,Z(\d+),/);
     return mkprop('RE', v);
   }
   return '';
@@ -112,18 +112,18 @@ function reFromGIB(gib) {
 
 // Gets KM.
 function kmFromGIB(gib) {
-  let value = valueOfGIB(gib, 'GAMEINFOMAIN');
-  if (value) {
-    const v = value.match(/GONGJE:(\d+),/);
+  const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
+  if (ginfo) {
+    const v = ginfo.match(/GONGJE:(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
       if (!Number.isNaN(komi)) return mkprop('KM', komi);
     }
   }
 
-  value = valueOfGIB(gib, 'GAMETAG');
-  if (value) {
-    const v = value.match(/,G(\d+),/);
+  const gtag = valueOfGIB(gib, 'GAMETAG');
+  if (gtag) {
+    const v = gtag.match(/,G(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
       if (!Number.isNaN(komi)) return mkprop('KM', komi);
@@ -190,13 +190,13 @@ function valueOfINI(gib) {
 
 // Gets RE.
 function getRE(value, grltRegex, zipsuRegex) {
-  let match = grltRegex.exec(value);
+  const gmatch = grltRegex.exec(value);
 
-  if (match) {
-    const grlt = parseFloat(match[1]);
-    match = zipsuRegex.exec(value);
-    if (match) {
-      const zipsu = parseFloat(match[1]);
+  if (gmatch) {
+    const grlt = parseFloat(gmatch[1]);
+    const zmatch = zipsuRegex.exec(value);
+    if (zmatch) {
+      const zipsu = parseFloat(zmatch[1]);
       return parseRE(grlt, zipsu);
     }
   }

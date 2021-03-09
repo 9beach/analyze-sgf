@@ -31,13 +31,10 @@ class GameReport {
 
     const ofRoot = (key) => this.root[key] && this.root[key][0].trim();
 
-    let km = ofRoot('KM');
-    km = km ? `Komi ${km}` : km;
-
     const ev = ofRoot('EV') || ofRoot('GN');
-    const dt = ofRoot('DT');
-
+    const km = ofRoot('KM') ? `Komi ${ofRoot('KM')}` : '';
     const re = ofRoot('RE');
+    const dt = ofRoot('DT');
     const game = [ev, km, re, dt].filter((v) => v).join(', ');
 
     const pb = plColor(ofRoot('PB'), 'Black');

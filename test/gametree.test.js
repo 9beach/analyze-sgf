@@ -13,7 +13,7 @@ const opts = yaml.load(fs.readFileSync(yamlpath));
 const sgfopts = opts.sgf;
 
 // Removes line feeds and comments.
-function removeComment(sgf) {
+function strip(sgf) {
   return sgf
     .replace(/\r\n/g, '')
     .replace(/\n/g, '')
@@ -23,29 +23,28 @@ function removeComment(sgf) {
 }
 
 function compareButComments(original, json, expected) {
-  let sgf = fs.readFileSync(original).toString();
-  sgf = sgfconv.correctSGFDialects(sgf);
-  let responses = fs.readFileSync(json).toString();
-  const index = responses.indexOf('\n');
-  responses = responses.substring(index + 1);
+  const sgf = sgfconv.correctSGFDialects(
+    fs.readFileSync(original).toString(),
+  );
+  const data = fs.readFileSync(json).toString();
+  const index = data.indexOf('\n');
+  const responses = data.substring(index + 1);
 
   const gametree = new GameTree(sgf, responses, sgfopts);
-  let rsgf = gametree.getSGF();
-  rsgf = removeComment(rsgf);
-
-  let esgf = fs.readFileSync(expected).toString();
-  esgf = removeComment(esgf);
+  const rsgf = strip(gametree.getSGF());
+  const esgf = strip(fs.readFileSync(expected).toString());
 
   assert.equal(esgf, rsgf);
 }
 
 function compare(original, json, expected) {
-  let sgf = fs.readFileSync(original).toString();
-  sgf = sgfconv.correctSGFDialects(sgf);
+  const sgf = sgfconv.correctSGFDialects(
+    fs.readFileSync(original).toString(),
+  );
 
-  let responses = fs.readFileSync(json).toString();
-  const index = responses.indexOf('\n');
-  responses = responses.substring(index + 1);
+  const data = fs.readFileSync(json).toString();
+  const index = data.indexOf('\n');
+  const responses = data.substring(index + 1);
 
   const gametree = new GameTree(sgf, responses, sgfopts);
   const rsgf = gametree.getSGF();

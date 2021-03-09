@@ -128,22 +128,17 @@ function formatScoreLead(scoreLead) {
 // * Score drop: B ⇣4.31
 // * Visits: 1015
 function getWinratesInfo(that) {
-  let winrateDrop;
-  let scoreDrop;
-
-  const winrate = `* Win rate: ${formatWinrate(that.winrate)}\n`;
-  const scoreLead = `* Score lead: ${formatScoreLead(that.scoreLead)}\n`;
-  const visits = `* Visits: ${that.visits}\n`;
+  const winrate =
+    `* Win rate: ${formatWinrate(that.winrate)}\n` +
+    `* Score lead: ${formatScoreLead(that.scoreLead)}\n`;
+  const visit = `* Visits: ${that.visits}\n`;
   if (that.winrateDrop !== undefined) {
-    winrateDrop = fixFloat(that.winrateDrop * 100);
-    winrateDrop = `* Win rate drop: ${that.pl} ⇣${winrateDrop}%\n`;
-    scoreDrop = `* Score drop: ${that.pl} ⇣${fixFloat(that.scoreDrop)}\n`;
-  } else {
-    winrateDrop = '';
-    scoreDrop = '';
+    const drop =
+      `* Win rate drop: ${that.pl} ⇣${fixFloat(that.winrateDrop * 100)}%\n` +
+      `* Score drop: ${that.pl} ⇣${fixFloat(that.scoreDrop)}\n`;
+    return winrate + drop + visit;
   }
-
-  return winrate + scoreLead + winrateDrop + scoreDrop + visits;
+  return winrate + visit;
 }
 
 module.exports = Node;

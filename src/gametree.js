@@ -65,9 +65,8 @@ function splitResponses(that, katagoResponses) {
     throw Error(katagoResponses.replace('\n', ''));
   }
 
-  let responses = katagoResponses.split('\n');
-  if (!responses[responses.length - 1])
-    responses = responses.slice(0, responses.length - 1);
+  const responses = katagoResponses.split('\n');
+  if (!responses[responses.length - 1]) responses.pop();
 
   if (responses.length) that.responsesGiven = true;
 
