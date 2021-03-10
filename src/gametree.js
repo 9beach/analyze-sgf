@@ -91,52 +91,53 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   // node[turnNumber], but KataGo's rootInfo (win rate info) of turnNumber
   // is for node[turnNumber - 1]. So we refer to (turnNumber - 1) as curTurn,
   // and refert to turnNumber as nextTurn.
-  let prevJSON;
-  that.maxVisits = 0;
+  that.maxVisits = responses.reduce(
+    (acc, response) => {
+      const curJSON = JSON.parse(response);
+      // Skips warning.
+      if (curJSON.warning) {
+        return acc;
+      }
+      const { turnNumber } = curJSON;
+      const curTurn = turnNumber - 1;
+      const nextTurn = turnNumber;
+      const prevTurn = acc.prevJSON ? acc.prevJSON.turnNumber - 1 : undefined;
+      const nextPL = pls[nextTurn % 2];
 
-  responses.forEach((response) => {
-    const curJSON = JSON.parse(response);
-    // Skips warning.
-    if (curJSON.warning) {
-      return;
-    }
-    const { turnNumber } = curJSON;
-    const curTurn = turnNumber - 1;
-    const nextTurn = turnNumber;
-    const prevTurn = prevJSON ? prevJSON.turnNumber - 1 : undefined;
-    const nextPL = pls[nextTurn % 2];
+      // Sets win rate.
+      if (curTurn >= 0) {
+        const node = that.nodes[curTurn];
+        // To calculate node.winrateDrop, we need both of
+        // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
+        if (curTurn === prevTurn + 1)
+          node.setWinrate(acc.prevJSON.rootInfo, curJSON.rootInfo, that.opts);
+        else node.setWinrate(null, curJSON.rootInfo, that.opts);
+      }
 
-    that.maxVisits = Math.max(curJSON.rootInfo.visits, that.maxVisits);
+      // Adds passing move if necessary.
+      if (
+        that.opts.showVariationsAfterLastMove &&
+        that.nodes.length === nextTurn
+      )
+        that.nodes.push(new Tail(`;${nextPL}[]`));
 
-    // Sets win rate.
-    if (curTurn >= 0) {
-      const node = that.nodes[curTurn];
-      // To calculate node.winrateDrop, we need both of
-      // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
-      if (curTurn === prevTurn + 1)
-        node.setWinrate(prevJSON.rootInfo, curJSON.rootInfo, that.opts);
-      else node.setWinrate(null, curJSON.rootInfo, that.opts);
-    }
+      // Sets variations.
+      if (
+        nextTurn < that.nodes.length &&
+        (!that.opts.analyzeTurns ||
+          that.opts.analyzeTurns.indexOf(nextTurn) !== -1)
+      )
+        that.nodes[nextTurn].setVariations(
+          variationsFromResponse(that, curJSON, nextPL, nextTurn),
+        );
 
-    // Adds passing move if necessary.
-    if (
-      that.opts.showVariationsAfterLastMove &&
-      that.nodes.length === nextTurn
-    )
-      that.nodes.push(new Tail(`;${nextPL}[]`));
-
-    // Sets variations.
-    if (
-      nextTurn < that.nodes.length &&
-      (!that.opts.analyzeTurns ||
-        that.opts.analyzeTurns.indexOf(nextTurn) !== -1)
-    )
-      that.nodes[nextTurn].setVariations(
-        variationsFromResponse(that, curJSON, nextPL, nextTurn),
-      );
-
-    prevJSON = curJSON;
-  });
+      return {
+        prevJSON: curJSON,
+        maxVisits: Math.max(curJSON.rootInfo.visits, acc.maxVisits),
+      };
+    },
+    { prevJSON: null, maxVisits: 0 },
+  ).maxVisits;
   // FIXME: Remove passing move if has no variation.
 }
 

@@ -61,6 +61,20 @@ describe('seqToKataGoMoves', () => {
       ],
     );
   });
+  it('should be expected values for "W W" sequence.', () => {
+    assert.deepEqual(
+      katagoconv.seqToKataGoMoves(
+        '(...HA[2]AB[dp][pd];W[po];W[hm]TE[1];W[]IT[])',
+      ),
+      [
+        ['W', 'Q15'],
+        ['W', 'H13'],
+      ],
+    );
+  });
+});
+
+describe('seqToKataGoMoves with SGF files', () => {
   it('should return expected move counts for all "examples/t-*".', () => {
     const movesfromseq = (len, path) => {
       const sgf = fs.readFileSync(path).toString();

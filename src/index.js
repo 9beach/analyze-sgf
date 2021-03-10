@@ -194,7 +194,6 @@ async function kataGoAnalyze(query, katagoOpts) {
   };
   const bar = new progress.SingleBar(opt, progress.Presets.rect);
   bar.start(query.analyzeTurns.length, 0);
-  let count = 0;
 
   // Sends query to KataGo.
   await katago.stdin.write(`${JSON.stringify(query)}\n`);
@@ -202,6 +201,7 @@ async function kataGoAnalyze(query, katagoOpts) {
 
   // Reads analysis from KataGo.
   let responses = '';
+  let count = 0;
   // eslint-disable-next-line no-restricted-syntax
   for await (const data of katago.stdout) {
     responses += data;
