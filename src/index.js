@@ -64,37 +64,39 @@ const opts = getopts();
           return;
         }
 
-        let sgf;
-        let newPath;
+        const newPathAndSGF = () => {
+          // Gets SGF from web server.
+          if (isURL) {
+            const sgf = httpget(path);
+            const newPath = sgfconv.prettyPathFromSGF(sgf);
+            fs.writeFileSync(newPath, sgf);
+            log(`downloaded: ${newPath}`);
+            return { sgf, newPath };
+          }
 
-        // Gets SGF from web server.
-        if (isURL) {
-          sgf = httpget(path);
-          newPath = sgfconv.prettyPathFromSGF(sgf);
-          fs.writeFileSync(newPath, sgf);
-          log(`downloaded: ${newPath}`);
-        } else {
+          // Reads SGF file.
           const content = fs.readFileSync(path);
           const detected = jschardet.detect(content);
-          sgf = iconv.decode(content, detected.encoding).toString();
-          if (ext === 'gib') sgf = toSGF(sgf);
-          else sgf = sgfconv.correctSGFDialects(sgf);
-          newPath = path;
-        }
+          const sgf = iconv.decode(content, detected.encoding).toString();
+
+          const newSGF =
+            ext === 'gib' ? toSGF(sgf) : sgfconv.correctSGFDialects(sgf);
+          return { sgf: newSGF, newPath: path };
+        };
+        const { sgf, newPath } = newPathAndSGF();
 
         // Sends query to KataGo.
         const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
-        let responses = await kataGoAnalyze(query, opts.katago);
+        const responses = await kataGoAnalyze(query, opts.katago);
         // KataGoAnalyze already has printed error message. So we just return.
         if (!responses) return;
 
         // If revisit given, try again.
-        if (opts.revisit) {
-          const newResponses = await revisitKataGo(responses, query);
-          if (newResponses) responses = newResponses;
-        }
+        const newResponses = opts.revisit
+          ? await revisitKataGo(responses, query)
+          : responses;
         // Finally, saves them.
-        saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
+        saveAnalyzed(newPath, sgf, newResponses, opts.saveGiven, opts.sgf);
       } catch (error) {
         log(`${error.message}, while processing: ${path}`);
       }
