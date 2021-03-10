@@ -38,7 +38,7 @@ class GameTree {
     return (this.root.C && this.root.C[0]) || '';
   }
 
-  // Makes SGF GameTree, and returns it.
+  // Makes SGF GameTree and returns it.
   //
   // To understand the logic below, please read
   // <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.

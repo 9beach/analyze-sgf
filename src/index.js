@@ -10,8 +10,8 @@ const homedir = require('os').homedir();
 const chalk = require('chalk');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
-const { spawn } = require('child_process');
 const progress = require('cli-progress');
+const { spawn } = require('child_process');
 
 const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
@@ -104,35 +104,6 @@ const opts = getopts();
   }
 })();
 
-// Revisits KataGo and merges responses.
-async function revisitKataGo(responses, query) {
-  const queryRe = { ...query };
-  queryRe.maxVisits = opts.revisit;
-  queryRe.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
-    responses,
-    opts.sgf.minWinrateDropForVariations / 100,
-  );
-
-  if (!queryRe.analyzeTurns.length) {
-    log(
-      'No move found whose win rate drops by more than ' +
-        `${opts.sgf.minWinrateDropForVariations}%.`,
-    );
-    return null;
-  }
-
-  const responsesRe = await kataGoAnalyze(queryRe, opts.katago);
-  if (!responsesRe) {
-    log('revisit error');
-    return null;
-  }
-  return katagoconv.mergeKataGoResponses(
-    responses,
-    responsesRe,
-    queryRe.analyzeTurns,
-  );
-}
-
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
   if (!responses) {
@@ -211,4 +182,33 @@ async function kataGoAnalyze(query, katagoOpts) {
 
   bar.stop();
   return responses;
+}
+
+// Revisits KataGo and merges responses.
+async function revisitKataGo(responses, query) {
+  const queryRe = { ...query };
+  queryRe.maxVisits = opts.revisit;
+  queryRe.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
+    responses,
+    opts.sgf.minWinrateDropForVariations / 100,
+  );
+
+  if (!queryRe.analyzeTurns.length) {
+    log(
+      'No move found whose win rate drops by more than ' +
+        `${opts.sgf.minWinrateDropForVariations}%.`,
+    );
+    return null;
+  }
+
+  const responsesRe = await kataGoAnalyze(queryRe, opts.katago);
+  if (!responsesRe) {
+    log('revisit error');
+    return null;
+  }
+  return katagoconv.mergeKataGoResponses(
+    responses,
+    responsesRe,
+    queryRe.analyzeTurns,
+  );
 }
