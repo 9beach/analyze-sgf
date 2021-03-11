@@ -5,7 +5,7 @@
 
 const Node = require('./node');
 
-// Carries a SGF NodeSeq and its win rate.
+// Carries a SGF NodeSequence and its win rate.
 class NodeSeq extends Node {
   constructor(seq, title, prevInfo, curInfo, opts) {
     // e.g., '(;B[dp];W[po];B[hm])'.
