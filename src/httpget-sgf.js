@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @fileOverview Downloads SGF from URL.
  */
@@ -7,7 +9,7 @@ const { XMLHttpRequest } = require('xmlhttprequest');
 const TYGEM_URL_BEGINS = 'http://service.tygem.com/service/gibo2/?seq=';
 const ORO_URL_BEGINS = 'https://www.cyberoro.com/gibo_new/giboviewer/gibovie';
 
-function httpgetsgf(url) {
+function httpgetRawSGF(url) {
   if (!isValidURL(url)) throw Error('URL not supported.');
 
   const http = new XMLHttpRequest();
@@ -30,8 +32,8 @@ function isValidURL(url) {
   return false;
 }
 
-function httpget(url) {
-  const sgf = httpgetsgf(url);
+function httpgetSGF(url) {
+  const sgf = httpgetRawSGF(url);
   if (
     sgf[sgf.length - 1] !== ')' ||
     (sgf.indexOf('(TE[') !== 0 && sgf.indexOf('(;GM[') !== 0)
@@ -53,4 +55,9 @@ function httpget(url) {
     .replace(/(P[BW]\[[^\]:]*):[^\]]*\]/g, '$1]');
 }
 
-module.exports = { isValidURL, httpget };
+module.exports = { isValidURL, httpgetSGF };
+
+if (require.main === module) {
+  if (process.argv.length !== 3) console.log('Usage: httpget-sgf URL');
+  console.log(httpgetSGF(process.argv[2]));
+}

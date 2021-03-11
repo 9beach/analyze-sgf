@@ -19,7 +19,7 @@ const sgfconv = require('./sgfconv');
 const katagoconv = require('./katagoconv');
 const GameTree = require('./gametree');
 const toSGF = require('./gib2sgf');
-const { httpget, isValidURL } = require('./httpget');
+const { httpgetSGF, isValidURL } = require('./httpget-sgf');
 
 const log = (message) => console.error(chalk.grey(message));
 const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
@@ -95,7 +95,7 @@ async function processSGF(path) {
 function getNewPathAndSGF(isURL, path, ext) {
   // Gets SGF from web server and generates file.
   if (isURL) {
-    const sgf = httpget(path);
+    const sgf = httpgetSGF(path);
     const newPath = sgfconv.prettyPathFromSGF(sgf);
     fs.writeFileSync(newPath, sgf);
     log(`downloaded: ${newPath}`);

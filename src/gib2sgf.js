@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @fileOverview Converts Tygem's GIB format to SGF.
  */
@@ -219,3 +221,17 @@ function parseRE(grlt, zipsu) {
 }
 
 module.exports = convert;
+
+if (require.main === module) {
+  if (process.argv.length !== 2) {
+    console.log('Usage: gib2sgf < FILE');
+    process.exit(1);
+  }
+
+  let data = '';
+  process.stdin.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  process.stdin.on('end', () => console.log(convert(data)));
+}
