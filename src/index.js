@@ -37,9 +37,7 @@ const opts = getopts();
       const { newPath, sgf, responses } = opts.jsonGiven
         ? processJSON(path)
         : await processSGF(path);
-      // Finally, saves them.
-      if (sgf)
-        saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
+      saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
     } catch (error) {
       log(`${error.message}, while processing: ${path}`);
     }
@@ -47,6 +45,9 @@ const opts = getopts();
 })();
 
 // Analyzes by KataGo Analysis JSON, not by KataGO Analysis Engine.
+//
+// Simply returns SGF and KataGo responses from JSON.
+// JSON file format: tailless SGF + '\n' + KataGo responses.
 function processJSON(path) {
   const ext = getExt(path);
   if (ext !== 'json') {
@@ -55,7 +56,6 @@ function processJSON(path) {
   }
 
   const sgfAndResponses = fs.readFileSync(path).toString();
-  // JSON file format: tailless SGF + '\n' + KataGo responses.
   const index = sgfAndResponses.indexOf('\n');
   const sgf = sgfAndResponses.substring(0, index);
   const responses = sgfAndResponses.substring(index + 1);
@@ -73,11 +73,13 @@ async function processSGF(path) {
     return {};
   }
 
-  const { newPath, sgf } = newPathAndSGF(isURL, path, ext);
+  // Gets SGF file name and contents from Web, GIB, or SGF.
+  const { newPath, sgf } = getNewPathAndSGF(isURL, path, ext);
 
   // Sends query to KataGo.
   const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
   const responses = await kataGoAnalyze(query, opts.katago);
+
   // KataGoAnalyze already has printed error message. So we just return.
   if (!responses) return {};
 
@@ -90,8 +92,8 @@ async function processSGF(path) {
 }
 
 // Gets SGF file name and contents from Web, GIB, or SGF.
-function newPathAndSGF(isURL, path, ext) {
-  // Gets SGF from web server.
+function getNewPathAndSGF(isURL, path, ext) {
+  // Gets SGF from web server and generates file.
   if (isURL) {
     const sgf = httpget(path);
     const newPath = sgfconv.prettyPathFromSGF(sgf);
@@ -105,13 +107,14 @@ function newPathAndSGF(isURL, path, ext) {
   const detected = jschardet.detect(content);
   const sgf = iconv.decode(content, detected.encoding).toString();
 
+  // Converts it if GIB given.
   const newSGF = ext === 'gib' ? toSGF(sgf) : sgfconv.correctSGFDialects(sgf);
   return { sgf: newSGF, newPath: path };
 }
 
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
-  if (!responses) throw Error('No response from KataGo');
+  if (!targetPath || !sgf || !responses) return;
   if (responses.search('{"error":"') === 0)
     throw Error(responses.slice(0, -1)); // Removes line feed.
 
