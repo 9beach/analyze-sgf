@@ -39,13 +39,13 @@ function convert(gib) {
     .substring(gib.indexOf('STO'))
     .split('\n')
     .filter((line) => line.indexOf('STO ') !== -1)
-    .reduce((acc, cur) => acc + sgfnodeFromSTO(cur.trim()), '');
+    .reduce((acc, cur) => acc + nodeFromSTO(cur.trim()), '');
 
   return `(${root}${seq})`;
 }
 
 // 'STO 0 2 2 15 15' => ';W[pp]'
-function sgfnodeFromSTO(line) {
+function nodeFromSTO(line) {
   const ns = line.split(/\s+/);
   const pl = ns[3] === '1' ? 'B' : 'W';
   // '1' => 'A'
@@ -54,7 +54,7 @@ function sgfnodeFromSTO(line) {
   return `;${pl}[${oneToA(ns[4])}${oneToA(ns[5])}]`;
 }
 
-function mkprop(p, v) {
+function mkProp(p, v) {
   if (v || v === 0) return `${p}[${v}]`;
   return '';
 }
@@ -64,7 +64,7 @@ function pbFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEBLACKNAME');
   if (value) {
     const pair = parsePlRank(value);
-    return mkprop('PB', pair[0]) + mkprop('BR', pair[1]);
+    return mkProp('PB', pair[0]) + mkProp('BR', pair[1]);
   }
   return '';
 }
@@ -74,14 +74,14 @@ function pwFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEWHITENAME');
   if (value) {
     const pair = parsePlRank(value);
-    return mkprop('PW', pair[0]) + mkprop('WR', pair[1]);
+    return mkProp('PW', pair[0]) + mkProp('WR', pair[1]);
   }
   return '';
 }
 
 // Gets EV.
 function evFromGIB(gib) {
-  return mkprop('EV', valueOfGIB(gib, 'GAMENAME'));
+  return mkProp('EV', valueOfGIB(gib, 'GAMENAME'));
 }
 
 // Gets DT.
@@ -89,7 +89,7 @@ function dtFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMETAG');
   if (value) {
     const v = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
-    if (v) return mkprop('DT', v.slice(1).join('-'));
+    if (v) return mkProp('DT', v.slice(1).join('-'));
   }
   return '';
 }
@@ -99,13 +99,13 @@ function reFromGIB(gib) {
   const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
   if (ginfo) {
     const v = getRE(ginfo, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
-    return mkprop('RE', v);
+    return mkProp('RE', v);
   }
 
   const gtag = valueOfGIB(gib, 'GAMETAG');
   if (gtag) {
     const v = getRE(gtag, /,W(\d+),/, /,Z(\d+),/);
-    return mkprop('RE', v);
+    return mkProp('RE', v);
   }
   return '';
 }
@@ -117,7 +117,7 @@ function kmFromGIB(gib) {
     const v = ginfo.match(/GONGJE:(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
-      if (!Number.isNaN(komi)) return mkprop('KM', komi);
+      if (!Number.isNaN(komi)) return mkProp('KM', komi);
     }
   }
 
@@ -126,7 +126,7 @@ function kmFromGIB(gib) {
     const v = gtag.match(/,G(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
-      if (!Number.isNaN(komi)) return mkprop('KM', komi);
+      if (!Number.isNaN(komi)) return mkProp('KM', komi);
     }
   }
   return '';
@@ -154,7 +154,7 @@ function haFromGIB(gib) {
       const handicap = parseInt(setup[2], 10);
       if (handicap >= 2)
         return (
-          mkprop('HA', handicap) + mkprop('AB', handicapStones[handicap])
+          mkProp('HA', handicap) + mkProp('AB', handicapStones[handicap])
         );
     }
   }

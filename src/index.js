@@ -41,11 +41,11 @@ const opts = getopts();
           return;
         }
 
-        const sgfresponses = fs.readFileSync(path).toString();
+        const sgfAndResponses = fs.readFileSync(path).toString();
         // JSON file format: tailless SGF + '\n' + KataGo responses.
-        const index = sgfresponses.indexOf('\n');
-        const sgf = sgfresponses.substring(0, index);
-        const responses = sgfresponses.substring(index + 1);
+        const index = sgfAndResponses.indexOf('\n');
+        const sgf = sgfAndResponses.substring(0, index);
+        const responses = sgfAndResponses.substring(index + 1);
 
         saveAnalyzed(path, sgf, responses, false, opts.sgf);
       } catch (error) {
@@ -54,8 +54,6 @@ const opts = getopts();
     });
   } else {
     // Analyzes by KataGo Analysis Engine.
-    //
-    // Reads SGF and makes KagaGo query.
     opts.paths.map(async (path) => {
       try {
         const ext = getExt(path);

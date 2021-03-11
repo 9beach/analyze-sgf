@@ -1,5 +1,5 @@
 /**
- * @fileOverview SGF NodeSeq data structure.
+ * @fileOverview SGF NodeSequence data structure.
  *               Please see <https://homepages.cwi.nl/~aeb/go/misc/sgf.html>.
  */
 

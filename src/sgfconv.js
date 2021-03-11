@@ -123,7 +123,7 @@ const ofRoot = (root, key) => root[key] && root[key][0];
 //
 // e.g., '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
 function prettyPathFromSGF(sgf) {
-  // Fix bad Tygem SGF. e.g., '대주배 16강 .'
+  // Fixes bad Tygem SGF. e.g., '대주배 16강 .'
   const rs = rootAndSeqFromSGF(sgf.replace(' .', ''));
   const evgndt = [
     ofRoot(rs.root, 'EV') || ofRoot(rs.root, 'GN'),
