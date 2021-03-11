@@ -12,6 +12,7 @@ const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
 const progress = require('cli-progress');
 const { spawn } = require('child_process');
+const { reduce } = require('axax/es5/reduce');
 
 const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
@@ -22,7 +23,7 @@ const { httpget, isValidURL } = require('./httpget');
 
 const log = (message) => console.error(chalk.grey(message));
 const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
-const getext = (path) =>
+const getExt = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
 
 // Parses args and merges them with yaml config.
@@ -34,7 +35,7 @@ const opts = getopts();
     // Analyzes by KataGo Analysis JSON, not by KataGO Analysis Engine.
     opts.paths.forEach((path) => {
       try {
-        const ext = getext(path);
+        const ext = getExt(path);
         if (ext !== 'json') {
           log(`skipped: ${path}`);
           return;
@@ -57,7 +58,7 @@ const opts = getopts();
     // Reads SGF and makes KagaGo query.
     opts.paths.map(async (path) => {
       try {
-        const ext = getext(path);
+        const ext = getExt(path);
         const isURL = isValidURL(path);
         if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
           log(`skipped: ${path}`);
@@ -171,14 +172,17 @@ async function kataGoAnalyze(query, katagoOpts) {
   katago.stdin.end();
 
   // Reads analysis from KataGo.
-  let responses = '';
-  let count = 0;
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const data of katago.stdout) {
-    responses += data;
-    count += (data.toString().match(/\n/g) || []).length;
-    bar.update(count);
-  }
+  const { responses } = await reduce(
+    (acc, cur) => {
+      const count = (cur.toString().match(/\n/g) || []).length;
+      bar.update(acc.count + count);
+      return {
+        count: acc.count + count,
+        responses: acc.responses + cur,
+      };
+    },
+    { count: 0, responses: '' },
+  )(katago.stdout);
 
   bar.stop();
   return responses;
