@@ -44,7 +44,7 @@ const opts = getopts();
   });
 })();
 
-// Analyzes by KataGo Analysis JSON, not by KataGO Analysis Engine.
+// Analyzes a SGF by KataGo Analysis JSON, not by KataGO Analysis Engine.
 //
 // Simply returns SGF and KataGo responses from JSON.
 // JSON file format: tailless SGF + '\n' + KataGo responses.
@@ -63,7 +63,7 @@ function processJSON(path) {
   return { newPath: path, responses, sgf };
 }
 
-// Analyzes by KataGo Analysis Engine.
+// Analyzes a SGF by KataGo Analysis Engine.
 async function processSGF(path) {
   const ext = getExt(path);
   const isURL = isValidURL(path);
