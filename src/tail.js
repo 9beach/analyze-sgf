@@ -34,17 +34,15 @@ class Tail extends Node {
 
   // Gets SGF tail (variations).
   getTailSGF(opts) {
-    if (this.hasVariation()) {
-      if (
-        opts.analyzeTurns ||
-        opts.showVariationsOnlyForBadMove === false ||
-        this.winrateDrop > opts.minWinrateDropForVariations / 100 ||
-        (opts.showVariationsAfterLastMove &&
-          this.node.search(/[BW]\[\]/) !== -1)
-      ) {
-        return this.variations.reduce((acc, cur) => acc + cur.getSGF(), '');
-      }
-    }
+    if (!this.hasVariation()) return '';
+    if (
+      opts.analyzeTurns ||
+      opts.showVariationsOnlyForBadMove === false ||
+      this.winrateDrop > opts.minWinrateDropForVariations / 100 ||
+      (opts.showVariationsAfterLastMove &&
+        this.node.search(/[BW]\[\]/) !== -1)
+    )
+      return this.variations.reduce((acc, cur) => acc + cur.getSGF(), '');
     return '';
   }
 }

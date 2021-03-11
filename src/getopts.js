@@ -35,8 +35,14 @@ function getopts() {
   // Merges 3 keys with YAML conf.
   const yml = readConfig(args.katago, args.analysis, args.sgf);
 
-  if (args.jsonGiven && args.saveGiven) log('neglected `-s` with `-f`.');
-  if (args.jsonGiven && args.revisit) log('neglected `--revisit` with `-f`.');
+  if (args.jsonGiven && args.saveGiven) {
+    log('neglected `-s` with `-f`.');
+    args.saveGiven = false;
+  }
+  if (args.jsonGiven && args.revisit) {
+    log('neglected `--revisit` with `-f`.');
+    args.revisit = 0;
+  }
   if (args.revisit && args.revisit < yml.analysis.maxVisits) {
     log(
       `Error: revisit argument (${args.revisit}) is less than maxVisits ` +

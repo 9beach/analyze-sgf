@@ -105,7 +105,7 @@ function getDropList(text, moves, total, listMoves, isScore) {
     return '';
   }
 
-  const dropList = [
+  return [
     `* ${text}`,
     textIf(
       total,
@@ -124,8 +124,8 @@ function getDropList(text, moves, total, listMoves, isScore) {
         .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
         .join(', '),
     ),
-  ];
-  return `${dropList.join('')}\n`;
+    '\n',
+  ].join('');
 }
 
 // e.g.,:

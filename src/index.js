@@ -31,86 +31,89 @@ const opts = getopts();
 
 // Starts async communication with KataGo.
 (async () => {
-  if (opts.jsonGiven) {
-    // Analyzes by KataGo Analysis JSON, not by KataGO Analysis Engine.
-    opts.paths.forEach((path) => {
-      try {
-        const ext = getExt(path);
-        if (ext !== 'json') {
-          log(`skipped: ${path}`);
-          return;
-        }
-
-        const sgfAndResponses = fs.readFileSync(path).toString();
-        // JSON file format: tailless SGF + '\n' + KataGo responses.
-        const index = sgfAndResponses.indexOf('\n');
-        const sgf = sgfAndResponses.substring(0, index);
-        const responses = sgfAndResponses.substring(index + 1);
-
-        saveAnalyzed(path, sgf, responses, false, opts.sgf);
-      } catch (error) {
-        log(`${error.message}, while processing: ${path}`);
-      }
-    });
-  } else {
-    // Analyzes by KataGo Analysis Engine.
-    opts.paths.map(async (path) => {
-      try {
-        const ext = getExt(path);
-        const isURL = isValidURL(path);
-        if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
-          log(`skipped: ${path}`);
-          return;
-        }
-
-        const newPathAndSGF = () => {
-          // Gets SGF from web server.
-          if (isURL) {
-            const sgf = httpget(path);
-            const newPath = sgfconv.prettyPathFromSGF(sgf);
-            fs.writeFileSync(newPath, sgf);
-            log(`downloaded: ${newPath}`);
-            return { sgf, newPath };
-          }
-
-          // Reads SGF file.
-          const content = fs.readFileSync(path);
-          const detected = jschardet.detect(content);
-          const sgf = iconv.decode(content, detected.encoding).toString();
-
-          const newSGF =
-            ext === 'gib' ? toSGF(sgf) : sgfconv.correctSGFDialects(sgf);
-          return { sgf: newSGF, newPath: path };
-        };
-        const { sgf, newPath } = newPathAndSGF();
-
-        // Sends query to KataGo.
-        const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
-        const responses = await kataGoAnalyze(query, opts.katago);
-        // KataGoAnalyze already has printed error message. So we just return.
-        if (!responses) return;
-
-        // If revisit given, try again.
-        const newResponses = opts.revisit
-          ? await revisitKataGo(responses, query)
-          : responses;
-        // Finally, saves them.
-        saveAnalyzed(newPath, sgf, newResponses, opts.saveGiven, opts.sgf);
-      } catch (error) {
-        log(`${error.message}, while processing: ${path}`);
-      }
-    });
-  }
+  // Analyzes by KataGo Analysis Engine.
+  opts.paths.map(async (path) => {
+    try {
+      const { newPath, sgf, responses } = opts.jsonGiven
+        ? processJSON(path)
+        : await processSGF(path);
+      // Finally, saves them.
+      if (sgf)
+        saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
+    } catch (error) {
+      log(`${error.message}, while processing: ${path}`);
+    }
+  });
 })();
+
+// Analyzes by KataGo Analysis JSON, not by KataGO Analysis Engine.
+function processJSON(path) {
+  const ext = getExt(path);
+  if (ext !== 'json') {
+    log(`skipped: ${path}`);
+    return {};
+  }
+
+  const sgfAndResponses = fs.readFileSync(path).toString();
+  // JSON file format: tailless SGF + '\n' + KataGo responses.
+  const index = sgfAndResponses.indexOf('\n');
+  const sgf = sgfAndResponses.substring(0, index);
+  const responses = sgfAndResponses.substring(index + 1);
+
+  return { newPath: path, responses, sgf };
+}
+
+// Analyzes by KataGo Analysis Engine.
+async function processSGF(path) {
+  const ext = getExt(path);
+  const isURL = isValidURL(path);
+
+  if (ext !== 'sgf' && ext !== 'gib' && !isURL) {
+    log(`skipped: ${path}`);
+    return {};
+  }
+
+  const { newPath, sgf } = newPathAndSGF(isURL, path, ext);
+
+  // Sends query to KataGo.
+  const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
+  const responses = await kataGoAnalyze(query, opts.katago);
+  // KataGoAnalyze already has printed error message. So we just return.
+  if (!responses) return {};
+
+  // If revisit given, try again.
+  const newResponses = opts.revisit
+    ? await revisitKataGo(responses, query)
+    : responses;
+
+  return { newPath, responses: newResponses, sgf };
+}
+
+// Gets SGF file name and contents from Web, GIB, or SGF.
+function newPathAndSGF(isURL, path, ext) {
+  // Gets SGF from web server.
+  if (isURL) {
+    const sgf = httpget(path);
+    const newPath = sgfconv.prettyPathFromSGF(sgf);
+    fs.writeFileSync(newPath, sgf);
+    log(`downloaded: ${newPath}`);
+    return { sgf, newPath };
+  }
+
+  // Reads SGF/GIB file.
+  const content = fs.readFileSync(path);
+  const detected = jschardet.detect(content);
+  const sgf = iconv.decode(content, detected.encoding).toString();
+
+  const newSGF = ext === 'gib' ? toSGF(sgf) : sgfconv.correctSGFDialects(sgf);
+  return { sgf: newSGF, newPath: path };
+}
 
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
-  if (!responses) {
-    throw Error('No response from KataGo');
-  }
-  if (responses.search('{"error":"') === 0) {
-    throw Error(responses.replace('\n', ''));
-  }
+  if (!responses) throw Error('No response from KataGo');
+  if (responses.search('{"error":"') === 0)
+    throw Error(responses.slice(0, -1)); // Removes line feed.
 
   const targetName = targetPath.substring(0, targetPath.lastIndexOf('.'));
 
@@ -146,23 +149,21 @@ async function kataGoAnalyze(query, katagoOpts) {
   katago.on('exit', (code) => {
     if (code !== 0) {
       log(
-        `KataGo exec failure. Please fix: ${config}` +
-          `\n${JSON.stringify(katagoOpts)}`,
+        `Process error. Please fix: ${config}\n${JSON.stringify(katagoOpts)}`,
       );
       process.exit(1);
     }
   });
 
-  const opt = {
-    format:
-      '{bar} {percentage}% ({value}/{total}, ' +
-      `${sgfconv.formatK(query.maxVisits)} visits) | ` +
-      'ETA: {eta_formatted} ({duration_formatted})',
-    barCompleteChar: '■',
-    barIncompleteChar: ' ',
-    barsize: 30,
-  };
-  const bar = new progress.SingleBar(opt, progress.Presets.rect);
+  const bar = new progress.SingleBar(
+    {
+      format: `{bar} {percentage}% ({value}/{total}, ${sgfconv.formatK(
+        query.maxVisits,
+      )} visits) | ETA: {eta_formatted} ({duration_formatted})`,
+      barsize: 30,
+    },
+    progress.Presets.rect,
+  );
   bar.start(query.analyzeTurns.length, 0);
 
   // Sends query to KataGo.
