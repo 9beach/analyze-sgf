@@ -57,7 +57,7 @@ function processJSON(path) {
 
   const sgfAndResponses = fs.readFileSync(path).toString();
   const index = sgfAndResponses.indexOf('\n');
-  const sgf = sgfAndResponses.substring(0, index);
+  const sgf = sgfconv.correctSGFDialects(sgfAndResponses.substring(0, index));
   const responses = sgfAndResponses.substring(index + 1);
 
   return { newPath: path, responses, sgf };

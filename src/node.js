@@ -28,17 +28,16 @@ class Node {
     this.report = report;
   }
 
-  // Gets SGF node.
-  getNodeSGF() {
-    return this.node;
-  }
-
   // Gets SGF node with comments.
   getSGF() {
+    if (this.sgf) return this.sgf;
+
     const comment = [this.info, this.report].filter((v) => v).join('\n');
 
-    if (comment) return sgfconv.addComment(this.node, comment);
-    return this.node;
+    if (comment) this.sgf = sgfconv.addComment(this.node, comment);
+    else this.sgf = this.node;
+
+    return this.sgf;
   }
 
   // Calculates scoreDrop, winrateDrop, ... and sets them to this.info and

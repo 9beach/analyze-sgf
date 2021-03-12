@@ -16,6 +16,10 @@ class Tail extends Node {
         (acc, cur, index) => `${acc}${index + 1}. ${cur.formatPV()}\n`,
         '',
       )}`;
+
+    this.choice = this.variations
+      .map((v) => sgfconv.rootAndSeqFromSGF(v.getSGF()).seq.split(';')[1])
+      .indexOf(this.node.substring(1));
   }
 
   hasVariation() {
@@ -24,12 +28,24 @@ class Tail extends Node {
 
   // Gets SGF node with comments.
   getSGF() {
+    if (this.sgf) return this.sgf;
+
+    if (this.choice >= 0) {
+      const choiceText = `* KataGo ${
+        this.choice === 0 ? 'top choice' : `choice no. ${this.choice + 1}`
+      }\n`;
+      if (this.winrate) this.info += choiceText;
+      else this.info += `\n${choiceText}`;
+    }
+
     const comment = [this.info, this.report, this.pvs]
       .filter((v) => v)
       .join('\n');
 
-    if (comment) return sgfconv.addComment(this.node, comment);
-    return this.node;
+    if (comment) this.sgf = sgfconv.addComment(this.node, comment);
+    else this.sgf = this.node;
+
+    return this.sgf;
   }
 
   // Gets SGF tail (variations).

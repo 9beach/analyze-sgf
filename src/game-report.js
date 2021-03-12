@@ -17,6 +17,7 @@ class GameReport {
       pl: node.pl,
       winrateDrop: node.winrateDrop,
       scoreDrop: node.scoreDrop,
+      choice: node.choice,
     }));
 
     this.goodBads = {
@@ -93,38 +94,38 @@ function makeGoodBads(pl, drops, stat) {
       .slice(0, 10),
     // 6: Total.
     drops.filter((n) => n.pl === pl),
+    // 7: KataGo Top Choices.
+    drops.filter((n) => n.pl === pl && n.choice === 0),
+    // 8: KataGo Choices.
+    drops.filter((n) => n.pl === pl && n.choice >= 0),
   ];
 }
 
 const percents = (f) => (f * 100).toFixed(2);
-const textIf = (cond, text) => (cond ? text : '');
 
 // e.g.,:
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
-function getDropList(text, moves, total, listMoves, isScore) {
-  if (!moves.length) {
-    return '';
-  }
-
+function getDropList(text, moves, total, listMoves, withDrop, isScore) {
+  if (!moves.length) return '';
   return [
     `* ${text}`,
-    textIf(
-      total,
-      ` (${percents(moves.length / total)}%, ${moves.length}/${total})`,
-    ),
-    textIf(listMoves, ': '),
-    textIf(
-      listMoves && isScore,
-      moves
-        .map((m) => `#${m.index + 1} ⇣${m.scoreDrop.toFixed(2)}`)
-        .join(', '),
-    ),
-    textIf(
-      listMoves && !isScore,
-      moves
-        .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
-        .join(', '),
-    ),
+    total
+      ? ` (${percents(moves.length / total)}%, ${moves.length}/${total})`
+      : '',
+    listMoves ? ': ' : '',
+    listMoves && isScore && withDrop
+      ? moves
+          .map((m) => `#${m.index + 1} ⇣${m.scoreDrop.toFixed(2)}`)
+          .join(', ')
+      : '',
+    listMoves && !isScore && withDrop
+      ? moves
+          .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
+          .join(', ')
+      : '',
+    listMoves && !withDrop
+      ? moves.map((m) => `#${m.index + 1}`).join(', ')
+      : '',
     '\n',
   ].join('');
 }
@@ -143,33 +144,19 @@ function reportGoodAndBads(
   badhotspotwinrate,
 ) {
   const total = moves[6].length;
+  const goodmove = `Less than ${goodmovewinrate * 100}% win rate drops`;
+  const notbadmove = `Less than ${badmovewinrate * 100}% win rate drops`;
+  const badmove = `More than ${badmovewinrate * 100}% win rate drops`;
+  const badhotspot = `More than ${badhotspotwinrate * 100}% win rate drops`;
   return (
-    getDropList(
-      `Less than ${goodmovewinrate * 100}% win rate drops`,
-      moves[0],
-      total,
-      false,
-    ) +
-    getDropList(
-      `Less than ${badmovewinrate * 100}% win rate drops`,
-      moves[1],
-      total,
-      false,
-    ) +
-    getDropList(
-      `More than ${badmovewinrate * 100}% win rate drops`,
-      moves[2],
-      total,
-      true,
-    ) +
-    getDropList(
-      `More than ${badhotspotwinrate * 100}% win rate drops`,
-      moves[3],
-      total,
-      true,
-    ) +
-    getDropList('Top 10 win rate drops', moves[4], null, true) +
-    getDropList('Top 10 score drops', moves[5], null, true, true)
+    getDropList('KataGo top choices', moves[7], total, false) +
+    getDropList('KataGo choices', moves[8], total, false) +
+    getDropList(goodmove, moves[0], total, false) +
+    getDropList(notbadmove, moves[1], total, false) +
+    getDropList(badmove, moves[2], total, true, true) +
+    getDropList(badhotspot, moves[3], total, true, true) +
+    getDropList('Top 10 win rate drops', moves[4], null, true, true) +
+    getDropList('Top 10 score drops', moves[5], null, true, true, true)
   );
 }
 
@@ -189,11 +176,13 @@ function getBadsLeft(pl, goodBads, turnNumber) {
       goodBads[2].filter((m) => m.index > turnNumber),
       null,
       true,
+      true,
     ) +
     getDropList(
       `${color} bad hot spots`,
       goodBads[3].filter((m) => m.index > turnNumber),
       null,
+      true,
       true,
     )
   );
