@@ -36,6 +36,7 @@ class GameReport {
     const re = ofRoot('RE');
     const dt = ofRoot('DT');
     const game = [ev, km, re, dt].filter((v) => v).join(', ');
+    const title = game ? `\n${game}\n` : '';
 
     const pb = plColor(ofRoot('PB'), 'Black');
     const pw = plColor(ofRoot('PW'), 'White');
@@ -49,8 +50,8 @@ class GameReport {
       );
 
     this.report =
-      `# Analyze-SGF Report\n\n${game}` +
-      `\n\n${pb}\n${reportPlayer(this.goodBads.B, this)}` +
+      `# Analyze-SGF Report\n${title}` +
+      `\n${pb}\n${reportPlayer(this.goodBads.B, this)}` +
       `\n${pw}\n${reportPlayer(this.goodBads.W, this)}` +
       `\nAnalyzed by KataGo Parallel Analysis Engine ` +
       `(${this.visits} max visits).`;

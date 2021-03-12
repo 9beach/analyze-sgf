@@ -62,15 +62,15 @@ describe('seqToKataGoMoves', () => {
     );
   });
   it('should be expected values for "W W" sequence.', () => {
-    assert.deepEqual(
-      katagoconv.seqToKataGoMoves(
-        '(...HA[2]AB[dp][pd];W[po];W[hm]TE[1];W[]IT[])',
-      ),
-      [
-        ['W', 'Q15'],
-        ['W', 'H13'],
-      ],
-    );
+    assert.deepEqual(katagoconv.seqToKataGoMoves('(;W[po];W[hm]TE[1];W[])'), [
+      ['W', 'Q15'],
+      ['W', 'H13'],
+    ]);
+  });
+  it('should be expected values for "[tt]" node.', () => {
+    assert.deepEqual(katagoconv.seqToKataGoMoves('(;W[po];B[tt])', 19), [
+      ['W', 'Q15'],
+    ]);
   });
 });
 
@@ -82,7 +82,7 @@ describe('seqToKataGoMoves with SGF files', () => {
       assert.equal(len, moves.length);
     };
 
-    movesfromseq(12, 'test/examples/t-complex.sgf');
+    movesfromseq(11, 'test/examples/t-complex.sgf');
     movesfromseq(18, 'test/examples/t-encoding-cp949.sgf');
     movesfromseq(180, 'test/examples/t-lee-vs-alphago.sgf');
     movesfromseq(294, 'test/examples/t-oro-1.sgf');
@@ -90,5 +90,22 @@ describe('seqToKataGoMoves with SGF files', () => {
     movesfromseq(207, 'test/examples/t-lian-vs-shin.sgf');
     movesfromseq(3, 'test/examples/t-sabaki-1.sgf');
     movesfromseq(4, 'test/examples/t-sabaki-2.sgf');
+  });
+});
+
+describe('makeRealTurnNumbersMap', () => {
+  it('should be expected values.', () => {
+    assert.deepEqual(
+      katagoconv.makeRealTurnNumbersMap(';B[aa];W[];B[];B[bb]'),
+      [0, 1, 4],
+    );
+    assert.deepEqual(
+      katagoconv.makeRealTurnNumbersMap(';B[aa];W[tt];B[];B[bb]'),
+      [0, 1, 4],
+    );
+    assert.deepEqual(
+      katagoconv.makeRealTurnNumbersMap(';B[];W[tt];B[cc];B[bb]'),
+      [0, 3, 4],
+    );
   });
 });

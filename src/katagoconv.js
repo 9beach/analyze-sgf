@@ -28,31 +28,36 @@ function seqFromKataGoMoveInfo(pl, moveInfo) {
 // Makes JSON data to send KataGo Parallel Analysis Engine.
 function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   const query = { ...analysisOpts };
-  const seq = sgfconv.removeTails(sgf);
 
   // Gets komi from SGF.
   const rs = sgfconv.rootAndSeqFromSGF(sgf);
 
   if (rs.root.KM) query.komi = parseFloat(rs.root.KM[0]);
   if (rs.root.PL) [query.initialPlayer] = rs.root.PL;
+  const sz = rs.root.SZ ? parseInt(rs.root.SZ[0], 10) : 0;
 
   query.id = `9beach-${Date.now()}`;
   query.initialStones = initialStonesFromRoot(rs.root);
-  query.moves = seqToKataGoMoves(seq);
+  query.moves = seqToKataGoMoves(rs.seq, sz);
 
   if (!query.analyzeTurns) {
     query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
+  } else if (sgfconv.hasPassingMoves(rs.seq)) {
+    const realTurnNumbers = makeRealTurnNumbersMap(rs.seq);
+    query.analyzeTurns = query.analyzeTurns
+      .map((turn) => realTurnNumbers.indexOf(turn))
+      .filter((turn) => turn !== -1);
   }
-
   return query;
 }
 
-// '..AB[dp];W[po];B[hm];W[ae]...' => [["W","Q15"],["B","H13"],["W","A5"]]
-// '..AB[dp];W[po];TE[1]B[hm];W[]...' => [["W","Q15"],["B","H13"]]
-function seqToKataGoMoves(seq) {
+// ';W[po];B[hm];W[ae]' => [["W","Q15"],["B","H13"],["W","A5"]]
+// ';W[po];TE[1]B[hm];W[]' => [["W","Q15"],["B","H13"]]
+// (';W[po];B[hm];W[tt]', 19) => [["W","Q15"],["B","H13"]]
+function seqToKataGoMoves(seq, sz = 19) {
   return seq
     .split(';')
-    .filter((move) => move.search(/\b[BW]\[[^\]]/) !== -1)
+    .filter((move) => sgfconv.isNotPassingMove(move, sz))
     .map((move) => {
       const i = move.search(/\b[BW]\[[^\]]/);
       return [move[i], sgfconv.iaToJ1(move.substring(i + 2, i + 4))];
@@ -68,6 +73,21 @@ function mergeKataGoResponses(original, revisited, turns) {
       .split('\n')
       .filter((l) => turns.indexOf(getTurnNumber(l)) === -1)
       .join('\n') + revisited
+  );
+}
+
+// Makes turnNumber to real turnNumber map.
+//
+// Passing moves are not included in KataGo system. So we need to convert
+// KataGo turnNumber to real turnNumber including passing moves. Real
+// turnNumber is map[turnNumber].
+function makeRealTurnNumbersMap(seq) {
+  return [0].concat(
+    seq
+      .split(';')
+      .filter((v) => v)
+      .map((move, index) => (sgfconv.isNotPassingMove(move) ? index + 1 : -1))
+      .filter((v) => v !== -1),
   );
 }
 
@@ -104,4 +124,5 @@ module.exports = {
   sgfToKataGoAnalysisQuery,
   mergeKataGoResponses,
   winrateDropTurnsFromKataGoResponses,
+  makeRealTurnNumbersMap,
 };

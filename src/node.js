@@ -28,6 +28,11 @@ class Node {
     this.report = report;
   }
 
+  // Gets SGF node.
+  getNodeSGF() {
+    return this.node;
+  }
+
   // Gets SGF node with comments.
   getSGF() {
     const comment = [this.info, this.report].filter((v) => v).join('\n');

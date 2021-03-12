@@ -16,10 +16,12 @@ class GameTree {
   constructor(sgf, katagoResponses, opts) {
     const rs = sgfconv.rootAndSeqFromSGF(sgf);
 
+    this.sz = rs.root.SZ ? parseInt(rs.root.SZ[0], 10) : 0;
     this.opts = opts;
 
     // Gets root node and sequence from SGF.
     this.root = rs.root;
+    this.seq = rs.seq;
     this.nodes = rs.seq
       .split(';')
       .filter((node) => node.search(/\b[BW]\[/) !== -1)
@@ -57,26 +59,13 @@ class GameTree {
   }
 }
 
-// Splits and sorts responses by turnNumber.
-//
-// Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
-function splitResponses(that, katagoResponses) {
-  if (katagoResponses.search('{"error":"') === 0) {
-    throw Error(katagoResponses.replace('\n', ''));
-  }
-
-  const responses = katagoResponses.split('\n');
-  if (!responses[responses.length - 1]) responses.pop();
-
-  if (responses.length) that.responsesGiven = true;
-
-  const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
-  return responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
-}
-
 // Sets win rate and variations from KataGo responses.
 function setWinrateAndVariatons(that, katagoResponses, pls) {
   const responses = splitResponses(that, katagoResponses);
+  // Apply passing moves to KataGo responses.
+  const realTurnNumbers = sgfconv.hasPassingMoves(that.seq)
+    ? katagoconv.makeRealTurnNumbersMap(that.seq)
+    : undefined;
 
   // Notice that:
   // * responses.length === nodes.length + 1
@@ -95,23 +84,21 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
     (acc, response) => {
       const curJSON = JSON.parse(response);
       // Skips warning.
-      if (curJSON.warning) {
-        return acc;
-      }
-      const { turnNumber } = curJSON;
-      const curTurn = turnNumber - 1;
-      const nextTurn = turnNumber;
-      const prevTurn = acc.prevJSON ? acc.prevJSON.turnNumber - 1 : undefined;
-      const nextPL = pls[nextTurn % 2];
+      if (curJSON.warning) return acc;
+
+      const { curTurn, nextTurn, nextPL, isNextMove } = getTurns(
+        realTurnNumbers,
+        acc,
+        curJSON,
+        pls,
+      );
 
       // Sets win rate.
       if (curTurn >= 0) {
-        const node = that.nodes[curTurn];
-        // To calculate node.winrateDrop, we need both of
+        // To calculate node.winrateDrop, we need the both of
         // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
-        if (curTurn === prevTurn + 1)
-          node.setWinrate(acc.prevJSON.rootInfo, curJSON.rootInfo, that.opts);
-        else node.setWinrate(null, curJSON.rootInfo, that.opts);
+        const prevInfo = isNextMove ? acc.prevJSON.rootInfo : null;
+        that.nodes[curTurn].setWinrate(prevInfo, curJSON.rootInfo, that.opts);
       }
 
       // Adds passing move if necessary.
@@ -139,6 +126,41 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
     { prevJSON: null, maxVisits: 0 },
   ).maxVisits;
   // FIXME: Remove passing move if has no variation.
+}
+
+// Splits and sorts responses by turnNumber.
+//
+// Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
+function splitResponses(that, katagoResponses) {
+  if (katagoResponses.search('{"error":"') === 0) {
+    throw Error(katagoResponses.replace('\n', ''));
+  }
+
+  const responses = katagoResponses.split('\n');
+  if (!responses[responses.length - 1]) responses.pop();
+
+  if (responses.length) that.responsesGiven = true;
+
+  const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
+  return responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
+}
+
+// Gets the index of that.nodes from turnNumber of KataGo responses.
+function getTurns(realTurnNumbers, acc, curJSON, pls) {
+  const turnNumber = realTurnNumbers
+    ? realTurnNumbers[curJSON.turnNumber]
+    : curJSON.turnNumber;
+  const curTurn = turnNumber - 1;
+  const nextTurn = curTurn + 1;
+  const nextPL = pls[nextTurn % 2];
+  const isNextMove = (() => {
+    if (!acc.prevJSON) return false;
+    if (realTurnNumbers)
+      return realTurnNumbers[acc.prevJSON.turnNumber] === turnNumber - 1;
+    return acc.prevJSON.turnNumber === turnNumber - 1;
+  })();
+
+  return { curTurn, nextTurn, nextPL, isNextMove };
 }
 
 // Does not care about winrateDrop of the turn. Only cares winrateDrops of the

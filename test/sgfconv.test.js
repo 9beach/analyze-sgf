@@ -10,14 +10,9 @@ describe('rootAndSeqFromSGF', () => {
     assert.deepEqual(parsed.root, { GN: ['xx'] });
     assert.equal(parsed.seq, ';W[aa]');
   });
-  it('should include the comment of root node.', () => {
-    const parsed = sgfconv.rootAndSeqFromSGF('(X[a]C[aa\n];W[aa]C[b])', true);
-    assert.deepEqual(parsed.root, { X: ['a'], C: ['aa\n'] });
-    assert.equal(parsed.seq, ';W[aa]');
-  });
   it('should unescape "[".', () => {
-    const parsed = sgfconv.rootAndSeqFromSGF('(C[aaa\n\\]];W[aa]C[b])', true);
-    assert.deepEqual(parsed.root, { C: ['aaa\n]'] });
+    const parsed = sgfconv.rootAndSeqFromSGF('(X[aaa\n\\]];W[aa]C[b])');
+    assert.deepEqual(parsed.root, { X: ['aaa\n]'] });
     assert.equal(parsed.seq, ';W[aa]');
   });
   it('should include multi-values.', () => {
@@ -124,5 +119,21 @@ describe('seqToPV', () => {
     assert.equal(sgfconv.seqToPV(';W[po]'), 'Q5');
     assert.equal(sgfconv.seqToPV(';W[po'), 'Q5');
     assert.equal(sgfconv.seqToPV(';W[po12323'), 'Q5');
+  });
+});
+
+describe('isNotPassingMove', () => {
+  it('should be expected values.', () => {
+    assert.equal(sgfconv.isNotPassingMove(';B[aa];)'), true);
+    assert.equal(sgfconv.isNotPassingMove(';B[];)'), false);
+    assert.equal(sgfconv.isNotPassingMove(';B[tt];)'), false);
+  });
+});
+
+describe('hasPassingMoves', () => {
+  it('should be expected values.', () => {
+    assert.equal(sgfconv.hasPassingMoves(';W[po];B[];W[ae])'), true);
+    assert.equal(sgfconv.hasPassingMoves(';W[po];B[tt];W[ae])'), true);
+    assert.equal(sgfconv.hasPassingMoves(';W[po];B[aa];W[ae])'), false);
   });
 });

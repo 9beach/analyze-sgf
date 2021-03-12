@@ -176,15 +176,36 @@ function propsFromObject(obj, comment) {
   }, ';');
 }
 
+function isNotPassingMove(move, sz = 19) {
+  if (sz < 20)
+    return (
+      move.search(/\b[BW]\[[^\]]/) !== -1 &&
+      move.search(/\b[BW]\[tt\]/) === -1
+    );
+  return move.search(/\b[BW]\[[^\]]/) !== -1;
+}
+
+// Notice that all the comments are removed.
+//
 // '(FF[4]GM[1]C[test];B[aa]C[test];(B[bb])(B[cc])'
-//   => { root: { FF: '4', GM: '1' C: 'test' }, seq: ';B[aa];B[bb]' }
-function rootAndSeqFromSGF(sgf, comment = false) {
+//   => { root: { FF: '4', GM: '1' }, seq: ';B[aa];B[bb]' }
+function rootAndSeqFromSGF(sgf) {
   const nodes = sgfparser.parse(sgf);
-  if (!comment) delete nodes[0].data.C;
+  delete nodes[0].data.C;
   return {
     root: nodes[0].data,
     seq: seqFromObject(nodes[0]),
   };
+}
+
+// ';W[aa];B[];W[bb]' => true
+// ';W[aa];B[tt];W[bb]' => true
+// ';W[aa];B[cc];W[bb]' => false
+function hasPassingMoves(seq, sz = 19) {
+  return seq
+    .split(';')
+    .filter((v) => v)
+    .some((node) => !isNotPassingMove(node, sz));
 }
 
 // Strips tail, comments, and line feeds from SGF.
@@ -205,11 +226,13 @@ module.exports = {
   toBadHotSpot,
   addComment,
   removeTails,
+  isNotPassingMove,
   rootAndSeqFromSGF,
   correctSGFDialects,
   prettyPathFromSGF,
   propsFromObject,
   seqFromObject,
   formatK,
+  hasPassingMoves,
   seqToPV,
 };
