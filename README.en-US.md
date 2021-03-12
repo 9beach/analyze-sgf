@@ -288,8 +288,8 @@ $ analyze-sgf -a 'maxVisits:1000' -g 'minWinrateDropForVariations:5' --revisit 5
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 100% (18/18, 50k visits) | ETA: 0s (19m23s)
 ```
 
-Please note that if the win rate of the 60th move drops by 6%, then the
-number of the visits to the 59th move is changed to 50000 because that way
+Please note that if the win rate of the 60th move drops by 6%, then
+the 59th move will be analyzed again with 50000 visits because that way
 we can explore the variations of the 60th move more broadly.
 
 When you run `analyze-sgf --revisit 50000 baduk.sgf`, `analyze-sgf` refers to
