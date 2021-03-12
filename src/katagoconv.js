@@ -78,9 +78,9 @@ function mergeKataGoResponses(original, revisited, turns) {
 
 // Makes turnNumber to real turnNumber map.
 //
-// Passing moves are not included in KataGo system. So we need to convert
-// KataGo turnNumber to real turnNumber including passing moves. Real
-// turnNumber is map[turnNumber].
+// Passing moves are not included in KataGo analysis. So we need to convert
+// KataGo turnNumbers to real turnNumbers applying previous passing moves.
+// Real `turnNumber` is `realTurnNumbersMap[turnNumber]`.
 function makeRealTurnNumbersMap(seq) {
   return [0].concat(
     seq

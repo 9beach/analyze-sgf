@@ -62,7 +62,8 @@ class GameTree {
 // Sets win rate and variations from KataGo responses.
 function setWinrateAndVariatons(that, katagoResponses, pls) {
   const responses = splitResponses(that, katagoResponses);
-  // Apply passing moves to KataGo responses.
+  // Real `turnNumber` considering previous passing moves is
+  // `realTurnNumbersMap[turnNumber]`.
   const realTurnNumbers = sgfconv.hasPassingMoves(that.seq)
     ? katagoconv.makeRealTurnNumbersMap(that.seq)
     : undefined;
