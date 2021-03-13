@@ -46,12 +46,13 @@ function convert(gib) {
   return `(${root}${seq})`;
 }
 
+// '1' => 'A'
+const oneToA = (x) => String.fromCharCode(97 + parseInt(x, 10));
+
 // 'STO 0 2 2 15 15' => ';W[pp]'
 function nodeFromSTO(line) {
   const ns = line.split(/\s+/);
   const pl = ns[3] === '1' ? 'B' : 'W';
-  // '1' => 'A'
-  const oneToA = (x) => String.fromCharCode(97 + parseInt(x, 10));
 
   return `;${pl}[${oneToA(ns[4])}${oneToA(ns[5])}]`;
 }
