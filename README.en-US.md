@@ -131,7 +131,6 @@ generated: shin-vs-lian-analyzed.sgf
 
 Shin Jinseo (Black)
 * KataGo top choices (54.81%, 57/104)
-* KataGo choices (76.92%, 80/104)
 * Less than 2% win rate drops (75.00%, 78/104)
 * Less than 5% win rate drops (88.46%, 92/104)
 * More than 5% win rate drops (11.54%, 12/104): #39 ⇣6.32%, #69 ⇣7.03%, #105 ⇣18.34%, #109 ⇣18.41%, #121 ⇣6.67%, #133 ⇣5.92%, #141 ⇣20.10%, #161 ⇣15.17%, #165 ⇣5.78%, #173 ⇣17.48%, #179 ⇣15.75%, #183 ⇣13.84%
@@ -141,7 +140,6 @@ Shin Jinseo (Black)
 
 Lian Xiao (White)
 * KataGo top choices (52.43%, 54/103)
-* KataGo choices (67.96%, 70/103)
 * Less than 2% win rate drops (74.76%, 77/103)
 * Less than 5% win rate drops (81.55%, 84/103)
 * More than 5% win rate drops (18.45%, 19/103): #64 ⇣11.43%, #96 ⇣5.20%, #102 ⇣7.88%, #104 ⇣8.71%, #106 ⇣9.51%, #108 ⇣6.93%, #114 ⇣9.05%, #116 ⇣11.45%, #120 ⇣8.97%, #138 ⇣7.90%, #146 ⇣15.73%, #150 ⇣9.34%, #166 ⇣5.62%, #172 ⇣14.41%, #174 ⇣54.39%, #176 ⇣20.59%, #180 ⇣14.40%, #184 ⇣19.62%, #190 ⇣6.76%
