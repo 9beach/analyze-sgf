@@ -117,7 +117,7 @@ $ analyze-sgf 신진서-렌샤오.sgf
 generated: 신진서-렌샤오-analyzed.sgf
 # Analyze-SGF Report
 
-Komi 7.5, 207수 흑불계승
+제13회 춘란배 4강, Komi 7.5, 207수 흑불계승, 2021-01-20
 
 신진서 (Black)
 * KataGo top choices (54.81%, 57/104)
