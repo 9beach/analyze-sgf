@@ -96,8 +96,6 @@ function makeGoodBads(pl, drops, stat) {
     drops.filter((n) => n.pl === pl),
     // 7: KataGo Top Choices.
     drops.filter((n) => n.pl === pl && n.choice === 0),
-    // 8: KataGo Choices.
-    drops.filter((n) => n.pl === pl && n.choice >= 0),
   ];
 }
 
@@ -131,6 +129,7 @@ function getDropList(text, moves, total, listMoves, withDrop, isScore) {
 }
 
 // e.g.,:
+// * KataGo top choices (54.81%, 57/104)
 // * Less than 2% win rate drops (83.33%, 75/90)
 // * Less than 5% win rate drops (94.44%, 85/90)
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
@@ -150,7 +149,6 @@ function reportGoodAndBads(
   const badhotspot = `More than ${badhotspotwinrate * 100}% win rate drops`;
   return (
     getDropList('KataGo top choices', moves[7], total, false) +
-    getDropList('KataGo choices', moves[8], total, false) +
     getDropList(goodmove, moves[0], total, false) +
     getDropList(notbadmove, moves[1], total, false) +
     getDropList(badmove, moves[2], total, true, true) +

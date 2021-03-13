@@ -4,10 +4,9 @@
  * @fileOverview Converts Tygem's GIB format to SGF.
  */
 
-// e.g.,
+// GIB format example.
 //
 // \HS
-// \[GAMEBLACKLEVEL=3\]
 // ...
 // \[GAMECOMMENT=\]
 // \[GAMETAG=S1,R3,D5,G0,W255,Z0,T30-3-1200,C2016:03:26:17:29, ...\]
@@ -17,14 +16,13 @@
 // 119 0 &4
 // INI 0 1 3 &4
 // STO 0 2 2 15 15
-// STO 0 3 1 13 16
 // ...
 // STO 0 119 1 10 8
 // \GE
 
 // Converts GIB to SGF.
 function convert(gib) {
-  // Gets root node from HS~HE and INI.
+  // Gets RootNode from HS~HE and INI.
   // Properties: FF, GM, SZ, AP, PB, BR, PW, WR, EV, RE, KM, DT, HA, AB.
   const root = `;FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]${
     pbFromGIB(gib) +
@@ -36,7 +34,7 @@ function convert(gib) {
     haFromGIB(gib)
   }`;
 
-  // Gets seq from STOs.
+  // Gets SGF NodeSequence from STOs.
   const seq = gib
     .substring(gib.indexOf('STO'))
     .split('\n')
