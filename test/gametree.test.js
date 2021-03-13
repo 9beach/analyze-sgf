@@ -63,7 +63,7 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be expected values for "t-lian-vs-shin.sgf".', () => {
+  it('should be expected values for "t-sabaki-1-default.sgf".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;
     sgfopts.minWinrateDropForBadMove = 5;
@@ -71,15 +71,6 @@ describe('GameTree', () => {
     sgfopts.minWinrateDropForVariations = 5;
     sgfopts.showVariationsAfterLastMove = false;
     sgfopts.analyzeTurns = undefined;
-
-    compareButComments(
-      'test/examples/t-lian-vs-shin.sgf',
-      'test/examples/t-lian-vs-shin.json',
-      'test/examples/t-lian-vs-shin-analyzed.sgf',
-    );
-  });
-
-  it('should be expected values for "t-sabaki-1-default.sgf".', () => {
     compareButComments(
       'test/examples/t-sabaki-1.sgf',
       'test/examples/t-sabaki-1.json',
@@ -90,7 +81,6 @@ describe('GameTree', () => {
   it('should add passing move for "t-sabaki-1-lastmove.sgf".', () => {
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = undefined;
-
     compareButComments(
       'test/examples/t-sabaki-1.sgf',
       'test/examples/t-sabaki-1.json',
@@ -101,7 +91,6 @@ describe('GameTree', () => {
   it('should add passing move and all the variations.', () => {
     sgfopts.showVariationsAfterLastMove = true;
     sgfopts.analyzeTurns = [0, 1, 2, 3, 4, 5];
-
     compareButComments(
       'test/examples/t-sabaki-1.sgf',
       'test/examples/t-sabaki-1.json',
@@ -111,7 +100,6 @@ describe('GameTree', () => {
 
   it('should add all the variations.', () => {
     sgfopts.showVariationsAfterLastMove = false;
-
     compareButComments(
       'test/examples/t-sabaki-1.sgf',
       'test/examples/t-sabaki-1.json',
@@ -119,20 +107,18 @@ describe('GameTree', () => {
     );
   });
 
-  it('should be same for each comment of "t-lian-vs-shin.sgf".', () => {
-    sgfopts.maxVariationsForEachMove = 10;
-    sgfopts.maxWinrateDropForGoodMove = 2;
-    sgfopts.minWinrateDropForBadMove = 5;
-    sgfopts.minWinrateDropForBadHotSpot = 20;
-    sgfopts.minWinrateDropForVariations = 5;
-    sgfopts.showVariationsAfterLastMove = false;
-    sgfopts.analyzeTurns = undefined;
+  it('should be same for each comment of "t-sabaki-2.sgf".', () => {
+    sgfopts.minWinrateDropForVariations = -100;
+    sgfopts.showBadVariations = true;
+    sgfopts.maxVariationsForEachMove = 20;
+    sgfopts.showVariationsAfterLastMove = true;
+    sgfopts.analyzeTurns = [0, 1, 2, 3, 4];
 
     // Be careful. Easy to fail with the change of comments formats.
     compare(
-      'test/examples/t-lian-vs-shin.sgf',
-      'test/examples/t-lian-vs-shin.json',
-      'test/examples/t-lian-vs-shin-analyzed.sgf',
+      'test/examples/t-sabaki-2.sgf',
+      'test/examples/t-sabaki-2.json',
+      'test/examples/t-sabaki-2-analyzed.sgf',
     );
   });
 });

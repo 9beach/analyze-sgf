@@ -81,13 +81,11 @@ describe('seqToKataGoMoves with SGF files', () => {
       const moves = katagoconv.seqToKataGoMoves(sgfconv.removeTails(sgf));
       assert.equal(len, moves.length);
     };
-
     movesfromseq(11, 'test/examples/t-complex.sgf');
     movesfromseq(18, 'test/examples/t-encoding-cp949.sgf');
     movesfromseq(180, 'test/examples/t-lee-vs-alphago.sgf');
     movesfromseq(294, 'test/examples/t-oro-1.sgf');
     movesfromseq(226, 'test/examples/t-oro-2.sgf');
-    movesfromseq(207, 'test/examples/t-lian-vs-shin.sgf');
     movesfromseq(3, 'test/examples/t-sabaki-1.sgf');
     movesfromseq(4, 'test/examples/t-sabaki-2.sgf');
   });
