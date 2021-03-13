@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileOverview Downloads SGF from URL.
+ * @fileOverview Downloads SGF from URL (Tygem and CyberORO).
  */
 
 const { XMLHttpRequest } = require('xmlhttprequest');
