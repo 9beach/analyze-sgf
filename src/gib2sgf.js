@@ -173,9 +173,7 @@ function getRE(value, grltRegex, zipsuRegex) {
 
   const grlt = parseFloat(gmatch[1]);
   const zmatch = zipsuRegex.exec(value);
-  return zmatch
-    ? parseRE(grlt, parseFloat(zmatch[1]))
-    : '';
+  return zmatch ? parseRE(grlt, parseFloat(zmatch[1])) : '';
 }
 
 function parseRE(grlt, zipsu) {
