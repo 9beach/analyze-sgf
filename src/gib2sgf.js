@@ -169,28 +169,21 @@ function valueOfINI(gib) {
 // Gets RE.
 function getRE(value, grltRegex, zipsuRegex) {
   const gmatch = grltRegex.exec(value);
+  if (!gmatch) return '';
 
-  if (gmatch) {
-    const grlt = parseFloat(gmatch[1]);
-    const zmatch = zipsuRegex.exec(value);
-    if (zmatch) {
-      const zipsu = parseFloat(zmatch[1]);
-      return parseRE(grlt, zipsu);
-    }
-  }
-  return '';
+  const grlt = parseFloat(gmatch[1]);
+  const zmatch = zipsuRegex.exec(value);
+  return zmatch
+    ? parseRE(grlt, parseFloat(zmatch[1]))
+    : '';
 }
 
 function parseRE(grlt, zipsu) {
   const easycases = { 3: 'B+R', 4: 'W+R', 7: 'B+T', 8: 'W+T' };
-
   if (easycases[grlt] !== undefined) return easycases[grlt];
-  if (grlt === 0 || grlt === 1) {
-    const winner = grlt === 0 ? 'B' : 'W';
-    const margin = (zipsu / 10).toString();
-    return `${winner}+${margin}`;
-  }
-  return '';
+  return grlt === 0 || grlt === 1
+    ? `${grlt === 0 ? 'B' : 'W'}+${zipsu / 10}`
+    : '';
 }
 
 module.exports = convert;
