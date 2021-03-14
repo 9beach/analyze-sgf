@@ -61,11 +61,10 @@ function nodeFromSTO(line) {
 // Gets PB, BR.
 function pbFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEBLACKNAME');
-  if (value) {
-    const pair = parsePlRank(value);
-    return mkProp('PB', pair[0]) + mkProp('BR', pair[1]);
-  }
-  return '';
+  if (!value) return '';
+
+  const pair = parsePlRank(value);
+  return mkProp('PB', pair[0]) + mkProp('BR', pair[1]);
 }
 
 // Gets PW, WR.
@@ -133,17 +132,13 @@ const handicapStones = [
 // Gets HA, AB.
 function haFromGIB(gib) {
   const value = valueOfINI(gib);
-  if (value) {
-    const setup = value.split(/\s+/);
-    if (setup[3]) {
-      const handicap = parseInt(setup[2], 10);
-      if (handicap >= 2)
-        return (
-          mkProp('HA', handicap) + mkProp('AB', handicapStones[handicap])
-        );
-    }
-  }
-  return '';
+  if (!value) return '';
+
+  const setup = value.split(/\s+/);
+  const ha = parseInt(setup[2], 10);
+  return ha >= 2 && ha <= 9
+    ? mkProp('HA', ha) + mkProp('AB', handicapStones[ha])
+    : '';
 }
 
 // 'lee(8k)' => ['lee', '8k']
