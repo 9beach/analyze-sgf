@@ -115,8 +115,7 @@ function getNewPathAndSGF(isURL, path, ext) {
 // Saves SGF file and JSON responses from KataGo.
 function saveAnalyzed(targetPath, sgf, responses, saveResponse, gopts) {
   if (!targetPath || !sgf || !responses) return;
-  if (responses.search('{"error":"') === 0)
-    throw Error(responses.slice(0, -1)); // Removes line feed.
+  if (responses.search('{"error"') === 0) throw Error(responses.slice(0, -1));
 
   const targetName = targetPath.substring(0, targetPath.lastIndexOf('.'));
 
@@ -148,10 +147,9 @@ async function kataGoAnalyze(query, kopts) {
   });
 
   katago.on('exit', (code) => {
-    if (code !== 0) {
-      log(`Process error. Please fix: ${config}\n${JSON.stringify(kopts)}`);
-      process.exit(1);
-    }
+    if (code === 0) return;
+    log(`Process error. Please fix: ${config}\n${JSON.stringify(kopts)}`);
+    process.exit(1);
   });
 
   const bar = new progress.SingleBar(

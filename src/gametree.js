@@ -156,9 +156,9 @@ function getTurns(realTurnNumbers, acc, curJSON, pls) {
   const nextPL = pls[nextTurn % 2];
   const isSuccessiveMove = (() => {
     if (!acc.prevJSON) return false;
-    if (realTurnNumbers)
-      return realTurnNumbers[acc.prevJSON.turnNumber] === turnNumber - 1;
-    return acc.prevJSON.turnNumber === turnNumber - 1;
+    return realTurnNumbers
+      ? realTurnNumbers[acc.prevJSON.turnNumber] === turnNumber - 1
+      : acc.prevJSON.turnNumber === turnNumber - 1;
   })();
 
   return { curTurn, nextTurn, nextPL, isSuccessiveMove };

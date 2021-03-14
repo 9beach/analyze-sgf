@@ -20,6 +20,9 @@
 // STO 0 119 1 10 8
 // \GE
 
+// ('EV', 'World Cup') => 'EV[World Cup]'
+const mkProp = (p, v) => (v ? `${p}[${v}]` : '');
+
 // Converts GIB to SGF.
 function convert(gib) {
   // Gets RootNode from HS~HE and INI.
@@ -27,7 +30,7 @@ function convert(gib) {
   const root = `;FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]${
     pbFromGIB(gib) +
     pwFromGIB(gib) +
-    evFromGIB(gib) +
+    mkProp('EV', valueOfGIB(gib, 'GAMENAME')) +
     reFromGIB(gib) +
     kmFromGIB(gib) +
     dtFromGIB(gib) +
@@ -55,8 +58,6 @@ function nodeFromSTO(line) {
   return `;${pl}[${oneToA(ns[4])}${oneToA(ns[5])}]`;
 }
 
-const mkProp = (p, v) => (v || v === 0 ? `${p}[${v}]` : '');
-
 // Gets PB, BR.
 function pbFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEBLACKNAME');
@@ -70,32 +71,26 @@ function pbFromGIB(gib) {
 // Gets PW, WR.
 function pwFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMEWHITENAME');
-  if (value) {
-    const pair = parsePlRank(value);
-    return mkProp('PW', pair[0]) + mkProp('WR', pair[1]);
-  }
-  return '';
-}
+  if (!value) return '';
 
-// Gets EV.
-function evFromGIB(gib) {
-  return mkProp('EV', valueOfGIB(gib, 'GAMENAME'));
+  const pair = parsePlRank(value);
+  return mkProp('PW', pair[0]) + mkProp('WR', pair[1]);
 }
 
 // Gets DT.
 function dtFromGIB(gib) {
   const value = valueOfGIB(gib, 'GAMETAG');
-  if (value) {
-    const v = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
-    if (v) return mkProp('DT', v.slice(1).join('-'));
-  }
-  return '';
+  if (!value) return '';
+
+  const v = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
+  return v ? mkProp('DT', v.slice(1).join('-')) : '';
 }
 
 // Gets RE.
 function reFromGIB(gib) {
   const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
   if (ginfo) return mkProp('RE', getRE(ginfo, /GRLT:(\d+),/, /ZIPSU:(\d+),/));
+
   const gtag = valueOfGIB(gib, 'GAMETAG');
   return gtag ? mkProp('RE', getRE(gtag, /,W(\d+),/, /,Z(\d+),/)) : '';
 }
@@ -107,7 +102,7 @@ function kmFromGIB(gib) {
     const v = ginfo.match(/GONGJE:(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
-      if (!Number.isNaN(komi)) return mkProp('KM', komi);
+      if (!Number.isNaN(komi)) return mkProp('KM', komi.toString());
     }
   }
 
@@ -116,7 +111,7 @@ function kmFromGIB(gib) {
     const v = gtag.match(/,G(\d+),/);
     if (v) {
       const komi = parseInt(v[1], 10) / 10;
-      if (!Number.isNaN(komi)) return mkProp('KM', komi);
+      if (!Number.isNaN(komi)) return mkProp('KM', komi.toString());
     }
   }
   return '';
