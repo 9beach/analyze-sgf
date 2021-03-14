@@ -55,10 +55,7 @@ function nodeFromSTO(line) {
   return `;${pl}[${oneToA(ns[4])}${oneToA(ns[5])}]`;
 }
 
-function mkProp(p, v) {
-  if (v || v === 0) return `${p}[${v}]`;
-  return '';
-}
+const mkProp = (p, v) => (v || v === 0 ? `${p}[${v}]` : '');
 
 // Gets PB, BR.
 function pbFromGIB(gib) {
@@ -98,17 +95,9 @@ function dtFromGIB(gib) {
 // Gets RE.
 function reFromGIB(gib) {
   const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
-  if (ginfo) {
-    const v = getRE(ginfo, /GRLT:(\d+),/, /ZIPSU:(\d+),/);
-    return mkProp('RE', v);
-  }
-
+  if (ginfo) return mkProp('RE', getRE(ginfo, /GRLT:(\d+),/, /ZIPSU:(\d+),/));
   const gtag = valueOfGIB(gib, 'GAMETAG');
-  if (gtag) {
-    const v = getRE(gtag, /,W(\d+),/, /,Z(\d+),/);
-    return mkProp('RE', v);
-  }
-  return '';
+  return gtag ? mkProp('RE', getRE(gtag, /,W(\d+),/, /,Z(\d+),/)) : '';
 }
 
 // Gets KM.
@@ -176,8 +165,7 @@ function valueOfGIB(gib, prop) {
   const start = gib.indexOf(`\\[${prop}=`);
   if (start === -1) return '';
   const end = gib.indexOf('\\]', start + prop.length);
-  if (end === -1) return '';
-  return gib.substring(start + prop.length + 3, end).trim();
+  return end === -1 ? '' : gib.substring(start + prop.length + 3, end).trim();
 }
 
 // '...\nINI 0 1 5 ...\n...' => '0 1 5 ...'
@@ -185,8 +173,7 @@ function valueOfINI(gib) {
   const start = gib.indexOf('INI ');
   if (start === -1) return '';
   const end = gib.indexOf('\n', start + 4);
-  if (end === -1) return '';
-  return gib.substring(start + 4, end).trim();
+  return end === -1 ? '' : gib.substring(start + 4, end).trim();
 }
 
 // Gets RE.
@@ -207,10 +194,7 @@ function getRE(value, grltRegex, zipsuRegex) {
 function parseRE(grlt, zipsu) {
   const easycases = { 3: 'B+R', 4: 'W+R', 7: 'B+T', 8: 'W+T' };
 
-  if (easycases[grlt] !== undefined) {
-    return easycases[grlt];
-  }
-
+  if (easycases[grlt] !== undefined) return easycases[grlt];
   if (grlt === 0 || grlt === 1) {
     const winner = grlt === 0 ? 'B' : 'W';
     const margin = (zipsu / 10).toString();

@@ -6,25 +6,19 @@ const sgfparser = require('@sabaki/sgf');
 
 // 'I' => 'J'
 // 'J' => 'K'
-function nextChar(c) {
-  return String.fromCharCode(c.charCodeAt(0) + 1);
-}
+const nextChar = (c) => String.fromCharCode(c.charCodeAt(0) + 1);
 
 // 'J' => 'I'
 // 'K' => 'J'
-function prevChar(c) {
-  return String.fromCharCode(c.charCodeAt(0) - 1);
-}
+const prevChar = (c) => String.fromCharCode(c.charCodeAt(0) - 1);
 
 // 'aa' => 'A1'
 // 'ia' => 'J1'
 function iaToJ1(value) {
   const v = value.toUpperCase();
-
-  if (v[0] >= 'I') {
-    return nextChar(v[0]) + (v.charCodeAt(1) - 64).toString();
-  }
-  return v[0] + (v.charCodeAt(1) - 64).toString();
+  return v[0] >= 'I'
+    ? nextChar(v[0]) + (v.charCodeAt(1) - 64).toString()
+    : v[0] + (v.charCodeAt(1) - 64).toString();
 }
 
 // Real Goban display.
@@ -32,26 +26,18 @@ function iaToJ1(value) {
 // 'bd' => 'B16'
 function iaToJ19(value) {
   const v = value.toUpperCase();
-
-  if (v[0] >= 'I') {
-    return nextChar(v[0]) + (84 - v.charCodeAt(1)).toString();
-  }
-  return v[0] + (84 - v.charCodeAt(1)).toString();
+  return v[0] >= 'I'
+    ? nextChar(v[0]) + (84 - v.charCodeAt(1)).toString()
+    : v[0] + (84 - v.charCodeAt(1)).toString();
 }
 
 // 'A1' => 'aa'
-function iaFromJ1(v) {
-  if (v[0] >= 'J') {
-    return (
-      prevChar(v[0].toLowerCase()) +
+const iaFromJ1 = (v) =>
+  v[0] >= 'J'
+    ? prevChar(v[0].toLowerCase()) +
       String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96)
-    );
-  }
-  return (
-    v[0].toLowerCase() +
-    String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96)
-  );
-}
+    : v[0].toLowerCase() +
+      String.fromCharCode(parseInt(v.substring(1, v.length), 10) + 96);
 
 const indexOfRegex = (string, regex, start) => {
   const index = string.substring(start || 0).search(regex);
@@ -63,31 +49,24 @@ const indexOfRegex = (string, regex, start) => {
 function addProperty(seq, mark, index) {
   const start = indexOfRegex(seq, /[^\\]\]/, Math.max(0, index - 1));
 
-  if (start !== -1)
-    return seq.substring(0, start + 2) + mark + seq.substring(start + 2);
-  return '';
+  return start !== -1
+    ? seq.substring(0, start + 2) + mark + seq.substring(start + 2)
+    : '';
 }
 
 // ('(;W[aa];B[bb];W[cc])', 0) => '(;W[aa]TE[1];B[bb];W[cc])'
-function toGoodNode(seq, index = 0) {
-  return addProperty(seq, 'TE[1]', index);
-}
+const toGoodNode = (seq, index = 0) => addProperty(seq, 'TE[1]', index);
 
 // ('(;W[aa];B[bb];W[cc])', 0) => '(;W[aa]BM[1];B[bb];W[cc])'
-function toBadNode(seq, index = 0) {
-  return addProperty(seq, 'BM[1]', index);
-}
+const toBadNode = (seq, index = 0) => addProperty(seq, 'BM[1]', index);
 
 // ('(;W[aa];B[bb];W[cc])', 0) => '(;W[aa]BM[1]HO[1];B[bb];W[cc])'
-function toBadHotSpot(seq, index = 0) {
-  return addProperty(seq, 'BM[1]HO[1]', index);
-}
+const toBadHotSpot = (seq, index = 0) =>
+  addProperty(seq, 'BM[1]HO[1]', index);
 
 // ('(;W[aa];B[bb])', 'hey[]', 0) => '(;W[aa]C[hey[\]];B[bb])'
-function addComment(seq, comment, index = 0) {
-  const replaced = comment.replace(/\]/g, '\\]');
-  return addProperty(seq, `C[${replaced}]`, index);
-}
+const addComment = (seq, comment, index = 0) =>
+  addProperty(seq, `C[${comment.replace(/\]/g, '\\]')}]`, index);
 
 // For SABAKI autoplaying PVs.
 // '(;W[po];B[hm];W[ae]...)' => 'WQ5 H7 A15'
@@ -107,15 +86,14 @@ function seqToPV(seq) {
 // Fixes SGF dialects (KO/TE/RD) for other SGF editors.
 // Fixes bad Tygem SGF. e.g., '대주배 16강 .'
 // Fixes bad Tygem SGF. e.g., '김미리:김미리:4단'.
-function correctSGFDialects(sgf) {
-  return sgf
+const correctSGFDialects = (sgf) =>
+  sgf
     .replace(/\([;]*TE\[/, '(;GM[1]FF[4]EV[')
     .replace(/\bRD\[/, 'DT[')
     .replace(/\bK[OM]\[\]/, '')
     .replace(/\bKO\[/, 'KM[')
     .replace(/ \.\]/, ']')
     .replace(/(P[BW]\[[^\]:]*):[^\]]*\]/g, '$1]');
-}
 
 const ofRoot = (root, key) => root[key] && root[key][0];
 
@@ -132,7 +110,6 @@ function prettyPathFromSGF(sgf) {
     .filter((v) => v)
     .join(', ');
   const evdt = evgndt ? `[${evgndt}]` : '';
-
   const re = ofRoot(rs.root, 'RE') ? `(${ofRoot(rs.root, 'RE')})` : '';
   const pw = ofRoot(rs.root, 'PW');
   const pb = ofRoot(rs.root, 'PB');
@@ -142,11 +119,10 @@ function prettyPathFromSGF(sgf) {
 }
 
 // 2000 => '2k'
-function formatK(num) {
-  return Math.abs(num) > 999
+const formatK = (num) =>
+  Math.abs(num) > 999
     ? `${Math.sign(num) * (Math.abs(num) / 1000).toFixed(1)}k`
     : Math.sign(num) * Math.abs(num);
-}
 
 const mkNode = (data) => {
   if (data.B) return `;B[${data.B[0]}]`;
@@ -155,35 +131,28 @@ const mkNode = (data) => {
 };
 
 // Node of '@sabaki/sgf' => ';B[kk];W[aa];B[bb]'
-function seqFromObject(node) {
-  if (node.children.length)
-    return mkNode(node.data) + seqFromObject(node.children[0]);
-  return mkNode(node.data);
-}
+const seqFromObject = (node) =>
+  node.children.length
+    ? mkNode(node.data) + seqFromObject(node.children[0])
+    : mkNode(node.data);
+
+const addPropValue = (acc, v) => `${acc}[${v.trim().replace(/\]/g, '\\]')}]`;
 
 // { A: ['0'], B: ['a', 'b'] } => 'A[0]B[a][b]'
-function propsFromObject(obj, comment) {
-  return Object.keys(obj).reduce((acc, cur) => {
-    if (!comment && cur === 'C') return acc;
-    return (
-      acc +
-      cur +
-      obj[cur].reduce(
-        (vs, v) => `${vs}[${v.trim().replace(/\]/g, '\\]')}]`,
-        '',
-      )
-    );
-  }, ';');
-}
+const propsFromObject = (obj, comment) =>
+  Object.keys(obj).reduce(
+    (acc, cur) =>
+      !comment && cur === 'C'
+        ? acc
+        : acc + cur + obj[cur].reduce(addPropValue, ''),
+    ';',
+  );
 
-function isNotPassingMove(move, sz = 19) {
-  if (sz < 20)
-    return (
-      move.search(/\b[BW]\[[^\]]/) !== -1 &&
+const isNotPassingMove = (move, sz = 19) =>
+  sz < 20
+    ? move.search(/\b[BW]\[[^\]]/) !== -1 &&
       move.search(/\b[BW]\[tt\]/) === -1
-    );
-  return move.search(/\b[BW]\[[^\]]/) !== -1;
-}
+    : move.search(/\b[BW]\[[^\]]/) !== -1;
 
 // Notice that all the comments are removed.
 //
@@ -201,12 +170,11 @@ function rootAndSeqFromSGF(sgf) {
 // ';W[aa];B[];W[bb]' => true
 // ';W[aa];B[tt];W[bb]' => true
 // ';W[aa];B[cc];W[bb]' => false
-function hasPassingMoves(seq, sz = 19) {
-  return seq
+const hasPassingMoves = (seq, sz = 19) =>
+  seq
     .split(';')
     .filter((v) => v)
     .some((node) => !isNotPassingMove(node, sz));
-}
 
 // Strips tail, comments, and line feeds from SGF.
 function removeTails(sgf, comment) {

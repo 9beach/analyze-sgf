@@ -113,7 +113,7 @@ function getNewPathAndSGF(isURL, path, ext) {
 }
 
 // Saves SGF file and JSON responses from KataGo.
-function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
+function saveAnalyzed(targetPath, sgf, responses, saveResponse, gopts) {
   if (!targetPath || !sgf || !responses) return;
   if (responses.search('{"error":"') === 0)
     throw Error(responses.slice(0, -1)); // Removes line feed.
@@ -130,30 +130,26 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, sgfOpts) {
   }
 
   // Saves analyzed SGF.
-  const gametree = new GameTree(sgf, responses, sgfOpts);
-  const sgfPath = `${targetName}${sgfOpts.fileSuffix}.sgf`;
+  const gametree = new GameTree(sgf, responses, gopts);
+  const sgfPath = `${targetName}${gopts.fileSuffix}.sgf`;
 
   fs.writeFileSync(sgfPath, gametree.getSGF());
   log(`generated: ${sgfPath}`);
 
   const report = gametree.getReport();
-  if (report) {
-    console.log(report);
-  }
+  if (report) console.log(report);
 }
 
 // FIXME: No respawn.
 // Requests analysis to KataGo, and reads responses.
-async function kataGoAnalyze(query, katagoOpts) {
-  const katago = spawn(`${katagoOpts.path} ${katagoOpts.arguments}`, [], {
+async function kataGoAnalyze(query, kopts) {
+  const katago = spawn(`${kopts.path} ${kopts.arguments}`, [], {
     shell: true,
   });
 
   katago.on('exit', (code) => {
     if (code !== 0) {
-      log(
-        `Process error. Please fix: ${config}\n${JSON.stringify(katagoOpts)}`,
-      );
+      log(`Process error. Please fix: ${config}\n${JSON.stringify(kopts)}`);
       process.exit(1);
     }
   });

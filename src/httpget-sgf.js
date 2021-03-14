@@ -15,15 +15,15 @@ function httpgetRawSGF(url) {
   const http = new XMLHttpRequest();
   http.open('GET', url, false);
   http.send(null);
-  if (url.indexOf(TYGEM_URL_BEGINS) === 0)
-    return http.responseText
-      .replace(/\r\n/g, '')
-      .replace(/.*var sgf = "/, '')
-      .replace(/\).*/, ')');
-  return http.responseText
-    .replace(/\r\n/g, '')
-    .replace(/.*"hidden" name = "gibo_txt" id = "gibo_txt"[^(]*/, '')
-    .replace(/\).*/, ')');
+  return url.indexOf(TYGEM_URL_BEGINS) === 0
+    ? http.responseText
+        .replace(/\r\n/g, '')
+        .replace(/.*var sgf = "/, '')
+        .replace(/\).*/, ')')
+    : http.responseText
+        .replace(/\r\n/g, '')
+        .replace(/.*"hidden" name = "gibo_txt" id = "gibo_txt"[^(]*/, '')
+        .replace(/\).*/, ')');
 }
 
 function isValidURL(url) {

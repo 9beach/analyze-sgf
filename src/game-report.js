@@ -65,8 +65,7 @@ class GameReport {
     const report =
       getBadsLeft('B', this.goodBads.B, turnNumber) +
       getBadsLeft('W', this.goodBads.W, turnNumber);
-    if (report) return `Bad moves left\n\n${report}`;
-    return '';
+    return report ? `Bad moves left\n\n${report}` : '';
   }
 }
 
@@ -159,8 +158,7 @@ function reportGoodAndBads(
 }
 
 function plColor(pl, color) {
-  if (pl) return `${pl} (${color})`;
-  return color;
+  return pl ? `${pl} (${color})` : color;
 }
 
 // e.g.,

@@ -11,7 +11,7 @@ parserOptions:
   ecmaVersion: 12
 rules:
   max-len: ["error", { "code": 78, "ignoreUrls": true }]
-  max-lines: ["error", { "max": 180, "skipComments": true, "skipBlankLines": true }]
+  max-lines: ["error", { "max": 160, "skipComments": true, "skipBlankLines": true }]
   max-lines-per-function: ["error", { "max": 40, "skipComments": true, "skipBlankLines": true }]
   no-use-before-define: ["error", { "functions": false }]
   prettier/prettier: "error"

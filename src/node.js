@@ -115,14 +115,12 @@ function setProperties(that, opts) {
 
 function formatWinrate(winrate) {
   const v = fixFloat(winrate * 100);
-  if (v > 50) return `B ${v}%`;
-  return `W ${fixFloat(100 - v)}%`;
+  return v > 50 ? `B ${v}%` : `W ${fixFloat(100 - v)}%`;
 }
 
 function formatScoreLead(scoreLead) {
   const v = fixFloat(scoreLead);
-  if (v > 0) return `B ${v}`;
-  return `W ${fixFloat(-v)}`;
+  return v > 0 ? `B ${v}` : `W ${fixFloat(-v)}`;
 }
 
 // e.g.,
