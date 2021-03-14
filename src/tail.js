@@ -17,6 +17,7 @@ class Tail extends Node {
         '',
       )}`;
 
+    // KataGo choice no. what?
     this.choice = this.variations
       .map((v) => sgfconv.rootAndSeqFromSGF(v.getSGF()).seq.split(';')[1])
       .indexOf(this.node.substring(1));
@@ -28,7 +29,7 @@ class Tail extends Node {
 
   // Gets SGF node with comments.
   getSGF() {
-    if (this.sgf) return this.sgf;
+    if (this.info && this.report && this.pvs && this.sgf) return this.sgf;
 
     if (this.choice >= 0) {
       const choiceText = `* KataGo ${

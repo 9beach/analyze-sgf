@@ -87,7 +87,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       // Skips warning.
       if (curJSON.warning) return acc;
 
-      const { curTurn, nextTurn, nextPL, isNextMove } = getTurns(
+      const { curTurn, nextTurn, nextPL, isSuccessiveMove } = getTurns(
         realTurnNumbers,
         acc,
         curJSON,
@@ -98,7 +98,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       if (curTurn >= 0) {
         // To calculate node.winrateDrop, we need the both of
         // prevJSON.rootInfo.winrate and curJSON.rootInfo.winrate.
-        const prevInfo = isNextMove ? acc.prevJSON.rootInfo : null;
+        const prevInfo = isSuccessiveMove ? acc.prevJSON.rootInfo : null;
         that.nodes[curTurn].setWinrate(prevInfo, curJSON.rootInfo, that.opts);
       }
 
@@ -154,14 +154,14 @@ function getTurns(realTurnNumbers, acc, curJSON, pls) {
   const curTurn = turnNumber - 1;
   const nextTurn = curTurn + 1;
   const nextPL = pls[nextTurn % 2];
-  const isNextMove = (() => {
+  const isSuccessiveMove = (() => {
     if (!acc.prevJSON) return false;
     if (realTurnNumbers)
       return realTurnNumbers[acc.prevJSON.turnNumber] === turnNumber - 1;
     return acc.prevJSON.turnNumber === turnNumber - 1;
   })();
 
-  return { curTurn, nextTurn, nextPL, isNextMove };
+  return { curTurn, nextTurn, nextPL, isSuccessiveMove };
 }
 
 // Does not care about winrateDrop of the turn. Only cares winrateDrops of the

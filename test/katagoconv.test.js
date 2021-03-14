@@ -83,7 +83,6 @@ describe('seqToKataGoMoves with SGF files', () => {
     };
     movesfromseq(11, 'test/examples/t-complex.sgf');
     movesfromseq(18, 'test/examples/t-encoding-cp949.sgf');
-    movesfromseq(180, 'test/examples/t-lee-vs-alphago.sgf');
     movesfromseq(294, 'test/examples/t-oro-1.sgf');
     movesfromseq(226, 'test/examples/t-oro-2.sgf');
     movesfromseq(3, 'test/examples/t-sabaki-1.sgf');
