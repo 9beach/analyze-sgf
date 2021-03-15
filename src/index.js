@@ -77,18 +77,14 @@ async function processSGF(path) {
   const { newPath, sgf } = getNewPathAndSGF(isURL, path, ext);
 
   // Sends query to KataGo.
-  const query = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
-  const responses = await kataGoAnalyze(query, opts.katago);
-
+  const q = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
+  const r = await kataGoAnalyze(q, opts.katago);
   // KataGoAnalyze already has printed error message. So we just return.
-  if (!responses) return {};
+  if (!r) return {};
 
   // If revisit given, try again.
-  const newResponses = opts.revisit
-    ? await revisitKataGo(responses, query)
-    : responses;
-
-  return { newPath, responses: newResponses, sgf };
+  const responses = opts.revisit ? await revisitKataGo(r, q) : r;
+  return { newPath, responses, sgf };
 }
 
 // Gets SGF file name and contents from Web, GIB, or SGF.
@@ -139,7 +135,6 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, gopts) {
   if (report) console.log(report);
 }
 
-// FIXME: No respawn.
 // Requests analysis to KataGo, and reads responses.
 async function kataGoAnalyze(query, kopts) {
   const katago = spawn(`${kopts.path} ${kopts.arguments}`, [], {
@@ -152,13 +147,11 @@ async function kataGoAnalyze(query, kopts) {
     process.exit(1);
   });
 
+  const format = `{bar} {percentage}% ({value}/{total}, ${sgfconv.formatK(
+    query.maxVisits,
+  )} visits) | ETA: {eta_formatted} ({duration_formatted})`;
   const bar = new progress.SingleBar(
-    {
-      format: `{bar} {percentage}% ({value}/{total}, ${sgfconv.formatK(
-        query.maxVisits,
-      )} visits) | ETA: {eta_formatted} ({duration_formatted})`,
-      barsize: 30,
-    },
+    { format, barsize: 30 },
     progress.Presets.rect,
   );
   bar.start(query.analyzeTurns.length, 0);
@@ -186,14 +179,14 @@ async function kataGoAnalyze(query, kopts) {
 
 // Revisits KataGo and merges responses.
 async function revisitKataGo(responses, query) {
-  const queryRe = { ...query };
-  queryRe.maxVisits = opts.revisit;
-  queryRe.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
+  const q = { ...query };
+  q.maxVisits = opts.revisit;
+  q.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
     responses,
     opts.sgf.minWinrateDropForVariations / 100,
   );
 
-  if (!queryRe.analyzeTurns.length) {
+  if (!q.analyzeTurns.length) {
     log(
       'No move found whose win rate drops by more than ' +
         `${opts.sgf.minWinrateDropForVariations}%.`,
@@ -201,14 +194,8 @@ async function revisitKataGo(responses, query) {
     return null;
   }
 
-  const responsesRe = await kataGoAnalyze(queryRe, opts.katago);
-  if (!responsesRe) {
-    log('revisit error');
-    return null;
-  }
-  return katagoconv.mergeKataGoResponses(
-    responses,
-    responsesRe,
-    queryRe.analyzeTurns,
-  );
+  const r = await kataGoAnalyze(q, opts.katago);
+  return r
+    ? katagoconv.mergeKataGoResponses(responses, r, q.analyzeTurns)
+    : null;
 }

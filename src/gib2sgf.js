@@ -154,6 +154,7 @@ function parsePlRank(value) {
 function valueOfGIB(gib, prop) {
   const start = gib.indexOf(`\\[${prop}=`);
   if (start === -1) return '';
+
   const end = gib.indexOf('\\]', start + prop.length);
   return end === -1 ? '' : gib.substring(start + prop.length + 3, end).trim();
 }
@@ -162,6 +163,7 @@ function valueOfGIB(gib, prop) {
 function valueOfINI(gib) {
   const start = gib.indexOf('INI ');
   if (start === -1) return '';
+
   const end = gib.indexOf('\n', start + 4);
   return end === -1 ? '' : gib.substring(start + 4, end).trim();
 }
@@ -179,6 +181,7 @@ function getRE(value, grltRegex, zipsuRegex) {
 function parseRE(grlt, zipsu) {
   const easycases = { 3: 'B+R', 4: 'W+R', 7: 'B+T', 8: 'W+T' };
   if (easycases[grlt] !== undefined) return easycases[grlt];
+
   return grlt === 0 || grlt === 1
     ? `${grlt === 0 ? 'B' : 'W'}+${zipsu / 10}`
     : '';
