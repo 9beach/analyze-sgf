@@ -131,10 +131,10 @@ const mkNode = (data) => {
 };
 
 // Node of '@sabaki/sgf' => ';B[kk];W[aa];B[bb]'
-const seqFromObject = (node) =>
-  node.children.length
-    ? mkNode(node.data) + seqFromObject(node.children[0])
-    : mkNode(node.data);
+const seqFromObject = (obj) =>
+  obj.children.length
+    ? mkNode(obj.data) + seqFromObject(obj.children[0])
+    : mkNode(obj.data);
 
 const addPropValue = (acc, v) => `${acc}[${v.trim().replace(/\]/g, '\\]')}]`;
 
