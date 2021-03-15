@@ -49,8 +49,7 @@ const opts = getopts();
 // Simply returns SGF and KataGo responses from JSON.
 // JSON file format: tailless SGF + '\n' + KataGo responses.
 function processJSON(path) {
-  const ext = getExt(path);
-  if (ext !== 'json') {
+  if (getExt(path) !== 'json') {
     log(`skipped: ${path}`);
     return {};
   }
@@ -165,10 +164,7 @@ async function kataGoAnalyze(query, kopts) {
     (acc, cur) => {
       const count = (cur.toString().match(/\n/g) || []).length;
       bar.update(acc.count + count);
-      return {
-        count: acc.count + count,
-        responses: acc.responses + cur,
-      };
+      return { count: acc.count + count, responses: acc.responses + cur };
     },
     { count: 0, responses: '' },
   )(katago.stdout);

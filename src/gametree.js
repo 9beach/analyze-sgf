@@ -50,8 +50,9 @@ class GameTree {
     // Accumulates node and tail (variations).
     const seqtail = this.nodes.reduceRight((acc, cur) => {
       const tail = cur.getTailSGF(this.opts);
-      if (tail) return `\n(${cur.getSGF()}${acc})${tail}`;
-      return `\n${cur.getSGF()}${acc}`;
+      return tail
+        ? `\n(${cur.getSGF()}${acc})${tail}`
+        : `\n${cur.getSGF()}${acc}`;
     }, '');
 
     this.sgf = `(${sgfconv.propsFromObject(this.root, true)}${seqtail})`;
@@ -87,7 +88,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       // Skips warning.
       if (curJSON.warning) return acc;
 
-      const { curTurn, nextTurn, nextPL, isSuccessiveMove } = getTurns(
+      const { curTurn, nextTurn, nextPL, isSuccessiveMove } = getTurnInfo(
         realTurnNumbers,
         acc,
         curJSON,
@@ -129,25 +130,24 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   // FIXME: Remove passing move if has no variation.
 }
 
+// '{"id":"Q","isDuringSearch..."turnNumber":3}' => 3
+const getTurnNumber = (r) => parseInt(r.replace(/.*:/, ''), 10);
+
 // Splits and sorts responses by turnNumber.
-//
-// Response format: '{"id":"Q","isDuringSearch..."turnNumber":3}'
 function splitResponses(that, katagoResponses) {
-  if (katagoResponses.search('{"error":"') === 0) {
+  if (katagoResponses.search('{"error":"') === 0)
     throw Error(katagoResponses.replace('\n', ''));
-  }
 
   const responses = katagoResponses.split('\n');
   if (!responses[responses.length - 1]) responses.pop();
 
   if (responses.length) that.responsesGiven = true;
 
-  const getTurnNumber = (a) => parseInt(a.replace(/.*:/, ''), 10);
   return responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
 }
 
 // Gets the index of that.nodes from turnNumber of KataGo responses.
-function getTurns(realTurnNumbers, acc, curJSON, pls) {
+function getTurnInfo(realTurnNumbers, acc, curJSON, pls) {
   const turnNumber = realTurnNumbers
     ? realTurnNumbers[curJSON.turnNumber]
     : curJSON.turnNumber;
@@ -168,6 +168,7 @@ function getTurns(realTurnNumbers, acc, curJSON, pls) {
 // variations.
 function variationsFromResponse(that, response, pl, turn) {
   return response.moveInfos
+    .slice(0, that.opts.maxVariationsForEachMove)
     .map(
       (moveInfo) =>
         new NodeSeq(
@@ -182,8 +183,7 @@ function variationsFromResponse(that, response, pl, turn) {
       (v) =>
         that.opts.showBadVariations === true ||
         that.opts.maxWinrateDropForGoodMove / 100 > v.winrateDrop,
-    )
-    .slice(0, that.opts.maxVariationsForEachMove);
+    );
 }
 
 // Sets the report of the game and each node.
@@ -195,9 +195,7 @@ function setReports(that) {
   that.root.C = [r.reportGame()];
 
   // 'Bad moves left' report for each node.
-  that.nodes.forEach((node, index) => {
-    node.setReport(r.reportBadsLeft(index));
-  });
+  that.nodes.forEach((node, i) => node.setReport(r.reportBadsLeft(i)));
 }
 
 // rs => [ 'B', 'W' ] or [ 'W', 'B' ]
@@ -210,9 +208,7 @@ function getPLs(rs) {
   else if (root.PL) pls.push(root.PL[0]);
   else pls.push('B');
 
-  if (pls[0] === 'W') pls.push('B');
-  else pls.push('W');
-
+  pls.push(pls[0] === 'W' ? 'B' : 'W');
   return pls;
 }
 

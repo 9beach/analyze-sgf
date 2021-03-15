@@ -32,12 +32,15 @@ class GameReport {
 
     const ofRoot = (key) => this.root[key] && this.root[key][0].trim();
 
-    const ev = ofRoot('EV') || ofRoot('GN');
-    const km = ofRoot('KM') ? `Komi ${ofRoot('KM')}` : '';
-    const re = ofRoot('RE');
-    const dt = ofRoot('DT');
-    const game = [ev, km, re, dt].filter((v) => v).join(', ');
-    const title = game ? `\n${game}\n` : '';
+    const evkmredt = [
+      ofRoot('EV') || ofRoot('GN'),
+      ofRoot('KM') ? `Komi ${ofRoot('KM')}` : '',
+      ofRoot('RE'),
+      ofRoot('DT'),
+    ]
+      .filter((v) => v)
+      .join(', ');
+    const title = evkmredt ? `\n${evkmredt}\n` : '';
 
     const pb = plColor(ofRoot('PB'), 'Black');
     const pw = plColor(ofRoot('PW'), 'White');
@@ -165,22 +168,12 @@ function plColor(pl, color) {
 // * Blacks bad moves: #117 ⇣14.99%, #127 ⇣11.81%, ...
 // * Blacks bad hot spots: #129 ⇣30.29%
 function getBadsLeft(pl, goodBads, turnNumber) {
-  const color = pl === 'B' ? 'Black' : 'White';
+  const badmovesText = pl === 'B' ? 'Black bad moves' : 'White bad moves';
+  const hotspotText = pl === 'B' ? 'Black bad hot spots' : 'White hot spots';
+  const movesLeft = (i, turn) => goodBads[i].filter((m) => m.index > turn);
   return (
-    getDropList(
-      `${color} bad moves`,
-      goodBads[2].filter((m) => m.index > turnNumber),
-      null,
-      true,
-      true,
-    ) +
-    getDropList(
-      `${color} bad hot spots`,
-      goodBads[3].filter((m) => m.index > turnNumber),
-      null,
-      true,
-      true,
-    )
+    getDropList(badmovesText, movesLeft(2, turnNumber), null, true, true) +
+    getDropList(hotspotText, movesLeft(3, turnNumber), null, true, true)
   );
 }
 
