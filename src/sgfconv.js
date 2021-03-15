@@ -138,7 +138,7 @@ const seqFromObject = (obj) =>
 
 const addPropValue = (acc, v) => `${acc}[${v.trim().replace(/\]/g, '\\]')}]`;
 
-// { A: ['0'], B: ['a', 'b'] } => 'A[0]B[a][b]'
+// { A: ['0'], B: ['aa', 'b'], C: ['x'] } => ';A[0]B[aa][b]'
 const propsFromObject = (obj, comment) =>
   Object.keys(obj).reduce(
     (acc, cur) =>

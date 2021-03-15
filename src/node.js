@@ -16,9 +16,8 @@ class Node {
     this.report = '';
 
     const index = node.search(/\b[BW]\[/);
-    if (index === -1) {
-      throw Error(`Invalid NodeSequece: ${node}`);
-    }
+    if (index === -1) throw Error(`Invalid NodeSequece: ${node}`);
+
     // 'B' or 'W'
     this.pl = node.substring(index, index + 1);
   }
@@ -33,9 +32,7 @@ class Node {
     if (this.sgf) return this.sgf;
 
     const comment = [this.info, this.report].filter((v) => v).join('\n');
-
-    if (comment) this.sgf = sgfconv.addComment(this.node, comment);
-    else this.sgf = this.node;
+    this.sgf = comment ? sgfconv.addComment(this.node, comment) : this.node;
 
     return this.sgf;
   }
@@ -82,14 +79,30 @@ function calcWinrate(that, prevInfo, curInfo) {
   that.visits = curInfo.visits;
 }
 
-const fixFloat = (float) => parseFloat(float).toFixed(2);
+const float = (f) => parseFloat(f).toFixed(2);
+
+// e.g.,
+// * Win rate: B 51.74%
+// * Score lead: W 0.20
+// * Win rate drop: B ⇣30.29%
+// * Score drop: B ⇣4.31
+// * Visits: 1015
+const getWinratesInfo = (that) =>
+  [
+    `* Win rate: ${formatWinrate(that.winrate)}\n` +
+      `* Score lead: ${formatScoreLead(that.scoreLead)}\n`,
+    that.winrateDrop !== undefined
+      ? `* Win rate drop: ${that.pl} ⇣${float(that.winrateDrop * 100)}%\n` +
+        `* Score drop: ${that.pl} ⇣${float(that.scoreDrop)}\n`
+      : '',
+    `* Visits: ${that.visits}\n`,
+  ].join('');
 
 // Sets winrate, scoreDrop, winrateDrop, ... to that.info and the properties
 // of that.node.
 function setProperties(that, opts) {
-  if (that.propertiesGot === true) {
-    return;
-  }
+  if (that.propertiesGot === true) return;
+
   that.propertiesGot = true;
 
   if (that.winrate != null) {
@@ -100,7 +113,7 @@ function setProperties(that, opts) {
     // RSGF win rate.
     that.node = sgfconv.addProperty(
       that.node,
-      `SBKV[${fixFloat(that.winrate * 100)}]`,
+      `SBKV[${float(that.winrate * 100)}]`,
       0,
     );
   }
@@ -114,33 +127,13 @@ function setProperties(that, opts) {
 }
 
 function formatWinrate(winrate) {
-  const v = fixFloat(winrate * 100);
-  return v > 50 ? `B ${v}%` : `W ${fixFloat(100 - v)}%`;
+  const v = float(winrate * 100);
+  return v > 50 ? `B ${v}%` : `W ${float(100 - v)}%`;
 }
 
 function formatScoreLead(scoreLead) {
-  const v = fixFloat(scoreLead);
-  return v > 0 ? `B ${v}` : `W ${fixFloat(-v)}`;
-}
-
-// e.g.,
-// * Win rate: B 51.74%
-// * Score lead: W 0.20
-// * Win rate drop: B ⇣30.29%
-// * Score drop: B ⇣4.31
-// * Visits: 1015
-function getWinratesInfo(that) {
-  const winrate =
-    `* Win rate: ${formatWinrate(that.winrate)}\n` +
-    `* Score lead: ${formatScoreLead(that.scoreLead)}\n`;
-  const visit = `* Visits: ${that.visits}\n`;
-  if (that.winrateDrop !== undefined) {
-    const drop =
-      `* Win rate drop: ${that.pl} ⇣${fixFloat(that.winrateDrop * 100)}%\n` +
-      `* Score drop: ${that.pl} ⇣${fixFloat(that.scoreDrop)}\n`;
-    return winrate + drop + visit;
-  }
-  return winrate + visit;
+  const v = float(scoreLead);
+  return v > 0 ? `B ${v}` : `W ${float(-v)}`;
 }
 
 module.exports = Node;

@@ -12,13 +12,15 @@ const initialStonesFromRoot = (root) => [
 
 // ("W", { scoreLead: 21.050, pv:["A1","B2","C3"] }) => '(;W[aa];B[bb];W[cc])'
 const seqFromKataGoMoveInfo = (pl, moveInfo) =>
-  `(${moveInfo.pv.reduce(
-    (acc, move) => [
-      `${acc[0]};${acc[1]}[${sgfconv.iaFromJ1(move)}]`,
-      acc[1] === 'W' ? 'B' : 'W',
-    ],
-    ['', pl],
-  )[0]})`;
+  `(${
+    moveInfo.pv.reduce(
+      (acc, move) => [
+        `${acc[0]};${acc[1]}[${sgfconv.iaFromJ1(move)}]`,
+        acc[1] === 'W' ? 'B' : 'W',
+      ],
+      ['', pl],
+    )[0]
+  })`;
 
 // ';W[po];B[hm];W[ae]' => [["W","Q15"],["B","H13"],["W","A5"]]
 // ';W[po];TE[1]B[hm];W[]' => [["W","Q15"],["B","H13"]]
@@ -40,7 +42,7 @@ const mergeKataGoResponses = (original, revisited, turns) =>
   original
     .split('\n')
     .filter((l) => turns.indexOf(getTurnNumber(l)) === -1)
-    .join('\n') + revisited
+    .join('\n') + revisited;
 
 // Makes turnNumber to real turnNumber map.
 //
