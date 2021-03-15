@@ -9,12 +9,16 @@ const { XMLHttpRequest } = require('xmlhttprequest');
 const TYGEM_URL_BEGINS = 'http://service.tygem.com/service/gibo2/?seq=';
 const ORO_URL_BEGINS = 'https://www.cyberoro.com/gibo_new/giboviewer/gibovie';
 
+const isValidURL = (url) =>
+  url.indexOf(TYGEM_URL_BEGINS) === 0 || url.indexOf(ORO_URL_BEGINS) === 0;
+
 function httpgetRawSGF(url) {
   if (!isValidURL(url)) throw Error('URL not supported.');
 
   const http = new XMLHttpRequest();
   http.open('GET', url, false);
   http.send(null);
+
   return url.indexOf(TYGEM_URL_BEGINS) === 0
     ? http.responseText
         .replace(/\r\n/g, '')
@@ -24,12 +28,6 @@ function httpgetRawSGF(url) {
         .replace(/\r\n/g, '')
         .replace(/.*"hidden" name = "gibo_txt" id = "gibo_txt"[^(]*/, '')
         .replace(/\).*/, ')');
-}
-
-function isValidURL(url) {
-  if (url.indexOf(TYGEM_URL_BEGINS) === 0) return true;
-  if (url.indexOf(ORO_URL_BEGINS) === 0) return true;
-  return false;
 }
 
 function httpgetSGF(url) {
@@ -58,6 +56,10 @@ function httpgetSGF(url) {
 module.exports = { isValidURL, httpgetSGF };
 
 if (require.main === module) {
-  if (process.argv.length !== 3) console.log('Usage: httpget-sgf URL');
-  console.log(httpgetSGF(process.argv[2]));
+  try {
+    if (process.argv.length !== 3) console.log('Usage: httpget-sgf URL');
+    else console.log(httpgetSGF(process.argv[2]));
+  } catch (error) {
+    console.log(error.message);
+  }
 }
