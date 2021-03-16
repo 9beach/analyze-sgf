@@ -30,7 +30,7 @@ function convert(gib) {
   const root = `;FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]${
     pbFromGIB(gib) +
     pwFromGIB(gib) +
-    mkProp('EV', valueOfGIB(gib, 'GAMENAME')) +
+    mkProp('EV', propValueFromGIB(gib, 'GAMENAME')) +
     reFromGIB(gib) +
     kmFromGIB(gib) +
     dtFromGIB(gib) +
@@ -60,43 +60,43 @@ function nodeFromSTO(line) {
 
 // Gets PB, BR.
 function pbFromGIB(gib) {
-  const value = valueOfGIB(gib, 'GAMEBLACKNAME');
-  if (!value) return '';
+  const v = propValueFromGIB(gib, 'GAMEBLACKNAME');
+  if (!v) return '';
 
-  const pair = parsePlRank(value);
+  const pair = parsePlRank(v);
   return mkProp('PB', pair[0]) + mkProp('BR', pair[1]);
 }
 
 // Gets PW, WR.
 function pwFromGIB(gib) {
-  const value = valueOfGIB(gib, 'GAMEWHITENAME');
-  if (!value) return '';
+  const v = propValueFromGIB(gib, 'GAMEWHITENAME');
+  if (!v) return '';
 
-  const pair = parsePlRank(value);
+  const pair = parsePlRank(v);
   return mkProp('PW', pair[0]) + mkProp('WR', pair[1]);
 }
 
 // Gets DT.
 function dtFromGIB(gib) {
-  const value = valueOfGIB(gib, 'GAMETAG');
-  if (!value) return '';
+  const v = propValueFromGIB(gib, 'GAMETAG');
+  if (!v) return '';
 
-  const v = value.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
-  return v ? mkProp('DT', v.slice(1).join('-')) : '';
+  const w = v.match(/C(\d\d\d\d):(\d\d):(\d\d)/);
+  return w ? mkProp('DT', w.slice(1).join('-')) : '';
 }
 
 // Gets RE.
 function reFromGIB(gib) {
-  const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
+  const ginfo = propValueFromGIB(gib, 'GAMEINFOMAIN');
   if (ginfo) return mkProp('RE', getRE(ginfo, /GRLT:(\d+),/, /ZIPSU:(\d+),/));
 
-  const gtag = valueOfGIB(gib, 'GAMETAG');
+  const gtag = propValueFromGIB(gib, 'GAMETAG');
   return gtag ? mkProp('RE', getRE(gtag, /,W(\d+),/, /,Z(\d+),/)) : '';
 }
 
 // Gets KM.
 function kmFromGIB(gib) {
-  const ginfo = valueOfGIB(gib, 'GAMEINFOMAIN');
+  const ginfo = propValueFromGIB(gib, 'GAMEINFOMAIN');
   if (ginfo) {
     const v = ginfo.match(/GONGJE:(\d+),/);
     if (v) {
@@ -105,7 +105,7 @@ function kmFromGIB(gib) {
     }
   }
 
-  const gtag = valueOfGIB(gib, 'GAMETAG');
+  const gtag = propValueFromGIB(gib, 'GAMETAG');
   if (gtag) {
     const v = gtag.match(/,G(\d+),/);
     if (v) {
@@ -131,10 +131,10 @@ const handicapStones = [
 
 // Gets HA, AB.
 function haFromGIB(gib) {
-  const value = valueOfINI(gib);
-  if (!value) return '';
+  const v = valueOfINI(gib);
+  if (!v) return '';
 
-  const setup = value.split(/\s+/);
+  const setup = v.split(/\s+/);
   const ha = parseInt(setup[2], 10);
   return ha >= 2 && ha <= 9
     ? mkProp('HA', ha) + mkProp('AB', handicapStones[ha])
@@ -142,16 +142,16 @@ function haFromGIB(gib) {
 }
 
 // 'lee(8k)' => ['lee', '8k']
-function parsePlRank(value) {
-  const index = value.lastIndexOf('(');
+function parsePlRank(v) {
+  const index = v.lastIndexOf('(');
   return [
-    value.substring(0, index).trim(),
-    value.substring(index + 1, value.length - 1).trim(),
+    v.substring(0, index).trim(),
+    v.substring(index + 1, v.length - 1).trim(),
   ];
 }
 
-// ('...\[GAMEWHITENICK=oro\]...', 'GAMEWHITENICK') => 'oro'
-function valueOfGIB(gib, prop) {
+// ('...\[GAMEWHITENICK=xyz\]...', 'GAMEWHITENICK') => 'xyz'
+function propValueFromGIB(gib, prop) {
   const start = gib.indexOf(`\\[${prop}=`);
   if (start === -1) return '';
 
@@ -169,12 +169,12 @@ function valueOfINI(gib) {
 }
 
 // Gets RE.
-function getRE(value, grltRegex, zipsuRegex) {
-  const gmatch = grltRegex.exec(value);
+function getRE(v, grltRegex, zipsuRegex) {
+  const gmatch = grltRegex.exec(v);
   if (!gmatch) return '';
 
   const grlt = parseFloat(gmatch[1]);
-  const zmatch = zipsuRegex.exec(value);
+  const zmatch = zipsuRegex.exec(v);
   return zmatch ? parseRE(grlt, parseFloat(zmatch[1])) : '';
 }
 
