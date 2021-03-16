@@ -195,10 +195,7 @@ if (require.main === module) {
     process.exit(1);
   }
 
-  let data = '';
-  process.stdin.on('data', (chunk) => {
-    data += chunk;
-  });
-
-  process.stdin.on('end', () => console.log(convert(data)));
+  const data = [];
+  process.stdin.on('data', (chunk) => data.push(chunk));
+  process.stdin.on('end', () => console.log(convert(data.join(''))));
 }
