@@ -57,7 +57,8 @@ module.exports = { isValidURL, httpgetSGF };
 
 if (require.main === module) {
   try {
-    if (process.argv.length !== 3) console.log('Usage: httpget-sgf URL > FILE');
+    if (process.argv.length !== 3)
+      console.log('Usage: httpget-sgf URL > FILE');
     else console.log(httpgetSGF(process.argv[2]));
   } catch (error) {
     console.log(error.message);
