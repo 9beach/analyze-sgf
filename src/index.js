@@ -5,24 +5,19 @@
  */
 
 const fs = require('fs');
-const syspath = require('path');
-const homedir = require('os').homedir();
 const chalk = require('chalk');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
-const progress = require('cli-progress');
-const { spawn } = require('child_process');
-const { reduce } = require('axax/es5/reduce');
 
 const getopts = require('./getopts');
 const sgfconv = require('./sgfconv');
 const katagoconv = require('./katagoconv');
+const katago = require('./katago');
 const GameTree = require('./gametree');
 const toSGF = require('./gib2sgf');
 const { httpgetSGF, isValidURL } = require('./httpget-sgf');
 
 const log = (message) => console.error(chalk.grey(message));
-const config = `${homedir}${syspath.sep}.analyze-sgf.yml`;
 const getExt = (path) =>
   path.substring(1 + path.lastIndexOf('.'), path.length).toLowerCase();
 
@@ -76,13 +71,13 @@ async function processSGF(path) {
   const { newPath, sgf } = getNewPathAndSGF(isURL, path, ext);
 
   // Sends query to KataGo.
-  const q = katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis);
-  const r = await kataGoAnalyze(q, opts.katago);
-  // KataGoAnalyze already has printed error message. So we just return.
-  if (!r) return {};
+  const responses = await katago.analyze(
+    katagoconv.sgfToKataGoAnalysisQuery(sgf, opts.analysis),
+    opts.revisit,
+    opts.sgf.minWinrateDropForVariations / 100,
+    opts.katago,
+  );
 
-  // If revisit given, try again.
-  const responses = opts.revisit ? await revisitKataGo(r, q) : r;
   return { newPath, responses, sgf };
 }
 
@@ -132,66 +127,4 @@ function saveAnalyzed(targetPath, sgf, responses, saveResponse, gopts) {
 
   const report = gametree.getReport();
   if (report) console.log(report);
-}
-
-// Requests analysis to KataGo, and reads responses.
-async function kataGoAnalyze(query, kopts) {
-  const katago = spawn(`${kopts.path} ${kopts.arguments}`, [], {
-    shell: true,
-  });
-
-  katago.on('exit', (code) => {
-    if (code === 0) return;
-    log(`Process error. Please fix: ${config}\n${JSON.stringify(kopts)}`);
-    process.exit(1);
-  });
-
-  const format = `{bar} {percentage}% ({value}/{total}, ${sgfconv.formatK(
-    query.maxVisits,
-  )} visits) | ETA: {eta_formatted} ({duration_formatted})`;
-  const bar = new progress.SingleBar(
-    { format, barsize: 30 },
-    progress.Presets.rect,
-  );
-  bar.start(query.analyzeTurns.length, 0);
-
-  // Sends query to KataGo.
-  await katago.stdin.write(`${JSON.stringify(query)}\n`);
-  katago.stdin.end();
-
-  // Reads analysis from KataGo.
-  const { responses } = await reduce(
-    (acc, cur) => {
-      const count = (cur.toString().match(/\n/g) || []).length;
-      bar.update(acc.count + count);
-      return { count: acc.count + count, responses: acc.responses + cur };
-    },
-    { count: 0, responses: '' },
-  )(katago.stdout);
-
-  bar.stop();
-  return responses;
-}
-
-// Revisits KataGo and merges responses.
-async function revisitKataGo(responses, query) {
-  const q = { ...query };
-  q.maxVisits = opts.revisit;
-  q.analyzeTurns = katagoconv.winrateDropTurnsFromKataGoResponses(
-    responses,
-    opts.sgf.minWinrateDropForVariations / 100,
-  );
-
-  if (!q.analyzeTurns.length) {
-    log(
-      'No move found whose win rate drops by more than ' +
-        `${opts.sgf.minWinrateDropForVariations}%.`,
-    );
-    return null;
-  }
-
-  const r = await kataGoAnalyze(q, opts.katago);
-  return r
-    ? katagoconv.mergeKataGoResponses(responses, r, q.analyzeTurns)
-    : null;
 }
