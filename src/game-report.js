@@ -1,9 +1,8 @@
 /**
- * @fileOverview Generates the game report on players info, good moves,
- *               bad moves, and bad hot spots.
+ * @fileOverview Generates the game report on players, win rates, scores,
+ *               KataGo choices, good moves, bad moves, and bad hot spots.
  */
 
-// FIXME: Accesses private members of GameTree.
 class GameReport {
   constructor(gametree) {
     this.root = gametree.root;
@@ -103,7 +102,7 @@ function makeGoodBads(pl, drops, stat) {
 
 const percents = (f) => (f * 100).toFixed(2);
 
-// e.g.,:
+// e.g.,
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
 function getDropList(text, moves, total, listMoves, withDrop, isScore) {
   if (!moves.length) return '';
@@ -113,12 +112,12 @@ function getDropList(text, moves, total, listMoves, withDrop, isScore) {
       ? ` (${percents(moves.length / total)}%, ${moves.length}/${total})`
       : '',
     listMoves ? ': ' : '',
-    listMoves && isScore && withDrop
+    listMoves && withDrop && isScore
       ? moves
           .map((m) => `#${m.index + 1} ⇣${m.scoreDrop.toFixed(2)}`)
           .join(', ')
       : '',
-    listMoves && !isScore && withDrop
+    listMoves && withDrop && !isScore
       ? moves
           .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
           .join(', ')
@@ -130,7 +129,7 @@ function getDropList(text, moves, total, listMoves, withDrop, isScore) {
   ].join('');
 }
 
-// e.g.,:
+// e.g.,
 // * KataGo top choices (54.81%, 57/104)
 // * Less than 2% win rate drops (83.33%, 75/90)
 // * Less than 5% win rate drops (94.44%, 85/90)
