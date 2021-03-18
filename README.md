@@ -5,7 +5,8 @@
 
 한국어 | [English](README.en-US.md)
 
-`analyze-sgf`는 [카타고 분석 엔진](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)으로
+`analyze-sgf`는
+[카타고 분석 엔진](https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md)으로
 [SGF](https://en.wikipedia.org/wiki/Smart_Game_Format) 및 타이젬 파일(GIB)을
 분석해서 승률 그래프, 좋은 수, 나쁜 수를 표시하고 변화도를 제안하여 새로운 기보 파일로
 저장합니다.
@@ -77,7 +78,7 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 `analyze-sgf`를 사용하려면 홈 디렉터리에 있는 `.analyze-sgf.yml` 파일에 카타고 경로를
 설정해야 합니다. `.analyze-sgf.yml` 파일의 내용은 아래와 같습니다. 이 중에서
 `"KataGo path here"`, `"KataGo arguments here"` 두 값을 설치된 카타고에 맞게
-수정해야 합니다. 예시(e.g.,)를 참고하세요.
+수정해야 합니다. 예시(e.g.)를 참고하세요.
 
 ```yml
 # Please visit <https://github.com/9beach/analyze-sgf>.
@@ -164,14 +165,15 @@ generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 
 **사바키로 변화도를 탐색하는 모습**
 
 승률이 5% 이상 하락하면 빨간색 점으로, 20% 이상 하락하면 빨간색 리본으로, 2% 이내로
-하락하면 초록색 점으로 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서 `minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
-`maxWinrateDropForGoodMove` 설정 값을 지정해서 변경할 수 있습니다.
+하락하면 초록색 점으로 착수를 표시합니다. 이 기준은 `.analyze-sgf.yml`에서
+`minWinrateDropForBadMove`, `minWinrateDropForBadHotSpot`,
+`maxWinrateDropForGoodMove` 값을 지정해서 변경할 수 있습니다.
 
 매 수마다 승률 및 집 변동에 관한 정보, 카타고 추천수와 일치 여부, 승률 하락이 큰 수에
 대한 링크 등을 포함하고 있어서 빠르게 승부처를 분석할 수 있습니다.
 
-사바키에서 색깔이 검게 반전된 변화도 수순 위에 마우스를 올리면 위의 스크린숏에서와 같이
-자동으로 수순이 진행됩니다.
+사바키에서 색깔이 검게 반전된 변화도 수순 위에 마우스를 올리면 위의 스크린숏처럼 자동으로
+수순이 진행됩니다.
 
 ## 설정
 
@@ -238,9 +240,9 @@ generated: baduk-analyzed.sgf
 analyze-sgf -a 'analyzeTurns:[170,171]' -g 'maxVariationsForEachMove:20,showBadVariations:true' -f baduk.json
 ```
 
-이제 171, 172 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼
-수 있습니다. 저장된 분석 정보를 이용하기 때문에 `analyzeTurns`를 제외한 `maxVisits`,
-`komi` 등의 `-a` 옵션 값은 무시됩니다.
+이제 171, 172 번째 수의 변화도를 나쁜 변화도까지 포함해서 최대 20개까지 볼 수 있습니다.
+저장된 분석 정보를 이용하기 때문에 `analyzeTurns`를 제외한 `maxVisits`, `komi` 등의
+`-a` 옵션 값은 무시됩니다.
 
 몇 시간을 기다릴 수 있다면 `-s -a 'maxVisits:100000'`과 같이 아주 큰 탐색 숫자를 주고
 분석 데이터를 저장하세요. 실시간으로 카타고를 이용하는 것과는 차원이 다른 깊이를
