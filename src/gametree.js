@@ -21,6 +21,7 @@ class GameTree {
 
     // Gets root node and sequence from SGF.
     this.root = rs.root;
+    rs.root.CA = ['UTF-8'];
     this.seq = rs.seq;
     this.nodes = rs.seq
       .split(';')

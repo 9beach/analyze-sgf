@@ -57,7 +57,7 @@ describe('GameTree', () => {
     const gametree = new GameTree('(PL[]C[12\n34];B[aa];W[bb])', '', opts);
     compareButLines(
       gametree.getSGF(),
-      '(;PL[];B[aa]C[Move 1];W[bb]C[Move 2])',
+      '(;PL[]CA[UTF-8];B[aa]C[Move 1];W[bb]C[Move 2])',
     );
   });
 
