@@ -24,10 +24,10 @@
 const mkProp = (p, v) => (v ? `${p}[${v}]` : '');
 
 // Converts GIB to SGF.
-function convert(gib) {
+function toSGF(gib) {
   // Gets RootNode from HS~HE and INI.
-  // Properties: FF, GM, SZ, AP, PB, BR, PW, WR, EV, RE, KM, DT, HA, AB.
-  const root = `;FF[3]GM[1]SZ[19]AP[https://github.com/9beach/analyze-sgf]${
+  // Properties: GM, FF, SZ, CA, AP, PB, BR, PW, WR, EV, RE, KM, DT, HA, AB.
+  const root = `;GM[1]FF[4]SZ[19]CA[UTF-8]AP[analyze-sgf]${
     pbFromGIB(gib) +
     pwFromGIB(gib) +
     mkProp('EV', propValueFromGIB(gib, 'GAMENAME')) +
@@ -187,7 +187,7 @@ function parseRE(grlt, zipsu) {
     : '';
 }
 
-module.exports = convert;
+module.exports = toSGF;
 
 if (require.main === module) {
   if (process.argv.length !== 2) {
@@ -197,5 +197,5 @@ if (require.main === module) {
 
   const data = [];
   process.stdin.on('data', (chunk) => data.push(chunk));
-  process.stdin.on('end', () => console.log(convert(data.join(''))));
+  process.stdin.on('end', () => console.log(toSGF(data.join(''))));
 }

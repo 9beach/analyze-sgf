@@ -47,6 +47,7 @@ function httpgetSGF(url) {
     .replace(/\bRD\[/, 'DT[')
     .replace(/\bK[OM]\[\]/, '')
     .replace(/\bKO\[/, 'KM[')
+    .replace(/\bKM\[/, 'CA[UTF-8]KM[')
     .replace(/ \.\]/g, ']')
     .replace(/ *\]/g, ']')
     .replace(/\[ */g, '[')
