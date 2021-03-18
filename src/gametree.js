@@ -21,8 +21,9 @@ class GameTree {
 
     // Gets root node and sequence from SGF.
     this.root = rs.root;
-    rs.root.CA = ['UTF-8'];
+    this.root.CA = ['UTF-8'];
     this.seq = rs.seq;
+    // e.g., [new Tail(';B[aa]', 'Move 1'), new Tail(';W[bb]', 'Move 2'), ...]
     this.nodes = rs.seq
       .split(';')
       .filter((node) => node.search(/\b[BW]\[/) !== -1)
