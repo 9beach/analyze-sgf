@@ -130,10 +130,10 @@ describe('isPassMove', () => {
   });
 });
 
-describe('hasPassingMoves', () => {
+describe('hasPassMoves', () => {
   it('should be expected values.', () => {
-    assert.equal(sgfconv.hasPassingMoves(';W[po];B[];W[ae])'), true);
-    assert.equal(sgfconv.hasPassingMoves(';W[po];B[tt];W[ae])'), true);
-    assert.equal(sgfconv.hasPassingMoves(';W[po];B[aa];W[ae])'), false);
+    assert.equal(sgfconv.hasPassMoves(';W[po];B[];W[ae])'), true);
+    assert.equal(sgfconv.hasPassMoves(';W[po];B[tt];W[ae])'), true);
+    assert.equal(sgfconv.hasPassMoves(';W[po];B[aa];W[ae])'), false);
   });
 });

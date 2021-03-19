@@ -100,7 +100,7 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
 
   if (!query.analyzeTurns) {
     query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
-  } else if (sgfconv.hasPassingMoves(rs.seq)) {
+  } else if (sgfconv.hasPassMoves(rs.seq)) {
     const realTurnNumbers = makeRealTurnNumbersMap(rs.seq);
     query.analyzeTurns = query.analyzeTurns
       .map((turn) => realTurnNumbers.indexOf(turn))

@@ -170,7 +170,7 @@ function rootAndSeqFromSGF(sgf) {
 // ';W[aa];B[];W[bb]' => true
 // ';W[aa];B[tt];W[bb]' => true
 // ';W[aa];B[cc];W[bb]' => false
-const hasPassingMoves = (seq, sz = 19) =>
+const hasPassMoves = (seq, sz = 19) =>
   seq
     .split(';')
     .filter((v) => v)
@@ -201,6 +201,6 @@ module.exports = {
   propsFromObject,
   seqFromObject,
   formatK,
-  hasPassingMoves,
+  hasPassMoves,
   seqToPV,
 };

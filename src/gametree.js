@@ -67,7 +67,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   const responses = splitResponses(that, katagoResponses);
   // Real `turnNumber` considering previous passing moves is
   // `realTurnNumbersMap[turnNumber]`.
-  const realTurnNumbers = sgfconv.hasPassingMoves(that.seq)
+  const realTurnNumbers = sgfconv.hasPassMoves(that.seq)
     ? katagoconv.makeRealTurnNumbersMap(that.seq)
     : undefined;
 
