@@ -39,7 +39,7 @@ const opts = getopts();
   });
 })();
 
-// Analyzes a SGF by KataGo Analysis JSON, not by KataGO Analysis Engine.
+// Analyzes a SGF by KataGo Analysis JSON, not by KataGo Analysis Engine.
 //
 // Simply returns SGF and KataGo responses from JSON.
 // JSON file format: tailless SGF + '\n' + KataGo responses.
