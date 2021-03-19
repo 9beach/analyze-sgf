@@ -148,11 +148,11 @@ const propsFromObject = (obj, comment) =>
     ';',
   );
 
-const isNotPassingMove = (move, sz = 19) =>
+const isPassMove = (move, sz = 19) =>
   sz < 20
-    ? move.search(/\b[BW]\[[^\]]/) !== -1 &&
-      move.search(/\b[BW]\[tt\]/) === -1
-    : move.search(/\b[BW]\[[^\]]/) !== -1;
+    ? move.search(/\b[BW]\[[^\]]/) === -1 ||
+      move.search(/\b[BW]\[tt\]/) !== -1
+    : move.search(/\b[BW]\[[^\]]/) === -1;
 
 // Notice that all the comments are removed.
 //
@@ -174,7 +174,7 @@ const hasPassingMoves = (seq, sz = 19) =>
   seq
     .split(';')
     .filter((v) => v)
-    .some((node) => !isNotPassingMove(node, sz));
+    .some((node) => isPassMove(node, sz));
 
 // Strips tail, comments, and line feeds from SGF.
 function removeTails(sgf, comment) {
@@ -194,7 +194,7 @@ module.exports = {
   toBadHotSpot,
   addComment,
   removeTails,
-  isNotPassingMove,
+  isPassMove,
   rootAndSeqFromSGF,
   correctSGFDialects,
   prettyPathFromSGF,
