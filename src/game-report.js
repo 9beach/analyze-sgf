@@ -100,7 +100,7 @@ function makeGoodBads(pl, drops, stat) {
   ];
 }
 
-const percents = (f) => (f * 100).toFixed(2);
+const percentage = (f) => (f * 100).toFixed(2);
 
 // e.g.,
 // * More than 5% win rate drops (5.56%, 5/90): #79 ⇣9.20%, #83 ⇣8.49%, ...
@@ -109,7 +109,7 @@ function getDropList(text, moves, total, listMoves, withDrop, isScore) {
   return [
     `* ${text}`,
     total
-      ? ` (${percents(moves.length / total)}%, ${moves.length}/${total})`
+      ? ` (${percentage(moves.length / total)}%, ${moves.length}/${total})`
       : '',
     listMoves ? ': ' : '',
     listMoves && withDrop && isScore
@@ -119,7 +119,7 @@ function getDropList(text, moves, total, listMoves, withDrop, isScore) {
       : '',
     listMoves && withDrop && !isScore
       ? moves
-          .map((m) => `#${m.index + 1} ⇣${percents(m.winrateDrop)}%`)
+          .map((m) => `#${m.index + 1} ⇣${percentage(m.winrateDrop)}%`)
           .join(', ')
       : '',
     listMoves && !withDrop

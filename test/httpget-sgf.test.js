@@ -5,7 +5,9 @@ const { isValidURL, httpgetSGF } = require('../src/httpget-sgf');
 describe('httpgetSGF', () => {
   it('should download same SGF for cyberoro.', () => {
     const url =
-      'https://www.cyberoro.com/gibo_new/giboviewer/giboviewer.asp?gibo=https://open.cyberoro.com/gibo/202102/usul-bekchanghee.sgf&gibonum=37122&bimg=&wimg=';
+      'https://www.cyberoro.com/gibo_new/giboviewer/giboviewer.asp?gibo=' +
+      'https://open.cyberoro.com/gibo/202102/usul-bekchanghee.sgf' +
+      '&gibonum=37122&bimg=&wimg=';
     assert.equal(isValidURL(url), true);
     const sgf = httpgetSGF(url);
     assert.equal(sgf.indexOf('(;GM['), 0);

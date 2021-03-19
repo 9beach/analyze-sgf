@@ -99,20 +99,20 @@ const ofRoot = (root, key) => root[key] && root[key][0];
 
 // Makes file name from SGF.
 //
-// e.g., '[제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf'
+// e.g., [제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf
 function prettyPathFromSGF(sgf) {
   // Fixes bad Tygem SGF. e.g., '대주배 16강 .'
-  const rs = rootAndSeqFromSGF(sgf.replace(' .', ''));
+  const { root } = rootAndSeqFromSGF(sgf);
   const evgndt = [
-    ofRoot(rs.root, 'EV') || ofRoot(rs.root, 'GN'),
-    ofRoot(rs.root, 'DT'),
+    ofRoot(root, 'EV') || ofRoot(root, 'GN'),
+    ofRoot(root, 'DT'),
   ]
     .filter((v) => v)
     .join(', ');
   const evdt = evgndt ? `[${evgndt}]` : '';
-  const re = ofRoot(rs.root, 'RE') ? `(${ofRoot(rs.root, 'RE')})` : '';
-  const pw = ofRoot(rs.root, 'PW');
-  const pb = ofRoot(rs.root, 'PB');
+  const re = ofRoot(root, 'RE') ? `(${ofRoot(root, 'RE')})` : '';
+  const pw = ofRoot(root, 'PW');
+  const pb = ofRoot(root, 'PB');
   const pls = pw && pb ? `${pw} vs ${pb}` : '';
 
   return `${[evdt, pls, re].filter((v) => v).join(' ')}.sgf`;
