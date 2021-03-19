@@ -24,19 +24,18 @@ const getExt = (path) =>
 // Parses args and merges them with yaml config.
 const opts = getopts();
 
-// Starts async communication with KataGo.
+// Starts communication with KataGo.
 (async () => {
-  // Analyzes by KataGo Analysis Engine.
-  opts.paths.map(async (path) => {
+  for (const path of opts.paths.values()) { // eslint-disable-line
     try {
       const { newPath, sgf, responses } = opts.jsonGiven
         ? processJSON(path)
-        : await processSGF(path);
+        : await processSGF(path); // eslint-disable-line
       saveAnalyzed(newPath, sgf, responses, opts.saveGiven, opts.sgf);
     } catch (error) {
       log(`${error.message}, while processing: ${path}`);
     }
-  });
+  }
 })();
 
 // Analyzes a SGF by KataGo Analysis JSON, not by KataGo Analysis Engine.
