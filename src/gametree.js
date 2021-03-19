@@ -148,7 +148,8 @@ function splitResponses(that, katagoResponses) {
   return responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
 }
 
-// Gets the index of that.nodes from turnNumber of KataGo responses.
+// Gets curTurn, nextTurn, nextPL, and isSuccessiveMove from KataGo response
+// JSON and realTurnNumbers.
 function getTurnInfo(realTurnNumbers, acc, curJSON, pls) {
   const turnNumber = realTurnNumbers
     ? realTurnNumbers[curJSON.turnNumber]
@@ -166,7 +167,12 @@ function getTurnInfo(realTurnNumbers, acc, curJSON, pls) {
   return { curTurn, nextTurn, nextPL, isSuccessiveMove };
 }
 
-// Does not care about winrateDrop of the turn. Only cares winrateDrops of the
+// Gets the array of the variations (NodeSeq) from response.moveInfos.
+//
+// Does not care about winrateDrop of the response. Only cares about
+// winrateDrops of the variations. So the whole variations of the response can
+// be omitted by winrateDrop of the response when making SGF tails, but the
+// comment of the response should include these in the section of proposed
 // variations.
 function variationsFromResponse(that, response, pl, turn) {
   return response.moveInfos
