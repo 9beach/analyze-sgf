@@ -26,7 +26,7 @@ const opts = getopts();
 
 // Starts communication with KataGo.
 (async () => {
-  for (const path of opts.paths.values()) { // eslint-disable-line
+  for (const path of opts.paths) { // eslint-disable-line
     try {
       const { newPath, sgf, responses } = opts.jsonGiven
         ? processJSON(path)
