@@ -148,12 +148,6 @@ const propsFromObject = (obj, comment) =>
     ';',
   );
 
-const isPassMove = (move, sz = 19) =>
-  sz < 20
-    ? move.search(/\b[BW]\[[^\]]/) === -1 ||
-      move.search(/\b[BW]\[tt\]/) !== -1
-    : move.search(/\b[BW]\[[^\]]/) === -1;
-
 // Notice that all the comments are removed.
 //
 // '(FF[4]GM[1]C[test];B[aa]C[test];(B[bb])(B[cc])'
@@ -166,6 +160,26 @@ function rootAndSeqFromSGF(sgf) {
     seq: seqFromObject(nodes[0]),
   };
 }
+
+// 'xxxxx' => false
+// 'B[aa]' => true
+// 'B[xxx' => true
+// 'B[tt]' => false
+// 'B[]' => false
+const isRegularMove = (move, sz = 19) =>
+  sz < 20
+    ? move.search(/\b[BW]\[[^\]]/) !== -1 && move.search(/[BW]\[tt\]/) === -1
+    : move.search(/\b[BW]\[[^\]]/) !== -1;
+
+// 'xxxxx' => false
+// 'B[aa]' => false
+// 'B[xxx' => false
+// 'B[tt]' => true
+// 'B[]' => true
+const isPassMove = (move, sz = 19) =>
+  sz < 20
+    ? move.search(/\b[BW]\[\]/) !== -1 || move.search(/\b[BW]\[tt\]/) !== -1
+    : move.search(/\b[BW]\[\]/) !== -1;
 
 // ';W[aa];B[];W[bb]' => true
 // ';W[aa];B[tt];W[bb]' => true
@@ -195,6 +209,7 @@ module.exports = {
   addComment,
   removeTails,
   isPassMove,
+  isRegularMove,
   rootAndSeqFromSGF,
   correctSGFDialects,
   prettyPathFromSGF,

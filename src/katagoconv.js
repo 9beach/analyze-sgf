@@ -28,7 +28,7 @@ const seqFromKataGoMoveInfo = (pl, moveInfo) =>
 const seqToKataGoMoves = (seq, sz = 19) =>
   seq
     .split(';')
-    .filter((move) => !sgfconv.isPassMove(move, sz))
+    .filter((move) => move && sgfconv.isRegularMove(move, sz))
     .map((move) => {
       const i = move.search(/\b[BW]\[[^\]]/);
       return [move[i], sgfconv.iaToJ1(move.substring(i + 2, i + 4))];
@@ -54,7 +54,7 @@ const makeRealTurnNumbersMap = (seq) =>
     seq
       .split(';')
       .filter((v) => v)
-      .map((move, index) => (!sgfconv.isPassMove(move) ? index + 1 : -1))
+      .map((move, index) => (sgfconv.isRegularMove(move) ? index + 1 : -1))
       .filter((v) => v !== -1),
   );
 
