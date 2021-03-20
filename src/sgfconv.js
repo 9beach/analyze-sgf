@@ -168,8 +168,8 @@ function rootAndSeqFromSGF(sgf) {
 // 'B[]' => false
 const isRegularMove = (move, sz = 19) =>
   sz < 20
-    ? move.search(/\b[BW]\[[^\]]/) !== -1 && move.search(/[BW]\[tt\]/) === -1
-    : move.search(/\b[BW]\[[^\]]/) !== -1;
+    ? move.search(/[BW]\[[^\]]/) === 0 && move.search(/[BW]\[tt\]/) === -1
+    : move.search(/[BW]\[[^\]]/) === 0;
 
 // 'xxxxx' => false
 // 'B[aa]' => false
@@ -178,8 +178,8 @@ const isRegularMove = (move, sz = 19) =>
 // 'B[]' => true
 const isPassMove = (move, sz = 19) =>
   sz < 20
-    ? move.search(/\b[BW]\[\]/) !== -1 || move.search(/\b[BW]\[tt\]/) !== -1
-    : move.search(/\b[BW]\[\]/) !== -1;
+    ? move.search(/[BW]\[\]/) === 0 || move.search(/[BW]\[tt\]/) === 0
+    : move.search(/[BW]\[\]/) === 0;
 
 // ';W[aa];B[];W[bb]' => true
 // ';W[aa];B[tt];W[bb]' => true

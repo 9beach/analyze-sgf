@@ -124,9 +124,19 @@ describe('seqToPV', () => {
 
 describe('isPassMove', () => {
   it('should be expected values.', () => {
-    assert.equal(sgfconv.isPassMove(';B[aa];)'), false);
-    assert.equal(sgfconv.isPassMove(';B[];)'), true);
-    assert.equal(sgfconv.isPassMove(';B[tt];)'), true);
+    assert.equal(sgfconv.isPassMove('abcd'), false);
+    assert.equal(sgfconv.isPassMove('B[aa]'), false);
+    assert.equal(sgfconv.isPassMove('B[]'), true);
+    assert.equal(sgfconv.isPassMove('B[tt]'), true);
+  });
+});
+
+describe('isRegularMove', () => {
+  it('should be expected values.', () => {
+    assert.equal(sgfconv.isRegularMove('abcd'), false);
+    assert.equal(sgfconv.isRegularMove('B[aa]'), true);
+    assert.equal(sgfconv.isRegularMove('B[]'), false);
+    assert.equal(sgfconv.isRegularMove('B[tt]'), false);
   });
 });
 

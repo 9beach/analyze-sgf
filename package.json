@@ -24,9 +24,6 @@
     "test": "mocha --color && test/index-mockup.test.sh",
     "lint": "eslint ."
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "preferGlobal": true,
   "keywords": [
     "katago",
