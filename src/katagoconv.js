@@ -47,7 +47,7 @@ const mergeKataGoResponses = (original, revisited, turns) =>
 // Makes turnNumber to real turnNumber map.
 //
 // Pass moves are not included in KataGo analysis. So we need to convert
-// KataGo turnNumbers to real turnNumbers considering previous passing moves.
+// KataGo turnNumbers to real turnNumbers considering previous pass moves.
 // Real `turnNumber` is `realTurnNumbersMap[turnNumber]`.
 const makeRealTurnNumbersMap = (seq) =>
   [0].concat(
@@ -59,7 +59,7 @@ const makeRealTurnNumbersMap = (seq) =>
   );
 
 // Returns array of (turnNumber - 1) whose win rate drops by more than given
-// paremeter.
+// winrateDrop.
 const winrateDropTurnsFromKataGoResponses = (responses, winrateDrop) =>
   responses
     .replace(/.*"rootInfo"/g, '{"rootInfo"')
