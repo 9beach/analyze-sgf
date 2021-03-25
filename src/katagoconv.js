@@ -35,19 +35,19 @@ const seqToKataGoMoves = (seq, sz = 19) =>
     });
 
 // '{"id":"Q","isDuringSearch..."turnNumber":3}' => 3
-const getTurnNumber = (r) => parseInt(r.replace(/.*:/, ''), 10);
+const toTurnNumber = (r) => parseInt(r.replace(/.*:/, ''), 10);
 
 // Overwrites revisited to original.
 const mergeKataGoResponses = (original, revisited, turns) =>
   original
     .split('\n')
-    .filter((l) => turns.indexOf(getTurnNumber(l)) === -1)
+    .filter((l) => turns.indexOf(toTurnNumber(l)) === -1)
     .join('\n') + revisited;
 
 // Makes turnNumber to real turnNumber map.
 //
 // Pass moves are not included in KataGo analysis. So we need to convert
-// KataGo turnNumbers to real turnNumbers considering previous pass moves.
+// KataGo turnNumbers to real turnNumbers considering previous passing moves.
 // Real `turnNumber` is `realTurnNumbersMap[turnNumber]`.
 const makeRealTurnNumbersMap = (seq) =>
   [0].concat(

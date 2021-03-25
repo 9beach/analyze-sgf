@@ -133,7 +133,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
 }
 
 // '{"id":"Q","isDuringSearch..."turnNumber":3}' => 3
-const getTurnNumber = (r) => parseInt(r.replace(/.*:/, ''), 10);
+const toTurnNumber = (r) => parseInt(r.replace(/.*:/, ''), 10);
 
 // Splits and sorts responses by turnNumber.
 function splitResponses(that, katagoResponses) {
@@ -145,7 +145,7 @@ function splitResponses(that, katagoResponses) {
 
   if (responses.length) that.responsesGiven = true;
 
-  return responses.sort((a, b) => getTurnNumber(a) - getTurnNumber(b));
+  return responses.sort((a, b) => toTurnNumber(a) - toTurnNumber(b));
 }
 
 // Gets curTurn, nextTurn, nextPL, and isSuccessiveMove from KataGo response
