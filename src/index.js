@@ -91,13 +91,12 @@ function getNewPathAndSGF(isURL, path, ext) {
     return { sgf, newPath };
   }
 
-  // Reads SGF/GIB file.
+  // Reads a SGF/GIB file.
   const content = fs.readFileSync(path);
   const detected = jschardet.detect(content);
   const sgf = iconv.decode(content, detected.encoding).toString();
-
-  // Converts it if GIB given.
   const newSGF = ext === 'gib' ? toSGF(sgf) : sgfconv.correctSGFDialects(sgf);
+
   return { sgf: newSGF, newPath: path };
 }
 
