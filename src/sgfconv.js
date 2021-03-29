@@ -150,8 +150,8 @@ const propsFromObject = (obj, comment) =>
 
 // Notice that all the comments are removed.
 //
-// '(FF[4]GM[1]C[test];B[aa]C[test];(B[bb])(B[cc])'
-//   => { root: { FF: '4', GM: '1' }, seq: ';B[aa];B[bb]' }
+// '(FF[4]GM[1]C[test];B[aa]C[test];(W[bb])(W[cc])'
+//   => { root: { FF: ['4'], GM: ['1'] }, seq: ';B[aa];W[bb]' }
 function rootAndSeqFromSGF(sgf) {
   const nodes = sgfparser.parse(sgf);
   delete nodes[0].data.C;
