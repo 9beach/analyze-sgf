@@ -63,6 +63,7 @@ class GameTree {
 }
 
 // Sets win rate and variations from KataGo responses.
+/* eslint-disable max-lines-per-function */
 function setWinrateAndVariatons(that, katagoResponses, pls) {
   const responses = splitResponses(that, katagoResponses);
   // Real `turnNumber` considering previous passing moves is
@@ -70,7 +71,6 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   const realTurnNumbers = sgfconv.hasPassMoves(that.seq)
     ? katagoconv.makeRealTurnNumbersMap(that.seq)
     : undefined;
-
   // Notice that:
   // * responses.length === nodes.length + 1
   // * Sets responses[0].moveInfos (variations) to nodes[0].variations.
@@ -120,6 +120,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       )
         that.nodes[nextTurn].setVariations(
           variationsFromResponse(that, curJSON, nextPL, nextTurn),
+          that.opts.boardXSize,
         );
 
       return {
@@ -131,6 +132,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   ).maxVisits;
   // FIXME: Remove passing move if has no variation.
 }
+/* eslint-enable max-lines-per-function */
 
 // '{"id":"Q","isDuringSearch..."turnNumber":3}' => 3
 const toTurnNumber = (r) => parseInt(r.replace(/.*:/, ''), 10);
