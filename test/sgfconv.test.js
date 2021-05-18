@@ -111,14 +111,15 @@ describe('prettyPathFromSGF', () => {
 
 describe('seqToPV', () => {
   it('should be expected values.', () => {
-    assert.equal(sgfconv.seqToPV('(;W[po];B[hm];W[ae])'), 'WQ5 H7 A15');
+    assert.equal(sgfconv.seqToPV('(;W[po];B[hm];W[ae])', 19), 'WQ5 H7 A15');
     assert.equal(
-      sgfconv.seqToPV('(;W[poxxxx;B[hmxxxx];W[ae]xxxx)'),
+      sgfconv.seqToPV('(;W[poxxxx;B[hmxxxx];W[ae]xxxx)', 19),
       'WQ5 H7 A15',
     );
-    assert.equal(sgfconv.seqToPV(';W[po]'), 'Q5');
-    assert.equal(sgfconv.seqToPV(';W[po'), 'Q5');
-    assert.equal(sgfconv.seqToPV(';W[po12323'), 'Q5');
+    assert.equal(sgfconv.seqToPV(';W[po]', 19), 'Q5');
+    assert.equal(sgfconv.seqToPV(';W[po', 19), 'Q5');
+    assert.equal(sgfconv.seqToPV(';W[po12323', 19), 'Q5');
+    assert.equal(sgfconv.seqToPV(';W[ia]', 9), 'J9');
   });
 });
 

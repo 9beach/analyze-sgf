@@ -52,7 +52,11 @@ function getopts() {
   }
 
   // Merges all.
-  return { ...args, ...yml };
+  const opts = { ...args, ...yml };
+
+  // Add boardXSize to sgf opts for coordinate conversion
+  opts.sgf.boardXSize = opts.analysis.boardXSize;
+  return opts;
 }
 
 // Parses args.

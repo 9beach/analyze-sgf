@@ -9,11 +9,12 @@ const Node = require('./node');
 // Carries a SGF Tail.
 class Tail extends Node {
   // Sets a NodeSeq array to carry the variations.
-  setVariations(variations) {
+  setVariations(variations, boardXSize) {
     this.variations = variations;
     if (this.hasVariation())
       this.pvs = `The proposed variations\n\n${this.variations.reduce(
-        (acc, cur, index) => `${acc}${index + 1}. ${cur.formatPV()}\n`,
+        (acc, cur, index) =>
+          `${acc}${index + 1}. ${cur.formatPV(boardXSize)}\n`,
         '',
       )}`;
 
