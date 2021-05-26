@@ -45,9 +45,9 @@ class Node {
   }
 
   // e.g., 'BC9 B17 F16 L3 F14 R7 (B 54.61%, B 0.19)'
-  formatPV() {
+  formatPV(boardXSize) {
     return (
-      `${sgfconv.seqToPV(this.node)} (` +
+      `${sgfconv.seqToPV(this.node, boardXSize)} (` +
       `${formatWinrate(this.winrate)}, ${formatScoreLead(this.scoreLead)}, ` +
       `${this.visits} visits)`
     );

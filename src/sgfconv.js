@@ -24,11 +24,11 @@ function iaToJ1(value) {
 // Real Goban display.
 // 'aa' => 'A19'
 // 'bd' => 'B16'
-function iaToJ19(value) {
+function iaToJ19(value, boardXSize) {
   const v = value.toUpperCase();
   return v[0] >= 'I'
-    ? nextChar(v[0]) + (84 - v.charCodeAt(1)).toString()
-    : v[0] + (84 - v.charCodeAt(1)).toString();
+    ? nextChar(v[0]) + (65 + boardXSize - v.charCodeAt(1)).toString()
+    : v[0] + (65 + boardXSize - v.charCodeAt(1)).toString();
 }
 
 // 'A1' => 'aa'
@@ -71,12 +71,12 @@ const addComment = (seq, comment, index = 0) =>
 // For SABAKI autoplaying PVs.
 // '(;W[po];B[hm];W[ae]...)' => 'WQ5 H7 A15'
 // ';W[po]' => 'Q5'
-function seqToPV(seq) {
+function seqToPV(seq, boardXSize) {
   const pl = seq[0] === '(' ? seq[2] : seq[0];
   const pv = seq
     .split(';')
     .filter((move) => move.search(/[BW]\[[^\]]/) === 0)
-    .map((move) => iaToJ19(move.substring(2, 4)))
+    .map((move) => iaToJ19(move.substring(2, 4), boardXSize))
     .join(' ');
 
   return pv.indexOf(' ') >= 0 ? pl + pv : pv;

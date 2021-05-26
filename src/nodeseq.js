@@ -12,7 +12,10 @@ class NodeSeq extends Node {
     super(seq, title);
     super.setWinrate(prevInfo, curInfo, opts);
     // As a seq.
-    this.info += `* Sequence: ${this.formatPV().replace(/ \(.*/, '')}\n`;
+    this.info += `* Sequence: ${this.formatPV(opts.boardXSize).replace(
+      / \(.*/,
+      '',
+    )}\n`;
   }
 }
 

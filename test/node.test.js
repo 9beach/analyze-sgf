@@ -64,11 +64,12 @@ describe('Node.formatPV', () => {
 
     node[0].setWinrate(previnfo, currinfo, sgfopts);
     assert.equal(
-      node[0].formatPV(),
+      node[0].formatPV(19),
       'BA19 B18 C17 (W 56.00%, B 6.50, 1000 visits)',
     );
 
     node[1].setWinrate(previnfo, currinfo, sgfopts);
-    assert.equal(node[1].formatPV(), 'A19 (W 56.00%, B 6.50, 1000 visits)');
+    assert.equal(node[1].formatPV(19), 'A19 (W 56.00%, B 6.50, 1000 visits)');
+    assert.equal(node[1].formatPV(9), 'A9 (W 56.00%, B 6.50, 1000 visits)');
   });
 });

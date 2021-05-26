@@ -4,6 +4,7 @@
  */
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
+/* eslint max-lines-per-function: ["error", 100] */
 
 const sgfconv = require('./sgfconv');
 const katagoconv = require('./katagoconv');
@@ -70,7 +71,6 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   const realTurnNumbers = sgfconv.hasPassMoves(that.seq)
     ? katagoconv.makeRealTurnNumbersMap(that.seq)
     : undefined;
-
   // Notice that:
   // * responses.length === nodes.length + 1
   // * Sets responses[0].moveInfos (variations) to nodes[0].variations.
@@ -120,6 +120,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       )
         that.nodes[nextTurn].setVariations(
           variationsFromResponse(that, curJSON, nextPL, nextTurn),
+          that.opts.boardXSize,
         );
 
       return {
