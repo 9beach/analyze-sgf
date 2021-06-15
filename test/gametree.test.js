@@ -10,7 +10,7 @@ const GameTree = require('../src/gametree');
 const yamlpath = require.resolve('../src/analyze-sgf.yml');
 
 const opts = yaml.load(fs.readFileSync(yamlpath));
-opts.sgf.boardXSize = opts.analysis.boardXSize;
+opts.sgf.boardYSize = opts.analysis.boardYSize;
 const sgfopts = opts.sgf;
 
 // Removes line feeds and comments.

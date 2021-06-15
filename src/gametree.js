@@ -120,7 +120,7 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
       )
         that.nodes[nextTurn].setVariations(
           variationsFromResponse(that, curJSON, nextPL, nextTurn),
-          that.opts.boardXSize,
+          that.opts.boardYSize,
         );
 
       return {
