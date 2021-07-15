@@ -4,7 +4,6 @@
  */
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
-/* eslint max-lines-per-function: ["error", 100] */
 
 const sgfconv = require('./sgfconv');
 const katagoconv = require('./katagoconv');

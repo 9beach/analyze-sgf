@@ -17,7 +17,7 @@ rules:
     "skipBlankLines": true,
   }]
   max-lines-per-function: ["error", {
-    "max": 40,
+    "max": 45,
     "skipComments": true,
     "skipBlankLines": true,
   }]
