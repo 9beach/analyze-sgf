@@ -22,14 +22,11 @@
 
 ## 설치
 
-[analyze-sgf 릴리스](https://github.com/9beach/analyze-sgf/releases)에서 실행 파일을 다운로드 하세요.
-
-소스를 받아서 설치하려면 다음을 따르세요.
+[analyze-sgf 릴리스](https://github.com/9beach/analyze-sgf/releases)에서 실행 파일을 다운로드 하세요. 소스를 받아서 설치하려면 다음을 따르세요.
 
 먼저 [Node.js](https://nodejs.org/)와
 [카타고](https://github.com/lightvector/KataGo/releases)를 설치한 뒤
 `analyze-sgf`를 설치합니다.
-
 맥이나 리눅스 환경에서는 터미널에서 다음을 실행합니다.
 
 ```console

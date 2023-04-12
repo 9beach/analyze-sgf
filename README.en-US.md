@@ -25,15 +25,11 @@ depth compared to using KataGo in real-time.
 
 ## Installation
 
-You can download the executable binaries from [analyze-sgf releases](https://github.com/9beach/analyze-sgf/releases).
-
-To install `analyze-sgf` from source code, please follow the steps below.
+You can download the executable binaries from [analyze-sgf releases](https://github.com/9beach/analyze-sgf/releases). To install `analyze-sgf` from source code, please follow the steps below.
 
 First install [Node.js](https://nodejs.org/) and
 [KataGo](https://github.com/lightvector/KataGo/releases), then install
-`analyze-sgf`.
-
-In Mac or Linux, run the following from the terminal.
+`analyze-sgf`. In Mac or Linux, run the following from the terminal.
 
 ```console
 npm install -g analyze-sgf
