@@ -1,6 +1,5 @@
 # analyze-sgf
 
-[![Build Status](https://travis-ci.org/9beach/analyze-sgf.svg?branch=master)](https://travis-ci.org/9beach/analyze-sgf)
 [![npm version](https://badge.fury.io/js/analyze-sgf.svg)](https://badge.fury.io/js/analyze-sgf)
 
 [한국어](README.md) | English
@@ -26,7 +25,11 @@ depth compared to using KataGo in real-time.
 
 ## Installation
 
-First install  [Node.js](https://nodejs.org/) and
+You can download the executable binaries from [analyze-sgf releases](https://github.com/9beach/analyze-sgf/releases).
+
+To install `analyze-sgf` from source code, please follow the steps below.
+
+First install [Node.js](https://nodejs.org/) and
 [KataGo](https://github.com/lightvector/KataGo/releases), then install
 `analyze-sgf`.
 
@@ -94,16 +97,16 @@ KataGo. Please refer to the example.
 # Options for path and arguments of KataGo.
 katago:
   # e.g., "C:\\Users\\hcho\\KataGo\\katago.exe"
-  path: "KataGo path here"
+  path: 'KataGo path here'
   # e.g., "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
-  arguments: "KataGo arguments here"
+  arguments: 'KataGo arguments here'
 
 # Options for KataGo Parallel Analysis Engine query.
 #
 # <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
   # e.g., "korean", "tromp-taylor", "chinese", ...
-  rules: "tromp-taylor"
+  rules: 'tromp-taylor'
   # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
   boardXSize: 19
@@ -171,7 +174,7 @@ generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 
 
 The screenshot below shows the file opened in Sabaki.
 
-![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
+![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true 'Sabaki Variations Screenshot')
 **Exploring a variation with Sabaki**
 
 If the win rate drops by more than 5%, the node of the game tree turns to a

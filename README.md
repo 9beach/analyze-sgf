@@ -1,6 +1,5 @@
 # analyze-sgf
 
-[![Build Status](https://travis-ci.org/9beach/analyze-sgf.svg?branch=master)](https://travis-ci.org/9beach/analyze-sgf)
 [![npm version](https://badge.fury.io/js/analyze-sgf.svg)](https://badge.fury.io/js/analyze-sgf)
 
 한국어 | [English](README.en-US.md)
@@ -22,6 +21,10 @@
 차원이 다른 깊이를 제공합니다.
 
 ## 설치
+
+[analyze-sgf 릴리스](https://github.com/9beach/analyze-sgf/releases)에서 실행 파일을 다운로드 하세요.
+
+소스를 받아서 설치하려면 다음을 따르세요.
 
 먼저 [Node.js](https://nodejs.org/)와
 [카타고](https://github.com/lightvector/KataGo/releases)를 설치한 뒤
@@ -86,16 +89,16 @@ analyze-sgf home page: <https://github.com/9beach/analyze-sgf/>
 # Options for path and arguments of KataGo.
 katago:
   # e.g., "C:\\Users\\hcho\\KataGo\\katago.exe"
-  path: "KataGo path here"
+  path: 'KataGo path here'
   # e.g., "analysis -model C:\\Users\\hcho\\KataGo\\katago-best-network.bin.gz -config C:\\Users\\hcho\\KataGo\\analysis_example.cfg"
-  arguments: "KataGo arguments here"
+  arguments: 'KataGo arguments here'
 
 # Options for KataGo Parallel Analysis Engine query.
 #
 # <https://github.com/lightvector/KataGo/blob/master/docs/Analysis_Engine.md>.
 analysis:
   # e.g., "korean", "tromp-taylor", "chinese", ...
-  rules: "tromp-taylor"
+  rules: 'tromp-taylor'
   # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
   boardXSize: 19
@@ -161,7 +164,7 @@ generated: [제22회 농심배 12국, 2021-02-24] 이치리키 료 vs 신진서 
 
 아래의 스크린숏은 `신진서-렌샤오-analyzed.sgf` 파일을 사바키로 연 모습입니다.
 
-![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true "Sabaki Variations Screenshot")
+![Sabaki Variations Screenshot](./sabaki-variations.png?raw=true 'Sabaki Variations Screenshot')
 **사바키로 변화도를 탐색하는 모습**
 
 승률이 5% 이상 하락하면 빨간색 점으로, 20% 이상 하락하면 빨간색 리본으로, 2% 이내로
