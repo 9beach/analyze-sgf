@@ -105,6 +105,8 @@ analysis:
   rules: 'tromp-taylor'
   # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
+  # If input SGF has a valid SZ property, it overrides these board sizes.
+  # These values are used only as fallback when board size is unknown.
   boardXSize: 19
   boardYSize: 19
   # Maximum number of root visits.
@@ -115,6 +117,11 @@ sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
   # ......
 ```
+
+When the input SGF has a valid `SZ` property, `analyze-sgf` uses it for the
+KataGo analysis query `boardXSize` and `boardYSize`. The configured
+`boardXSize` and `boardYSize` values are used only as fallback when the board
+size is unknown.
 
 Now, run `analyze-sgf` with SGF/GIB files, for example, `shin-vs-lian.sgf`,
 the simple analysis result will be printed out, and a file

@@ -49,12 +49,14 @@ const mergeKataGoResponses = (original, revisited, turns) =>
 // Pass moves are not included in KataGo analysis. So we need to convert
 // KataGo turnNumbers to real turnNumbers considering previous passing moves.
 // Real `turnNumber` is `realTurnNumbersMap[turnNumber]`.
-const makeRealTurnNumbersMap = (seq) =>
+const makeRealTurnNumbersMap = (seq, sz = 19) =>
   [0].concat(
     seq
       .split(';')
       .filter((v) => v)
-      .map((move, index) => (sgfconv.isRegularMove(move) ? index + 1 : -1))
+      .map((move, index) =>
+        sgfconv.isRegularMove(move, sz) ? index + 1 : -1,
+      )
       .filter((v) => v !== -1),
   );
 
@@ -92,16 +94,21 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
 
   if (rs.root.KM) query.komi = parseFloat(rs.root.KM[0]);
   if (rs.root.PL) [query.initialPlayer] = rs.root.PL;
-  const sz = rs.root.SZ ? parseInt(rs.root.SZ[0], 10) : 0;
+  const boardSize = sgfconv.boardSizeFromRoot(rs.root);
+  const sz = boardSize ? Math.min(boardSize.x, boardSize.y) : 0;
 
   query.id = `9beach-${Date.now()}`;
+  if (boardSize) {
+    query.boardXSize = boardSize.x;
+    query.boardYSize = boardSize.y;
+  }
   query.initialStones = initialStonesFromRoot(rs.root);
   query.moves = seqToKataGoMoves(rs.seq, sz);
 
   if (!query.analyzeTurns) {
     query.analyzeTurns = [...Array(query.moves.length + 1).keys()];
-  } else if (sgfconv.hasPassMoves(rs.seq)) {
-    const realTurnNumbers = makeRealTurnNumbersMap(rs.seq);
+  } else if (sgfconv.hasPassMoves(rs.seq, sz)) {
+    const realTurnNumbers = makeRealTurnNumbersMap(rs.seq, sz);
     query.analyzeTurns = query.analyzeTurns
       .map((turn) => realTurnNumbers.indexOf(turn))
       .filter((turn) => turn !== -1);

@@ -63,6 +63,36 @@ describe('iaToJ1/iaFromJ1', () => {
   });
 });
 
+describe('boardSizeFromRoot', () => {
+  it('should return square board size.', () => {
+    assert.deepEqual(sgfconv.boardSizeFromRoot({ SZ: ['9'] }), {
+      x: 9,
+      y: 9,
+    });
+    assert.deepEqual(sgfconv.boardSizeFromRoot({ SZ: ['13'] }), {
+      x: 13,
+      y: 13,
+    });
+    assert.deepEqual(sgfconv.boardSizeFromRoot({ SZ: ['19'] }), {
+      x: 19,
+      y: 19,
+    });
+  });
+
+  it('should return rectangular board size.', () => {
+    assert.deepEqual(sgfconv.boardSizeFromRoot({ SZ: ['13:9'] }), {
+      x: 13,
+      y: 9,
+    });
+  });
+
+  it('should ignore missing or invalid board size.', () => {
+    assert.equal(sgfconv.boardSizeFromRoot({}), undefined);
+    assert.equal(sgfconv.boardSizeFromRoot({ SZ: ['x'] }), undefined);
+    assert.equal(sgfconv.boardSizeFromRoot({ SZ: ['0'] }), undefined);
+  });
+});
+
 describe('toGoodNode/toBadNode/toBadHotSpot', () => {
   const seq = '(;W[po];B[hm])';
   it('should be expected values.', () => {

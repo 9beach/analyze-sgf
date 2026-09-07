@@ -62,6 +62,17 @@ describe('GameTree', () => {
     );
   });
 
+  it('should format variations with board size from SGF.', () => {
+    const responses = `${JSON.stringify({
+      turnNumber: 0,
+      rootInfo: { winrate: 0.5, scoreLead: 0, visits: 10 },
+      moveInfos: [{ pv: ['A1'], winrate: 0.5, scoreLead: 0, visits: 10 }],
+    })}\n`;
+    const gametree = new GameTree('(;SZ[9];B[bb])', responses, sgfopts);
+
+    assert(gametree.getSGF().indexOf('1. A9') !== -1);
+  });
+
   it('should be expected values for "t-sabaki-1-default.sgf".', () => {
     sgfopts.maxVariationsForEachMove = 10;
     sgfopts.maxWinrateDropForGoodMove = 2;

@@ -98,6 +98,8 @@ analysis:
   rules: 'tromp-taylor'
   # If input SGF/GIB has no komi field (KM), then uses below.
   komi: 7.5
+  # If input SGF has a valid SZ property, it overrides these board sizes.
+  # These values are used only as fallback when board size is unknown.
   boardXSize: 19
   boardYSize: 19
   # Maximum number of root visits.
@@ -108,6 +110,10 @@ sgf:
   # SGF can put good/bad/hotspot labels on moves for coloring game tree.
   # ......
 ```
+
+입력 SGF에 `SZ` 속성이 있으면 `analyze-sgf`는 그 값을 카타고 분석 요청의
+`boardXSize`와 `boardYSize`로 사용합니다. 설정 파일의 `boardXSize`와
+`boardYSize`는 SGF에서 보드 크기를 알 수 없을 때만 기본값으로 사용됩니다.
 
 이제 기보 파일, 가령 `신진서-렌샤오.sgf`로 `analyze-sgf`를 실행하면 간단한 분석 결과가
 출력되고 `신진서-렌샤오-analyzed.sgf`라는 파일이 생깁니다.

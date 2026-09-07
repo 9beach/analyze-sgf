@@ -97,6 +97,15 @@ const correctSGFDialects = (sgf) =>
 
 const ofRoot = (root, key) => root[key] && root[key][0];
 
+function boardSizeFromRoot(root) {
+  if (!root.SZ || !root.SZ[0]) return undefined;
+
+  const size = root.SZ[0].split(':').map((v) => parseInt(v, 10));
+  if (size.some((v) => Number.isNaN(v) || v <= 0)) return undefined;
+
+  return { x: size[0], y: size[1] || size[0] };
+}
+
 // Makes file name from SGF.
 //
 // e.g., [제22회 농심배 13국, 2021-02-25] 커제 vs 신진서 (185수 흑불계승).sgf
@@ -210,6 +219,7 @@ module.exports = {
   removeTails,
   isPassMove,
   isRegularMove,
+  boardSizeFromRoot,
   rootAndSeqFromSGF,
   correctSGFDialects,
   prettyPathFromSGF,

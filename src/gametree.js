@@ -15,9 +15,12 @@ const GameReport = require('./game-report');
 class GameTree {
   constructor(sgf, katagoResponses, opts) {
     const rs = sgfconv.rootAndSeqFromSGF(sgf);
+    const boardSize = sgfconv.boardSizeFromRoot(rs.root);
 
-    this.sz = rs.root.SZ ? parseInt(rs.root.SZ[0], 10) : 0;
-    this.opts = opts;
+    this.sz = boardSize ? Math.min(boardSize.x, boardSize.y) : 0;
+    this.opts = boardSize
+      ? { ...opts, boardXSize: boardSize.x, boardYSize: boardSize.y }
+      : opts;
 
     // Gets root node and sequence from SGF.
     this.root = rs.root;
@@ -67,8 +70,8 @@ function setWinrateAndVariatons(that, katagoResponses, pls) {
   const responses = splitResponses(that, katagoResponses);
   // Real `turnNumber` considering previous passing moves is
   // `realTurnNumbersMap[turnNumber]`.
-  const realTurnNumbers = sgfconv.hasPassMoves(that.seq)
-    ? katagoconv.makeRealTurnNumbersMap(that.seq)
+  const realTurnNumbers = sgfconv.hasPassMoves(that.seq, that.sz)
+    ? katagoconv.makeRealTurnNumbersMap(that.seq, that.sz)
     : undefined;
   // Notice that:
   // * responses.length === nodes.length + 1

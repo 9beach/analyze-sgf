@@ -106,3 +106,41 @@ describe('makeRealTurnNumbersMap', () => {
     );
   });
 });
+
+describe('sgfToKataGoAnalysisQuery', () => {
+  it('should use board size from SGF.', () => {
+    const query9 = katagoconv.sgfToKataGoAnalysisQuery(
+      '(;SZ[9]KM[6.5];B[aa])',
+      { boardXSize: 19, boardYSize: 19 },
+    );
+    const query13 = katagoconv.sgfToKataGoAnalysisQuery(
+      '(;SZ[13]KM[6.5];B[aa])',
+      { boardXSize: 19, boardYSize: 19 },
+    );
+
+    assert.equal(query9.boardXSize, 9);
+    assert.equal(query9.boardYSize, 9);
+    assert.equal(query13.boardXSize, 13);
+    assert.equal(query13.boardYSize, 13);
+  });
+
+  it('should use rectangular board size from SGF.', () => {
+    const query = katagoconv.sgfToKataGoAnalysisQuery(
+      '(;SZ[13:9]KM[6.5];B[aa])',
+      { boardXSize: 19, boardYSize: 19 },
+    );
+
+    assert.equal(query.boardXSize, 13);
+    assert.equal(query.boardYSize, 9);
+  });
+
+  it('should keep configured board size without SZ.', () => {
+    const query = katagoconv.sgfToKataGoAnalysisQuery('(;KM[6.5];B[aa])', {
+      boardXSize: 13,
+      boardYSize: 13,
+    });
+
+    assert.equal(query.boardXSize, 13);
+    assert.equal(query.boardYSize, 13);
+  });
+});
