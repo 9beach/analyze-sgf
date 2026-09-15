@@ -24,6 +24,13 @@
 
 [analyze-sgf 릴리스](https://github.com/9beach/analyze-sgf/releases)에서 실행 파일을 다운로드 하세요. 소스를 받아서 설치하려면 다음을 따르세요.
 
+맥에서 브라우저로 받은 실행 파일이 "Apple이 악성 코드가 없음을 확인할 수 없음"이라며
+실행되지 않으면, 압축을 푼 폴더에서 다음을 실행합니다.
+
+```console
+xattr -d com.apple.quarantine ./analyze-sgf
+```
+
 먼저 [Node.js](https://nodejs.org/)와
 [카타고](https://github.com/lightvector/KataGo/releases)를 설치한 뒤
 `analyze-sgf`를 설치합니다.
