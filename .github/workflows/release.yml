@@ -12,11 +12,12 @@ jobs:
   release:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          # @yao-pkg/pkg 6.x는 Node 22 이상에서만 동작.
+          node-version: '24'
 
       - name: Install dependencies
         run: npm ci
@@ -25,8 +26,14 @@ jobs:
         id: meta
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
+      - name: Ensure Rosetta 2
+        # arm64 러너에서 x64 타깃(linux/macos/win) 바이트코드를 만들려면 필요.
+        run: |
+          arch -x86_64 /usr/bin/true 2>/dev/null ||
+            sudo softwareupdate --install-rosetta --agree-to-license
+
       - name: Build binaries
-        run: npx --yes @yao-pkg/pkg . --out-path bin
+        run: npm run build
 
       - name: Import Developer ID certificate
         # 시크릿이 비어 있으면 ad-hoc 서명으로 폴백 (포크/PR에서도 빌드만 가능하도록).
@@ -111,9 +118,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           V: ${{ steps.meta.outputs.version }}
         run: |
+          notes="윈도우, 맥, 리눅스에서 각각 실행되는 바이너리 파일입니다. [@yao-pkg/pkg](https://github.com/yao-pkg/pkg)로 만들었습니다."
+          if [ "${developer_id_available:-false}" = "true" ]; then
+            notes="$notes macOS 바이너리는 Developer ID로 서명되고 Apple notarization을 통과했습니다."
+          fi
           gh release create "${GITHUB_REF_NAME}" \
             --title "analyze-sgf ${GITHUB_REF_NAME}" \
-            --notes "윈도우, 맥, 리눅스에서 각각 실행되는 바이너리 파일입니다. [@yao-pkg/pkg](https://github.com/yao-pkg/pkg)로 만들었습니다. macOS 바이너리는 Developer ID로 서명되고 Apple notarization을 통과했습니다." \
+            --notes "$notes" \
             "bin/analyze-sgf-${V}-linux-x64.zip" \
             "bin/analyze-sgf-${V}-macos-arm64.zip" \
             "bin/analyze-sgf-${V}-macos-x64.zip" \

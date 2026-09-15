@@ -134,6 +134,21 @@ describe('sgfToKataGoAnalysisQuery', () => {
     assert.equal(query.boardYSize, 9);
   });
 
+  it('should treat tt as pass unless both sides are larger than 19.', () => {
+    const opts = { boardXSize: 19, boardYSize: 19 };
+    const rect = katagoconv.sgfToKataGoAnalysisQuery(
+      '(;SZ[25:19];B[aa];W[tt];B[bb])',
+      opts,
+    );
+    const large = katagoconv.sgfToKataGoAnalysisQuery(
+      '(;SZ[21];B[aa];W[tt];B[bb])',
+      opts,
+    );
+
+    assert.equal(rect.moves.length, 2);
+    assert.equal(large.moves.length, 3);
+  });
+
   it('should keep configured board size without SZ.', () => {
     const query = katagoconv.sgfToKataGoAnalysisQuery('(;KM[6.5];B[aa])', {
       boardXSize: 13,

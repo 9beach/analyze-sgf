@@ -1,6 +1,6 @@
 {
   "name": "analyze-sgf",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "description": "Analyze SGF file by KataGo Parallel Analysis Engine to produce Reviewed SGF file",
   "homepage": "https://github.com/9beach/analyze-sgf",
   "author": {
@@ -23,17 +23,17 @@
     "all": "npm run lint && npm test && test/index-real.test.sh",
     "test": "mocha --color && test/index-mockup.test.sh",
     "lint": "eslint .",
-    "build": "pkg . --out-path bin"
+    "build": "npx --yes @yao-pkg/pkg@6 . --out-path bin"
   },
   "pkg": {
     "scripts": [
       "src/**/*.js"
     ],
     "targets": [
-      "node20-linux-x64",
-      "node20-macos-arm64",
-      "node20-macos-x64",
-      "node20-win-x64"
+      "node24-linux-x64",
+      "node24-macos-arm64",
+      "node24-macos-x64",
+      "node24-win-x64"
     ],
     "outputPath": "bin"
   },

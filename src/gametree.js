@@ -17,6 +17,7 @@ class GameTree {
     const rs = sgfconv.rootAndSeqFromSGF(sgf);
     const boardSize = sgfconv.boardSizeFromRoot(rs.root);
 
+    // 'tt' is a regular move only when both sides are larger than 19.
     this.sz = boardSize ? Math.min(boardSize.x, boardSize.y) : 0;
     this.opts = boardSize
       ? { ...opts, boardXSize: boardSize.x, boardYSize: boardSize.y }

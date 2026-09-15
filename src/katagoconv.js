@@ -95,6 +95,7 @@ function sgfToKataGoAnalysisQuery(sgf, analysisOpts) {
   if (rs.root.KM) query.komi = parseFloat(rs.root.KM[0]);
   if (rs.root.PL) [query.initialPlayer] = rs.root.PL;
   const boardSize = sgfconv.boardSizeFromRoot(rs.root);
+  // 'tt' is a regular move only when both sides are larger than 19.
   const sz = boardSize ? Math.min(boardSize.x, boardSize.y) : 0;
 
   query.id = `9beach-${Date.now()}`;
